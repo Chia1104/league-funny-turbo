@@ -1,0 +1,52 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      "outputs": ["dist/**"],
+      "dependsOn": ["^build"]
+    },
+    "web#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [".next/**"]
+    },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false
+    },
+    "postinstall": {},
+    "e2e:chrome": {
+      "outputs": []
+    },
+    "e2e:edge": {
+      "outputs": []
+    },
+    "test:watch": {
+      "outputs": []
+    }
+  },
+  "globalDependencies": [
+    ".env"
+  ],
+  "globalEnv": [
+    "NEXTAUTH_SECRET",
+    "FACEBOOK_ID",
+    "FACEBOOK_SECRET",
+    "TWITCH_CLIENT_ID",
+    "TWITCH_CLIENT_SECRET",
+    "DATABASE_URL",
+    "SHADOW_DATABASE_URL",
+    "NEXT_PUBLIC_ENV_TEST",
+    "RAILWAY_STATIC_URL",
+    "VERCEL_URL",
+    "NODE_ENV"
+  ]
+}

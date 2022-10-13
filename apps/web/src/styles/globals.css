@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .w-container {
+        @apply
+        container mx-auto
+    }
+
+    .w-bg-primary {
+        @apply bg-light dark:bg-black text-dark dark:text-white transition ease-in-out
+    }
+
+    .w-bg-secondary {
+        @apply bg-white/90 dark:bg-dark/90 text-dark dark:text-white transition ease-in-out backdrop-blur-sm
+    }
+
+    .w-main {
+        @apply min-h-screen flex flex-col justify-center items-center
+    }
+
+    .w-title {
+        @apply text-2xl font-bold
+    }
+
+    .w-subtitle {
+        @apply text-xl font-medium
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: auto;
+        scrollbar-width: none;
+    }
+}

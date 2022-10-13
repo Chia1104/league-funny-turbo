@@ -1,0 +1,51 @@
+name: Nuxt2 CI
+
+on:
+  push:
+    branches: [ dev/nuxt2 ]
+#  pull_request:
+#    types: [opened, synchronize]
+
+jobs:
+  build:
+    name: Build and Test
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    # To use Remote Caching, uncomment the next lines and follow the steps below.
+    # env:
+    #  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    #  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.32.2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --shamefully-hoist
+
+      - name: Build
+        run: cd ../.. && pnpm build --filter nuxt2...
+
+      - name: ESLint
+        run: pnpm lint --filter nuxt2...
+
+      - name: Unit tests
+        run: pnpm test --filter nuxt2...
+
+#      - name: E2E Tests Chrome
+#        run: pnpm e2e:chrome --filter web
+#
+#      - name: E2E Tests Edge
+#        run: pnpm e2e:edge --filter web

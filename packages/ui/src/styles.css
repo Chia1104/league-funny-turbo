@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .w-bg-primary {
+      @apply bg-light dark:bg-dark text-dark dark:text-white transition ease-in-out
+    }
+
+    .w-bg-secondary {
+      @apply bg-white/90 dark:bg-dark/90 text-dark dark:text-white transition ease-in-out backdrop-blur-sm
+    }
+
+    .modal {
+      @apply w-bg-secondary fixed top-0 left-0 w-full h-full flex justify-center items-center z-[999]
+    }
+
+    .w-title {
+        @apply text-2xl font-bold
+    }
+
+    .w-subtitle {
+        @apply text-xl font-medium
+    }
+
+    h1 {
+      @apply text-4xl font-bold
+    }
+
+    h2 {
+      @apply text-3xl font-bold
+    }
+
+    h3 {
+      @apply text-2xl font-bold
+    }
+
+    h4 {
+      @apply text-xl font-bold
+    }
+
+    h5 {
+      @apply text-lg font-bold
+    }
+
+    h6 {
+      @apply text-base font-bold
+    }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  color: #fff;
+  background: rgba(146, 0, 255, 0.5);
+}
