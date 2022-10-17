@@ -4,7 +4,6 @@ importers:
 
   .:
     specifiers:
-      '@wanin/db': workspace:*
       '@wanin/eslint-config-base': workspace:*
       cypress: ^10.9.0
       jest: ^29.1.2
@@ -15,8 +14,6 @@ importers:
       turbo: 1.5.5
       vitest: ^0.23.4
       vue-jest: ^3.0.4
-    dependencies:
-      '@wanin/db': link:packages/db
     devDependencies:
       '@wanin/eslint-config-base': link:packages/eslint-config-base
       cypress: 10.9.0
