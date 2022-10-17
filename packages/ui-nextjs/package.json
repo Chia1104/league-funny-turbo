@@ -1,5 +1,5 @@
 {
-  "name": "@wanin/ui",
+  "name": "@wanin/ui-nextjs",
   "version": "0.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,20 +14,20 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
+    "@wanin/utils": "workspace:*",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "@wanin/tailwind-config": "workspace:*",
+    "@wanin/types": "workspace:*",
     "concurrently": "^7.4.0",
     "eslint": "^7.32.0",
     "@wanin/eslint-config-nextjs": "workspace:*",
+    "next": "12.3.0",
     "react": "^18.2.0",
-    "@wanin/tailwind-config": "workspace:*",
     "tailwindcss": "^3.1.8",
     "tsconfig": "workspace:*",
     "tsup": "^6.2.3",
     "typescript": "^4.5.2",
-    "@wanin/types": "workspace:*"
-  },
-  "dependencies": {
     "classnames": "^2.3.2",
     "framer-motion": "^7.3.6",
     "usehooks-ts": "^2.7.1"

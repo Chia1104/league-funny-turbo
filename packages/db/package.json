@@ -14,7 +14,7 @@
     "@prisma/client": "^4.4.0"
   },
   "devDependencies": {
-    "eslint-config-base": "workspace:*",
+    "@wanin/eslint-config-base": "workspace:*",
     "prisma": "^4.4.0",
     "tsconfig": "workspace:*",
     "typescript": "^4.8.3"

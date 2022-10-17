@@ -12,7 +12,7 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
-    "eslint-config-base": "workspace:*",
+    "@wanin/eslint-config-base": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.8.3"
   }

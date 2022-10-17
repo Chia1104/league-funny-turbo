@@ -1,0 +1,11 @@
+{
+  "extends": "tsconfig/nest.json",
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}

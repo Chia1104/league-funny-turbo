@@ -16,6 +16,7 @@
     "clean": "find . -name node_modules -o -name .next -type d -prune | xargs rm -rf",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch",
+    "test:e2e": "turbo run test:e2e",
     "e2e:chrome": "turbo run e2e:chrome",
     "e2e:firefox": "turbo run e2e:firefox",
     "e2e:edge": "turbo run e2e:edge"
@@ -25,14 +26,14 @@
   },
   "devDependencies": {
     "cypress": "^10.9.0",
-    "eslint-config-base": "workspace:*",
-    "prettier": "latest",
-    "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "latest",
-    "vitest": "^0.23.4",
+    "@wanin/eslint-config-base": "workspace:*",
     "jest": "^29.1.2",
     "jest-environment-jsdom": "^29.1.2",
+    "prettier": "latest",
+    "prettier-plugin-tailwindcss": "^0.1.13",
     "ts-jest": "^29.0.3",
+    "turbo": "1.5.5",
+    "vitest": "^0.23.4",
     "vue-jest": "^3.0.4"
   },
   "engines": {

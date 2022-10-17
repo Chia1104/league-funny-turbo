@@ -35,7 +35,7 @@
     "@wanin/types": "workspace:*",
     "@wanin/utils": "workspace:*",
     "babel-core": "7.0.0-bridge.0",
-    "eslint-config-nuxt2": "workspace:*",
+    "@wanin/eslint-config-nuxt2": "workspace:*",
     "postcss": "^8.4.17",
     "postcss-html": "^1.5.0",
     "tsconfig": "workspace:*"

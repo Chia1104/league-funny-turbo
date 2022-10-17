@@ -4,5 +4,5 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ["nuxt2"],
+  extends: ["@wanin/nuxt2"],
 };

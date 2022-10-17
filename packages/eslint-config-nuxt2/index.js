@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["@nuxtjs/eslint-config-typescript", "base"],
+  extends: ["@nuxtjs/eslint-config-typescript", "@wanin/base"],
   parserOptions: {
     ecmaVersion: "latest",
     parser: "@typescript-eslint/parser",
