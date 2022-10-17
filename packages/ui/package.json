@@ -18,7 +18,7 @@
     "@types/react-dom": "^18.0.6",
     "concurrently": "^7.4.0",
     "eslint": "^7.32.0",
-    "eslint-config-nextjs": "workspace:*",
+    "@wanin/eslint-config-nextjs": "workspace:*",
     "react": "^18.2.0",
     "@wanin/tailwind-config": "workspace:*",
     "tailwindcss": "^3.1.8",
