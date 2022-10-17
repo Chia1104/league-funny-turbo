@@ -32,16 +32,17 @@ jobs:
           node-version: 16
           cache: 'pnpm'
 
+      - name: Install dependencies
+        run: pnpm install --filter backend...
+
       - name: Build
         run: cd ../.. && pnpm build --filter backend...
 
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: latest
-          run_install: true
-      - name: Run Test
-        run: |
-          pnpm test --filter backend...
-          pnpm test:e2e --filter backend...
-        env:
-          CI: true
+      - name: ESLint
+        run: pnpm lint --filter backend...
+
+      - name: Unit tests
+        run: pnpm test --filter backend...
+
+      - name: E2E Tests
+        run: pnpm test:e2e --filter backend...
