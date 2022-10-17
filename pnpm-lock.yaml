@@ -42,6 +42,7 @@ importers:
       '@types/node': ^16.0.0
       '@types/supertest': ^2.0.11
       '@wanin/eslint-config-nestjs': workspace:*
+      eslint: 7.32.0
       jest: 28.1.2
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
@@ -73,6 +74,7 @@ importers:
       '@types/node': 16.11.65
       '@types/supertest': 2.0.12
       '@wanin/eslint-config-nestjs': link:../../packages/eslint-config-nestjs
+      eslint: 7.32.0
       jest: 28.1.2_7fnffnpg6qxg3uvt2vx7t77ic4
       rollup: 3.2.2
       rollup-plugin-swc: 0.2.1_vs3khonvrlydt3u7dfedvekfwu
@@ -272,7 +274,7 @@ importers:
     specifiers:
       '@typescript-eslint/eslint-plugin': ^5.38.0
       '@typescript-eslint/parser': ^5.38.0
-      eslint: ^7.23.0
+      eslint: 7.32.0
       eslint-config-prettier: ^8.3.0
       eslint-config-turbo: latest
       eslint-plugin-prettier: ^4.2.1
