@@ -46,9 +46,9 @@ And using [pnpm](https://pnpm.io/) as the package manager.
 > ```bash
 > pnpm install
 > ```
-> 
+>
 > If you are using `nuxt2` app, please run the following command, and add `shamefully-hoist=true` to `.npmrc`:
-> 
+>
 > ```bash
 > pnpm install --shamefully-hoist
 > ```

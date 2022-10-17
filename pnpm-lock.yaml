@@ -5,8 +5,8 @@ importers:
   .:
     specifiers:
       '@wanin/db': workspace:*
+      '@wanin/eslint-config-base': workspace:*
       cypress: ^10.9.0
-      eslint-config-base: workspace:*
       jest: ^29.1.2
       jest-environment-jsdom: ^29.1.2
       prettier: latest
@@ -18,8 +18,8 @@ importers:
     dependencies:
       '@wanin/db': link:packages/db
     devDependencies:
+      '@wanin/eslint-config-base': link:packages/eslint-config-base
       cypress: 10.9.0
-      eslint-config-base: link:packages/eslint-config-base
       jest: 29.1.2
       jest-environment-jsdom: 29.1.2
       prettier: 2.7.1
@@ -37,14 +37,16 @@ importers:
       '@nestjs/platform-express': ^9.0.0
       '@nestjs/schematics': ^9.0.0
       '@nestjs/testing': ^9.0.0
+      '@swc/core': ^1.3.8
       '@types/express': ^4.17.13
-      '@types/jest': 28.1.4
       '@types/node': ^16.0.0
       '@types/supertest': ^2.0.11
-      eslint-config-base: workspace:*
+      '@wanin/eslint-config-nestjs': workspace:*
       jest: 28.1.2
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
+      rollup: ^3.2.2
+      rollup-plugin-swc: ^0.2.1
       rxjs: ^7.2.0
       source-map-support: ^0.5.20
       supertest: ^6.1.3
@@ -54,6 +56,7 @@ importers:
       tsconfig: workspace:*
       tsconfig-paths: 4.0.0
       typescript: ^4.3.5
+      vite-tsconfig-paths: ^3.5.1
     dependencies:
       '@nestjs/common': 9.1.4_j5hagqx4mwzscud4kyjdvubauy
       '@nestjs/core': 9.1.4_pfc4kuebnzwzkjepvugc2vj2gy
@@ -62,32 +65,35 @@ importers:
       rimraf: 3.0.2
       rxjs: 7.5.6
     devDependencies:
-      '@nestjs/cli': 9.1.4
+      '@nestjs/cli': 9.1.4_@swc+core@1.3.8
       '@nestjs/schematics': 9.0.3_typescript@4.8.3
       '@nestjs/testing': 9.1.4_atqkzu3acujvho36dnj4dqtvde
+      '@swc/core': 1.3.8
       '@types/express': 4.17.14
-      '@types/jest': 28.1.4
       '@types/node': 16.11.65
       '@types/supertest': 2.0.12
-      eslint-config-base: link:../../packages/eslint-config-base
+      '@wanin/eslint-config-nestjs': link:../../packages/eslint-config-nestjs
       jest: 28.1.2_7fnffnpg6qxg3uvt2vx7t77ic4
+      rollup: 3.2.2
+      rollup-plugin-swc: 0.2.1_vs3khonvrlydt3u7dfedvekfwu
       source-map-support: 0.5.21
       supertest: 6.3.0
       ts-jest: 28.0.5_4oauc7za7wifzxb2b3ao3cxxiy
       ts-loader: 9.4.1_typescript@4.8.3
-      ts-node: 10.9.1_muqr73tqbhpzvzs5wtisgyk2h4
+      ts-node: 10.9.1_ojyxeduacu3p4p5k4s6so5rwfu
       tsconfig: link:../../packages/tsconfig
       tsconfig-paths: 4.0.0
       typescript: 4.8.3
+      vite-tsconfig-paths: 3.5.1
 
   apps/dashboard:
     specifiers:
       '@babel/core': ^7.0.0
       '@types/node': ^17.0.12
       '@types/react': 18.0.17
+      '@wanin/eslint-config-nextjs': workspace:*
       '@wanin/ui': workspace:*
       eslint: 7.32.0
-      eslint-config-nextjs: workspace:*
       next: 12.3.0
       next-transpile-modules: 9.0.0
       react: 18.2.0
@@ -103,8 +109,8 @@ importers:
       '@babel/core': 7.19.1
       '@types/node': 17.0.45
       '@types/react': 18.0.17
+      '@wanin/eslint-config-nextjs': link:../../packages/eslint-config-nextjs
       eslint: 7.32.0
-      eslint-config-nextjs: link:../../packages/eslint-config-nextjs
       next-transpile-modules: 9.0.0
       tsconfig: link:../../packages/tsconfig
       typescript: 4.8.3
@@ -122,12 +128,12 @@ importers:
       '@nuxtjs/tailwindcss': ^5.3.3
       '@nuxtjs/vuetify': ^1.12.3
       '@vue/test-utils': ^1.3.0
+      '@wanin/eslint-config-nuxt2': workspace:*
       '@wanin/tailwind-config': workspace:*
       '@wanin/types': workspace:*
       '@wanin/utils': workspace:*
       babel-core: 7.0.0-bridge.0
       core-js: ^3.25.3
-      eslint-config-nuxt2: workspace:*
       nuxt: ^2.15.8
       nuxt-seo-meta: ^2.3.1
       nuxt-user-agent: ^1.2.2
@@ -157,11 +163,11 @@ importers:
       '@nuxtjs/tailwindcss': 5.3.3
       '@nuxtjs/vuetify': 1.12.3_vue@2.7.10
       '@vue/test-utils': 1.3.0_42puyn3dcxirnpdjnosl7pbb6a
+      '@wanin/eslint-config-nuxt2': link:../../packages/eslint-config-nuxt2
       '@wanin/tailwind-config': link:../../packages/tailwind-config
       '@wanin/types': link:../../packages/types
       '@wanin/utils': link:../../packages/utils
       babel-core: 7.0.0-bridge.0
-      eslint-config-nuxt2: link:../../packages/eslint-config-nuxt2
       postcss: 8.4.17
       postcss-html: 1.5.0
       tsconfig: link:../../packages/tsconfig
@@ -181,6 +187,7 @@ importers:
       '@types/react': 18.0.17
       '@vitejs/plugin-react': ^2.1.0
       '@wanin/db': workspace:*
+      '@wanin/eslint-config-nextjs': workspace:*
       '@wanin/tailwind-config': workspace:*
       '@wanin/trpc-api': workspace:*
       '@wanin/types': workspace:*
@@ -189,7 +196,6 @@ importers:
       autoprefixer: ^10.4.12
       classnames: ^2.3.2
       eslint: 7.32.0
-      eslint-config-nextjs: workspace:*
       framer-motion: ^7.3.6
       jsdom: ^20.0.0
       next: 12.3.0
@@ -235,11 +241,11 @@ importers:
       '@types/node': 17.0.45
       '@types/react': 18.0.17
       '@vitejs/plugin-react': 2.1.0
+      '@wanin/eslint-config-nextjs': link:../../packages/eslint-config-nextjs
       '@wanin/tailwind-config': link:../../packages/tailwind-config
       '@wanin/types': link:../../packages/types
       autoprefixer: 10.4.12_postcss@8.4.16
       eslint: 7.32.0
-      eslint-config-nextjs: link:../../packages/eslint-config-nextjs
       jsdom: 20.0.0
       next-transpile-modules: 9.0.0
       postcss: 8.4.16
@@ -250,14 +256,14 @@ importers:
   packages/db:
     specifiers:
       '@prisma/client': ^4.4.0
-      eslint-config-base: workspace:*
+      '@wanin/eslint-config-base': workspace:*
       prisma: ^4.4.0
       tsconfig: workspace:*
       typescript: ^4.8.3
     dependencies:
       '@prisma/client': 4.4.0_prisma@4.4.0
     devDependencies:
-      eslint-config-base: link:../eslint-config-base
+      '@wanin/eslint-config-base': link:../eslint-config-base
       prisma: 4.4.0
       tsconfig: link:../tsconfig
       typescript: 4.8.3
@@ -280,6 +286,9 @@ importers:
       eslint-plugin-prettier: 4.2.1_ycfaavsrvumh5dpcpdveopgtme
     devDependencies:
       typescript: 4.8.3
+
+  packages/eslint-config-nestjs:
+    specifiers: {}
 
   packages/eslint-config-nextjs:
     specifiers:
@@ -319,13 +328,13 @@ importers:
     specifiers:
       '@tailwindcss/aspect-ratio': ^0.4.2
       '@tailwindcss/line-clamp': ^0.4.2
-      eslint-config-base: workspace:*
+      '@wanin/eslint-config-base': workspace:*
       tailwind-scrollbar: ^2.0.1
       tailwindcss: ^3.1.8
     devDependencies:
       '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.1.8
       '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.1.8
-      eslint-config-base: link:../eslint-config-base
+      '@wanin/eslint-config-base': link:../eslint-config-base
       tailwind-scrollbar: 2.0.1_tailwindcss@3.1.8
       tailwindcss: 3.1.8
 
@@ -334,7 +343,7 @@ importers:
       '@trpc/client': 10.0.0-proxy-beta.10
       '@trpc/server': 10.0.0-proxy-beta.10
       '@wanin/db': workspace:*
-      eslint-config-base: workspace:*
+      '@wanin/eslint-config-base': workspace:*
       superjson: ^1.10.0
       tsconfig: workspace:*
       typescript: ^4.8.3
@@ -346,7 +355,7 @@ importers:
       superjson: 1.10.0
       zod: 3.19.1
     devDependencies:
-      eslint-config-base: link:../eslint-config-base
+      '@wanin/eslint-config-base': link:../eslint-config-base
       tsconfig: link:../tsconfig
       typescript: 4.8.3
 
@@ -358,7 +367,7 @@ importers:
       '@types/node': ^17.0.12
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
-      eslint-config-base: workspace:*
+      '@wanin/eslint-config-base': workspace:*
       tsconfig: workspace:*
       tsup: ^6.2.3
       typescript: ^4.8.3
@@ -369,7 +378,7 @@ importers:
       '@types/node': 17.0.45
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      eslint-config-base: link:../eslint-config-base
+      '@wanin/eslint-config-base': link:../eslint-config-base
       tsconfig: link:../tsconfig
       tsup: 6.2.3_typescript@4.8.3
       typescript: 4.8.3
@@ -378,12 +387,12 @@ importers:
     specifiers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
+      '@wanin/eslint-config-nextjs': workspace:*
       '@wanin/tailwind-config': workspace:*
       '@wanin/types': workspace:*
       classnames: ^2.3.2
       concurrently: ^7.4.0
       eslint: ^7.32.0
-      eslint-config-nextjs: workspace:*
       framer-motion: ^7.3.6
       react: ^18.2.0
       tailwindcss: ^3.1.8
@@ -398,11 +407,11 @@ importers:
     devDependencies:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
+      '@wanin/eslint-config-nextjs': link:../eslint-config-nextjs
       '@wanin/tailwind-config': link:../tailwind-config
       '@wanin/types': link:../types
       concurrently: 7.4.0
       eslint: 7.32.0
-      eslint-config-nextjs: link:../eslint-config-nextjs
       react: 18.2.0
       tailwindcss: 3.1.8
       tsconfig: link:../tsconfig
@@ -413,13 +422,13 @@ importers:
     specifiers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
+      '@wanin/eslint-config-nextjs': workspace:*
       '@wanin/tailwind-config': workspace:*
       '@wanin/types': workspace:*
       '@wanin/utils': workspace:*
       classnames: ^2.3.2
       concurrently: ^7.4.0
       eslint: ^7.32.0
-      eslint-config-nextjs: workspace:*
       framer-motion: ^7.3.6
       next: 12.3.0
       react: ^18.2.0
@@ -431,13 +440,13 @@ importers:
     devDependencies:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
+      '@wanin/eslint-config-nextjs': link:../eslint-config-nextjs
       '@wanin/tailwind-config': link:../tailwind-config
       '@wanin/types': link:../types
       '@wanin/utils': link:../utils
       classnames: 2.3.2
       concurrently: 7.4.0
       eslint: 7.32.0
-      eslint-config-nextjs: link:../eslint-config-nextjs
       framer-motion: 7.3.6_react@18.2.0
       next: 12.3.0_react@18.2.0
       react: 18.2.0
@@ -450,15 +459,15 @@ importers:
   packages/utils:
     specifiers:
       '@types/node': ^17.0.12
+      '@wanin/eslint-config-base': workspace:*
       dayjs: ^1.11.5
-      eslint-config-base: workspace:*
       tsconfig: workspace:*
       tsup: ^6.2.3
       typescript: ^4.8.3
     devDependencies:
       '@types/node': 17.0.45
+      '@wanin/eslint-config-base': link:../eslint-config-base
       dayjs: 1.11.5
-      eslint-config-base: link:../eslint-config-base
       tsconfig: link:../tsconfig
       tsup: 6.2.3_typescript@4.8.3
       typescript: 4.8.3
@@ -1905,6 +1914,10 @@ packages:
       postcss: 8.4.17
       postcss-selector-parser: 6.0.10
 
+  /@cush/relative/1.0.0:
+    resolution: {integrity: sha512-RpfLEtTlyIxeNPGKcokS+p3BZII/Q3bYxryFRglh5H3A3T8q9fsLYm72VYAMEOOIBLEa8o93kFLiBDUWKrwXZA==}
+    dev: true
+
   /@cypress/request/2.88.10:
     resolution: {integrity: sha512-Zp7F+R93N0yZyG34GutyTNr+okam7s/Fzc1+i3kcqOP8vk6OuajuE9qZJ6Rs+10/1JFtXFYMdyarnU1rZuJesg==}
     engines: {node: '>= 6'}
@@ -2694,7 +2707,7 @@ packages:
       hey-listen: 1.0.8
       tslib: 2.4.0
 
-  /@nestjs/cli/9.1.4:
+  /@nestjs/cli/9.1.4_@swc+core@1.3.8:
     resolution: {integrity: sha512-cvN4DcLzaqFzKRmpU3tOeLmw7+1p4XXsFLyWgteId0Szf6cAk5KJpD5jl2Kw7f39vNw9Pss8yiJ1q1CD/fcbwQ==}
     engines: {node: '>= 12.9.0'}
     hasBin: true
@@ -2719,7 +2732,7 @@ packages:
       tsconfig-paths: 4.1.0
       tsconfig-paths-webpack-plugin: 4.0.0
       typescript: 4.8.3
-      webpack: 5.74.0
+      webpack: 5.74.0_@swc+core@1.3.8
       webpack-node-externals: 3.0.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -3902,10 +3915,172 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
+  /@swc/core-android-arm-eabi/1.3.8:
+    resolution: {integrity: sha512-7SKRmfT21Iwy1UJVirS89KO1YqA/nYeG6Te97Vi50e0Ua1XmmogE+ooUg4CNk0wevtVmgB3AHXK/1/ak6qY/Ag==}
+    engines: {node: '>=10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dependencies:
+      '@swc/wasm': 1.2.122
+    dev: true
+    optional: true
+
+  /@swc/core-android-arm64/1.3.8:
+    resolution: {integrity: sha512-K7PwYMOukAFUWR1f1xukNhQXpCWjYfOnBA130hdovuW7J+cxYX2O8L5cKW+VOmlTNXU561+k0jNSO5NkJ4pSSQ==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dependencies:
+      '@swc/wasm': 1.2.130
+    dev: true
+    optional: true
+
+  /@swc/core-darwin-arm64/1.3.8:
+    resolution: {integrity: sha512-sEynC48HWwYQ2RzJxBejnWfRQkl65f1+fWNjSWqAIii7I+fJT5La98hJrg+5dfZROBs34g1Zxt8+2Gttm25Nmg==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-darwin-x64/1.3.8:
+    resolution: {integrity: sha512-yimEqFZpmXU6uTnSw1A6umKBN1B68I+Cbl/q4IHm3Z3B9a/aymiQ7lJNrYYEHOgfpHLka4SWwvdSBSrpMczDfg==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-freebsd-x64/1.3.8:
+    resolution: {integrity: sha512-kGGDDrKVCoM2A8lAJ3jFiWuafxtFxMmvkGlo72GikZsFDHibqr2K2+Ur++nwOz/ZFOf1HJwEbYVbbDa84pSlCw==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dependencies:
+      '@swc/wasm': 1.2.130
+    dev: true
+    optional: true
+
+  /@swc/core-linux-arm-gnueabihf/1.3.8:
+    resolution: {integrity: sha512-kLpA6Oei9J7u7NBFT80ziAe3cLhOV7vo/Li9rV44AI8iU6df7KXt7hvzmTyh5gXOg3f98wcMOakFF1FsKvSSdA==}
+    engines: {node: '>=10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dependencies:
+      '@swc/wasm': 1.2.130
+    dev: true
+    optional: true
+
+  /@swc/core-linux-arm64-gnu/1.3.8:
+    resolution: {integrity: sha512-5W1sAM1lNmDfMy8DzRUiyjubDPZVIvzQRhdsP1zCDE/JKYaDJG8BzeSE6J3VdxNyLfe6tFvJTOCTyNAGWJBiTA==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-arm64-musl/1.3.8:
+    resolution: {integrity: sha512-xdmZX44xzjdG4zqIWEqkZVWukhw1lwVVLjXiQt94GZ9RISpUvanydIzahB/iuI/2/eWP4Stf6vyXn66ay1jIcA==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-x64-gnu/1.3.8:
+    resolution: {integrity: sha512-37YyUxXgLfiILzfoIkbfEB4mRJfWutaY9OThi9H1hLYaXLTfdWkk7bksALK473NY6/Vi/TrjYi1cz+GSteR/nw==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-x64-musl/1.3.8:
+    resolution: {integrity: sha512-/MhCGWlIu2rjvUuGKNZSTLUm1jDus2ggmaZpbq87QSA8otPyKB4k5t6ySUzuSTRL8Qk/bLy1xjtjAv2sOzwzJA==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-win32-arm64-msvc/1.3.8:
+    resolution: {integrity: sha512-UF4BoOtmquKSt5eIODvrimqLLTG30vuIvY8z1/3RJyzCI3uZE3csetmAMvry8ioS1vC5DFETNh4xFO20CJvR0g==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dependencies:
+      '@swc/wasm': 1.2.130
+    dev: true
+    optional: true
+
+  /@swc/core-win32-ia32-msvc/1.3.8:
+    resolution: {integrity: sha512-ZsLm+Gimv8RO77AQjkaqs4jncw7AmR5HgR+I6gSRsVhLEo3tRbzSK2br98PRC217RA86Ei148/WUutu9IA7/5g==}
+    engines: {node: '>=10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dependencies:
+      '@swc/wasm': 1.2.130
+    dev: true
+    optional: true
+
+  /@swc/core-win32-x64-msvc/1.3.8:
+    resolution: {integrity: sha512-7Kxx6K4hEbwjj3IyD5hqoUGbOtuYJoMUh6ac+gce22oxq4sWWkVRbV0s+oJSXqWA0/PCu07t0m1/B4Z0MpqwuA==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core/1.3.8:
+    resolution: {integrity: sha512-EEinXtV7MvzWt1dgqnkfUaxCwPnSo3ZeWQzTpppCZFkM9hn+kfViTig2aS1aoXvwi/SsDZ51DDs4st8xr4yqhQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      '@swc/core-android-arm-eabi': 1.3.8
+      '@swc/core-android-arm64': 1.3.8
+      '@swc/core-darwin-arm64': 1.3.8
+      '@swc/core-darwin-x64': 1.3.8
+      '@swc/core-freebsd-x64': 1.3.8
+      '@swc/core-linux-arm-gnueabihf': 1.3.8
+      '@swc/core-linux-arm64-gnu': 1.3.8
+      '@swc/core-linux-arm64-musl': 1.3.8
+      '@swc/core-linux-x64-gnu': 1.3.8
+      '@swc/core-linux-x64-musl': 1.3.8
+      '@swc/core-win32-arm64-msvc': 1.3.8
+      '@swc/core-win32-ia32-msvc': 1.3.8
+      '@swc/core-win32-x64-msvc': 1.3.8
+    dev: true
+
   /@swc/helpers/0.4.11:
     resolution: {integrity: sha512-rEUrBSGIoSFuYxwBYtlUFMlE2CwGhmW+w9355/5oduSw8e5h2+Tj4UrAGNNgP9915++wj5vkQo0UuOBqOAq4nw==}
     dependencies:
       tslib: 2.4.0
+
+  /@swc/wasm/1.2.122:
+    resolution: {integrity: sha512-sM1VCWQxmNhFtdxME+8UXNyPNhxNu7zdb6ikWpz0YKAQQFRGT5ThZgJrubEpah335SUToNg8pkdDF7ibVCjxbQ==}
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/wasm/1.2.130:
+    resolution: {integrity: sha512-rNcJsBxS70+pv8YUWwf5fRlWX6JoY/HJc25HD/F8m6Kv7XhJdqPPMhyX6TKkUBPAG7TWlZYoxa+rHAjPy4Cj3Q==}
+    requiresBuild: true
+    dev: true
+    optional: true
 
   /@tailwindcss/aspect-ratio/0.4.2_tailwindcss@3.1.8:
     resolution: {integrity: sha512-8QPrypskfBa7QIMuKHg2TA7BqES6vhBrDLOv8Unb6FcFyd3TjKbc6lcmb9UPQHxfl24sXoJ41ux/H7qQQvfaSQ==}
@@ -4222,13 +4397,6 @@ packages:
     resolution: {integrity: sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==}
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
-    dev: true
-
-  /@types/jest/28.1.4:
-    resolution: {integrity: sha512-telv6G5N7zRJiLcI3Rs3o+ipZ28EnE+7EvF0pSrt2pZOMnAVI/f+6/LucDxOvcBcTeTL3JMF744BbVQAVBUQRA==}
-    dependencies:
-      jest-matcher-utils: 28.1.3
-      pretty-format: 28.1.3
     dev: true
 
   /@types/js-yaml/4.0.5:
@@ -9665,7 +9833,7 @@ packages:
       semver: 7.3.7
       tapable: 2.2.1
       typescript: 4.8.3
-      webpack: 5.74.0
+      webpack: 5.74.0_@swc+core@1.3.8
     dev: true
 
   /form-data/2.3.3:
@@ -9987,6 +10155,10 @@ packages:
     dependencies:
       is-glob: 4.0.3
 
+  /glob-regex/0.3.2:
+    resolution: {integrity: sha512-m5blUd3/OqDTWwzBBtWBPrGlAzatRywHameHeekAZyZrskYouOGdNB8T/q6JucucvJXtOuyHIn0/Yia7iDasDw==}
+    dev: true
+
   /glob-to-regexp/0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
     dev: true
@@ -10103,7 +10275,6 @@ packages:
 
   /globrex/0.1.2:
     resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
-    dev: false
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
@@ -11459,7 +11630,7 @@ packages:
       pretty-format: 28.1.3
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1_muqr73tqbhpzvzs5wtisgyk2h4
+      ts-node: 10.9.1_ojyxeduacu3p4p5k4s6so5rwfu
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -11499,7 +11670,7 @@ packages:
       pretty-format: 28.1.3
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1_muqr73tqbhpzvzs5wtisgyk2h4
+      ts-node: 10.9.1_ojyxeduacu3p4p5k4s6so5rwfu
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -15965,6 +16136,15 @@ packages:
       resolve: 1.22.1
     dev: true
 
+  /recrawl-sync/2.2.2:
+    resolution: {integrity: sha512-E2sI4F25Fu2nrfV+KsnC7/qfk/spQIYXlonfQoS4rwxeNK5BjxnLPbWiRXHVXPwYBOTWtPX5765kTm/zJiL+LQ==}
+    dependencies:
+      '@cush/relative': 1.0.0
+      glob-regex: 0.3.2
+      slash: 3.0.0
+      tslib: 1.14.1
+    dev: true
+
   /redent/3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
     engines: {node: '>=8'}
@@ -16320,6 +16500,17 @@ packages:
       inherits: 2.0.4
     dev: false
 
+  /rollup-plugin-swc/0.2.1_vs3khonvrlydt3u7dfedvekfwu:
+    resolution: {integrity: sha512-wWRYt9tC0aIBvRQHNnVtwJ6DRPDj9XYpOAcOyFB11sKSkR/R+NAmbrjBACCPNVmZcxg6joV29wXgb5mU1DI7eA==}
+    peerDependencies:
+      '@swc/core': '>=1.0'
+      rollup: '>=1.5.0'
+    dependencies:
+      '@rollup/pluginutils': 4.2.1
+      '@swc/core': 1.3.8
+      rollup: 3.2.2
+    dev: true
+
   /rollup/2.78.1:
     resolution: {integrity: sha512-VeeCgtGi4P+o9hIg+xz4qQpRl6R401LWEXBmxYKOV4zlF82lyhgh2hTZnheFUbANE8l2A41F458iwj2vEYaXJg==}
     engines: {node: '>=10.0.0'}
@@ -16331,6 +16522,14 @@ packages:
   /rollup/2.79.1:
     resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /rollup/3.2.2:
+    resolution: {integrity: sha512-tw8NITEB/A8aa8F+mmIJ7fQ7Abej0R9ugR1ZzsCqb7P8HWVIVdneN69BMTDjhk0qbUsewDSJSDTcVuCTogs8JA==}
+    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
@@ -17632,7 +17831,7 @@ packages:
       - bluebird
     dev: false
 
-  /terser-webpack-plugin/5.3.6_webpack@5.74.0:
+  /terser-webpack-plugin/5.3.6_rjuoshul7cvkrrijectugpqunm:
     resolution: {integrity: sha512-kfLFk+PoLUQIbLmB1+PZDMRSZS99Mp+/MHqDNmMA6tOItzRt+Npe3E+fsMs5mfcM0wCtrrdU387UnV+vnSffXQ==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -17649,11 +17848,12 @@ packages:
         optional: true
     dependencies:
       '@jridgewell/trace-mapping': 0.3.15
+      '@swc/core': 1.3.8
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.0
       terser: 5.15.0
-      webpack: 5.74.0
+      webpack: 5.74.0_@swc+core@1.3.8
     dev: true
 
   /terser/4.8.1:
@@ -17989,7 +18189,7 @@ packages:
       typescript: 4.8.3
     dev: true
 
-  /ts-node/10.9.1_muqr73tqbhpzvzs5wtisgyk2h4:
+  /ts-node/10.9.1_ojyxeduacu3p4p5k4s6so5rwfu:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -18004,6 +18204,7 @@ packages:
         optional: true
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
+      '@swc/core': 1.3.8
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
@@ -18716,6 +18917,19 @@ packages:
       vfile-message: 2.0.4
     dev: false
 
+  /vite-tsconfig-paths/3.5.1:
+    resolution: {integrity: sha512-t7cPvDMDxOCUxxNLqngXiX+L6jPYBr+eMgkeVadknxBb89d2s1aejz+wFEep010VfXjGVAUWGEFPe1fkRYTFvg==}
+    peerDependencies:
+      vite: '>2.0.0-0'
+    dependencies:
+      debug: 4.3.4
+      globrex: 0.1.2
+      recrawl-sync: 2.2.2
+      tsconfig-paths: 4.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /vite/3.1.4:
     resolution: {integrity: sha512-JoQI08aBjY9lycL7jcEq4p9o1xUjq5aRvdH4KWaXtkSx7e7RpAh9D3IjzDWRD4Fg44LS3oDAIOG/Kq1L+82psA==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -19185,7 +19399,7 @@ packages:
       - supports-color
     dev: false
 
-  /webpack/5.74.0:
+  /webpack/5.74.0_@swc+core@1.3.8:
     resolution: {integrity: sha512-A2InDwnhhGN4LYctJj6M1JEaGL7Luj6LOmyBHjcI8529cm5p6VXiTIW2sn6ffvEAKmveLzvu4jrihwXtPojlAA==}
     engines: {node: '>=10.13.0'}
     hasBin: true
@@ -19216,7 +19430,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.1.1
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.6_webpack@5.74.0
+      terser-webpack-plugin: 5.3.6_rjuoshul7cvkrrijectugpqunm
       watchpack: 2.4.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:

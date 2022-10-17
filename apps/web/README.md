@@ -1,6 +1,7 @@
 # NextJS Website
 
 > ### 👷 Work in progress
+>
 > Current candidate for the website with NextJS.
 
 ## Demo
