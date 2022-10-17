@@ -11,7 +11,6 @@ import {
   Footer,
 } from "@/components";
 import { ThemeProvider } from "next-themes";
-import { trpcSSR } from "@/utils/trpc.util";
 import { DefaultSeo } from "next-seo";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
@@ -42,4 +41,4 @@ function Web({
   );
 }
 
-export default trpcSSR.withTRPC(Web);
+export default Web;
