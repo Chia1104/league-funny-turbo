@@ -42,7 +42,7 @@ jobs:
         run: pnpm lint --filter backend...
 
       - name: Unit tests
-        run: pnpm test --filter backend...
+        run: cd ../.. && pnpm test --filter backend...
 
       - name: E2E Tests
-        run: pnpm test:e2e --filter backend
+        run: cd ../.. && pnpm test:e2e --filter backend
