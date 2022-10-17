@@ -7,6 +7,7 @@ import {
 import type { NextPage } from "next";
 import type { BuiltInProviderType } from "next-auth/providers";
 import type { GetServerSideProps } from "next";
+import { Page } from "@wanin/ui";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
@@ -22,7 +23,7 @@ const SignIn: NextPage<{
   >;
 }> = ({ providers }) => {
   return (
-    <div className="w-main w-full">
+    <Page className="w-main w-full">
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
           <button onClick={() => signIn(provider.id)}>
@@ -30,7 +31,7 @@ const SignIn: NextPage<{
           </button>
         </div>
       ))}
-    </div>
+    </Page>
   );
 };
 

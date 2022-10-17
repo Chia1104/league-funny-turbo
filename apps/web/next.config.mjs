@@ -37,7 +37,7 @@ const securityHeaders = [
   },
 ];
 
-export default withTM(["@wanin/trpc-api", "@wanin/db"])(
+export default withTM()(
   defineNextConfig({
     reactStrictMode: true,
     swcMinify: true,

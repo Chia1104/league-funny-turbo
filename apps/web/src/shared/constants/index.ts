@@ -7,3 +7,5 @@ export const BASE_URL =
     : "http://localhost:3000";
 export const RAILWAY_URL = process.env.RAILWAY_STATIC_URL;
 export const VERCEL_URL = process.env.VERCEL_URL;
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;
