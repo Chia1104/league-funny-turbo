@@ -12,7 +12,7 @@ importers:
       prettier: latest
       prettier-plugin-tailwindcss: ^0.1.13
       ts-jest: ^29.0.3
-      turbo: latest
+      turbo: 1.5.5
       vitest: ^0.23.4
       vue-jest: ^3.0.4
     dependencies:
