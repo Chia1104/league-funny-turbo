@@ -33,7 +33,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --filter backend...
+        run: pnpm install
 
       - name: Build
         run: cd ../.. && pnpm build --filter backend...
