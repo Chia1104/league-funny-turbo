@@ -45,18 +45,18 @@ import { useRouter } from "next/router";
 // };
 
 const FeedDetailSSR: NextPage = () => {
-    const router = useRouter();
-    return (
-        <Page className="w-main w-full">
-            <Head>
-                <title>League Funny Post</title>
-            </Head>
-            <article className="mt-28 w-full">
-                <h1>Feed SSR - (work in progress)</h1>
-                <h2>{router.query.fid}</h2>
-            </article>
-        </Page>
-    );
+  const router = useRouter();
+  return (
+    <Page className="w-main w-full">
+      <Head>
+        <title>League Funny Post</title>
+      </Head>
+      <article className="mt-28 w-full">
+        <h1>Feed SSR - (work in progress)</h1>
+        <h2>{router.query.fid}</h2>
+      </article>
+    </Page>
+  );
 };
 
 export default FeedDetailSSR;
