@@ -33,7 +33,6 @@
     "dev": {
       "cache": false
     },
-    "postinstall": {},
     "e2e:chrome": {
       "outputs": []
     },
