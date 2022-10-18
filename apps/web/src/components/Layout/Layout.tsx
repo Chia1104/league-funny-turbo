@@ -21,6 +21,7 @@ const Layout: FC<Props> = (props) => {
     data: categories,
     isError,
     isLoading,
+    isSuccess,
   } = useQuery<PostCategory[]>(["main-bord"], () => {
     return fetch(`${getBaseUrl()}/api/main-bord`).then((res) => res.json());
   });
@@ -29,7 +30,11 @@ const Layout: FC<Props> = (props) => {
     switch (rootPath) {
       case "l":
         return (
-          <PostLayout isLoading={isLoading} categories={categories}>
+          <PostLayout
+            isLoading={isLoading}
+            isError={isError}
+            isSuccess={isSuccess}
+            categories={categories as PostCategory[]}>
             {children}
           </PostLayout>
         );
