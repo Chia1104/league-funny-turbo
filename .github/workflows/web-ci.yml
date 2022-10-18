@@ -79,3 +79,32 @@ jobs:
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
+          config-file: apps/web/cypress.config.js
+
+  e2e-on-edge:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    name: E2E on Chrome
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.32.2
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: apps/web/.next
+
+      - uses: cypress-io/github-action@v4
+        with:
+          start: pnpm start --filter web...
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
+          browser: edge
+          config-file: apps/web/cypress.config.js
