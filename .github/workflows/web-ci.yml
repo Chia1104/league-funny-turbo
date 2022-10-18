@@ -45,7 +45,7 @@ jobs:
         with:
           name: build
           if-no-files-found: error
-          path: build
+          path: apps/web/.next
 
       - name: ESLint
         run: pnpm lint --filter web...
@@ -53,24 +53,29 @@ jobs:
       - name: Unit tests
         run: pnpm test --filter web...
 
-      - name: E2E Tests Chrome
-        uses: actions/download-artifact@v3
+  e2e-on-chrome:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    name: E2E on Chrome
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
         with:
-          name: build
-          path: build
-      - uses: cypress-io/github-action@v4
-        with:
-          start: pnpm start --filter web...
-          wait-on: 'http://localhost:3000'
-          browser: chrome
+          fetch-depth: 2
 
-      - name: E2E Tests Edge
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.32.2
+
+      - name: Download the build folders
         uses: actions/download-artifact@v3
         with:
           name: build
-          path: build
+          path: apps/web/.next
+
       - uses: cypress-io/github-action@v4
         with:
           start: pnpm start --filter web...
-          wait-on: 'http://localhost:3000'
-          browser: edge
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
+          browser: chrome
