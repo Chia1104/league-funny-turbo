@@ -1,5 +1,8 @@
-describe("empty spec", () => {
-  it("passes", () => {
-    cy.visit("https://example.cypress.io");
+describe("Home page spec", () => {
+  beforeEach(() => {
+    cy.visit("/");
+  });
+  it("Make sure the default URL redirects to HomePage", () => {
+    cy.url().should("include", "l");
   });
 });
