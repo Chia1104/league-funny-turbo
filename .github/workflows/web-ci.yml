@@ -79,7 +79,7 @@ jobs:
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
-          config-file: apps/web/cypress.config.js
+          command: pnpm e2e:chrome --filter web
 
   e2e-on-edge:
     needs: [ build ]
@@ -107,4 +107,4 @@ jobs:
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: edge
-          config-file: apps/web/cypress.config.js
+          command: pnpm e2e:edge --filter web
