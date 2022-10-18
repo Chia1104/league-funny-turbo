@@ -10,6 +10,7 @@
     "db-push": "db-push --filter @wanin/db",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "lint-staged": "lint-staged",
     "format": "prettier --write \"**/*.{ts,tsx,md,vue}\"",

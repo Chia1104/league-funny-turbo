@@ -182,7 +182,7 @@ importers:
       '@reduxjs/toolkit': ^1.8.6
       '@testing-library/react': ^13.4.0
       '@types/node': ^17.0.45
-      '@types/react': 18.0.17
+      '@types/react': ^18.0.17
       '@vitejs/plugin-react': ^2.1.0
       '@wanin/eslint-config-nextjs': workspace:0.0.0
       '@wanin/tailwind-config': workspace:0.0.0
@@ -199,10 +199,10 @@ importers:
       next-auth: ^4.14.0
       next-seo: ^5.6.0
       next-themes: ^0.2.1
-      next-transpile-modules: 9.0.0
+      next-transpile-modules: ^9.0.0
       postcss: ^8.4.18
-      react: 18.2.0
-      react-dom: 18.2.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
       react-redux: ^8.0.4
       tailwindcss: ^3.1.8
       tsconfig: workspace:0.0.0
@@ -223,14 +223,14 @@ importers:
       next-themes: 0.2.1_c3hne4hwj64hb7tofigd3bvkji
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-redux: 8.0.4_zxljzmqdrxwnuenbkrz77w74uy
+      react-redux: 8.0.4_rj7ozvcq3uehdlnj3cbwzbi5ce
       usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
       zod: 3.19.1
     devDependencies:
       '@babel/core': 7.19.3
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@types/node': 17.0.45
-      '@types/react': 18.0.17
+      '@types/react': 18.0.21
       '@vitejs/plugin-react': 2.1.0
       '@wanin/eslint-config-nextjs': link:../../packages/eslint-config-nextjs
       '@wanin/tailwind-config': link:../../packages/tailwind-config
@@ -3880,7 +3880,7 @@ packages:
     dependencies:
       immer: 9.0.15
       react: 18.2.0
-      react-redux: 8.0.4_zxljzmqdrxwnuenbkrz77w74uy
+      react-redux: 8.0.4_rj7ozvcq3uehdlnj3cbwzbi5ce
       redux: 4.2.0
       redux-thunk: 2.4.1_redux@4.2.0
       reselect: 4.1.6
@@ -4326,7 +4326,7 @@ packages:
   /@types/hoist-non-react-statics/3.3.1:
     resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
     dependencies:
-      '@types/react': 18.0.17
+      '@types/react': 18.0.21
       hoist-non-react-statics: 3.3.2
     dev: false
 
@@ -4461,7 +4461,7 @@ packages:
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
-      '@types/react': 18.0.17
+      '@types/react': 18.0.21
     dev: true
 
   /@types/react/18.0.17:
@@ -4470,6 +4470,7 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
+    dev: true
 
   /@types/react/18.0.21:
     resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
@@ -4477,7 +4478,6 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
-    dev: true
 
   /@types/relateurl/0.2.29:
     resolution: {integrity: sha512-QSvevZ+IRww2ldtfv1QskYsqVVVwCKQf1XbwtcyyoRvLIQzfyPhj/C+3+PKzSDRdiyejaiLgnq//XTkleorpLg==}
@@ -15766,7 +15766,7 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
 
-  /react-redux/8.0.4_zxljzmqdrxwnuenbkrz77w74uy:
+  /react-redux/8.0.4_rj7ozvcq3uehdlnj3cbwzbi5ce:
     resolution: {integrity: sha512-yMfQ7mX6bWuicz2fids6cR1YT59VTuT8MKyyE310wJQlINKENCeT1UcPdEiX6znI5tF8zXyJ/VYvDgeGuaaNwQ==}
     peerDependencies:
       '@types/react': ^16.8 || ^17.0 || ^18.0
@@ -15789,7 +15789,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.19.4
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/react': 18.0.17
+      '@types/react': 18.0.21
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
