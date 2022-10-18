@@ -15,6 +15,9 @@ jobs:
     # env:
     #  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
     #  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    strategy:
+      matrix:
+        node: [ 14.*, 16.*, 18.* ]
 
     steps:
       - name: Check out code
@@ -29,7 +32,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -37,6 +40,12 @@ jobs:
 
       - name: Build
         run: cd ../.. && pnpm build --filter web...
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: apps/web/.next
 
       - name: ESLint
         run: pnpm lint --filter web...
@@ -44,8 +53,58 @@ jobs:
       - name: Unit tests
         run: pnpm test --filter web...
 
-      - name: E2E Tests Chrome
-        run: pnpm e2e:chrome --filter web
+  e2e-on-chrome:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    name: E2E on Chrome
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
-      - name: E2E Tests Edge
-        run: pnpm e2e:edge --filter web
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.32.2
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: apps/web/.next
+
+      - uses: cypress-io/github-action@v4
+        with:
+          start: pnpm start --filter web...
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
+          browser: chrome
+          command: pnpm e2e:chrome --filter web
+
+  e2e-on-edge:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    name: E2E on Edge
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.32.2
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: apps/web/.next
+
+      - uses: cypress-io/github-action@v4
+        with:
+          start: pnpm start --filter web...
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
+          browser: edge
+          command: pnpm e2e:edge --filter web
