@@ -40,6 +40,12 @@ jobs:
 
       - name: Build
         run: cd ../.. && pnpm build --filter web...
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
 
       - name: ESLint
         run: pnpm lint --filter web...
@@ -48,17 +54,23 @@ jobs:
         run: pnpm test --filter web...
 
       - name: E2E Tests Chrome
-        uses: cypress-io/github-action@v4
+        uses: actions/download-artifact@v3
         with:
-          build: cd ../.. && pnpm build --filter web...
+          name: build
+          path: build
+      - uses: cypress-io/github-action@v4
+        with:
           start: pnpm start --filter web...
           wait-on: 'http://localhost:3000'
           browser: chrome
 
       - name: E2E Tests Edge
-        uses: cypress-io/github-action@v4
+        uses: actions/download-artifact@v3
         with:
-          build: cd ../.. && pnpm build --filter web...
+          name: build
+          path: build
+      - uses: cypress-io/github-action@v4
+        with:
           start: pnpm start --filter web...
           wait-on: 'http://localhost:3000'
           browser: edge
