@@ -84,7 +84,7 @@ jobs:
   e2e-on-edge:
     needs: [ build ]
     runs-on: ubuntu-latest
-    name: E2E on Chrome
+    name: E2E on Edge
     steps:
       - name: Check out code
         uses: actions/checkout@v3
