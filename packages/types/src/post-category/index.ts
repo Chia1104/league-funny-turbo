@@ -1,12 +1,11 @@
 export type PostCategoryDetail = {
-  id: number;
-  name: string;
-  slug: string;
+  b_id: number;
+  b_type: string;
+  b_zh_name: string;
 };
 
 export type PostCategory = {
-  id: number;
-  name: string;
-  slug: string;
-  category: PostCategoryDetail[];
+  group_id: string;
+  group_name: string;
+  contents: PostCategoryDetail[];
 };

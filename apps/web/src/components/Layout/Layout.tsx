@@ -1,7 +1,10 @@
-import type { FC, ReactNode } from "react";
+import { type FC, type ReactNode, useMemo } from "react";
 import { PostLayout } from "@/components/Layout";
 import { useRouter } from "next/router";
 import Head, { HeadProps } from "./Head";
+import { useQuery } from "@tanstack/react-query";
+import type { PostCategory } from "@wanin/types";
+import { getBaseUrl } from "@/utils/getBaseUrl";
 
 interface Props {
   title: string;
@@ -13,12 +16,23 @@ interface Props {
 const Layout: FC<Props> = (props) => {
   const { title, description, headContent, children } = props;
   const { pathname } = useRouter();
-  const rootPath = pathname.split("/")[1];
+  const rootPath = useMemo(() => pathname.split("/")[1], [pathname]);
+  const {
+    data: categories,
+    isError,
+    isLoading,
+  } = useQuery<PostCategory[]>(["main-bord"], () => {
+    return fetch(`${getBaseUrl()}/api/main-bord`).then((res) => res.json());
+  });
 
   const getLayout = () => {
     switch (rootPath) {
       case "l":
-        return <PostLayout>{children}</PostLayout>;
+        return (
+          <PostLayout isLoading={isLoading} categories={categories}>
+            {children}
+          </PostLayout>
+        );
       default:
         return <>{children}</>;
     }
