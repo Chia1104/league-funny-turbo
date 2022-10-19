@@ -1,44 +1,59 @@
-import { type FC, useRef, useCallback } from "react";
+import { type FC } from "react";
 import type { Feed } from "@wanin/types";
 import FeedItem from "./FeedItem";
+import { useInfiniteScroll } from "@/hooks";
 
 interface Props {
-  isLoading: boolean;
+  isLoading?: boolean;
   isSuccess: boolean;
-  isError: boolean;
+  isError?: boolean;
   onMoreFeed: () => void;
   hasMoreFeed: boolean;
   feed: Feed[];
 }
 
 const FeedList: FC<Props> = (props) => {
-  const { isLoading, feed, hasMoreFeed, onMoreFeed, isError, isSuccess } =
-    props;
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastItemRef = useCallback(
-    (node: any) => {
-      if (isError || isLoading || !hasMoreFeed) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMoreFeed) onMoreFeed();
-      });
-      if (node) observer.current.observe(node);
+  const {
+    isLoading = false,
+    feed,
+    hasMoreFeed,
+    onMoreFeed,
+    isError,
+    isSuccess,
+  } = props;
+  const { ref: lastItemRef } = useInfiniteScroll({
+    isLoading,
+    isError,
+    hasMore: hasMoreFeed,
+    onLoadMore: onMoreFeed,
+    intersectionObserverInit: {
+      rootMargin: "150px",
     },
-    [isLoading, hasMoreFeed, isError]
-  );
+  });
 
   return (
-    <div>
+    <div className="w-full w-bg-secondary rounded-lg shadow-lg">
       {isSuccess && (
         <>
           {feed.map((item, index) => {
-            feed.length === index + 1 ? (
-              <FeedItem key={item.fid} ref={lastItemRef} feed={item} />
-            ) : (
-              <FeedItem key={item.fid} feed={item} />
-            );
+            if (index === feed.length - 1) {
+              return <FeedItem key={item.fid} feed={item} ref={lastItemRef} />;
+            }
+            return <FeedItem key={item.fid} feed={item} />;
           })}
         </>
+      )}
+      {isLoading && (
+        <div className="w-full h-20 flex justify-center items-center">
+          <div className="w-10 h-10 border-2 border-gray-300 rounded-full animate-spin" />
+        </div>
+      )}
+      {isError && (
+        <div className="w-full h-20 flex justify-center items-center">
+          <h3 className="text-warning">
+            Something went wrong, please try again later.
+          </h3>
+        </div>
       )}
     </div>
   );

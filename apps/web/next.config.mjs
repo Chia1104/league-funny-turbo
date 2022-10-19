@@ -39,7 +39,7 @@ const securityHeaders = [
 
 export default withTM()(
   defineNextConfig({
-    reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify: true,
     output: "standalone",
     experimental: {

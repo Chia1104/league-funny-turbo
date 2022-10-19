@@ -1,4 +1,4 @@
-import { type FC, memo } from "react";
+import { type FC } from "react";
 import NextImage from "next/future/image";
 import type { ImageProps as NextImageProps } from "next/future/image";
 import { shimmer, toBase64 } from "@wanin/utils";
@@ -16,4 +16,4 @@ const Image: FC<NextImageProps> = (props) => {
   );
 };
 
-export default memo(Image);
+export default Image;

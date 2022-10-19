@@ -1,6 +1,5 @@
-import { type FC, useEffect } from "react";
+import { type FC } from "react";
 import { Link, Image } from "@/components";
-import { useRouter } from "next/router";
 import { BillIcon, MissionIcon, AchievementIcon, EnvelopIcon } from "@wanin/ui";
 import { Size } from "@wanin/types";
 import { Tooltip, Popover } from "@geist-ui/core";
@@ -8,12 +7,7 @@ import data from "@/shared/data/bill.json";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const MainNav: FC = () => {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
+  const { data: session } = useSession();
 
   const content = () => (
     <>
