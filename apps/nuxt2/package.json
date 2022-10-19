@@ -6,9 +6,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate",
-    "test": "jest",
-    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore ."
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@nuxt/content": "^1.0.0",
@@ -38,6 +36,7 @@
     "@wanin/eslint-config-nuxt2": "workspace:*",
     "postcss": "^8.4.17",
     "postcss-html": "^1.5.0",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "vue-jest": "^3.0.7"
   }
 }

@@ -1,9 +1,10 @@
 module.exports = {
   parserOptions: {
-    project: 'tsconfig.json',
-    tsconfigRootDir : __dirname,
-    sourceType: 'module',
+    project: "tsconfig.json",
+    tsconfigRootDir: __dirname,
+    sourceType: "module",
   },
   root: true,
-  extends: ['@wanin/nestjs'],
+  ignorePatterns: [".eslintrc.js"],
+  extends: ["@wanin/nestjs"],
 };
