@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm,cjs",
     "dev": "tsup src/index.ts --dts --format esm,cjs --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.{ts,js,tsx,jsx}\" --fix"
   },
   "dependencies": {
     "zod": "^3.19.1"
@@ -20,6 +21,7 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@wanin/eslint-config-base": "workspace:0.0.0",
+    "eslint": "^8.25.0",
     "tsconfig": "workspace:0.0.0",
     "tsup": "^6.3.0",
     "typescript": "^4.8.4"

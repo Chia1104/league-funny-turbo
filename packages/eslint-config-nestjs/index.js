@@ -1,7 +1,9 @@
 module.exports = {
+  parser: "@typescript-eslint/parser",
   extends: ["@wanin/base"],
   env: {
     node: true,
+    jest: true,
   },
   rules: {
     "@typescript-eslint/interface-name-prefix": "off",
