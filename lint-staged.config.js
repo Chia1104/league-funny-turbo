@@ -15,7 +15,7 @@ module.exports = {
       //   .filter((file) => !eslint.isPathIgnored(file))
       //   .map((f) => `"${f}"`)
       //   .join(" ")}`,
-      "pnpm lint",
+      // "pnpm lint",
       `git add ${escapedFileNames}`,
     ];
   },
