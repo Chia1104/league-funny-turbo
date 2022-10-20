@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
-import type { Feed, Result } from "@wanin/types";
+import type { Feed, Pagenate } from "@wanin/types";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,8 +8,10 @@ export default async function handler(
 ) {
   try {
     const { page = 1 } = req.query;
-    const data = await fetch(`${API_URL}/feed?page=${page}`);
-    const feeds = (await data.json()) as Result<Feed[]>;
+    const data = await fetch(
+      `${API_URL}/feed?${new URLSearchParams({ page: page as string })}`
+    );
+    const feeds = (await data.json()) as Pagenate<Feed[]>;
     if (data.status !== 200) {
       res.status(404).json({ message: "Not Found" });
     }

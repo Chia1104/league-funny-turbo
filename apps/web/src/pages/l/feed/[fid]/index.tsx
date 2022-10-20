@@ -17,7 +17,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 };
 
@@ -45,20 +45,5 @@ const FeedDetail: NextPage<Feed> = (props) => {
     </Page>
   );
 };
-
-// const FeedDetail: NextPage = () => {
-//   const router = useRouter();
-//   return (
-//     <Page className="w-main w-full">
-//       <Head>
-//         <title>League Funny Post</title>
-//       </Head>
-//       <article className="mt-28 w-full">
-//         <h1>Feed SSG - (work in progress)</h1>
-//         <h2>{router.query.fid}</h2>
-//       </article>
-//     </Page>
-//   );
-// };
 
 export default FeedDetail;

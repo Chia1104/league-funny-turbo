@@ -2,19 +2,19 @@ import Head from "next/head";
 import type { GetServerSideProps, NextPage } from "next";
 import { Page } from "@wanin/ui";
 import { getBaseUrl } from "@/utils/getBaseUrl";
-import type { Feed, Result } from "@wanin/types";
-import { useInfiniteQuery } from "@/hooks";
+import type { Feed, Pagenate } from "@wanin/types";
+import { experimental_useInfiniteQuery } from "@/hooks";
 import { FeedList } from "@/components";
 import { useState } from "react";
 
 interface FeedProps {
   status: number;
-  initFeed: Result<Feed[]>;
+  initFeed: Pagenate<Feed[]>;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await fetch(`${getBaseUrl()}/api/feed`);
-  const initFeed = (await data.json()) as Result<Feed[]>;
+  const initFeed = (await data.json()) as Pagenate<Feed[]>;
 
   return {
     props: {
@@ -32,11 +32,22 @@ const Feed: NextPage<FeedProps> = (props) => {
     isLoading,
     isError,
     hasMore,
-  } = useInfiniteQuery<Feed>({
+  } = experimental_useInfiniteQuery<Feed>({
     url: "/api/feed",
     initData: initFeed.data,
     page,
   });
+  // const {
+  //   data: feeds,
+  //   isError,
+  //   isLoading,
+  //   fetchNextPage,
+  //   hasNextPage,
+  // } = useInfiniteQuery<Pagenate<Feed[]>>(["infinite-feed"], getMoreFeeds, {
+  //   getNextPageParam: (page) =>
+  //     page.current_page === page.last_page ? undefined : page.current_page + 1,
+  //   initialData: initFeed,
+  // });
 
   return (
     <Page className="w-main w-full">

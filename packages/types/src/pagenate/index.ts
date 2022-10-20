@@ -1,4 +1,4 @@
-export interface Result<T = any> {
+export interface Pagenate<T = any> {
   current_page: number;
   data?: T;
   first_page_url: string;

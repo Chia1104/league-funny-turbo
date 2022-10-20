@@ -62,7 +62,7 @@ export default withTM()(
       removeConsole: false,
     },
     images: {
-      domains: [],
+      domains: ["img.league-funny.com"],
     },
     // webpack: (config) => {
     //   config.resolve.alias = {

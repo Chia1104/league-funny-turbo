@@ -39,7 +39,14 @@ const FeedList: FC<Props> = (props) => {
             if (index === feed.length - 1) {
               return <FeedItem key={item.fid} feed={item} ref={lastItemRef} />;
             }
-            return <FeedItem key={item.fid} feed={item} />;
+            return (
+              <>
+                <FeedItem key={item.fid} feed={item} />
+                {feed.at(-1)?.fid !== item.fid && (
+                  <hr className="dark:border-gray-700" />
+                )}
+              </>
+            );
           })}
         </>
       )}

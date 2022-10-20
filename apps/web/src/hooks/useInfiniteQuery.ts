@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Result } from "@wanin/types";
+import type { Pagenate } from "@wanin/types";
 
 export interface UseInfiniteQueryOptions<T = any> {
   url: string;
@@ -30,7 +30,7 @@ const useInfiniteQuery = <T = any>(
       setIsLoading(true);
       try {
         const response = await fetch(`${url}?page=${page}`);
-        const result = (await response.json()) as Result<T[]>;
+        const result = (await response.json()) as Pagenate<T[]>;
         if (response.status !== 200) {
           setIsError(true);
           setIsSuccess(false);

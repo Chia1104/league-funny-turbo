@@ -33,7 +33,7 @@ const PostLayout: FC<Props> = (props) => {
         <ul className="w-bg-secondary h-full my-10 rounded-lg p-5 flex flex-col gap-1 shadow-lg overflow-y-scroll no-scrollbar">
           <button onClick={toggle}>Toggle Theme</button>
           <li>
-            <Link href="/l/feed">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <PostIcon size={Size.Base} className="mr-3" />
                 亂貼
@@ -41,7 +41,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <LiveIcon size={Size.Base} className="mr-3" />
                 直播
@@ -49,7 +49,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <RocketIcon size={Size.Base} className="mr-3" />
                 任務
@@ -57,7 +57,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <ShopIcon size={Size.Base} className="mr-3" />
                 商城
@@ -65,7 +65,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <TimeLineIcon size={Size.Base} className="mr-3" />
                 實況軸
