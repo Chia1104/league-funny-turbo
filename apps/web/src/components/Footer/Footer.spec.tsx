@@ -5,6 +5,6 @@ import Footer from "./Footer";
 describe("Footer", () => {
   test("renders", () => {
     render(<Footer />);
-    expect(screen.getByText(/遊戲大亂鬥/i)).toBeDefined();
+    expect(screen.getByText(/遊戲大亂鬪/i)).toBeDefined();
   });
 });
