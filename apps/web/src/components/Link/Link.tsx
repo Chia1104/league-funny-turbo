@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, memo } from "react";
+import { type FC, type ReactNode } from "react";
 import NextLink from "next/link";
 import type { LinkProps as NextLinkProps } from "next/link";
 
@@ -15,4 +15,4 @@ const Link: FC<Props> = (props) => {
   );
 };
 
-export default memo(Link);
+export default Link;

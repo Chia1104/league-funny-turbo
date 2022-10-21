@@ -7,25 +7,33 @@ import {
   ShopIcon,
   TimeLineIcon,
 } from "@wanin/ui";
-import { Size } from "@wanin/types";
-import data from "@/shared/data/post-category.json";
+import { type PostCategory, Size } from "@wanin/types";
 import { useDarkMode } from "@/hooks";
 
 interface Props {
-  categories?: any;
+  isLoading: boolean;
+  isError?: boolean;
+  isSuccess?: boolean;
+  categories: PostCategory[];
   children: ReactNode;
 }
 
 const PostLayout: FC<Props> = (props) => {
-  const { categories = data, children } = props;
+  const {
+    categories,
+    children,
+    isLoading = true,
+    isError = false,
+    isSuccess = false,
+  } = props;
   const { toggle } = useDarkMode();
   return (
-    <div className="w-container flex">
+    <div className="w-container flex px-5">
       <aside className="h-screen z-10 sticky top-0 hidden md:flex md:flex-col min-w-[270px] md:mr-4 md:pr-5 pt-[70px]">
         <ul className="w-bg-secondary h-full my-10 rounded-lg p-5 flex flex-col gap-1 shadow-lg overflow-y-scroll no-scrollbar">
           <button onClick={toggle}>Toggle Theme</button>
           <li>
-            <Link href="/l/feed">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <PostIcon size={Size.Base} className="mr-3" />
                 亂貼
@@ -33,7 +41,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <LiveIcon size={Size.Base} className="mr-3" />
                 直播
@@ -41,7 +49,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <RocketIcon size={Size.Base} className="mr-3" />
                 任務
@@ -49,7 +57,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <ShopIcon size={Size.Base} className="mr-3" />
                 商城
@@ -57,7 +65,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/l">
               <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 <TimeLineIcon size={Size.Base} className="mr-3" />
                 實況軸
@@ -65,10 +73,18 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <hr className="my-3" />
-          <PostCategoryList categories={categories} />
+          {isLoading &&
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+              <div
+                className="w-full h-10 w-bg-primary rounded-lg animate-pulse"
+                key={item}
+              />
+            ))}
+          {isError && null}
+          {isSuccess && <PostCategoryList categories={categories} />}
         </ul>
       </aside>
-      <main className="w-full w-main">{children}</main>
+      <div className="w-full w-main">{children}</div>
       <Banner>
         <div>
           <h3 className="text-2xl font-bold">This is AD area</h3>

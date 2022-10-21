@@ -39,7 +39,7 @@ const securityHeaders = [
 
 export default withTM()(
   defineNextConfig({
-    reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify: true,
     output: "standalone",
     experimental: {
@@ -62,26 +62,22 @@ export default withTM()(
       removeConsole: false,
     },
     images: {
-      domains: [],
+      domains: ["img.league-funny.com"],
     },
-    // webpack: (config) => {
-    //   config.resolve.alias = {
-    //     ...config.resolve.alias,
-    //     "react/jsx-runtime.js": require.resolve("react/jsx-runtime"),
-    //   };
-    //
-    //   config.resolve = {
-    //     ...config.resolve,
-    //
-    //     fallback: {
-    //       ...config.resolve.fallback,
-    //       child_process: false,
-    //       fs: false,
-    //     },
-    //   };
-    //
-    //   return config;
-    // },
+    webpack: (config) => {
+      config.resolve = {
+        ...config.resolve,
+
+        fallback: {
+          ...config.resolve.fallback,
+          child_process: false,
+          fs: false,
+          "react/jsx-runtime": "react/jsx-runtime.js",
+        },
+      };
+
+      return config;
+    },
     async headers() {
       return [
         {

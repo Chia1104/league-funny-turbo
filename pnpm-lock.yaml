@@ -180,6 +180,7 @@ importers:
       '@babel/core': ^7.19.3
       '@geist-ui/core': ^2.3.8
       '@reduxjs/toolkit': ^1.8.6
+      '@tanstack/react-query': ^4.12.0
       '@testing-library/react': ^13.4.0
       '@types/node': ^17.0.45
       '@types/react': ^18.0.17
@@ -203,7 +204,9 @@ importers:
       postcss: ^8.4.18
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-froala-wysiwyg: ^4.0.15
       react-redux: ^8.0.4
+      react-virtuoso: ^3.1.1
       tailwindcss: ^3.1.8
       tsconfig: workspace:0.0.0
       typescript: ^4.8.4
@@ -212,6 +215,7 @@ importers:
     dependencies:
       '@geist-ui/core': 2.3.8_biqbaboplfbrettd7655fr4n2y
       '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
+      '@tanstack/react-query': 4.12.0_biqbaboplfbrettd7655fr4n2y
       '@wanin/ui': link:../../packages/ui
       '@wanin/utils': link:../../packages/utils
       axios: 1.1.3
@@ -223,7 +227,9 @@ importers:
       next-themes: 0.2.1_c3hne4hwj64hb7tofigd3bvkji
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-froala-wysiwyg: 4.0.15_biqbaboplfbrettd7655fr4n2y
       react-redux: 8.0.4_rj7ozvcq3uehdlnj3cbwzbi5ce
+      react-virtuoso: 3.1.1_biqbaboplfbrettd7655fr4n2y
       usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
       zod: 3.19.1
     devDependencies:
@@ -4098,6 +4104,28 @@ packages:
       tailwindcss: 3.1.8
     dev: true
 
+  /@tanstack/query-core/4.12.0:
+    resolution: {integrity: sha512-KEiFPNLMFByhNL2s6RBFL6Z5cNdwwQzFpW/II3GY+rEuQ343ZEoVyQ48zlUXXkEkbamQFIFg2onM8Pxf0Yo01A==}
+    dev: false
+
+  /@tanstack/react-query/4.12.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-prchV1q+CJ0ZVo8Rts2cOF3azDfQizZZySmH6XXsXRcPTbir0sgb9fp0vY/5l5ZkSYjTvWt/OL8WQhAhYMSvrA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 4.12.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
+
   /@testing-library/dom/8.19.0:
     resolution: {integrity: sha512-6YWYPPpxG3e/xOo6HIWwB/58HukkwIVTOaZ0VwdMVjhRUX/01E4FtQbck9GazOOj7MXHc5RBzMrU86iBJHbI+A==}
     engines: {node: '>=12'}
@@ -4874,6 +4902,20 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.40.1
       eslint-visitor-keys: 3.3.0
+    dev: false
+
+  /@virtuoso.dev/react-urx/0.2.13_react@18.2.0:
+    resolution: {integrity: sha512-MY0ugBDjFb5Xt8v2HY7MKcRGqw/3gTpMlLXId2EwQvYJoC8sP7nnXjAxcBtTB50KTZhO0SbzsFimaZ7pSdApwA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      '@virtuoso.dev/urx': 0.2.13
+      react: 18.2.0
+    dev: false
+
+  /@virtuoso.dev/urx/0.2.13:
+    resolution: {integrity: sha512-iirJNv92A1ZWxoOHHDYW/1KPoi83939o83iUBQHIim0i3tMeSKEh+bxhJdTHQ86Mr4uXx9xGUTq69cp52ZP8Xw==}
     dev: false
 
   /@vitejs/plugin-react/2.1.0:
@@ -7417,6 +7459,13 @@ packages:
       sha.js: 2.4.11
     dev: false
 
+  /create-react-class/15.7.0:
+    resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+    dev: false
+
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
@@ -9909,6 +9958,10 @@ packages:
   /fresh/0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
+
+  /froala-editor/4.0.15:
+    resolution: {integrity: sha512-wLLzxTCij7IqMuKjd6zu+aJWlv9gUs3maYG7O9CdOswFrA7T8tokGYVi/oFpgu4FI357Z2S6SqmyvcWWNjs3vw==}
+    dev: false
 
   /from2/2.3.0:
     resolution: {integrity: sha512-OMcX/4IC/uqEPVgGeyfN22LJk6AZrMkRZHxcHBMBvHScDGgwTm2GT2Wkgtocyd3JfZffjj2kYUDXXII0Fk9W0g==}
@@ -15752,6 +15805,18 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
+  /react-froala-wysiwyg/4.0.15_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-UDTkoouy/Te27RoNGZkaU5mdEWkFsatQ3NqlmXLGKM+T78g/wO76xLXX22SPR0081zQ23lDIR6MZPc+UmFPuCQ==}
+    peerDependencies:
+      react: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      create-react-class: 15.7.0
+      froala-editor: 4.0.15
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -15799,6 +15864,19 @@ packages:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /react-virtuoso/3.1.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-bwLs68ttOwTjwub3ZbPrZhHkL6wUDAkcbugypPGgRS1ZLnuKuGmzuyHDUYhElUOCdYUcHuB3KYbA5gWKdx1tdA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16 || >=17 || >= 18'
+      react-dom: '>=16 || >=17 || >= 18'
+    dependencies:
+      '@virtuoso.dev/react-urx': 0.2.13_react@18.2.0
+      '@virtuoso.dev/urx': 0.2.13
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}

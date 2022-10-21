@@ -1,6 +1,5 @@
-import { type FC, useEffect } from "react";
+import { type FC } from "react";
 import { Link, Image } from "@/components";
-import { useRouter } from "next/router";
 import { BillIcon, MissionIcon, AchievementIcon, EnvelopIcon } from "@wanin/ui";
 import { Size } from "@wanin/types";
 import { Tooltip, Popover } from "@geist-ui/core";
@@ -8,12 +7,7 @@ import data from "@/shared/data/bill.json";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const MainNav: FC = () => {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
+  const { data: session } = useSession();
 
   const content = () => (
     <>
@@ -37,11 +31,20 @@ const MainNav: FC = () => {
           <Link href="/">
             <a className="ml-3">
               <Image
+                className="hidden md:block"
                 src="/logo-2.png"
                 alt="logo"
                 width={125}
                 height={39}
-                priority
+                loading="lazy"
+              />
+              <Image
+                className="block md:hidden"
+                src="/logo-1.png"
+                alt="logo-1"
+                width={45}
+                height={45}
+                loading="lazy"
               />
             </a>
           </Link>

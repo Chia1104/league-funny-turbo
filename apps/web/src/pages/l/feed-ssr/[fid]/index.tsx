@@ -3,57 +3,49 @@ import type { GetServerSideProps, NextPage } from "next";
 import type { Feed } from "@wanin/types";
 import { getBaseUrl } from "@/utils/getBaseUrl";
 import { Page } from "@wanin/ui";
-import { useRouter } from "next/router";
+import { Avatar } from "@/components";
+import dynamic from "next/dynamic";
 
-// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-//   const data = await fetch(`${getBaseUrl()}/api/feed/${params?.fid}`);
-//   const feed: Feed = await data.json();
-//
-//   return {
-//     props: {
-//       status: data.status,
-//       data: feed,
-//     },
-//   };
-// };
-//
-// interface Props {
-//   status: number;
-//   data: Feed;
-// }
+const FeedWithHTML = dynamic(
+  () => import("../../../../components/FeedWithHTML")
+);
 
-// const FeedDetailSSR: NextPage<Props> = ({ data, status }) => {
-//   if (status !== 200) {
-//     return (
-//       <div className="w-main w-full">
-//         <h1>404</h1>
-//       </div>
-//     );
-//   }
-//   return (
-//     <Page className="w-main w-full">
-//       <Head>
-//         <title>League Funny Post</title>
-//       </Head>
-//       <article className="mt-28 w-full">
-//         <h1>Feed SSR</h1>
-//         <h2>{data.fid}</h2>
-//         <p>{data.f_desc}</p>
-//       </article>
-//     </Page>
-//   );
-// };
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const data = await fetch(`${getBaseUrl()}/api/feed/${params?.fid}`);
+  const feed: Feed = await data.json();
 
-const FeedDetailSSR: NextPage = () => {
-  const router = useRouter();
+  if (data.status !== 200) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      data: feed,
+    },
+  };
+};
+
+interface Props {
+  data: Feed;
+}
+
+const FeedDetailSSR: NextPage<Props> = ({ data }) => {
   return (
     <Page className="w-main w-full">
       <Head>
         <title>League Funny Post</title>
       </Head>
-      <article className="mt-28 w-full">
-        <h1>Feed SSR - (work in progress)</h1>
-        <h2>{router.query.fid}</h2>
+      <article className="mt-28 w-full w-bg-secondary rounded-lg p-7 flex flex-col">
+        <h1 className="mb-7">{data.f_desc}</h1>
+        <div className="mb-10 flex items-center">
+          <Avatar username={data.f_author_name} ratio={50} />
+          <h2 className="ml-3 text-base">{data.f_author_name}</h2>
+        </div>
+        {data.f_type === "html" && (
+          <FeedWithHTML htmlSource={data.f_attachment} />
+        )}
       </article>
     </Page>
   );

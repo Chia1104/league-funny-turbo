@@ -1,0 +1,14 @@
+.frView img {
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.frView a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.frView iframe {
+    border-radius: 10px;
+}
