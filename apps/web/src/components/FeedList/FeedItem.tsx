@@ -12,17 +12,19 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
 
   return (
     <div
-      className="w-full flex group duration-300 transition ease-in-out relative p-5 relative"
+      className="w-full flex group duration-300 transition ease-in-out p-5 relative"
       ref={ref}>
       <span className="w-[33%] mr-10">
         <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded">
           <Image
-            src={feed.f_cover}
+            src={feed.f_cover || "/error/error-memoji.png"}
             alt={feed.f_desc as string}
             className="object-cover rounded group-hover:scale-[1.05] duration-300 transition ease-in-out"
             loading="lazy"
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw,
+               (max-width: 1200px) 50vw,
+               33vw"
             quality={100}
           />
         </div>

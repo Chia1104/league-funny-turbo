@@ -204,6 +204,7 @@ importers:
       postcss: ^8.4.18
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-froala-wysiwyg: ^4.0.15
       react-redux: ^8.0.4
       react-virtuoso: ^3.1.1
       tailwindcss: ^3.1.8
@@ -226,6 +227,7 @@ importers:
       next-themes: 0.2.1_c3hne4hwj64hb7tofigd3bvkji
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-froala-wysiwyg: 4.0.15_biqbaboplfbrettd7655fr4n2y
       react-redux: 8.0.4_rj7ozvcq3uehdlnj3cbwzbi5ce
       react-virtuoso: 3.1.1_biqbaboplfbrettd7655fr4n2y
       usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
@@ -7457,6 +7459,13 @@ packages:
       sha.js: 2.4.11
     dev: false
 
+  /create-react-class/15.7.0:
+    resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+    dev: false
+
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
@@ -9949,6 +9958,10 @@ packages:
   /fresh/0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
+
+  /froala-editor/4.0.15:
+    resolution: {integrity: sha512-wLLzxTCij7IqMuKjd6zu+aJWlv9gUs3maYG7O9CdOswFrA7T8tokGYVi/oFpgu4FI357Z2S6SqmyvcWWNjs3vw==}
+    dev: false
 
   /from2/2.3.0:
     resolution: {integrity: sha512-OMcX/4IC/uqEPVgGeyfN22LJk6AZrMkRZHxcHBMBvHScDGgwTm2GT2Wkgtocyd3JfZffjj2kYUDXXII0Fk9W0g==}
@@ -15791,6 +15804,18 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-froala-wysiwyg/4.0.15_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-UDTkoouy/Te27RoNGZkaU5mdEWkFsatQ3NqlmXLGKM+T78g/wO76xLXX22SPR0081zQ23lDIR6MZPc+UmFPuCQ==}
+    peerDependencies:
+      react: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      create-react-class: 15.7.0
+      froala-editor: 4.0.15
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}

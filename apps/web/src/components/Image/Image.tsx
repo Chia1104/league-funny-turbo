@@ -1,16 +1,23 @@
-import { type FC } from "react";
+import { type FC, useState } from "react";
 import NextImage from "next/future/image";
 import type { ImageProps as NextImageProps } from "next/future/image";
-import { shimmer, toBase64 } from "@wanin/utils";
+import cx from "classnames";
 
 const Image: FC<NextImageProps> = (props) => {
-  const { alt, ...rest } = props;
+  const { alt, className, ...rest } = props;
+  const [isLoading, setLoading] = useState<boolean>(true);
   return (
     <NextImage
       alt={alt}
       aria-label={alt}
-      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 700))}`}
-      placeholder="blur"
+      className={cx(
+        className,
+        "duration-700 ease-in-out",
+        isLoading
+          ? "grayscale blur-2xl scale-110"
+          : "grayscale-0 blur-0 scale-100"
+      )}
+      onLoadingComplete={() => setLoading(false)}
       {...rest}
     />
   );

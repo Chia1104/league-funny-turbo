@@ -8,28 +8,28 @@ type FeedResult = {
   fid: number;
 }[];
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await fetch(`${getBaseUrl()}/api/feed/all-id-paths`);
-  const json = (await data.json()) as FeedResult;
-  const paths = json.map((feed) => ({
-    params: { fid: feed.fid.toString() },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const data = await fetch(`${getBaseUrl()}/api/feed/${params?.fid}`);
-  const feed: Feed = await data.json();
-
-  return {
-    props: feed,
-    revalidate: 10 * 60,
-  };
-};
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const data = await fetch(`${getBaseUrl()}/api/feed/all-id-paths`);
+//   const json = (await data.json()) as FeedResult;
+//   const paths = json.map((feed) => ({
+//     params: { fid: feed.fid.toString() },
+//   }));
+//
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
+//
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   const data = await fetch(`${getBaseUrl()}/api/feed/${params?.fid}`);
+//   const feed: Feed = await data.json();
+//
+//   return {
+//     props: feed,
+//     revalidate: 10 * 60,
+//   };
+// };
 
 const FeedDetail: NextPage<Feed> = (props) => {
   return (

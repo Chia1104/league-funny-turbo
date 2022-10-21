@@ -28,7 +28,7 @@ const PostLayout: FC<Props> = (props) => {
   } = props;
   const { toggle } = useDarkMode();
   return (
-    <div className="w-container flex">
+    <div className="w-container flex px-5">
       <aside className="h-screen z-10 sticky top-0 hidden md:flex md:flex-col min-w-[270px] md:mr-4 md:pr-5 pt-[70px]">
         <ul className="w-bg-secondary h-full my-10 rounded-lg p-5 flex flex-col gap-1 shadow-lg overflow-y-scroll no-scrollbar">
           <button onClick={toggle}>Toggle Theme</button>
@@ -84,7 +84,7 @@ const PostLayout: FC<Props> = (props) => {
           {isSuccess && <PostCategoryList categories={categories} />}
         </ul>
       </aside>
-      <main className="w-full w-main">{children}</main>
+      <div className="w-full w-main">{children}</div>
       <Banner>
         <div>
           <h3 className="text-2xl font-bold">This is AD area</h3>
