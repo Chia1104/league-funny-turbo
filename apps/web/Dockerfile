@@ -1,4 +1,4 @@
-FROM node:alpine AS builder
+FROM node:16-alpine AS builder
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
@@ -7,7 +7,7 @@ RUN yarn global add turbo@1.5.5
 COPY . .
 RUN turbo prune --scope=web --docker
 
-FROM node:alpine AS installer
+FROM node:16-alpine AS installer
 RUN apk update
 WORKDIR /app
 
@@ -20,9 +20,26 @@ RUN yarn global add pnpm && \
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 COPY .prettierrc .prettierrc
+
+ARG \
+  PORT \
+  NEXTAUTH_SECRET \
+  FACEBOOK_ID \
+  FACEBOOK_SECRET \
+  TWITCH_CLIENT_ID \
+  TWITCH_CLIENT_SECRET
+ENV \
+  NODE_ENV=production \
+  PORT=$PORT \
+  NEXTAUTH_SECRET=$NEXTAUTH_SECRET \
+  FACEBOOK_ID=$FACEBOOK_ID \
+  FACEBOOK_SECRET=$FACEBOOK_SECRET \
+  TWITCH_CLIENT_ID=$TWITCH_CLIENT_ID \
+  TWITCH_CLIENT_SECRET=$TWITCH_CLIENT_SECRET
+
 RUN yarn turbo run build --filter=web...
 
-FROM node:alpine AS runner
+FROM node:16-alpine AS runner
 WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs

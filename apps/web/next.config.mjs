@@ -1,6 +1,8 @@
 // @ts-check
 import { env } from "./src/env/server.mjs";
 import withTM from "next-transpile-modules";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
 /**
  * Don't be scared of the generics here.
@@ -37,7 +39,7 @@ const securityHeaders = [
   },
 ];
 
-export default withTM()(
+export default withTM(["@wanin/ui", "@wanin/utils"])(
   defineNextConfig({
     reactStrictMode: false,
     swcMinify: true,
@@ -47,7 +49,11 @@ export default withTM()(
       //   ['plugin', {
       //
       //   }]
-      // ]
+      // ],
+      outputFileTracingRoot: join(
+        dirname(fileURLToPath(import.meta.url)),
+        "../.."
+      ),
     },
     async redirects() {
       return [
