@@ -1,13 +1,14 @@
-FROM node:16-alpine AS builder
+FROM node:18-alpine AS builder
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
 WORKDIR /app
-RUN yarn global add turbo@1.5.5
+RUN yarn global add turbo@1.6.1
 COPY . .
 RUN turbo prune --scope=web --docker
 
-FROM node:16-alpine AS installer
+FROM node:18-alpine AS installer
+RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
 
@@ -39,7 +40,7 @@ ENV \
 
 RUN yarn turbo run build --filter=web...
 
-FROM node:16-alpine AS runner
+FROM node:18-alpine AS runner
 WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs
