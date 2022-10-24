@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   try {
     const { fid } = req.query;
-    const data = await fetch(`${API_URL}/feed/${fid}`);
+    const data = await fetch(`${API_URL}/api/feed/${fid}`);
     const feed: Feed = await data.json();
     if (data.status !== 200) {
       res.status(404).json({ message: "Not Found" });

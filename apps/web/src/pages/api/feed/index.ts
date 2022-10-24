@@ -1,17 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
-import type { Feed, Pagenate } from "@wanin/types";
+import type { Feed, OdataResult } from "@wanin/types";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const { page = 1 } = req.query;
+    const { page = 1, top = 20, skip = 0, ...rest } = req.query;
     const data = await fetch(
-      `${API_URL}/feed?${new URLSearchParams({ page: page as string })}`
+      `${API_URL}/odata/Feeds?${new URLSearchParams({
+        page: page.toString(),
+        top: top.toString(),
+        skip: skip.toString(),
+        ...rest,
+      })}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
     );
-    const feeds = (await data.json()) as Pagenate<Feed[]>;
+    const feeds = (await data.json()) as OdataResult<Feed[]>;
     if (data.status !== 200) {
       res.status(404).json({ message: "Not Found" });
     }
