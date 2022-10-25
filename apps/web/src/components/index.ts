@@ -12,3 +12,6 @@ export { default as FeedList } from "./FeedList";
 export { default as InfiniteList } from "./InfiniteList";
 export { default as FeedNotFound } from "./FeedNotFound";
 export { default as Avatar } from "./Avatar";
+export { default as Youtube } from "./Youtube";
+export { default as TwitchClip } from "./TwitchClip";
+export { default as PlayList } from "./PlayList";

@@ -6,6 +6,7 @@ import { experimental_useInfiniteQuery } from "@/hooks";
 import { FeedList } from "@/components";
 import { useState } from "react";
 import { API_URL } from "@/shared/constants";
+import { setSearchParams } from "@wanin/utils";
 
 interface FeedProps {
   status: number;
@@ -14,9 +15,12 @@ interface FeedProps {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await fetch(
-    `${API_URL}/odata/Feeds?${new URLSearchParams({
-      top: "20",
-      skip: "0",
+    `${API_URL}/odata/Feeds?${setSearchParams({
+      searchParams: {
+        top: "20",
+        skip: "0",
+        orderby: "fid desc",
+      },
     })}`,
     {
       headers: {
@@ -48,6 +52,9 @@ const Feed: NextPage<FeedProps> = (props) => {
     initData: initFeed.value,
     top: 20,
     skip,
+    searchParams: {
+      orderby: "fid desc",
+    },
   });
   // const {
   //   data: feeds,

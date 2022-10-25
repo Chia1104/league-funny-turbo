@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
 import type { Feed, OdataResult } from "@wanin/types";
+import { setSearchParams } from "@wanin/utils";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,11 +10,13 @@ export default async function handler(
   try {
     const { page = 1, top = 20, skip = 0, ...rest } = req.query;
     const data = await fetch(
-      `${API_URL}/odata/Feeds?${new URLSearchParams({
-        page: page.toString(),
-        top: top.toString(),
-        skip: skip.toString(),
-        ...rest,
+      `${API_URL}/odata/Feeds?${setSearchParams({
+        searchParams: {
+          page: page.toString(),
+          top: top.toString(),
+          skip: skip.toString(),
+          ...rest,
+        },
       })}`,
       {
         headers: {

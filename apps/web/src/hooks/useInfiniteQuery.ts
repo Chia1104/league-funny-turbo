@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { OdataResult } from "@wanin/types";
+import { setSearchParams } from "@wanin/utils";
 
 export interface UseInfiniteQueryOptions<T = any> {
   url: string;
@@ -40,11 +41,13 @@ const useInfiniteQuery = <T = any>(
       setIsLoading(true);
       try {
         const response = await fetch(
-          `${url}?${new URLSearchParams({
-            page: page.toString(),
-            top: top.toString(),
-            skip: skip.toString(),
-            ...searchParams,
+          `${url}?${setSearchParams({
+            searchParams: {
+              page: page.toString(),
+              top: top.toString(),
+              skip: skip.toString(),
+              ...searchParams,
+            },
           })}`
         );
         const result = (await response.json()) as OdataResult<T[]>;
