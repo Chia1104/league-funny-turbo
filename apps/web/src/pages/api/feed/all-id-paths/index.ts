@@ -12,7 +12,7 @@ export default async function handler(
 ) {
   try {
     const { data }: AxiosResponse<FeedResult> = await axios.get(
-      `${API_URL}/feed-paths`
+      `${API_URL}/api/feed-paths`
     );
     res.status(200).json(data);
   } catch (error) {

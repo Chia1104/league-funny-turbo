@@ -6,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<PostCategory[]>
 ) {
-  const response = await fetch(`${API_URL}/sidebar`);
+  const response = await fetch(`${API_URL}/api/sidebar`);
   const data = await response.json();
   res.status(200).json(data);
 }

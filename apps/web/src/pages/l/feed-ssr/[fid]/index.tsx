@@ -9,6 +9,9 @@ import dynamic from "next/dynamic";
 const FeedWithHTML = dynamic(
   () => import("../../../../components/FeedWithHTML")
 );
+const Youtube = dynamic(() => import("../../../../components/Youtube"));
+const TwitchClip = dynamic(() => import("../../../../components/TwitchClip"));
+const PlayList = dynamic(() => import("../../../../components/PlayList"));
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const data = await fetch(`${getBaseUrl()}/api/feed/${params?.fid}`);
@@ -46,6 +49,28 @@ const FeedDetailSSR: NextPage<Props> = ({ data }) => {
         {data.f_type === "html" && (
           <FeedWithHTML htmlSource={data.f_attachment} />
         )}
+        {data.f_type === "youtube" && (
+          <>
+            {JSON.parse(data.f_attachment).map((item: any) => (
+              <Youtube
+                key={item.object_id}
+                objectID={item.object_id}
+                ytTitle={data.f_desc}
+              />
+            ))}
+          </>
+        )}
+        {data.f_type === "twitch_clip" && (
+          <>
+            {JSON.parse(data.f_attachment).map((item: any) => (
+              <TwitchClip key={item.video_url} objectId={item.object_id} />
+            ))}
+          </>
+        )}
+        {data.f_type === "playlist" && (
+          <PlayList attachment={data.f_attachment} />
+        )}
+        {data.f_type === "article" && <>{data.f_attachment}</>}
       </article>
     </Page>
   );
