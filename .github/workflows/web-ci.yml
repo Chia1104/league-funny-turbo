@@ -2,7 +2,7 @@ name: Web CI
 
 on:
   push:
-    branches: [ master, main, develop, dev/web ]
+    branches: [ master, main, develop ]
   pull_request:
     types: [opened, synchronize]
 
