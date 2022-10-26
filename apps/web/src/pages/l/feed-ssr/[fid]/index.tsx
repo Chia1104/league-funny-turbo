@@ -11,8 +11,7 @@ const FeedWithHTML = dynamic(
 );
 const Youtube = dynamic(() => import("../../../../components/Youtube"));
 const TwitchClip = dynamic(() => import("../../../../components/TwitchClip"));
-// @ts-ignore
-const Playlist = dynamic(() => import("../../../../components/Playlist"));
+const PlayList = dynamic(() => import("../../../../components/PlayList"));
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const data = await fetch(`${getBaseUrl()}/api/feed/${params?.fid}`);
@@ -69,7 +68,7 @@ const FeedDetailSSR: NextPage<Props> = ({ data }) => {
           </>
         )}
         {data.f_type === "playlist" && (
-          <Playlist attachment={data.f_attachment} />
+          <PlayList attachment={data.f_attachment} />
         )}
         {data.f_type === "article" && <>{data.f_attachment}</>}
       </article>
