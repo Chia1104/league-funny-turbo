@@ -54,38 +54,38 @@ jobs:
       - name: Unit tests
         run: pnpm test --filter web...
 
-      - name: E2E on Chrome
-        uses: cypress-io/github-action@v4
-        with:
-          start: pnpm start --filter web...
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120
-          browser: chrome
-          record: false
-          env:
-            DATABASE_URL=${{ env.DATABASE_URL }}
-            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
-            NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }}
-            FACEBOOK_ID=${{ env.FACEBOOK_ID }}
-            FACEBOOK_SECRET=${{ env.FACEBOOK_SECRET }}
-            TWITCH_CLIENT_ID=${{ env.TWITCH_CLIENT_ID }}
-            TWITCH_CLIENT_SECRET=${{ env.TWITCH_CLIENT_SECRET }}
-            API_URL=${{ env.API_URL }}
-
-      - name: E2E on Edge
-        uses: cypress-io/github-action@v4
-        with:
-          start: pnpm start --filter web...
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120
-          browser: edge
-          record: false
-          env:
-            DATABASE_URL=${{ env.DATABASE_URL }}
-            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
-            NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }}
-            FACEBOOK_ID=${{ env.FACEBOOK_ID }}
-            FACEBOOK_SECRET=${{ env.FACEBOOK_SECRET }}
-            TWITCH_CLIENT_ID=${{ env.TWITCH_CLIENT_ID }}
-            TWITCH_CLIENT_SECRET=${{ env.TWITCH_CLIENT_SECRET }}
-            API_URL=${{ env.API_URL }}
+#      - name: E2E on Chrome
+#        uses: cypress-io/github-action@v4
+#        with:
+#          start: pnpm start --filter web...
+#          wait-on: 'http://localhost:3000'
+#          wait-on-timeout: 120
+#          browser: chrome
+#          record: false
+#          env:
+#            DATABASE_URL=${{ env.DATABASE_URL }}
+#            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
+#            NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }}
+#            FACEBOOK_ID=${{ env.FACEBOOK_ID }}
+#            FACEBOOK_SECRET=${{ env.FACEBOOK_SECRET }}
+#            TWITCH_CLIENT_ID=${{ env.TWITCH_CLIENT_ID }}
+#            TWITCH_CLIENT_SECRET=${{ env.TWITCH_CLIENT_SECRET }}
+#            API_URL=${{ env.API_URL }}
+#
+#      - name: E2E on Edge
+#        uses: cypress-io/github-action@v4
+#        with:
+#          start: pnpm start --filter web...
+#          wait-on: 'http://localhost:3000'
+#          wait-on-timeout: 120
+#          browser: edge
+#          record: false
+#          env:
+#            DATABASE_URL=${{ env.DATABASE_URL }}
+#            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
+#            NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }}
+#            FACEBOOK_ID=${{ env.FACEBOOK_ID }}
+#            FACEBOOK_SECRET=${{ env.FACEBOOK_SECRET }}
+#            TWITCH_CLIENT_ID=${{ env.TWITCH_CLIENT_ID }}
+#            TWITCH_CLIENT_SECRET=${{ env.TWITCH_CLIENT_SECRET }}
+#            API_URL=${{ env.API_URL }}
