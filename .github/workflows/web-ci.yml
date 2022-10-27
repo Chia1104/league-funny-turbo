@@ -15,7 +15,7 @@ env:
   TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
   TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
   API_URL: ${{ secrets.API_URL }}
-  PNPM_VERSION: 7.5.1
+  PNPM_VERSION: 6.32.2
 
 jobs:
   build:
