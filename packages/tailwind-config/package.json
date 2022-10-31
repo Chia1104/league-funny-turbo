@@ -8,6 +8,6 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "@wanin/eslint-config-base": "workspace:0.0.0",
     "tailwind-scrollbar": "^2.0.1",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.2.1"
   }
 }
