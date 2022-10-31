@@ -16,7 +16,6 @@
   "devDependencies": {
     "@wanin/eslint-config-base": "workspace:0.0.0",
     "prisma": "^4.4.0",
-    "tsconfig": "workspace:0.0.0",
-    "typescript": "^4.8.4"
+    "tsconfig": "workspace:0.0.0"
   }
 }
