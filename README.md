@@ -17,7 +17,6 @@ Current website: [https://league-funny.com](https://league-funny.com)
 - `apps/web` - Website with `NextJS` `12.3.1`
 - `apps/exp-web` - Website with `NextJS` `13.0.1-canary.2`
 
-
 ### Packages
 
 - `packages/db` - Database / Prisma
