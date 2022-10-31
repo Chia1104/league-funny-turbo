@@ -89,14 +89,9 @@ importers:
     specifiers:
       '@babel/core': ^7.19.6
       '@geist-ui/core': ^2.3.8
-      '@next-auth/prisma-adapter': ^1.0.5
       '@reduxjs/toolkit': ^1.8.6
       '@tanstack/react-query': ^4.13.5
       '@testing-library/react': ^13.4.0
-      '@trpc/client': ^10.0.0-rc.2
-      '@trpc/next': ^10.0.0-rc.2
-      '@trpc/react-query': ^10.0.0-rc.2
-      '@trpc/server': ^10.0.0-rc.2
       '@types/node': ^17.0.45
       '@types/react': ^18.0.24
       '@vitejs/plugin-react': ^2.2.0
@@ -129,13 +124,8 @@ importers:
       zod: ^3.19.1
     dependencies:
       '@geist-ui/core': 2.3.8_biqbaboplfbrettd7655fr4n2y
-      '@next-auth/prisma-adapter': 1.0.5_next-auth@4.15.0
       '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
       '@tanstack/react-query': 4.13.5_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.0.0-rc.2_@trpc+server@10.0.0-rc.2
-      '@trpc/next': 10.0.0-rc.2_2cot6qhqmgps26lvtqemdirt74
-      '@trpc/react-query': 10.0.0-rc.2_gocolfza4m46gndw75gu2aicwa
-      '@trpc/server': 10.0.0-rc.2
       '@wanin/db': link:../../packages/db
       '@wanin/trpc-api': link:../../packages/trpc-api
       '@wanin/ui': link:../../packages/ui
@@ -1254,15 +1244,6 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@next-auth/prisma-adapter/1.0.5_next-auth@4.15.0:
-    resolution: {integrity: sha512-VqMS11IxPXrPGXw6Oul6jcyS/n8GLOWzRMrPr3EMdtD6eOalM6zz05j08PcNiis8QzkfuYnCv49OvufTuaEwYQ==}
-    peerDependencies:
-      '@prisma/client': '>=2.26.0 || >=3'
-      next-auth: ^4
-    dependencies:
-      next-auth: 4.15.0_azq6kxkn3od7qdylwkyksrwopy
-    dev: false
-
   /@next/env/12.3.1:
     resolution: {integrity: sha512-9P9THmRFVKGKt9DYqeC2aKIxm8rlvkK38V1P1sRE7qyoPBIs8l9oo79QoSdPtOWfzkbDAVUqvbQGgTMsb8BtJg==}
     dev: false
@@ -1677,43 +1658,6 @@ packages:
       '@trpc/server': 10.0.0-rc.2
     dependencies:
       '@trpc/server': 10.0.0-rc.2
-    dev: false
-
-  /@trpc/next/10.0.0-rc.2_2cot6qhqmgps26lvtqemdirt74:
-    resolution: {integrity: sha512-X8qeT3sbhir35aFoCiYKSBiiYZU7Ycrg99AoxCua6gcTQegKZp8+TZz/eOzlgKloV6yRZbz1fPDgPw0dvtrlRg==}
-    peerDependencies:
-      '@tanstack/react-query': ^4.3.8
-      '@trpc/client': 10.0.0-rc.2
-      '@trpc/react-query': ^10.0.0-proxy-beta.21
-      '@trpc/server': 10.0.0-rc.2
-      next: '*'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@tanstack/react-query': 4.13.5_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.0.0-rc.2_@trpc+server@10.0.0-rc.2
-      '@trpc/react-query': 10.0.0-rc.2_gocolfza4m46gndw75gu2aicwa
-      '@trpc/server': 10.0.0-rc.2
-      next: 12.3.1_qtpcxnaaarbm4ws7ughq6oxfve
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-ssr-prepass: 1.5.0_react@18.2.0
-    dev: false
-
-  /@trpc/react-query/10.0.0-rc.2_gocolfza4m46gndw75gu2aicwa:
-    resolution: {integrity: sha512-g2PpkYvPp7P3s4UrwMqXqf2qGGwCkuyOiTW5BK7JBN4tUZaRAcEhCmnCvX9DNHu9N6fjOnuhGbsAfOgnXlicuA==}
-    peerDependencies:
-      '@tanstack/react-query': ^4.3.8
-      '@trpc/client': 10.0.0-rc.2
-      '@trpc/server': 10.0.0-rc.2
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@tanstack/react-query': 4.13.5_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.0.0-rc.2_@trpc+server@10.0.0-rc.2
-      '@trpc/server': 10.0.0-rc.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@trpc/server/10.0.0-rc.2:
@@ -6634,14 +6578,6 @@ packages:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
     dev: true
-
-  /react-ssr-prepass/1.5.0_react@18.2.0:
-    resolution: {integrity: sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-    dev: false
 
   /react-virtuoso/3.1.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-bwLs68ttOwTjwub3ZbPrZhHkL6wUDAkcbugypPGgRS1ZLnuKuGmzuyHDUYhElUOCdYUcHuB3KYbA5gWKdx1tdA==}
