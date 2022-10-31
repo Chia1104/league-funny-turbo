@@ -1,7 +1,7 @@
-import { t } from "../trpc";
+import { router, publicProcedure } from "../trpc";
 
-export const userRouter = t.router({
-  all: t.procedure.query(({ ctx }) => {
+export const userRouter = router({
+  getUser: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.user.findMany();
   }),
 });

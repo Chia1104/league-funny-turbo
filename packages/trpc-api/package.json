@@ -8,14 +8,14 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.{ts,js,tsx,jsx}\" --fix"
   },
   "dependencies": {
-    "@trpc/client": "10.0.0-proxy-beta.10",
-    "@trpc/server": "10.0.0-proxy-beta.10",
-    "@wanin/db": "workspace:*",
-    "superjson": "^1.10.0",
+    "@trpc/client": "10.0.0-rc.2",
+    "@trpc/server": "10.0.0-rc.2",
+    "@wanin/db": "workspace:0.0.0",
+    "superjson": "^1.11.0",
     "zod": "^3.19.1"
   },
   "devDependencies": {
-    "@wanin/eslint-config-base": "workspace:*",
-    "tsconfig": "workspace:*"
+    "@wanin/eslint-config-base": "workspace:0.0.0",
+    "tsconfig": "workspace:0.0.0"
   }
 }

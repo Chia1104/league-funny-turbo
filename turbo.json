@@ -16,7 +16,6 @@
         "FACEBOOK_SECRET",
         "TWITCH_CLIENT_ID",
         "TWITCH_CLIENT_SECRET",
-        "NEXT_PUBLIC_ENV_TEST",
         "RAILWAY_STATIC_URL",
         "VERCEL_URL",
         "API_URL"
