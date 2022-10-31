@@ -41,18 +41,48 @@ importers:
   apps/exp-web:
     specifiers:
       '@types/node': ^17.0.45
+      '@types/react': ^18.0.24
+      '@vitejs/plugin-react': ^2.2.0
       '@wanin/eslint-config-nextjs': workspace:0.0.0
+      '@wanin/tailwind-config': workspace:0.0.0
+      '@wanin/types': workspace:0.0.0
+      '@wanin/ui': workspace:0.0.0
+      '@wanin/utils': workspace:0.0.0
+      autoprefixer: ^10.4.13
+      axios: ^1.1.3
+      classnames: ^2.3.2
+      framer-motion: ^7.6.2
       next: 13.0.1-canary.2
+      next-themes: ^0.2.1
+      postcss: ^8.4.18
       react: ^18.2.0
       react-dom: ^18.2.0
+      tailwindcss: ^3.2.1
       tsconfig: workspace:0.0.0
+      usehooks-ts: ^2.9.1
+      zod: ^3.19.1
     dependencies:
+      '@wanin/ui': link:../../packages/ui
+      '@wanin/utils': link:../../packages/utils
+      axios: 1.1.3
+      classnames: 2.3.2
+      framer-motion: 7.6.2_biqbaboplfbrettd7655fr4n2y
       next: 13.0.1-canary.2_biqbaboplfbrettd7655fr4n2y
+      next-themes: 0.2.1_r7xfckbjrxoekevvuazrb3ukqa
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
+      zod: 3.19.1
     devDependencies:
       '@types/node': 17.0.45
+      '@types/react': 18.0.24
+      '@vitejs/plugin-react': 2.2.0
       '@wanin/eslint-config-nextjs': link:../../packages/eslint-config-nextjs
+      '@wanin/tailwind-config': link:../../packages/tailwind-config
+      '@wanin/types': link:../../packages/types
+      autoprefixer: 10.4.13_postcss@8.4.18
+      postcss: 8.4.18
+      tailwindcss: 3.2.1_postcss@8.4.18
       tsconfig: link:../../packages/tsconfig
 
   apps/web:
@@ -5787,6 +5817,18 @@ packages:
       react-dom: '*'
     dependencies:
       next: 12.3.2_qtpcxnaaarbm4ws7ughq6oxfve
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /next-themes/0.2.1_r7xfckbjrxoekevvuazrb3ukqa:
+    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 13.0.1-canary.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false

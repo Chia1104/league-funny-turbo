@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
+    // transpilePackages: ["@wanin/ui", "@wanin/utils"],
   },
 };
 
