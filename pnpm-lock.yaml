@@ -95,10 +95,8 @@ importers:
       '@types/node': ^17.0.45
       '@types/react': ^18.0.24
       '@vitejs/plugin-react': ^2.2.0
-      '@wanin/db': workspace:0.0.0
       '@wanin/eslint-config-nextjs': workspace:0.0.0
       '@wanin/tailwind-config': workspace:0.0.0
-      '@wanin/trpc-api': workspace:0.0.0
       '@wanin/types': workspace:0.0.0
       '@wanin/ui': workspace:0.0.0
       '@wanin/utils': workspace:0.0.0
@@ -126,8 +124,6 @@ importers:
       '@geist-ui/core': 2.3.8_biqbaboplfbrettd7655fr4n2y
       '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
       '@tanstack/react-query': 4.13.5_biqbaboplfbrettd7655fr4n2y
-      '@wanin/db': link:../../packages/db
-      '@wanin/trpc-api': link:../../packages/trpc-api
       '@wanin/ui': link:../../packages/ui
       '@wanin/utils': link:../../packages/utils
       axios: 1.1.3
