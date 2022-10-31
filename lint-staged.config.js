@@ -11,11 +11,10 @@ module.exports = {
       .join(" ");
     return [
       `prettier --write ${escapedFileNames}`,
-      // `eslint --fix ${filenames
-      //   .filter((file) => !eslint.isPathIgnored(file))
-      //   .map((f) => `"${f}"`)
-      //   .join(" ")}`,
-      // "pnpm lint",
+      `eslint --fix ${filenames
+        .filter((file) => !eslint.isPathIgnored(file))
+        .map((f) => `"${f}"`)
+        .join(" ")}`,
       `git add ${escapedFileNames}`,
     ];
   },

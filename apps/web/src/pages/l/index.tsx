@@ -1,35 +1,25 @@
 import Head from "next/head";
 import type { GetServerSideProps, NextPage } from "next";
 import { Page } from "@wanin/ui";
-import type { Feed, OdataResult } from "@wanin/types";
+import type { Feed, Pagenate } from "@wanin/types";
 import { experimental_useInfiniteQuery } from "@/hooks";
 import { FeedList } from "@/components";
 import { useState } from "react";
 import { API_URL } from "@/shared/constants";
-import { setSearchParams } from "@wanin/utils";
 
 interface FeedProps {
   status: number;
-  initFeed: OdataResult<Feed[]>;
+  initFeed: Pagenate<Feed[]>;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await fetch(
-    `${API_URL}/odata/Feeds?${setSearchParams({
-      searchParams: {
-        top: "20",
-        skip: "0",
-        orderby: "fid desc",
-      },
-    })}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    }
-  );
-  const initFeed = (await data.json()) as OdataResult<Feed[]>;
+  const data = await fetch(`${API_URL}/api/feed`, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+  const initFeed = (await data.json()) as Pagenate<Feed[]>;
 
   return {
     props: {
@@ -41,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const Home: NextPage<FeedProps> = (props) => {
   const { initFeed, status } = props;
-  const [skip, setSkip] = useState(20);
+  const [page, setPage] = useState(1);
   const {
     data: feeds,
     isLoading,
@@ -49,12 +39,8 @@ const Home: NextPage<FeedProps> = (props) => {
     hasMore,
   } = experimental_useInfiniteQuery<Feed>({
     url: "/api/feed",
-    initData: initFeed.value,
-    top: 20,
-    skip,
-    searchParams: {
-      orderby: "fid desc",
-    },
+    initData: initFeed.data,
+    page,
   });
 
   return (
@@ -67,7 +53,7 @@ const Home: NextPage<FeedProps> = (props) => {
           isLoading={isLoading}
           isSuccess={status === 200}
           isError={isError || status !== 200}
-          onMoreFeed={() => setSkip((prev) => prev + 20)}
+          onMoreFeed={() => setPage((prev) => prev + 1)}
           hasMoreFeed={hasMore}
           feed={feeds}
         />

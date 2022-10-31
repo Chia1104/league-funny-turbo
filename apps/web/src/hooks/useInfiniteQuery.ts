@@ -1,5 +1,12 @@
-import { useEffect, useState } from "react";
-import type { OdataResult } from "@wanin/types";
+import {
+  useState,
+  useContext,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { useUpdateEffect } from "usehooks-ts";
+import type { Pagenate } from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
 
 export interface UseInfiniteQueryOptions<T = any> {
@@ -19,6 +26,19 @@ export interface UseInfiniteQueryResult<T = any> {
   hasMore: boolean;
 }
 
+interface UseInfiniteQueryContext<T = any> {
+  data: T[];
+  setData: Dispatch<SetStateAction<T[]>>;
+}
+
+export const InfiniteQueryContext = createContext<UseInfiniteQueryContext>({
+  data: [],
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setData: () => {},
+});
+
+export const InfiniteQueryProvider = InfiniteQueryContext.Provider;
+
 const useInfiniteQuery = <T = any>(
   option: UseInfiniteQueryOptions<T>
 ): UseInfiniteQueryResult<T> => {
@@ -36,7 +56,7 @@ const useInfiniteQuery = <T = any>(
   const [isError, setIsError] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -50,17 +70,17 @@ const useInfiniteQuery = <T = any>(
             },
           })}`
         );
-        const result = (await response.json()) as OdataResult<T[]>;
+        const result = (await response.json()) as Pagenate<T[]>;
         if (response.status !== 200) {
           setIsError(true);
           setIsSuccess(false);
           setHasMore(false);
           return;
         }
-        if ((result.value as T[]).length === 0) {
+        if ((result.data as T[]).length === 0) {
           setHasMore(false);
         }
-        setData((prevData) => [...prevData, ...(result.value as T[])]);
+        setData((prevData) => [...prevData, ...(result.data as T[])]);
         setIsSuccess(true);
       } catch (error) {
         setIsError(true);

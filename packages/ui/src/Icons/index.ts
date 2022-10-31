@@ -16,3 +16,6 @@ export { default as RocketIcon } from "./RocketIcon";
 export { default as ShopIcon } from "./ShopIcon";
 export { default as TimeLineIcon } from "./TimeLineIcon";
 export { default as EllipsisIcon } from "./EllipsisIcon";
+export { default as EyeIcon } from "./EyeIcon";
+export { default as ChatIcon } from "./ChatIcon";
+export { default as GoldenIcon } from "./GoldenIcon";

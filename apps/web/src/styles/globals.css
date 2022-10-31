@@ -36,4 +36,12 @@
         -ms-overflow-style: auto;
         scrollbar-width: none;
     }
+
+    .w-text-bg-info-half {
+        background-image: linear-gradient(transparent 60%, #2196f3 55%);
+    }
+
+    .w-text-bg-primary-half {
+        background-image: linear-gradient(transparent 60%, #9200ff 55%);
+    }
 }

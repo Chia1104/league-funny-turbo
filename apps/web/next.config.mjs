@@ -41,7 +41,7 @@ const securityHeaders = [
 
 export default withTM(["@wanin/ui", "@wanin/utils"])(
   defineNextConfig({
-    reactStrictMode: false,
+    reactStrictMode: true,
     swcMinify: true,
     output: "standalone",
     experimental: {
