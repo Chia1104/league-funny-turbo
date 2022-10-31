@@ -1,7 +1,7 @@
 import Head from "next/head";
 import type { GetServerSideProps, NextPage } from "next";
 import type { Feed } from "@wanin/types";
-import { getBaseUrl } from "@/utils/getBaseUrl";
+import { getBaseUrl } from "@/utils/get-base-url";
 import { ChatIcon, EyeIcon, Page } from "@wanin/ui";
 import { Avatar } from "@/components";
 import dynamic from "next/dynamic";

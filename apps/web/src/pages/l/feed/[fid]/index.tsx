@@ -1,6 +1,6 @@
 import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { getBaseUrl } from "@/utils/getBaseUrl";
+import { getBaseUrl } from "@/utils/get-base-url";
 import type { Feed } from "@wanin/types";
 import { Page } from "@wanin/ui";
 

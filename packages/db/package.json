@@ -11,11 +11,11 @@
     "migration:init": "prisma migrate dev --name init"
   },
   "dependencies": {
-    "@prisma/client": "^4.4.0"
+    "@prisma/client": "^4.5.0"
   },
   "devDependencies": {
     "@wanin/eslint-config-base": "workspace:0.0.0",
-    "prisma": "^4.4.0",
+    "prisma": "^4.5.0",
     "tsconfig": "workspace:0.0.0"
   }
 }

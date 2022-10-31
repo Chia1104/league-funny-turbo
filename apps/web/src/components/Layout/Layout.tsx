@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Head, { HeadProps } from "./Head";
 import { useQuery } from "@tanstack/react-query";
 import type { PostCategory } from "@wanin/types";
-import { getBaseUrl } from "@/utils/getBaseUrl";
+import { getBaseUrl } from "@/utils/get-base-url";
 
 interface Props {
   title: string;

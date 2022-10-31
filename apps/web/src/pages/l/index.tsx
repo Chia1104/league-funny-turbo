@@ -6,6 +6,7 @@ import { experimental_useInfiniteQuery } from "@/hooks";
 import { FeedList } from "@/components";
 import { useState } from "react";
 import { API_URL } from "@/shared/constants";
+import { trpc } from "@/utils/trpc";
 
 interface FeedProps {
   status: number;
@@ -30,6 +31,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Home: NextPage<FeedProps> = (props) => {
+  const token = trpc.auth.getToken.useQuery();
+
+  console.log(token?.data ?? "no user token");
+
   const { initFeed, status } = props;
   const [page, setPage] = useState(1);
   const {
