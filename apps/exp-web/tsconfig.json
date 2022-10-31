@@ -4,23 +4,16 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    "**/*.d.ts",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "jsx": "preserve"
-  },
+  }
 }

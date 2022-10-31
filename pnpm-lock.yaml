@@ -173,12 +173,14 @@ importers:
   packages/db:
     specifiers:
       '@prisma/client': ^4.5.0
+      '@types/node': ^17.0.45
       '@wanin/eslint-config-base': workspace:0.0.0
       prisma: ^4.5.0
       tsconfig: workspace:0.0.0
     dependencies:
       '@prisma/client': 4.5.0_prisma@4.5.0
     devDependencies:
+      '@types/node': 17.0.45
       '@wanin/eslint-config-base': link:../eslint-config-base
       prisma: 4.5.0
       tsconfig: link:../tsconfig
