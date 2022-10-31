@@ -30,7 +30,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Home: NextPage<FeedProps> = (props) => {
-
   const { initFeed, status } = props;
   const [page, setPage] = useState(1);
   const {

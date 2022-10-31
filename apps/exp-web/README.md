@@ -4,7 +4,6 @@
 >
 > Work for the `NextJS` `13` version of the website.
 
-
 ## Development
 
 Run the following command to generate the `.env` file:
