@@ -5,7 +5,7 @@ export default function Feed() {
   return (
     <>
       <Page>
-        <text className="text-xl">Feed</text>
+        <p className="text-2xl">Feed</p>
         <Test />
       </Page>
     </>

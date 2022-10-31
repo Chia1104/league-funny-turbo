@@ -1,4 +1,5 @@
 import "./globals.css";
+import "@wanin/ui/styles.css";
 
 export default function RootLayout({
   children,

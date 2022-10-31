@@ -13,7 +13,7 @@ export default function Test() {
         isOpen={showModal}
         className="bg-green">
         <div className="bg-green">
-          <p className="bg-red text-gray-400">Test</p>
+          <p className="w-title">Test</p>
         </div>
       </Modal>
     </div>
