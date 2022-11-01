@@ -62,7 +62,7 @@ export default defineNextConfig({
     removeConsole: false,
   },
   images: {
-    domains: ["img.league-funny.com"],
+    domains: ["img.league-funny.com", "img.youtube.com"],
   },
   webpack: (config) => {
     config.resolve = {
