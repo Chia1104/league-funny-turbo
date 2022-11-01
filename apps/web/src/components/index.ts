@@ -1,6 +1,5 @@
 export { ErrorBoundary } from "./ErrorBoundary";
 export { default as Image } from "./Image";
-export { default as Link } from "./Link";
 export { default as MainNav } from "./MainNav";
 export { default as MainEdit } from "./MainEdit";
 export { default as GeistProvider } from "./GeistProvider";

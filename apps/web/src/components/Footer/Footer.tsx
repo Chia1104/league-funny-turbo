@@ -1,6 +1,7 @@
 import type { FC } from "react";
-import { Image, Link } from "@/components";
+import { Image } from "@/components";
 import { LeagueFunny } from "@/shared/meta";
+import Link from "next/link";
 
 const Footer: FC = () => {
   const year = new Date().getFullYear();
@@ -21,14 +22,14 @@ const Footer: FC = () => {
             <p className="text-sm">{LeagueFunny.excerpt}</p>
           </div>
           <div className="flex w-[67%] gap-3 justify-end items-center">
-            <Link href="/about">
-              <a className="text-sm">關於我們</a>
+            <Link href="/about" className="text-sm">
+              關於我們
             </Link>
-            <Link href="/contact">
-              <a className="text-sm">聯絡我們</a>
+            <Link href="/contact" className="text-sm">
+              聯絡我們
             </Link>
-            <Link href="/privacy">
-              <a className="text-sm">隱私政策</a>
+            <Link href="/privacy" className="text-sm">
+              隱私政策
             </Link>
           </div>
         </div>

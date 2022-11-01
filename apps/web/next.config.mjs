@@ -1,6 +1,5 @@
 // @ts-check
 import { env } from "./src/env/server.mjs";
-import withTM from "next-transpile-modules";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -39,58 +38,52 @@ const securityHeaders = [
   },
 ];
 
-export default withTM(["@wanin/ui", "@wanin/utils"])(
-  defineNextConfig({
-    reactStrictMode: true,
-    swcMinify: true,
-    output: "standalone",
-    experimental: {
-      // swcPlugins: [
-      //   ['plugin', {
-      //
-      //   }]
-      // ],
-      outputFileTracingRoot: join(
-        dirname(fileURLToPath(import.meta.url)),
-        "../.."
-      ),
-    },
-    async redirects() {
-      return [
-        {
-          source: "/",
-          destination: "/l",
-          permanent: false,
-        },
-      ];
-    },
-    compiler: {
-      removeConsole: false,
-    },
-    images: {
-      domains: ["img.league-funny.com"],
-    },
-    webpack: (config) => {
-      config.resolve = {
-        ...config.resolve,
+export default defineNextConfig({
+  reactStrictMode: true,
+  swcMinify: true,
+  output: "standalone",
+  experimental: {
+    // transpilePackages: ["@wanin/ui", "@wanin/utils"],
+    outputFileTracingRoot: join(
+      dirname(fileURLToPath(import.meta.url)),
+      "../.."
+    ),
+  },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/l",
+        permanent: false,
+      },
+    ];
+  },
+  compiler: {
+    removeConsole: false,
+  },
+  images: {
+    domains: ["img.league-funny.com"],
+  },
+  webpack: (config) => {
+    config.resolve = {
+      ...config.resolve,
 
-        fallback: {
-          ...config.resolve.fallback,
-          child_process: false,
-          fs: false,
-          "react/jsx-runtime": "react/jsx-runtime.js",
-        },
-      };
+      fallback: {
+        ...config.resolve.fallback,
+        child_process: false,
+        fs: false,
+        "react/jsx-runtime": "react/jsx-runtime.js",
+      },
+    };
 
-      return config;
-    },
-    async headers() {
-      return [
-        {
-          source: "/:path*",
-          headers: securityHeaders,
-        },
-      ];
-    },
-  })
-);
+    return config;
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: securityHeaders,
+      },
+    ];
+  },
+});

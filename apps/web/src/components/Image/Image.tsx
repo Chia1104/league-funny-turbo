@@ -1,6 +1,5 @@
 import { type FC, useState } from "react";
-import NextImage from "next/future/image";
-import type { ImageProps as NextImageProps } from "next/future/image";
+import NextImage, { type ImageProps as NextImageProps } from "next/image";
 import cx from "classnames";
 
 const Image: FC<NextImageProps> = (props) => {

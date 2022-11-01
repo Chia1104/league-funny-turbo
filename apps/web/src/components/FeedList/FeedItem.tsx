@@ -1,7 +1,8 @@
 import { type FC, type Ref, forwardRef } from "react";
 import type { Feed } from "@wanin/types";
-import { Link, Image, Avatar } from "@/components";
+import { Image, Avatar } from "@/components";
 import { GoldenIcon, ChatIcon, EyeIcon } from "@wanin/ui";
+import Link from "next/link";
 
 interface Props {
   ref?: Ref<HTMLDivElement>;
@@ -26,10 +27,10 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
             url={`https://img.league-funny.com/user_cover/${feed.fid}.jpg`}
             ratio={25}
           />
-          <Link href={`/user/${feed.f_uid}`}>
-            <a className="text-sm w-text-bg-info-half dark:w-text-bg-primary-half">
-              {feed.f_author_name as string}
-            </a>
+          <Link
+            href={`/user/${feed.f_uid}`}
+            className="text-sm w-text-bg-info-half dark:w-text-bg-primary-half">
+            {feed.f_author_name as string}
           </Link>
         </span>
         <div className="w-full flex gap-3 mt-auto">
@@ -61,14 +62,14 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
         </div>
       </span>
       <Link
+        className="absolute top-0 bottom-0 right-0 left-0"
         href={{
           // pathname: "/l/[cat]/p/[fid]",
           // query: { cat: feed.f_game_type, fid: feed.fid },
           pathname: "/l/feed-ssr/[fid]",
           query: { fid: feed.fid },
-        }}>
-        <a className="absolute top-0 bottom-0 right-0 left-0" />
-      </Link>
+        }}
+      />
     </div>
   );
 });

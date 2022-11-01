@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { Link, PostCategoryList, Banner } from "@/components";
+import { PostCategoryList, Banner } from "@/components";
 import {
   PostIcon,
   LiveIcon,
@@ -9,6 +9,7 @@ import {
 } from "@wanin/ui";
 import { type PostCategory, Size } from "@wanin/types";
 import { useDarkMode } from "@/hooks";
+import Link from "next/link";
 
 interface Props {
   isLoading: boolean;
@@ -33,43 +34,43 @@ const PostLayout: FC<Props> = (props) => {
         <ul className="w-bg-secondary h-full my-10 rounded-lg p-5 flex flex-col gap-1 shadow-lg overflow-y-scroll no-scrollbar">
           <button onClick={toggle}>Toggle Theme</button>
           <li>
-            <Link href="/l">
-              <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
-                <PostIcon size={Size.Base} className="mr-3" />
-                亂貼
-              </a>
+            <Link
+              href="/l"
+              className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+              <PostIcon size={Size.Base} className="mr-3" />
+              亂貼
             </Link>
           </li>
           <li>
-            <Link href="/l">
-              <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
-                <LiveIcon size={Size.Base} className="mr-3" />
-                直播
-              </a>
+            <Link
+              href="/l"
+              className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+              <LiveIcon size={Size.Base} className="mr-3" />
+              直播
             </Link>
           </li>
           <li>
-            <Link href="/l">
-              <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
-                <RocketIcon size={Size.Base} className="mr-3" />
-                任務
-              </a>
+            <Link
+              href="/l"
+              className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+              <RocketIcon size={Size.Base} className="mr-3" />
+              任務
             </Link>
           </li>
           <li>
-            <Link href="/l">
-              <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
-                <ShopIcon size={Size.Base} className="mr-3" />
-                商城
-              </a>
+            <Link
+              href="/l"
+              className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+              <ShopIcon size={Size.Base} className="mr-3" />
+              商城
             </Link>
           </li>
           <li>
-            <Link href="/l">
-              <a className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
-                <TimeLineIcon size={Size.Base} className="mr-3" />
-                實況軸
-              </a>
+            <Link
+              href="/l"
+              className="flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+              <TimeLineIcon size={Size.Base} className="mr-3" />
+              實況軸
             </Link>
           </li>
           <hr className="my-3" />
