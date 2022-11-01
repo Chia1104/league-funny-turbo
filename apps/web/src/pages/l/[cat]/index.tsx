@@ -7,7 +7,8 @@ import { useState } from "react";
 import { experimental_useInfiniteQuery } from "@/hooks";
 import Head from "next/head";
 import { FeedList } from "@/components";
-import { Page, Button } from "@wanin/ui";
+import { Page } from "@wanin/ui";
+import { useUpdateEffect } from "usehooks-ts";
 
 interface FeedProps {
   status: number;
@@ -41,6 +42,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 /**
  * 🔖 Issue #14
  * [Issue] (https://github.com/league-funny/frontend-nextjs/issues/14)
+ *
+ * 🔖 Feature #16
+ * [Feature] (https://github.com/league-funny/frontend-nextjs/issues/16)
  */
 const LCat: NextPage<FeedProps> = (props) => {
   const router = useRouter();
@@ -61,13 +65,16 @@ const LCat: NextPage<FeedProps> = (props) => {
     },
   });
 
+  useUpdateEffect(() => {
+    router.reload();
+  }, [cat]);
+
   return (
     <Page className="w-main w-full">
       <Head>
         <title>League Funny Post</title>
       </Head>
       <article className="mt-28 w-full">
-        <Button text="Reload Page" onClick={() => router.reload()} />
         <FeedList
           isLoading={isLoading}
           isSuccess={status === 200}
