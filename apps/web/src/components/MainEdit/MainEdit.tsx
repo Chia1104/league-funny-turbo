@@ -1,9 +1,9 @@
 import { type FC } from "react";
 import { EditIcon, FilmIcon } from "@wanin/ui";
 import { Size } from "@wanin/types";
-import { Link } from "@/components";
 import { Popover } from "@geist-ui/core";
 import cx from "classnames";
+import Link from "next/link";
 
 interface Props {
   className?: string;

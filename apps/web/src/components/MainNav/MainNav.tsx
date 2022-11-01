@@ -1,10 +1,11 @@
 import { type FC } from "react";
-import { Link, Image } from "@/components";
+import { Image } from "@/components";
 import { BillIcon, MissionIcon, AchievementIcon, EnvelopIcon } from "@wanin/ui";
 import { Size } from "@wanin/types";
 import { Tooltip, Popover } from "@geist-ui/core";
 import data from "@/shared/data/bill.json";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const MainNav: FC = () => {
   const { data: session } = useSession();
@@ -28,25 +29,23 @@ const MainNav: FC = () => {
     <nav className="w-bg-secondary w-screen flex h-[65px] items-center top-0 fixed justify-center z-50 shadow-lg shadow-gray-200 dark:shadow-none dark:border-b dark:border-gray-700">
       <div className="flex container w-[100%]">
         <div className="flex items-center w-[30%] justify-start">
-          <Link href="/">
-            <a className="ml-3">
-              <Image
-                className="hidden md:block"
-                src="/logo-2.png"
-                alt="logo"
-                width={125}
-                height={39}
-                loading="lazy"
-              />
-              <Image
-                className="block md:hidden"
-                src="/logo-1.png"
-                alt="logo-1"
-                width={45}
-                height={45}
-                loading="lazy"
-              />
-            </a>
+          <Link href="/" className="ml-3">
+            <Image
+              className="hidden md:block"
+              src="/logo-2.png"
+              alt="logo"
+              width={125}
+              height={39}
+              loading="lazy"
+            />
+            <Image
+              className="block md:hidden"
+              src="/logo-1.png"
+              alt="logo-1"
+              width={45}
+              height={45}
+              loading="lazy"
+            />
           </Link>
         </div>
         <ul className="flex items-center w-[70%] justify-end mr-3 gap-3">

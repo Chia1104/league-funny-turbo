@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import { Link } from "@/components";
 import type { PostCategory } from "@wanin/types";
+import Link from "next/link";
 
 interface Props {
   categories: PostCategory[];
@@ -14,10 +14,10 @@ const PostCategoryList: FC<Props> = ({ categories }) => {
           <h2 className="w-subtitle">{category.group_name}</h2>
           {category.contents.map((detail) => (
             <p key={detail.b_id} className="my-1">
-              <Link href={`/l/${detail.b_type}`}>
-                <a className="ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
-                  {detail.b_zh_name}
-                </a>
+              <Link
+                href={`/l/${detail.b_type}`}
+                className="ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+                {detail.b_zh_name}
               </Link>
             </p>
           ))}
