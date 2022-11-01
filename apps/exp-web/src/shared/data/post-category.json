@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "PC",
+    "slug": "pc",
+    "category": [
+      {
+        "id": 1,
+        "name": "Apex 英雄",
+        "slug": "apex-heroes"
+      },
+      {
+        "id": 2,
+        "name": "英雄聯盟",
+        "slug": "league-of-legends"
+      },
+      {
+        "id": 3,
+        "name": "STEAM",
+        "slug": "steam"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "生活",
+    "slug": "life",
+    "category": [
+      {
+        "id": 1,
+        "name": "八卦新聞",
+        "slug": "gossip-news"
+      },
+      {
+        "id": 2,
+        "name": "休閒娛樂",
+        "slug": "entertainment"
+      },
+      {
+        "id": 3,
+        "name": "美食戶外",
+        "slug": "food-outdoor"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "手遊",
+    "slug": "mobile",
+    "category": [
+      {
+        "id": 1,
+        "name": "傳說對決",
+        "slug": "legend-battle"
+      },
+      {
+        "id": 2,
+        "name": "奧丁：神判",
+        "slug": "odin"
+      },
+      {
+        "id": 3,
+        "name": "天堂M",
+        "slug": "tian-tang-m"
+      }
+    ]
+  }
+]

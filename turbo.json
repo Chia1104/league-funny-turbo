@@ -5,6 +5,22 @@
       "outputs": ["dist/**"],
       "dependsOn": ["^build"]
     },
+    "exp-web#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [".next/**"],
+      "env": [
+        "NEXTAUTH_SECRET",
+        "FACEBOOK_ID",
+        "FACEBOOK_SECRET",
+        "TWITCH_CLIENT_ID",
+        "TWITCH_CLIENT_SECRET",
+        "RAILWAY_STATIC_URL",
+        "VERCEL_URL",
+        "API_URL"
+      ]
+    },
     "web#build": {
       "dependsOn": [
         "^build"
