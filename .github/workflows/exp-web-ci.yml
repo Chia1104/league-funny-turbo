@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 14.*, 16.*, 18.* ]
+        node: [ 16.*, 18.* ]
 
     steps:
       - name: Check out code
