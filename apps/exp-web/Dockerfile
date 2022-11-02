@@ -51,6 +51,6 @@ COPY --from=installer /app/apps/exp-web/next.config.mjs .
 COPY --from=installer /app/apps/exp-web/package.json .
 
 COPY --from=installer --chown=nextjs:nodejs /app/apps/exp-web/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/exp-web/.next/static ./apps/web/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/exp-web/.next/static ./apps/exp-web/.next/static
 
-CMD node apps/web/server.js
+CMD node apps/exp-web/server.js
