@@ -1,21 +1,25 @@
-"use client";
-
-import type { FC } from "react";
+import { type FC } from "react";
 import type { PostCategory } from "@wanin/types";
-import Link from "next/link";
 import { getBaseUrl } from "@/utils/get-base-url";
-import { use } from "react";
+import { asyncComponent } from "@wanin/utils";
+import Link from "next/link";
 
-const fetchBoardData = async (): Promise<PostCategory[]> => {
-  const res = await fetch(`${getBaseUrl()}/api/main-bord`);
-  return (await res.json()) as PostCategory[];
-};
+interface ListProps {
+  board: PostCategory[];
+}
 
-const PostCategoryList: FC = () => {
-  const data = use(fetchBoardData());
+const PostCategoryList: FC = asyncComponent(async () => {
+  const board = (await fetch(`${getBaseUrl()}/api/main-bord`).then((res) =>
+    res.json()
+  )) as PostCategory[];
+
+  return <List board={board} />;
+});
+
+const List: FC<ListProps> = ({ board }) => {
   return (
     <div className="overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full">
-      {data.map((category) => (
+      {board.map((category) => (
         <div key={category.group_id} className="my-3">
           <h2 className="w-subtitle">{category.group_name}</h2>
           {category.contents.map((detail) => (

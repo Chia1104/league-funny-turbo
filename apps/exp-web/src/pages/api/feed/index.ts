@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
 import type { Feed, Pagenate } from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
+import fetch from "node-fetch";
 
 export default async function handler(
   req: NextApiRequest,

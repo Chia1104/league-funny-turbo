@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios, { type AxiosResponse } from "axios";
 import { API_URL } from "@/shared/constants";
+import fetch from "node-fetch";
 
 type FeedResult = {
   fid: number;

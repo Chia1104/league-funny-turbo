@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC } from "react";
-import { Image } from "@/components/client";
+import { Image, Avatar } from "@/components/client";
 import { BillIcon, MissionIcon, AchievementIcon, EnvelopIcon } from "@wanin/ui";
 import { Size } from "@wanin/types";
 import { Tooltip, Popover } from "@geist-ui/core";
@@ -89,7 +89,6 @@ const MainNav: FC = () => {
           <li>
             {!session && (
               <>
-                <span>You are not signed in</span>
                 <a
                   href={`/api/auth/signin`}
                   onClick={(e) => {
@@ -102,17 +101,19 @@ const MainNav: FC = () => {
             )}
             {session && (
               <>
-                <span>
-                  Signed in as {session?.user?.email} <br />
-                </span>
-                <a
-                  href={`/api/auth/signout`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    signOut();
-                  }}>
-                  Sign out
-                </a>
+                <Avatar
+                  username={session?.user?.name ?? ""}
+                  ratio={30}
+                  url={session?.user?.image ?? ""}
+                />
+                {/*<a*/}
+                {/*  href={`/api/auth/signout`}*/}
+                {/*  onClick={(e) => {*/}
+                {/*    e.preventDefault();*/}
+                {/*    signOut();*/}
+                {/*  }}>*/}
+                {/*  Sign out*/}
+                {/*</a>*/}
               </>
             )}
           </li>

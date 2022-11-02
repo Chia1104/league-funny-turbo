@@ -62,7 +62,11 @@ export default defineNextConfig({
     removeConsole: false,
   },
   images: {
-    domains: ["img.league-funny.com", "img.youtube.com"],
+    domains: [
+      "img.league-funny.com",
+      "img.youtube.com",
+      "platform-lookaside.fbsbx.com",
+    ],
   },
   webpack: (config) => {
     config.resolve = {
