@@ -1,0 +1,91 @@
+name: Experimental Web CI
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
+  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  FACEBOOK_ID: ${{ secrets.FACEBOOK_ID }}
+  FACEBOOK_SECRET: ${{ secrets.FACEBOOK_SECRET }}
+  TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+  TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+  API_URL: ${{ secrets.API_URL }}
+  PNPM_VERSION: 6.32.2
+
+jobs:
+  build:
+    name: Build and Test
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 16.*, 18.* ]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: cd ../.. && pnpm build --filter exp-web...
+
+      - name: ESLint
+        run: pnpm lint --filter exp-web...
+
+      - name: Unit tests
+        run: pnpm test --filter exp-web...
+
+#      - name: E2E on Chrome
+#        uses: cypress-io/github-action@v4
+#        with:
+#          start: pnpm start --filter web...
+#          wait-on: 'http://localhost:3000'
+#          wait-on-timeout: 120
+#          browser: chrome
+#          record: false
+#          env:
+#            DATABASE_URL=${{ env.DATABASE_URL }}
+#            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
+#            NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }}
+#            FACEBOOK_ID=${{ env.FACEBOOK_ID }}
+#            FACEBOOK_SECRET=${{ env.FACEBOOK_SECRET }}
+#            TWITCH_CLIENT_ID=${{ env.TWITCH_CLIENT_ID }}
+#            TWITCH_CLIENT_SECRET=${{ env.TWITCH_CLIENT_SECRET }}
+#            API_URL=${{ env.API_URL }}
+#
+#      - name: E2E on Edge
+#        uses: cypress-io/github-action@v4
+#        with:
+#          start: pnpm start --filter web...
+#          wait-on: 'http://localhost:3000'
+#          wait-on-timeout: 120
+#          browser: edge
+#          record: false
+#          env:
+#            DATABASE_URL=${{ env.DATABASE_URL }}
+#            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
+#            NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }}
+#            FACEBOOK_ID=${{ env.FACEBOOK_ID }}
+#            FACEBOOK_SECRET=${{ env.FACEBOOK_SECRET }}
+#            TWITCH_CLIENT_ID=${{ env.TWITCH_CLIENT_ID }}
+#            TWITCH_CLIENT_SECRET=${{ env.TWITCH_CLIENT_SECRET }}
+#            API_URL=${{ env.API_URL }}

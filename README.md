@@ -14,8 +14,8 @@ Current website: [https://league-funny.com](https://league-funny.com)
 
 ### Apps
 
-- `apps/web` - Website with `NextJS` `12.3.1`
-- `apps/exp-web` - Website with `NextJS` `13.0.1-canary.2`
+- `apps/web` - Website with `NextJS` `pages` folder structure.
+- `apps/exp-web` - Website with `NextJS` `apps` folder structure.
 
 ### Packages
 
@@ -60,6 +60,15 @@ The second one will start the `web` and other included packages.
 - `pnpm test:watch` - Run unit tests in watch mode
 - `pnpm e2e:chrome` - Run e2e tests in Chrome
 - `pnpm e2e:edge` - Run e2e tests in Edge
+
+### Docker
+
+Run the following command to build the docker image.
+
+```bash
+docker build -f .\apps\web\Dockerfile -t web:latest . # Build the web image
+docker build -f .\apps\exp-web\Dockerfile -t exp-web:latest . # Build the exp-web image
+```
 
 ### License
 
