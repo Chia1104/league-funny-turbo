@@ -23,11 +23,9 @@ const fetchInitFeed = async () => {
 const HomePage = async () => {
   const { initFeed } = await fetchInitFeed();
   return (
-    <Page className="w-main w-full">
-      <article className="mt-28 w-full">
-        <FeedList initFeed={serialize(initFeed.data as Feed[])} />
-      </article>
-    </Page>
+    <article className="mt-28 w-full">
+      <FeedList initFeed={serialize(initFeed.data as Feed[])} experimental />
+    </article>
   );
 };
 

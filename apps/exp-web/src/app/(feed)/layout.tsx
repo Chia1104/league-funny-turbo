@@ -1,6 +1,7 @@
 import { PostCategoryList } from "@/components/server";
 import {
   LiveIcon,
+  Page,
   PostIcon,
   RocketIcon,
   ShopIcon,
@@ -60,7 +61,7 @@ const FeedLayout = ({ children }: { children: ReactNode }) => {
           <PostCategoryList />
         </ul>
       </aside>
-      <div className="w-full w-main">{children}</div>
+      <Page className="w-full w-main">{children}</Page>
       <Banner>
         <div>
           <h3 className="text-2xl font-bold">This is AD area</h3>
