@@ -1,5 +1,7 @@
 # League Funny
 
+> 👷 Work in progress
+
 League Funny(遊戲大亂鬥) refactor project.
 
 Current website: [https://league-funny.com](https://league-funny.com)
@@ -67,7 +69,22 @@ Run the following command to build the docker image.
 
 ```bash
 docker build -f .\apps\web\Dockerfile -t web:latest . # Build the web image
+
 docker build -f .\apps\exp-web\Dockerfile -t exp-web:latest . # Build the exp-web image
+```
+
+### Environment Variables
+
+Set the environment variables in `.env` file and your own `docker-compose.yml` file.
+
+```bash
+# exp-web
+NEXTAUTH_SECRET=<any string>
+FACEBOOK_ID=<FACEBOOK_ID>
+FACEBOOK_SECRET=<FACEBOOK_SECRET>
+TWITCH_CLIENT_ID=<TWITCH_CLIENT_ID>
+TWITCH_CLIENT_SECRET=<TWITCH_CLIENT_SECRET>
+API_URL=<localhost:8000>
 ```
 
 ### License
