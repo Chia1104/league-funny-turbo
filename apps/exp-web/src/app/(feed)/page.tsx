@@ -1,4 +1,3 @@
-import { Page } from "@/lib/ui";
 import type { Feed, Pagenate } from "@wanin/types";
 import { FeedList } from "@/components/client";
 import { getBaseUrl } from "@/utils/get-base-url";

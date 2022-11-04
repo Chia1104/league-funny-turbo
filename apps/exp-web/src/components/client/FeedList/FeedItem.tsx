@@ -34,11 +34,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
             ratio={25}
           />
           <Link
-            prefetch={false}
-            href={{
-              pathname: "/user/[uid]",
-              query: { uid: feed?.f_uid || "1" },
-            }}
+            href={`/user/${feed?.f_uid}`}
             className="text-sm w-text-bg-info-half dark:w-text-bg-primary-half">
             <p>{feed?.f_author_name || ""}</p>
           </Link>
@@ -73,14 +69,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
       </span>
       <Link
         className="absolute top-0 bottom-0 right-0 left-0"
-        prefetch={false}
-        href={{
-          pathname: "/[b_type]/[bc_id]",
-          query: {
-            b_type: feed?.f_game_type,
-            bc_id: feed?.fid,
-          },
-        }}
+        href={`/${feed?.f_game_type}/${feed?.fid}`}
       />
     </div>
   );
