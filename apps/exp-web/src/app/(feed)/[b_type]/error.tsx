@@ -17,7 +17,7 @@ export default function Error({
 
   return (
     <Page className="w-main w-full">
-      <h1>Something went wrong!</h1>
+      <h1 className="my-10">Something went wrong!</h1>
       <Button onClick={() => reset()} text="Reset error boundary" />
     </Page>
   );

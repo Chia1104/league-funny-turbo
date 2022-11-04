@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, useEffect, useState, Fragment } from "react";
+import { type FC, useState, Fragment } from "react";
 import type { Feed } from "@wanin/types";
 import FeedItem from "./FeedItem";
 import { Virtuoso } from "react-virtuoso";
@@ -11,31 +11,13 @@ import { SerializedResult, useDeserialized } from "@/utils/hydration.util";
 
 interface Props {
   initFeed: SerializedResult<Feed[]>;
-  onFirstLoad?: () => void;
-  onLeave?: () => void;
+  searchParams?: Record<string, string>;
   experimental?: boolean;
   initPage?: number;
 }
 
 const FeedList: FC<Props> = (props) => {
-  const {
-    onFirstLoad,
-    onLeave,
-    experimental = false,
-    initFeed,
-    initPage = 1,
-  } = props;
-
-  useEffect(() => {
-    if (onFirstLoad) {
-      onFirstLoad();
-    }
-    return () => {
-      if (onLeave) {
-        onLeave();
-      }
-    };
-  }, []);
+  const { experimental = false, initFeed, initPage = 1, searchParams } = props;
 
   const [page, setPage] = useState(initPage);
   const {
@@ -48,6 +30,7 @@ const FeedList: FC<Props> = (props) => {
     url: `${getBaseUrl()}/api/feed`,
     initData: useDeserialized(initFeed),
     page,
+    searchParams,
   });
 
   const { ref: lastItemRef } = useInfiniteScroll({
@@ -68,7 +51,7 @@ const FeedList: FC<Props> = (props) => {
             totalCount={feeds.length}
             data={feeds}
             overscan={100}
-            endReached={() => setPage((prev) => prev + 1)}
+            endReached={() => hasMore && setPage((prev) => prev + 1)}
             style={{ height: "100%" }}
             useWindowScroll
             itemContent={(index, item) => {

@@ -1,7 +1,6 @@
 import { getBaseUrl } from "@/utils/get-base-url";
-import { serialize } from "@/utils/hydration.util";
 import { Feed } from "@wanin/types";
-import { FeedDetail } from "@/components/client";
+import { FeedDetail } from "@/components/server";
 import { notFound } from "next/navigation";
 
 const fetchInitFeed = async (bcId: string) => {
@@ -24,7 +23,7 @@ const BCPage = async ({ params }: { params: { bc_id: string } }) => {
   if (!initFeed || !initFeed.fid) return notFound();
   return (
     <article className="mt-28 w-full w-bg-secondary rounded-lg p-7 flex flex-col overflow-hidden">
-      <FeedDetail data={serialize(initFeed as Feed)} />
+      <FeedDetail data={initFeed} />
     </article>
   );
 };
