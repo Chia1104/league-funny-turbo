@@ -25,6 +25,7 @@ const List: FC<ListProps> = ({ board }) => {
           {category.contents.map((detail) => (
             <p key={detail.b_id} className="my-1">
               <Link
+                // prefetch={false}
                 href={`/${detail.b_type}`}
                 className="ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
                 {detail.b_zh_name}

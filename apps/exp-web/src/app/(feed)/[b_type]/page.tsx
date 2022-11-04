@@ -2,10 +2,12 @@ import { Button } from "@/lib/ui";
 import { getBaseUrl } from "@/utils/get-base-url";
 import { Feed, Pagenate } from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
+import { serialize } from "@/utils/hydration.util";
+import { FeedList } from "@/components/client";
 
 const fetchInitFeed = async (bType: string) => {
   const data = await fetch(
-    `${getBaseUrl()}/api/feed${setSearchParams({
+    `${getBaseUrl()}/api/feed?${setSearchParams({
       searchParams: {
         boardType: bType,
       },
@@ -26,10 +28,17 @@ const fetchInitFeed = async (bType: string) => {
   };
 };
 
-const BTPage = () => {
+const BTPage = async ({ params }: { params: { b_type: string } }) => {
+  const { initFeed } = await fetchInitFeed(params.b_type);
   return (
     <article className="mt-28 w-full">
-      <Button text="test" />
+      <FeedList
+        initFeed={serialize(initFeed.data as Feed[])}
+        experimental
+        searchParams={{
+          boardType: params.b_type,
+        }}
+      />
     </article>
   );
 };
