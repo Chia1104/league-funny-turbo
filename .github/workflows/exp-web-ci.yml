@@ -57,8 +57,8 @@ jobs:
 #      - name: E2E on Chrome
 #        uses: cypress-io/github-action@v4
 #        with:
-#          start: pnpm start --filter web...
-#          wait-on: 'http://localhost:3000'
+#          start: pnpm start --filter exp-web...
+#          wait-on: 'http://localhost:3001'
 #          wait-on-timeout: 120
 #          browser: chrome
 #          record: false
@@ -75,8 +75,8 @@ jobs:
 #      - name: E2E on Edge
 #        uses: cypress-io/github-action@v4
 #        with:
-#          start: pnpm start --filter web...
-#          wait-on: 'http://localhost:3000'
+#          start: pnpm start --filter exp-web...
+#          wait-on: 'http://localhost:3001'
 #          wait-on-timeout: 120
 #          browser: edge
 #          record: false

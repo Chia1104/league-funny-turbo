@@ -33,14 +33,11 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
             }.jpg`}
             ratio={25}
           />
-          {/*<Link*/}
-          {/*  href={{*/}
-          {/*    pathname: "/user/[uid]",*/}
-          {/*    query: { uid: feed?.f_uid || "1" },*/}
-          {/*  }}*/}
-          {/*  className="text-sm w-text-bg-info-half dark:w-text-bg-primary-half">*/}
-          {/*  <p>{feed?.f_author_name || ""}</p>*/}
-          {/*</Link>*/}
+          <Link
+            href={`/user/${feed?.f_uid}`}
+            className="text-sm w-text-bg-info-half dark:w-text-bg-primary-half">
+            <p>{feed?.f_author_name || ""}</p>
+          </Link>
         </span>
         <div className="w-full flex gap-3 mt-auto">
           <div className="flex gap-1 items-center">
@@ -70,7 +67,10 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
           )}
         </div>
       </span>
-      <Link className="absolute top-0 bottom-0 right-0 left-0" href="/" />
+      <Link
+        className="absolute top-0 bottom-0 right-0 left-0"
+        href={`/${feed?.f_game_type}/${feed?.fid}`}
+      />
     </div>
   );
 });

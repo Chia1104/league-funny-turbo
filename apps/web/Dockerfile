@@ -3,7 +3,7 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 
 WORKDIR /app
-RUN yarn global add turbo@1.6.2
+RUN yarn global add turbo@1.6.3
 COPY . .
 RUN turbo prune --scope=web --docker
 
@@ -23,6 +23,7 @@ COPY turbo.json turbo.json
 COPY .prettierrc .prettierrc
 
 ARG \
+  API_URL \
   PORT \
   NEXTAUTH_SECRET \
   FACEBOOK_ID \
@@ -31,6 +32,7 @@ ARG \
   TWITCH_CLIENT_SECRET
 ENV \
   NODE_ENV=production \
+  API_URL=$API_URL \
   PORT=$PORT \
   NEXTAUTH_SECRET=$NEXTAUTH_SECRET \
   FACEBOOK_ID=$FACEBOOK_ID \

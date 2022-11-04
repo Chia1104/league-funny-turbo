@@ -1,7 +1,12 @@
 import type { ReactNode } from "react";
+import { Page } from "@/lib/ui";
 
 const UserLayout = ({ children }: { children: ReactNode }) => {
-  return <div className="w-container flex px-5">{children}</div>;
+  return (
+    <div className="w-container flex px-5">
+      <Page className="w-main w-full">{children}</Page>
+    </div>
+  );
 };
 
 export default UserLayout;

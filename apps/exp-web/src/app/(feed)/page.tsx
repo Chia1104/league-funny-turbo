@@ -1,4 +1,3 @@
-import { Page } from "@/lib/ui";
 import type { Feed, Pagenate } from "@wanin/types";
 import { FeedList } from "@/components/client";
 import { getBaseUrl } from "@/utils/get-base-url";
@@ -23,11 +22,9 @@ const fetchInitFeed = async () => {
 const HomePage = async () => {
   const { initFeed } = await fetchInitFeed();
   return (
-    <Page className="w-main w-full">
-      <article className="mt-28 w-full">
-        <FeedList initFeed={serialize(initFeed.data as Feed[])} />
-      </article>
-    </Page>
+    <article className="mt-28 w-full">
+      <FeedList initFeed={serialize(initFeed.data as Feed[])} experimental />
+    </article>
   );
 };
 
