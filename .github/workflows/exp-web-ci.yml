@@ -13,6 +13,8 @@ env:
   TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
   TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
   API_URL: ${{ secrets.API_URL }}
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
   PNPM_VERSION: 7.5.1
   NODE_VERSION: 16.*
 
@@ -21,6 +23,10 @@ jobs:
     name: Build and Test
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ env.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ env.TURBO_TEAM }}
+      TURBO_REMOTE_ONLY: true
     strategy:
       matrix:
         node: [ 16.* ]
