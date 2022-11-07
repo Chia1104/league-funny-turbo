@@ -7,8 +7,6 @@ on:
     types: [opened, synchronize]
 
 env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   FACEBOOK_ID: ${{ secrets.FACEBOOK_ID }}
   FACEBOOK_SECRET: ${{ secrets.FACEBOOK_SECRET }}
@@ -94,14 +92,12 @@ jobs:
 
       - uses: cypress-io/github-action@v4
         env:
-          DATABASE_URL=${{ env.DATABASE_URL }}
-          SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
-          NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }}
-          FACEBOOK_ID=${{ env.FACEBOOK_ID }}
-          FACEBOOK_SECRET=${{ env.FACEBOOK_SECRET }}
-          TWITCH_CLIENT_ID=${{ env.TWITCH_CLIENT_ID }}
-          TWITCH_CLIENT_SECRET=${{ env.TWITCH_CLIENT_SECRET }}
-          API_URL=${{ env.API_URL }}
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          FACEBOOK_ID: ${{ env.FACEBOOK_ID }}
+          FACEBOOK_SECRET: ${{ env.FACEBOOK_SECRET }}
+          TWITCH_CLIENT_ID: ${{ env.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ env.TWITCH_CLIENT_SECRET }}
+          API_URL: ${{ env.API_URL }}
         with:
           start: pnpm start
           wait-on: "http://localhost:3001"
