@@ -90,7 +90,7 @@ jobs:
         id: restore-build
         with:
           path: |
-            ${{ github.workspace }}/.next
+            ${{ github.workspace }}/apps/exp-web/.next
           key: |
             ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
