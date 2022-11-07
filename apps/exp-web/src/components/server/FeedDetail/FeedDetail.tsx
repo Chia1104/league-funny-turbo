@@ -25,7 +25,7 @@ const FeedDetail: FC<Props> = (props) => {
           username={data.f_author_name}
           userId={data.f_uid}
           ratio={50}
-          url={`https://img.league-funny.com/user_cover/${data.fid}.jpg`}
+          url={`https://img.league-funny.com/user_cover/${data.f_uid}.jpg`}
         />
         <Link href={`/user/${data.f_uid}`} className="ml-3 text-base">
           {data.f_author_name}

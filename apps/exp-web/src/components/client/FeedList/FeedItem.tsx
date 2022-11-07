@@ -30,7 +30,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
             userId={feed?.f_uid}
             username={feed?.f_author_name || ""}
             url={`https://img.league-funny.com/user_cover/${
-              feed?.fid || ""
+              feed?.f_uid || ""
             }.jpg`}
             ratio={25}
           />
