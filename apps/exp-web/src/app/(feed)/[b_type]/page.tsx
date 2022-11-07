@@ -1,39 +1,31 @@
-import { Button } from "@/lib/ui";
-import { getBaseUrl } from "@/utils/get-base-url";
-import { Feed, Pagenate } from "@wanin/types";
-import { setSearchParams } from "@wanin/utils";
+import type { Feed } from "@wanin/types";
 import { serialize } from "@/utils/hydration.util";
 import { FeedList } from "@/components/client";
+import { fetchFeedList } from "@/helpers/api/server-only";
 
-const fetchInitFeed = async (bType: string) => {
-  const data = await fetch(
-    `${getBaseUrl()}/api/feed?${setSearchParams({
-      searchParams: {
-        boardType: bType,
-      },
-    })}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    }
-  );
-  const initFeed = (await data.json()) as Pagenate<Feed[]>;
-
-  return {
-    status: data.status,
-    initFeed,
-  };
-};
+// export const generateStaticParams = async () => {
+//   const data = await fetch(`${API_URL}/api/sidebar`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//       Accept: "application/json",
+//     },
+//   });
+//   const board = await data.json();
+//   return board
+//     .map((c: { contents: { b_type: string }[] }) => {
+//       return c.contents.map((b: { b_type: string }) => ({
+//         b_type: b.b_type,
+//       }));
+//     })
+//     .flat();
+// };
 
 const BTPage = async ({ params }: { params: { b_type: string } }) => {
-  const { initFeed } = await fetchInitFeed(params.b_type);
+  const { data: initFeed } = await fetchFeedList(params.b_type);
   return (
     <article className="mt-28 w-full">
       <FeedList
-        initFeed={serialize(initFeed.data as Feed[])}
+        initFeed={serialize(initFeed?.data as Feed[])}
         experimental
         searchParams={{
           boardType: params.b_type,

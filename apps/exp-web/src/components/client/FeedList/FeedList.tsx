@@ -20,6 +20,7 @@ const FeedList: FC<Props> = (props) => {
   const { experimental = false, initFeed, initPage = 1, searchParams } = props;
 
   const [page, setPage] = useState(initPage);
+  const _initFeed = useDeserialized(initFeed);
   const {
     data: feeds,
     isLoading,
@@ -28,7 +29,7 @@ const FeedList: FC<Props> = (props) => {
     isSuccess,
   } = experimental_useInfiniteQuery<Feed>({
     url: `${getBaseUrl()}/api/feed`,
-    initData: useDeserialized(initFeed),
+    initData: _initFeed,
     page,
     searchParams,
   });

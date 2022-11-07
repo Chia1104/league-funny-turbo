@@ -11,3 +11,5 @@ export const VERCEL_URL = process.env.VERCEL_URL;
 export const API_URL = process.env.API_URL;
 
 export const HOST = IS_PRODUCTION ? "league-funny.com" : "localhost";
+
+export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;

@@ -49,15 +49,6 @@ export default defineNextConfig({
       "../.."
     ),
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: "/",
-  //       destination: "/l",
-  //       permanent: false,
-  //     },
-  //   ];
-  // },
   compiler: {
     removeConsole: false,
   },
