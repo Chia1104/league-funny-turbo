@@ -99,7 +99,7 @@ jobs:
           TWITCH_CLIENT_SECRET: ${{ env.TWITCH_CLIENT_SECRET }}
           API_URL: ${{ env.API_URL }}
         with:
-          start: pnpm start
+          start: pnpm start --filter exp-web...
           wait-on: "http://localhost:3001"
           wait-on-timeout: 120
           browser: chrome
