@@ -24,7 +24,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
           )}
           <Avatar
             username={feed.f_author_name}
-            url={`https://img.league-funny.com/user_cover/${feed.fid}.jpg`}
+            url={`https://img.league-funny.com/user_cover/${feed.f_uid}.jpg`}
             ratio={25}
           />
           <Link

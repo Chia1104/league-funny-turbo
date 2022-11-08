@@ -31,17 +31,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const Home: NextPage<FeedProps> = (props) => {
   const { initFeed, status } = props;
-  const [page, setPage] = useState(1);
-  const {
-    data: feeds,
-    isLoading,
-    isError,
-    hasMore,
-  } = experimental_useInfiniteQuery<Feed>({
-    url: "/api/feed",
-    initData: initFeed.data,
-    page,
-  });
 
   return (
     <Page className="w-main w-full">
@@ -49,14 +38,7 @@ const Home: NextPage<FeedProps> = (props) => {
         <title>League Funny Post</title>
       </Head>
       <article className="mt-28 w-full">
-        <FeedList
-          isLoading={isLoading}
-          isSuccess={status === 200}
-          isError={isError || status !== 200}
-          onMoreFeed={() => setPage((prev) => prev + 1)}
-          hasMoreFeed={hasMore}
-          feed={feeds}
-        />
+        <FeedList initFeed={initFeed.data as Feed[]} experimental />
       </article>
     </Page>
   );
