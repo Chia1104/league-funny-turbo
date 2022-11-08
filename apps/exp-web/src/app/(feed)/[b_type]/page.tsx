@@ -10,7 +10,7 @@ import { fetchFeedList, generateBTypePath } from "@/helpers/api/server-only";
 const BTPage = async ({ params }: { params: { b_type: string } }) => {
   const { data: initFeed } = await fetchFeedList(params.b_type);
   return (
-    <article className="mt-28 w-full">
+    <article className="w-full">
       <FeedList
         initFeed={serialize(initFeed?.data as Feed[])}
         experimental

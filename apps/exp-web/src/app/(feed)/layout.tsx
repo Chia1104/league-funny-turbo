@@ -61,7 +61,7 @@ const FeedLayout = ({ children }: { children: ReactNode }) => {
           <PostCategoryList />
         </ul>
       </aside>
-      <Page className="w-full w-main">{children}</Page>
+      <Page className="w-full w-main mt-[110px] justify-start">{children}</Page>
       <Banner>
         <div>
           <h3 className="text-2xl font-bold">This is AD area</h3>

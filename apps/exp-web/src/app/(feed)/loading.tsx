@@ -1,7 +1,7 @@
 import { FeedSkeleton } from "@/components/client/FeedList";
 import { Fragment } from "react";
 
-const FeedLoading = () => {
+const HomeLoading = () => {
   return (
     <div className="w-full">
       <div className="w-full w-bg-secondary rounded-lg shadow-lg">
@@ -17,4 +17,4 @@ const FeedLoading = () => {
   );
 };
 
-export default FeedLoading;
+export default HomeLoading;
