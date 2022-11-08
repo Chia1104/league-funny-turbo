@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import type { PostCategory } from "@wanin/types";
-import { getBaseUrl } from "@/utils/get-base-url";
+import { fetchSidebar } from "@/helpers/api/client";
 import { asyncComponent } from "@wanin/utils";
 import Link from "next/link";
 
@@ -9,9 +9,7 @@ interface ListProps {
 }
 
 const PostCategoryList: FC = asyncComponent(async () => {
-  const board = (await fetch(`${getBaseUrl()}/api/main-bord`).then((res) =>
-    res.json()
-  )) as PostCategory[];
+  const board = await fetchSidebar();
 
   return <List board={board} />;
 });

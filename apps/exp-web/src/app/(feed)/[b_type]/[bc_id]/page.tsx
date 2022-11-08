@@ -1,19 +1,10 @@
-import { Feed } from "@wanin/types";
+import type { Feed } from "@wanin/types";
 import { FeedDetail } from "@/components/server";
 import { notFound } from "next/navigation";
-import { fetchFeedDetail } from "@/helpers/api/server-only";
+import { fetchFeedDetail, generateBcIdPath } from "@/helpers/api/server-only";
 
 // export const generateStaticParams = async ({ b_type }: { b_type: string }) => {
-//   const posts = await fetch(`${API_URL}/api/feed-paths?b_type=${b_type}`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Accept: "application/json",
-//     },
-//   });
-//   const paths = await posts.json();
-//   return paths.map((path: { fid: number }) => ({
-//     bc_id: path.fid.toString(),
-//   }));
+//   return await generateBcIdPath(b_type);
 // };
 
 const BCPage = async ({ params }: { params: { bc_id: string } }) => {

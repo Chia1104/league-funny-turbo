@@ -22,6 +22,12 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      FACEBOOK_ID: ${{ secrets.FACEBOOK_ID }}
+      FACEBOOK_SECRET: ${{ secrets.FACEBOOK_SECRET }}
+      TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+      TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+      API_URL: ${{ secrets.API_URL }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
       TURBO_REMOTE_ONLY: true
