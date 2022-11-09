@@ -20,6 +20,6 @@
     "@wanin/eslint-config-base": "workspace:0.0.0",
     "dayjs": "^1.11.6",
     "tsconfig": "workspace:0.0.0",
-    "tsup": "^6.3.0"
+    "tsup": "^6.4.0"
   }
 }
