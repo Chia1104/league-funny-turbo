@@ -5,3 +5,4 @@ export * from "./email";
 export * from "./feed";
 export * from "./pagenate";
 export * from "./odata-result";
+export * from "./api-response";

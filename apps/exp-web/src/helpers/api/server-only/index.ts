@@ -1,6 +1,6 @@
 import "server-only";
 import { API_URL } from "@/shared/constants";
-import type { Feed, Pagenate } from "@wanin/types";
+import type { Feed, Pagenate, ApiResponse, PostCategory } from "@wanin/types";
 import type { ApiResult } from "@/helpers/api/type";
 import { setSearchParams } from "@wanin/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
@@ -18,11 +18,11 @@ const fetchFeedDetail = async (bcId: string): Promise<ApiResult<Feed>> => {
       status,
     };
   }
-  const initFeed = (await data.json()) as Feed;
+  const initFeed = (await data.json()) as ApiResponse<Feed>;
 
   return {
     status: status,
-    data: initFeed,
+    data: initFeed.data,
   };
 };
 
@@ -43,35 +43,26 @@ const fetchFeedList = async (
       cache: "no-store",
     }
   );
-  const initFeed = (await data.json()) as Pagenate<Feed[]>;
+  const initFeed = (await data.json()) as ApiResponse<Pagenate<Feed[]>>;
 
   return {
     status: data.status,
-    data: initFeed,
-  };
-};
-
-const verifyToken = async () => {
-  const data = await fetch(`${getBaseUrl()}/api/user/detail`);
-  const token = (await data.json()) as string;
-
-  return {
-    status: data.status,
-    data: token,
+    data: initFeed.data,
   };
 };
 
 const generateBTypePath = async (): Promise<{ b_type: string }[]> => {
-  const data = await fetch(`${API_URL}/api/sidebar`, {
+  const res = await fetch(`${API_URL}/api/sidebar`, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
   });
-  const board = await data.json();
-  return board
-    .map((c: { contents: { b_type: string }[] }) => {
-      return c.contents.map((b: { b_type: string }) => ({
+  const data = (await res.json()) as ApiResponse<PostCategory[]>;
+  const { data: bord } = data;
+  return (bord as PostCategory[])
+    .map((c) => {
+      return c.contents.map((b) => ({
         b_type: b.b_type,
       }));
     })
@@ -87,8 +78,8 @@ const generateBcIdPath = async (
       Accept: "application/json",
     },
   });
-  const paths = await posts.json();
-  return paths.map((path: { fid: number }) => ({
+  const paths = (await posts.json()) as ApiResponse<{ fid: number }[]>;
+  return (paths.data as { fid: number }[]).map((path) => ({
     bc_id: path.fid.toString(),
   }));
 };

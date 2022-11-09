@@ -3,8 +3,8 @@ import { FeedList } from "@/components/client";
 import { fetchFeedList } from "@/helpers/api/server-only";
 
 const HomePage = async () => {
-  const promise = fetchFeedList();
-  const { data: initFeed } = await promise;
+  // const promise = fetchFeedList();
+  const { data: initFeed } = await fetchFeedList();
 
   return (
     <article className="w-full">
