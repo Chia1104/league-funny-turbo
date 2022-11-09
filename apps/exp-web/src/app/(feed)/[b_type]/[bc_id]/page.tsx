@@ -8,8 +8,8 @@ import { fetchFeedDetail, generateBcIdPath } from "@/helpers/api/server-only";
 // };
 
 const BCPage = async ({ params }: { params: { bc_id: string } }) => {
-  const { data: initFeed } = await fetchFeedDetail(params.bc_id);
-  if (!initFeed || !initFeed.fid) return notFound();
+  const { data: initFeed, status } = await fetchFeedDetail(params.bc_id);
+  if (status !== 200) return notFound();
   return (
     <article className="w-full flex">
       <FeedDetail data={initFeed as Feed} />

@@ -4,7 +4,8 @@ import { serialize } from "@/utils/hydration.util";
 import { fetchFeedList } from "@/helpers/api/server-only";
 
 const HomePage = async () => {
-  const { data: initFeed } = await fetchFeedList();
+  const promise = fetchFeedList();
+  const { data: initFeed } = await promise;
 
   return (
     <article className="w-full">

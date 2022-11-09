@@ -12,10 +12,16 @@ const fetchFeedDetail = async (bcId: string): Promise<ApiResult<Feed>> => {
       Accept: "application/json",
     },
   });
+  const status = data.status;
+  if (status !== 200) {
+    return {
+      status,
+    };
+  }
   const initFeed = (await data.json()) as Feed;
 
   return {
-    status: data.status,
+    status: status,
     data: initFeed,
   };
 };
