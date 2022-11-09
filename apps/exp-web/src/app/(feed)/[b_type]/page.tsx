@@ -1,5 +1,4 @@
 import type { Feed } from "@wanin/types";
-import { serialize } from "@/utils/hydration.util";
 import { FeedList } from "@/components/client";
 import { notFound } from "next/navigation";
 import { fetchFeedList, generateBTypePath } from "@/helpers/api/server-only";
@@ -14,7 +13,7 @@ const BTPage = async ({ params }: { params: { b_type: string } }) => {
   return (
     <article className="w-full">
       <FeedList
-        initFeed={serialize(initFeed?.data as Feed[])}
+        initFeed={initFeed?.data as Feed[]}
         experimental
         searchParams={{
           boardType: params.b_type,

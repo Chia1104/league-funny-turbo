@@ -1,6 +1,5 @@
 import type { Feed } from "@wanin/types";
 import { FeedList } from "@/components/client";
-import { serialize } from "@/utils/hydration.util";
 import { fetchFeedList } from "@/helpers/api/server-only";
 
 const HomePage = async () => {
@@ -9,7 +8,7 @@ const HomePage = async () => {
 
   return (
     <article className="w-full">
-      <FeedList initFeed={serialize(initFeed?.data as Feed[])} experimental />
+      <FeedList initFeed={initFeed?.data as Feed[]} experimental />
     </article>
   );
 };

@@ -7,10 +7,9 @@ import { Virtuoso } from "react-virtuoso";
 import FeedSkeleton from "./FeedSkeleton";
 import { useInfiniteScroll, experimental_useInfiniteQuery } from "@/hooks";
 import { getBaseUrl } from "@/utils/get-base-url";
-import { SerializedResult, useDeserialized } from "@/utils/hydration.util";
 
 interface Props {
-  initFeed: SerializedResult<Feed[]>;
+  initFeed: Feed[];
   searchParams?: Record<string, string>;
   experimental?: boolean;
   initPage?: number;
@@ -20,7 +19,6 @@ const FeedList: FC<Props> = (props) => {
   const { experimental = false, initFeed, initPage = 1, searchParams } = props;
 
   const [page, setPage] = useState(initPage);
-  const _initFeed = useDeserialized(initFeed);
   const {
     data: feeds,
     isLoading,
@@ -29,7 +27,7 @@ const FeedList: FC<Props> = (props) => {
     isSuccess,
   } = experimental_useInfiniteQuery<Feed>({
     url: `${getBaseUrl()}/api/feed`,
-    initData: _initFeed,
+    initData: initFeed,
     page,
     searchParams,
   });
