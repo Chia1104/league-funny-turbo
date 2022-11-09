@@ -1,14 +1,13 @@
 import type { Feed } from "@wanin/types";
 import { FeedList } from "@/components/client";
-import { serialize } from "@/utils/hydration.util";
 import { fetchFeedList } from "@/helpers/api/server-only";
 
 const HomePage = async () => {
   const { data: initFeed } = await fetchFeedList();
 
   return (
-    <article className="mt-28 w-full">
-      <FeedList initFeed={serialize(initFeed?.data as Feed[])} experimental />
+    <article className="w-full">
+      <FeedList initFeed={initFeed?.data as Feed[]} queryKey="home" />
     </article>
   );
 };

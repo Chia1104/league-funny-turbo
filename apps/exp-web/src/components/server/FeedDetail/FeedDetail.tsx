@@ -18,13 +18,13 @@ const FeedDetail: FC<Props> = (props) => {
   const { data } = props;
 
   return (
-    <>
+    <div className="w-full w-bg-secondary rounded-lg p-7 flex flex-col overflow-hidden">
       <h2 className="mb-7">{data.f_desc}</h2>
       <div className="mb-5 flex items-center">
         <Avatar
           username={data.f_author_name}
           userId={data.f_uid}
-          ratio={50}
+          ratio={45}
           url={`https://img.league-funny.com/user_cover/${data.f_uid}.jpg`}
         />
         <Link href={`/user/${data.f_uid}`} className="ml-3 text-base">
@@ -69,7 +69,7 @@ const FeedDetail: FC<Props> = (props) => {
         )}
         {data.f_type === "article" && <>{data.f_attachment}</>}
       </div>
-    </>
+    </div>
   );
 };
 

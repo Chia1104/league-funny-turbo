@@ -15,22 +15,22 @@ interface ListProps {
 const queryClient = makeQueryClient();
 
 const PostCategoryList: FC = () => {
-  // const {
-  //   data: bord,
-  //   isError,
-  //   isLoading,
-  //   isSuccess,
-  // } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar);
-  //
-  // return (
-  //   <>
-  //     {isLoading && <ListLoader />}
-  //     {isSuccess && <List bord={bord as PostCategory[]} />}
-  //     {isError && <h3 className="text-danger">error</h3>}
-  //   </>
-  // );
-  const bord = use(queryClient("sidebar", fetchSidebar));
-  return <List bord={bord as PostCategory[]} />;
+  const {
+    data: bord,
+    isError,
+    isLoading,
+    isSuccess,
+  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar);
+
+  return (
+    <>
+      {isLoading && <ListLoader />}
+      {isSuccess && <List bord={bord as PostCategory[]} />}
+      {isError && <h3 className="text-danger">error</h3>}
+    </>
+  );
+  // const bord = use(queryClient("sidebar", fetchSidebar));
+  // return <List bord={bord as PostCategory[]} />;
 };
 
 const List: FC<ListProps> = ({ bord }) => {

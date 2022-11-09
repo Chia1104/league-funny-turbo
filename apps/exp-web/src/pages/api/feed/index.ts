@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
-import type { Feed, Pagenate } from "@wanin/types";
+import type { Feed, Pagenate, ApiResponse } from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
 import fetch from "node-fetch";
 
@@ -26,11 +26,11 @@ export default async function handler(
         },
       }
     );
-    const feeds = (await data.json()) as Pagenate<Feed[]>;
+    const feeds = (await data.json()) as ApiResponse<Pagenate<Feed[]>>;
     if (data.status !== 200) {
       res.status(404).json({ message: "Not Found" });
     }
-    return res.status(200).json(feeds);
+    return res.status(200).json(feeds.data);
   } catch (error) {
     const { message, code, status } = error as any;
     return res.status(500).json({ status, message, code });
