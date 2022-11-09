@@ -14,10 +14,10 @@ const BTPage = async ({ params }: { params: { b_type: string } }) => {
     <article className="w-full">
       <FeedList
         initFeed={initFeed?.data as Feed[]}
-        experimental
         searchParams={{
           boardType: params.b_type,
         }}
+        queryKey={params.b_type}
       />
     </article>
   );

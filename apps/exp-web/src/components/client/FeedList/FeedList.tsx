@@ -1,14 +1,15 @@
 "use client";
 
-import { type FC, useState, Fragment } from "react";
+import { type FC, Fragment } from "react";
 import type { Feed } from "@wanin/types";
 import FeedItem from "./FeedItem";
-import { Virtuoso } from "react-virtuoso";
 import FeedSkeleton from "./FeedSkeleton";
-import { useInfiniteScroll, experimental_useInfiniteQuery } from "@/hooks";
-import { getBaseUrl } from "@/utils/get-base-url";
+import { useInfiniteScroll } from "@/hooks";
+import { type InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
+import { fetchMoreFeedList } from "@/helpers/api/client";
 
 interface Props {
+  queryKey?: string;
   initFeed: Feed[];
   searchParams?: Record<string, string>;
   experimental?: boolean;
@@ -16,27 +17,45 @@ interface Props {
 }
 
 const FeedList: FC<Props> = (props) => {
-  const { experimental = false, initFeed, initPage = 1, searchParams } = props;
+  const {
+    queryKey,
+    experimental = false,
+    initFeed,
+    initPage = 1,
+    searchParams,
+  } = props;
 
-  const [page, setPage] = useState(initPage);
+  const fetcher = async ({ pageParam = initPage }): Promise<Feed[]> => {
+    return (await fetchMoreFeedList({
+      page: pageParam,
+      searchParams,
+    })) as Feed[];
+  };
+
   const {
     data: feeds,
-    isLoading,
-    isError,
-    hasMore,
-    isSuccess,
-  } = experimental_useInfiniteQuery<Feed>({
-    url: `${getBaseUrl()}/api/feed`,
-    initData: initFeed,
-    page,
-    searchParams,
+    error: isError,
+    fetchNextPage,
+    hasNextPage: hasMore,
+    isFetching: isLoading,
+  } = useInfiniteQuery<Feed[]>({
+    queryKey: [`${queryKey}_feed_list`],
+    queryFn: fetcher,
+    initialData: {
+      pages: [initFeed],
+      pageParams: [initPage],
+    },
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length === 0 || !lastPage) return undefined;
+      return pages.length + 1;
+    },
   });
 
   const { ref: lastItemRef } = useInfiniteScroll({
     isLoading,
-    isError,
-    hasMore,
-    onLoadMore: () => setPage((prev) => prev + 1),
+    isError: isError as boolean,
+    hasMore: hasMore as boolean,
+    onLoadMore: fetchNextPage,
     intersectionObserverInit: {
       rootMargin: "150px",
     },
@@ -44,51 +63,66 @@ const FeedList: FC<Props> = (props) => {
 
   return (
     <div className="w-full w-bg-secondary rounded-lg shadow-lg">
-      {experimental && (
-        <>
-          <Virtuoso
-            totalCount={feeds.length}
-            data={feeds}
-            overscan={100}
-            endReached={() => hasMore && setPage((prev) => prev + 1)}
-            style={{ height: "100%" }}
-            useWindowScroll
-            itemContent={(index, item) => {
-              return (
-                <>
-                  <FeedItem feed={item} />
-                  {index !== feeds.length - 1 && (
-                    <hr className="dark:border-gray-700" />
-                  )}
-                </>
-              );
-            }}
-          />
-        </>
-      )}
-      {!experimental && (
-        <>
-          {feeds.map((item, index) => {
-            if (index === feeds.length - 1) {
-              return <FeedItem key={item.fid} feed={item} ref={lastItemRef} />;
-            }
-            return (
-              <Fragment key={item.fid}>
-                <FeedItem feed={item} />
+      <>
+        {/*{experimental && (*/}
+        {/*  <>*/}
+        {/*    <Virtuoso*/}
+        {/*      totalCount={feeds.length}*/}
+        {/*      data={feeds}*/}
+        {/*      overscan={100}*/}
+        {/*      endReached={() => hasMore && setPage((prev) => prev + 1)}*/}
+        {/*      style={{ height: "100%" }}*/}
+        {/*      useWindowScroll*/}
+        {/*      itemContent={(index, item) => {*/}
+        {/*        return (*/}
+        {/*          <>*/}
+        {/*            <FeedItem feed={item} />*/}
+        {/*            {index !== feeds.length - 1 && (*/}
+        {/*              <hr className="dark:border-gray-700" />*/}
+        {/*            )}*/}
+        {/*          </>*/}
+        {/*        );*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*  </>*/}
+        {/*)}*/}
+        {!experimental && (
+          <>
+            {(feeds as InfiniteData<Feed[]>).pages.map((group, index) => (
+              <>
+                <Fragment key={index}>
+                  {group.map((item, i) => {
+                    if (i === group.length - 1) {
+                      return (
+                        <FeedItem
+                          key={item.fid}
+                          feed={item}
+                          ref={lastItemRef}
+                        />
+                      );
+                    }
+                    return (
+                      <Fragment key={item.fid}>
+                        <FeedItem feed={item} />
+                        <hr className="dark:border-gray-700" />
+                      </Fragment>
+                    );
+                  })}
+                </Fragment>
                 <hr className="dark:border-gray-700" />
-              </Fragment>
-            );
-          })}
-        </>
-      )}
-      {isLoading && <FeedSkeleton />}
-      {isError && (
-        <div className="w-full h-20 flex justify-center items-center">
-          <h3 className="text-warning">
-            Something went wrong, please try again later.
-          </h3>
-        </div>
-      )}
+              </>
+            ))}
+          </>
+        )}
+        {isLoading && <FeedSkeleton />}
+        {isError && (
+          <div className="w-full h-20 flex justify-center items-center">
+            <h3 className="text-warning">
+              Something went wrong, please try again later.
+            </h3>
+          </div>
+        )}
+      </>
     </div>
   );
 };
