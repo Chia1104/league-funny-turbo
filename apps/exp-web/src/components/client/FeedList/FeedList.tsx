@@ -21,7 +21,7 @@ const FeedList: FC<Props> = (props) => {
     queryKey,
     experimental = false,
     initFeed,
-    initPage = 1,
+    initPage = 2,
     searchParams,
   } = props;
 
@@ -39,11 +39,11 @@ const FeedList: FC<Props> = (props) => {
     hasNextPage: hasMore,
     isFetching: isLoading,
   } = useInfiniteQuery<Feed[]>({
-    queryKey: [`${queryKey}_feed_list`],
+    queryKey: [queryKey],
     queryFn: fetcher,
     initialData: {
       pages: [initFeed],
-      pageParams: [initPage],
+      pageParams: [initPage - 1],
     },
     getNextPageParam: (lastPage, pages) => {
       if (lastPage.length === 0 || !lastPage) return undefined;

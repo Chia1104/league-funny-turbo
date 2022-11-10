@@ -1,9 +1,17 @@
 import "server-only";
 import { API_URL } from "@/shared/constants";
-import type { Feed, Pagenate, ApiResponse, PostCategory } from "@wanin/types";
-import type { ApiResult } from "@/helpers/api/type";
+import type {
+  Feed,
+  Pagenate,
+  ApiResponse,
+  PostCategory,
+  LoginSession,
+  LaravelToken,
+  User,
+} from "@wanin/types";
+import { type ApiResult } from "@/helpers/api/type";
 import { setSearchParams } from "@wanin/utils";
-import { getBaseUrl } from "@/utils/get-base-url";
+import { type Session } from "next-auth";
 
 const fetchFeedDetail = async (bcId: string): Promise<ApiResult<Feed>> => {
   const data = await fetch(`${API_URL}/api/feed/${bcId}`, {

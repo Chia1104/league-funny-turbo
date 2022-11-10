@@ -3,6 +3,7 @@ import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { Redis } from "@upstash/redis";
+// import jwt from "jsonwebtoken";
 
 const redis = new Redis({
   // @ts-ignore
@@ -31,6 +32,23 @@ export const authOptions: NextAuthOptions = {
   //     return jwt.verify(token, secret);
   //   },
   // },
+  callbacks: {
+    // async signIn({ user, account, profile, email, credentials }) {
+    //   console.log("signIn", user, account, profile, email, credentials);
+    //   if (typeof window !== "undefined") {
+    //     console.log("client here");
+    //   }
+    //   return true;
+    // },
+    // async session({ session, token, user }) {
+    //   console.log("session", session, token, user);
+    //   return session;
+    // },
+    // async jwt({ token, account }) {
+    //   console.log("jwt", token, account);
+    //   return token;
+    // },
+  },
 };
 
 export default NextAuth(authOptions);

@@ -17,7 +17,7 @@ const BTPage = async ({ params }: { params: { b_type: string } }) => {
         searchParams={{
           boardType: params.b_type,
         }}
-        queryKey={params.b_type}
+        queryKey={`${params.b_type}_feed_list`}
       />
     </article>
   );
