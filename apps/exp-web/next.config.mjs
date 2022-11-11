@@ -57,6 +57,7 @@ export default defineNextConfig({
       "img.league-funny.com",
       "img.youtube.com",
       "platform-lookaside.fbsbx.com",
+      "static-cdn.jtvnw.net",
     ],
   },
   webpack: (config) => {

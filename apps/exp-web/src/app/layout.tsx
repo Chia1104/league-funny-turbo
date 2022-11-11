@@ -7,7 +7,6 @@ import { authOptions as nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const session = await unstable_getServerSession(nextAuthOptions);
-  console.log("session", session);
   return (
     <html lang="en">
       <head>

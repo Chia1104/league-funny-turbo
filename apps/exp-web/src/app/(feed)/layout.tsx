@@ -9,7 +9,7 @@ import {
 } from "@/lib/ui";
 import { Size } from "@wanin/types";
 import Link from "next/link";
-import { type ReactNode, Suspense } from "react";
+import { type ReactNode } from "react";
 import { Banner } from "@/components/client";
 
 const FeedLayout = ({ children }: { children: ReactNode }) => {

@@ -7,6 +7,8 @@ import { fetchSidebar } from "@/helpers/api/client";
 import { useQuery } from "@tanstack/react-query";
 import { ListLoader } from "@/components/client/PostCategoryList";
 import { makeQueryClient } from "@/utils/make-query-client.util";
+import cx from "classnames";
+import { useSelectedLayoutSegments } from "next/navigation";
 
 interface ListProps {
   bord: PostCategory[];
@@ -34,6 +36,7 @@ const PostCategoryList: FC = () => {
 };
 
 const List: FC<ListProps> = ({ bord }) => {
+  const selectedLayoutSegments = useSelectedLayoutSegments();
   return (
     <div className="overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full">
       {bord.map((category) => (
@@ -44,7 +47,12 @@ const List: FC<ListProps> = ({ bord }) => {
               <Link
                 scroll
                 href={`/${detail.b_type}`}
-                className="ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+                className={cx(
+                  "ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition duration-300 ease-in-out",
+                  detail.b_type.toLowerCase() ===
+                    selectedLayoutSegments[0]?.toLowerCase() &&
+                    "bg-gray-100 dark:bg-black"
+                )}>
                 {detail.b_zh_name}
               </Link>
             </p>

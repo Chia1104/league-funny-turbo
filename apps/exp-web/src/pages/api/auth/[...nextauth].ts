@@ -1,15 +1,13 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { Awaitable, NextAuthOptions } from "next-auth";
 import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
-import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
-import { Redis } from "@upstash/redis";
 import jwt from "jsonwebtoken";
+import { laravelLogin } from "@/helpers/api/server-only";
+import { ApiResponse, LaravelToken, LoginSession, User } from "@wanin/types";
+import NodeCache from "node-cache";
+import { JWT } from "next-auth/jwt";
 
-const redis = new Redis({
-  // @ts-ignore
-  url: process.env.UPSTASH_REDIS_URL,
-  token: process.env.UPSTASH_REDIS_TOKEN,
-});
+const laravelCache = new NodeCache();
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -23,36 +21,41 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.TWITCH_CLIENT_SECRET as string,
     }),
   ],
-  adapter: UpstashRedisAdapter(redis),
   session: { strategy: "jwt" },
   jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
     async encode({ secret, token }) {
+      const _laravelCache = laravelCache.get("laravelCache") as ApiResponse<{
+        access: LaravelToken;
+        refresh: LaravelToken;
+        user: User;
+      }>;
       return jwt.sign(
         {
+          uid: _laravelCache?.data?.user.uid,
           exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
           ...token,
         },
         secret
       );
     },
-    // @ts-ignore
     async decode({ secret, token }) {
-      return jwt.verify(token as string, secret);
+      return jwt.verify(token as string, secret) as Awaitable<JWT>;
     },
   },
   callbacks: {
-    // async signIn({ user, account, profile, email, credentials }) {
-    //   console.log("signIn", user, account, profile, email, credentials);
-    //   return true;
-    // },
-    // async session({ session, token, user }) {
-    //   console.log("session", session, token, user);
-    //   return session;
-    // },
-    // async jwt({ token, account }) {
-    //   console.log("jwt", token, account);
-    //   return token;
-    // },
+    async signIn({ user, account }) {
+      const loginSession: LoginSession = {
+        loginBy: account?.provider === "facebook" ? "fb" : "twitch",
+        id: user.id,
+        email: user.email as string,
+        name: user.name as string,
+      };
+      const result = await laravelLogin(loginSession);
+      if (result.status !== "success") return false;
+      laravelCache.set("laravelCache", result, 1000);
+      return true;
+    },
   },
 };
 

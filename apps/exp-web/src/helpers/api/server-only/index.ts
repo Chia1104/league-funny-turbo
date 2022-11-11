@@ -1,4 +1,3 @@
-import "server-only";
 import { API_URL } from "@/shared/constants";
 import type {
   Feed,
@@ -92,4 +91,30 @@ const generateBcIdPath = async (
   }));
 };
 
-export { fetchFeedDetail, fetchFeedList, generateBTypePath, generateBcIdPath };
+const laravelLogin = async (
+  loginSession: LoginSession
+): Promise<
+  ApiResponse<{
+    access: LaravelToken;
+    refresh: LaravelToken;
+    user: User;
+  }>
+> => {
+  const data = await fetch(`${API_URL}/api/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(loginSession),
+  });
+  return data.json();
+};
+
+export {
+  fetchFeedDetail,
+  fetchFeedList,
+  generateBTypePath,
+  generateBcIdPath,
+  laravelLogin,
+};
