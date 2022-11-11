@@ -9,6 +9,7 @@ export default async function handler(
   const token = await getToken({
     req,
     secret: NEXTAUTH_SECRET,
+    raw: true,
   });
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
