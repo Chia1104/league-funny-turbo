@@ -2,7 +2,7 @@ import NextAuth, { Awaitable, NextAuthOptions } from "next-auth";
 import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
 import jwt from "jsonwebtoken";
-import { laravelLogin } from "@/helpers/api/server-only";
+import { laravelLogin } from "@/helpers/api/client";
 import { ApiResponse, LaravelToken, LoginSession, User } from "@wanin/types";
 import NodeCache from "node-cache";
 import { JWT } from "next-auth/jwt";

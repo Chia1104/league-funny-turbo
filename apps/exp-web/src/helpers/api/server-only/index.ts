@@ -1,3 +1,4 @@
+import "server-only";
 import { API_URL } from "@/shared/constants";
 import type {
   Feed,
@@ -10,7 +11,6 @@ import type {
 } from "@wanin/types";
 import { type ApiResult } from "@/helpers/api/type";
 import { setSearchParams } from "@wanin/utils";
-import { type Session } from "next-auth";
 
 const fetchFeedDetail = async (bcId: string): Promise<ApiResult<Feed>> => {
   const data = await fetch(`${API_URL}/api/feed/${bcId}`, {
