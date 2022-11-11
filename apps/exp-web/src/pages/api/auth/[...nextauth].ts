@@ -3,7 +3,7 @@ import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { Redis } from "@upstash/redis";
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const redis = new Redis({
   // @ts-ignore
@@ -12,6 +12,7 @@ const redis = new Redis({
 });
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     FacebookProvider({
       clientId: process.env.FACEBOOK_ID as string,
@@ -24,20 +25,24 @@ export const authOptions: NextAuthOptions = {
   ],
   adapter: UpstashRedisAdapter(redis),
   session: { strategy: "jwt" },
-  // jwt: {
-  //   async encode({ secret, token }) {
-  //     return jwt.sign(token, secret);
-  //   },
-  //   async decode({ secret, token }) {
-  //     return jwt.verify(token, secret);
-  //   },
-  // },
+  jwt: {
+    async encode({ secret, token }) {
+      return jwt.sign(
+        {
+          exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+          ...token,
+        },
+        secret
+      );
+    },
+    // @ts-ignore
+    async decode({ secret, token }) {
+      return jwt.verify(token as string, secret);
+    },
+  },
   callbacks: {
     // async signIn({ user, account, profile, email, credentials }) {
     //   console.log("signIn", user, account, profile, email, credentials);
-    //   if (typeof window !== "undefined") {
-    //     console.log("client here");
-    //   }
     //   return true;
     // },
     // async session({ session, token, user }) {

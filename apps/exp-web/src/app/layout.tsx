@@ -3,9 +3,11 @@ import "@wanin/ui/styles.css";
 import { ErrorBoundary, MainNav, Provider } from "@/components/client";
 import { type Session, unstable_getServerSession } from "next-auth";
 import { type ReactNode } from "react";
+import { authOptions as nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
-  const session = await unstable_getServerSession();
+  const session = await unstable_getServerSession(nextAuthOptions);
+  console.log("session", session);
   return (
     <html lang="en">
       <head>

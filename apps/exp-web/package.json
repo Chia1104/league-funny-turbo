@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.25",
     "@types/uuid": "^8.3.4",
