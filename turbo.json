@@ -18,7 +18,9 @@
         "TWITCH_CLIENT_SECRET",
         "RAILWAY_STATIC_URL",
         "VERCEL_URL",
-        "API_URL"
+        "API_URL",
+        "UPSTASH_REDIS_URL",
+        "UPSTASH_REDIS_TOKEN"
       ]
     },
     "web#build": {

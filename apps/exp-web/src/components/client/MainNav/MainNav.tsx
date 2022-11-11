@@ -27,6 +27,24 @@ const MainNav: FC = () => {
     </>
   );
 
+  const userInfo = () => (
+    <>
+      <Popover.Item title>
+        <span>{session?.user?.name ?? "您尚未登入"}</span>
+      </Popover.Item>
+      {data.map((item) => (
+        <Popover.Item key={item.id}>
+          <Link href="#">
+            <span className="flex gap-2">{item.content}</span>
+          </Link>
+        </Popover.Item>
+      ))}
+      <Popover.Item>
+        <button onClick={() => signOut()}>登出</button>
+      </Popover.Item>
+    </>
+  );
+
   return (
     <nav className="w-bg-secondary w-screen flex h-[65px] items-center top-0 fixed justify-center z-50 shadow-lg shadow-gray-200 dark:shadow-none dark:border-b dark:border-gray-700">
       <div className="flex container w-[100%]">
@@ -101,19 +119,16 @@ const MainNav: FC = () => {
             )}
             {session && (
               <>
-                <Avatar
-                  username={session?.user?.name ?? ""}
-                  ratio={30}
-                  url={session?.user?.image ?? ""}
-                />
-                {/*<a*/}
-                {/*  href={`/api/auth/signout`}*/}
-                {/*  onClick={(e) => {*/}
-                {/*    e.preventDefault();*/}
-                {/*    signOut();*/}
-                {/*  }}>*/}
-                {/*  Sign out*/}
-                {/*</a>*/}
+                <Popover
+                  content={userInfo}
+                  placement="bottom"
+                  portalClassName="min-w-[230px]">
+                  <Avatar
+                    username={session?.user?.name ?? ""}
+                    ratio={30}
+                    url={session?.user?.image ?? ""}
+                  />
+                </Popover>
               </>
             )}
           </li>

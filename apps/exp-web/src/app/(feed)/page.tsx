@@ -7,7 +7,7 @@ const HomePage = async () => {
 
   return (
     <article className="w-full">
-      <FeedList initFeed={initFeed?.data as Feed[]} queryKey="home" />
+      <FeedList initFeed={initFeed?.data as Feed[]} queryKey="home_feed_list" />
     </article>
   );
 };

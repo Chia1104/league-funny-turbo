@@ -1,20 +1,16 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { Awaitable, NextAuthOptions } from "next-auth";
 import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
-// import { PrismaAdapter } from "@next-auth/prisma-adapter";
-// import { prisma } from "@wanin/db";
+import jwt from "jsonwebtoken";
+import { laravelLogin } from "@/helpers/api/client";
+import { ApiResponse, LaravelToken, LoginSession, User } from "@wanin/types";
+import NodeCache from "node-cache";
+import { JWT } from "next-auth/jwt";
+
+const laravelCache = new NodeCache();
 
 export const authOptions: NextAuthOptions = {
-  // callbacks: {
-  //   session({ session, user }) {
-  //     if (session.user) {
-  //       // @ts-ignore
-  //       session.user.id = user.id;
-  //     }
-  //     return session;
-  //   },
-  // },
-  // adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     FacebookProvider({
       clientId: process.env.FACEBOOK_ID as string,
@@ -25,10 +21,42 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.TWITCH_CLIENT_SECRET as string,
     }),
   ],
-  // pages: {
-  //   signIn: "/auth/signin",
-  // },
   session: { strategy: "jwt" },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+    async encode({ secret, token }) {
+      const _laravelCache = laravelCache.get("laravelCache") as ApiResponse<{
+        access: LaravelToken;
+        refresh: LaravelToken;
+        user: User;
+      }>;
+      return jwt.sign(
+        {
+          uid: _laravelCache?.data?.user.uid,
+          exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+          ...token,
+        },
+        secret
+      );
+    },
+    async decode({ secret, token }) {
+      return jwt.verify(token as string, secret) as Awaitable<JWT>;
+    },
+  },
+  callbacks: {
+    async signIn({ user, account }) {
+      const loginSession: LoginSession = {
+        loginBy: account?.provider === "facebook" ? "fb" : "twitch",
+        id: user.id,
+        email: user.email as string,
+        name: user.name as string,
+      };
+      const result = await laravelLogin(loginSession);
+      if (result.status !== "success") return false;
+      laravelCache.set("laravelCache", result, 1000);
+      return true;
+    },
+  },
 };
 
 export default NextAuth(authOptions);

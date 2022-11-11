@@ -1,25 +1,12 @@
 import "./globals.css";
 import "@wanin/ui/styles.css";
 import { ErrorBoundary, MainNav, Provider } from "@/components/client";
-import { getBaseUrl } from "@/utils/get-base-url";
-import type { Session } from "next-auth";
-import { headers } from "next/headers";
+import { type Session, unstable_getServerSession } from "next-auth";
 import { type ReactNode } from "react";
-
-const getSession = async (cookie: string): Promise<Session> => {
-  const response = await fetch(`${getBaseUrl()}/api/auth/session`, {
-    headers: {
-      cookie,
-    },
-  });
-
-  const session = await response.json();
-
-  return Object.keys(session).length > 0 ? session : null;
-};
+import { authOptions as nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
-  const session = await getSession(headers().get("cookie") ?? "");
+  const session = await unstable_getServerSession(nextAuthOptions);
   return (
     <html lang="en">
       <head>
@@ -29,7 +16,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       </head>
       <body className="w-bg-primary scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full">
         <ErrorBoundary>
-          <Provider session={session}>
+          <Provider session={session as Session}>
             <MainNav />
             {children}
           </Provider>

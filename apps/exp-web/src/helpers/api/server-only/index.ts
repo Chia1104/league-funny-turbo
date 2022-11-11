@@ -1,9 +1,16 @@
 import "server-only";
 import { API_URL } from "@/shared/constants";
-import type { Feed, Pagenate, ApiResponse, PostCategory } from "@wanin/types";
-import type { ApiResult } from "@/helpers/api/type";
+import type {
+  Feed,
+  Pagenate,
+  ApiResponse,
+  PostCategory,
+  LoginSession,
+  LaravelToken,
+  User,
+} from "@wanin/types";
+import { type ApiResult } from "@/helpers/api/type";
 import { setSearchParams } from "@wanin/utils";
-import { getBaseUrl } from "@/utils/get-base-url";
 
 const fetchFeedDetail = async (bcId: string): Promise<ApiResult<Feed>> => {
   const data = await fetch(`${API_URL}/api/feed/${bcId}`, {
@@ -84,4 +91,30 @@ const generateBcIdPath = async (
   }));
 };
 
-export { fetchFeedDetail, fetchFeedList, generateBTypePath, generateBcIdPath };
+const laravelLogin = async (
+  loginSession: LoginSession
+): Promise<
+  ApiResponse<{
+    access: LaravelToken;
+    refresh: LaravelToken;
+    user: User;
+  }>
+> => {
+  const data = await fetch(`${API_URL}/api/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(loginSession),
+  });
+  return data.json();
+};
+
+export {
+  fetchFeedDetail,
+  fetchFeedList,
+  generateBTypePath,
+  generateBcIdPath,
+  laravelLogin,
+};
