@@ -32,7 +32,9 @@ export const authOptions: NextAuthOptions = {
       }>;
       return jwt.sign(
         {
-          uid: _laravelCache?.data?.user.uid,
+          id: _laravelCache?.data?.user.uid,
+          a: _laravelCache?.data?.user.admin_id,
+          name: _laravelCache?.data?.user.u_name,
           exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
           ...token,
         },
