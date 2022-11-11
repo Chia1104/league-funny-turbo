@@ -4,10 +4,10 @@ import FacebookProvider from "next-auth/providers/facebook";
 import jwt from "jsonwebtoken";
 import { laravelLogin } from "@/helpers/api/client";
 import { ApiResponse, LaravelToken, LoginSession, User } from "@wanin/types";
-import NodeCache from "node-cache";
 import { JWT } from "next-auth/jwt";
+import { loaclCache } from "@/utils/loacl-cache.util";
 
-const laravelCache = new NodeCache();
+const laravelCache = loaclCache();
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
