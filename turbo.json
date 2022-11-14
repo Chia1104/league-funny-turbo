@@ -20,7 +20,8 @@
         "VERCEL_URL",
         "API_URL",
         "UPSTASH_REDIS_URL",
-        "UPSTASH_REDIS_TOKEN"
+        "UPSTASH_REDIS_TOKEN",
+        "TOKEN_EXPIRE"
       ]
     },
     "web#build": {

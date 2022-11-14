@@ -1,41 +1,55 @@
-import NextAuth, { Awaitable, NextAuthOptions } from "next-auth";
+import NextAuth, { type Awaitable, type NextAuthOptions } from "next-auth";
 import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
 import jwt from "jsonwebtoken";
 import { laravelLogin } from "@/helpers/api/client";
-import { ApiResponse, LaravelToken, LoginSession, User } from "@wanin/types";
-import { JWT } from "next-auth/jwt";
-import { loaclCache } from "@/utils/loacl-cache.util";
+import {
+  type ApiResponse,
+  type LoginSession,
+  type User,
+  LoginProvider,
+  ApiResponseStatus,
+} from "@wanin/types";
+import type { JWT } from "next-auth/jwt";
+import NodeCache from "node-cache";
+import {
+  NEXTAUTH_SECRET,
+  FACEBOOK_ID,
+  FACEBOOK_SECRET,
+  TWITCH_CLIENT_SECRET,
+  TWITCH_CLIENT_ID,
+  TOKEN_EXPIRE,
+} from "@/shared/constants";
 
-const laravelCache = loaclCache();
+const laravelCache = new NodeCache();
+const CACHE_TTL = 1000; // 1 second
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: NEXTAUTH_SECRET,
   providers: [
     FacebookProvider({
-      clientId: process.env.FACEBOOK_ID as string,
-      clientSecret: process.env.FACEBOOK_SECRET as string,
+      clientId: FACEBOOK_ID as string,
+      clientSecret: FACEBOOK_SECRET as string,
     }),
     TwitchProvider({
-      clientId: process.env.TWITCH_CLIENT_ID as string,
-      clientSecret: process.env.TWITCH_CLIENT_SECRET as string,
+      clientId: TWITCH_CLIENT_SECRET as string,
+      clientSecret: TWITCH_CLIENT_ID as string,
     }),
   ],
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: TOKEN_EXPIRE },
   jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
+    maxAge: TOKEN_EXPIRE,
+    secret: NEXTAUTH_SECRET,
     async encode({ secret, token }) {
-      const _laravelCache = laravelCache.get("laravelCache") as ApiResponse<{
-        access: LaravelToken;
-        refresh: LaravelToken;
-        user: User;
-      }>;
+      const _laravelCache = laravelCache.get(
+        token?.email || "laravelCache"
+      ) as ApiResponse<User[]>;
       return jwt.sign(
         {
-          id: _laravelCache?.data?.user.uid,
-          a: _laravelCache?.data?.user.admin_id,
-          name: _laravelCache?.data?.user.u_name,
-          exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+          id: _laravelCache?.data[0].uid,
+          a: _laravelCache?.data[0].admin_id,
+          name: _laravelCache?.data[0].u_name,
+          exp: Math.floor(Date.now() / 1000) + TOKEN_EXPIRE,
           ...token,
         },
         secret
@@ -48,14 +62,17 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       const loginSession: LoginSession = {
-        loginBy: account?.provider === "facebook" ? "fb" : "twitch",
+        loginBy:
+          account?.provider === "facebook"
+            ? LoginProvider.FB
+            : LoginProvider.TWITCH,
         id: user.id,
         email: user.email as string,
         name: user.name as string,
       };
       const result = await laravelLogin(loginSession);
-      if (result.status !== "success") return false;
-      laravelCache.set("laravelCache", result, 1000);
+      if (result.status !== ApiResponseStatus.SUCCESS) return false;
+      laravelCache.set(user.email as string, result, CACHE_TTL);
       return true;
     },
   },
