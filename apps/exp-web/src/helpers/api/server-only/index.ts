@@ -93,13 +93,7 @@ const generateBcIdPath = async (
 
 const laravelLogin = async (
   loginSession: LoginSession
-): Promise<
-  ApiResponse<{
-    access: LaravelToken;
-    refresh: LaravelToken;
-    user: User;
-  }>
-> => {
+): Promise<ApiResponse<User[]>> => {
   const data = await fetch(`${API_URL}/api/login`, {
     method: "POST",
     headers: {
