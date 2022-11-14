@@ -6,7 +6,6 @@ import type {
   ApiResponse,
   PostCategory,
   LoginSession,
-  LaravelToken,
   User,
 } from "@wanin/types";
 import { type ApiResult } from "@/helpers/api/type";

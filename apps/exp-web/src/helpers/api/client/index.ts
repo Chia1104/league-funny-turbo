@@ -1,8 +1,14 @@
 import { API_URL } from "@/shared/constants";
-import type { Pagenate, PostCategory, Feed } from "@wanin/types";
+import type {
+  Pagenate,
+  PostCategory,
+  Feed,
+  ApiResponse,
+  LoginSession,
+  User,
+} from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
-import { ApiResponse, LaravelToken, LoginSession, User } from "@wanin/types";
 
 const fetchSidebar = async (): Promise<PostCategory[]> => {
   const res = await fetch(`${getBaseUrl()}/api/main-bord`, {

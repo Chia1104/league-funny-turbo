@@ -8,6 +8,7 @@ import {
   type LoginSession,
   type User,
   LoginProvider,
+  ApiResponseStatus,
 } from "@wanin/types";
 import type { JWT } from "next-auth/jwt";
 import NodeCache from "node-cache";
@@ -70,7 +71,7 @@ export const authOptions: NextAuthOptions = {
         name: user.name as string,
       };
       const result = await laravelLogin(loginSession);
-      if (result.status !== "success") return false;
+      if (result.status !== ApiResponseStatus.SUCCESS) return false;
       laravelCache.set(user.email as string, result, CACHE_TTL);
       return true;
     },
