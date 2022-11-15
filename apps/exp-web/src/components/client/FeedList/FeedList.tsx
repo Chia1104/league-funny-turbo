@@ -1,12 +1,13 @@
 "use client";
 
-import { type FC, Fragment } from "react";
+import { type FC, Fragment, useMemo } from "react";
 import type { Feed } from "@wanin/types";
 import FeedItem from "./FeedItem";
 import FeedSkeleton from "./FeedSkeleton";
 import { useInfiniteScroll } from "@/hooks";
-import { type InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchMoreFeedList } from "@/helpers/api/client";
+import { Virtuoso } from "react-virtuoso";
 
 interface Props {
   queryKey?: string;
@@ -52,6 +53,11 @@ const FeedList: FC<Props> = (props) => {
     },
   });
 
+  const _feeds = useMemo(() => {
+    if (!feeds) return [];
+    return feeds.pages.flat();
+  }, [feeds]);
+
   const { ref: lastItemRef } = useInfiniteScroll({
     isLoading,
     isError: isError as boolean,
@@ -65,54 +71,43 @@ const FeedList: FC<Props> = (props) => {
   return (
     <div className="w-full w-bg-secondary rounded-lg shadow-lg">
       <>
-        {/*{experimental && (*/}
-        {/*  <>*/}
-        {/*    <Virtuoso*/}
-        {/*      totalCount={feeds.length}*/}
-        {/*      data={feeds}*/}
-        {/*      overscan={100}*/}
-        {/*      endReached={() => hasMore && setPage((prev) => prev + 1)}*/}
-        {/*      style={{ height: "100%" }}*/}
-        {/*      useWindowScroll*/}
-        {/*      itemContent={(index, item) => {*/}
-        {/*        return (*/}
-        {/*          <>*/}
-        {/*            <FeedItem feed={item} />*/}
-        {/*            {index !== feeds.length - 1 && (*/}
-        {/*              <hr className="dark:border-gray-700" />*/}
-        {/*            )}*/}
-        {/*          </>*/}
-        {/*        );*/}
-        {/*      }}*/}
-        {/*    />*/}
-        {/*  </>*/}
-        {/*)}*/}
+        {experimental && (
+          <>
+            <Virtuoso
+              totalCount={_feeds.length}
+              data={_feeds}
+              overscan={100}
+              endReached={() => fetchNextPage()}
+              style={{ height: "100%" }}
+              useWindowScroll
+              itemContent={(index, item) => {
+                return (
+                  <>
+                    <FeedItem feed={item} />
+                    {index !== _feeds.length - 1 && (
+                      <hr className="dark:border-gray-700" />
+                    )}
+                  </>
+                );
+              }}
+            />
+          </>
+        )}
         {!experimental && (
           <>
-            {(feeds as InfiniteData<Feed[]>).pages.map((group, index) => (
-              <>
-                <Fragment key={index}>
-                  {group.map((item, i) => {
-                    if (i === group.length - 1) {
-                      return (
-                        <FeedItem
-                          key={item.fid}
-                          feed={item}
-                          ref={lastItemRef}
-                        />
-                      );
-                    }
-                    return (
-                      <Fragment key={item.fid}>
-                        <FeedItem feed={item} />
-                        <hr className="dark:border-gray-700" />
-                      </Fragment>
-                    );
-                  })}
+            {_feeds.map((item, index) => {
+              if (index === _feeds.length - 1) {
+                return (
+                  <FeedItem key={item.fid} feed={item} ref={lastItemRef} />
+                );
+              }
+              return (
+                <Fragment key={item.fid}>
+                  <FeedItem feed={item} />
+                  <hr className="dark:border-gray-700" />
                 </Fragment>
-                <hr className="dark:border-gray-700" />
-              </>
-            ))}
+              );
+            })}
           </>
         )}
         {isLoading && <FeedSkeleton />}

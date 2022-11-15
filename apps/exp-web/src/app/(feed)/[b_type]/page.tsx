@@ -1,7 +1,7 @@
 import type { Feed } from "@wanin/types";
 import { FeedList } from "@/components/client";
 import { notFound } from "next/navigation";
-import { fetchFeedList, generateBTypePath } from "@/helpers/api/server-only";
+import { fetchFeedList } from "@/helpers/api/server-only";
 
 // export const generateStaticParams = async () => {
 //   return await generateBTypePath();
@@ -18,6 +18,7 @@ const BTPage = async ({ params }: { params: { b_type: string } }) => {
           boardType: params.b_type,
         }}
         queryKey={`${params.b_type}_feed_list`}
+        experimental
       />
     </article>
   );
