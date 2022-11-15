@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
-import fetch from "node-fetch";
 import type { ApiResponse, PostCategory } from "@wanin/types";
 
 export default async function handler(
