@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "prisma studio --port 5556",
     "db-push": "prisma db push",
-    "postinstall": "prisma generate",
     "migration:init": "prisma migrate dev --name init"
   },
   "dependencies": {
