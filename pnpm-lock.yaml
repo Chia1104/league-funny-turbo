@@ -38,6 +38,7 @@ importers:
       '@next-auth/upstash-redis-adapter': ^3.0.3
       '@reduxjs/toolkit': ^1.9.0
       '@tanstack/react-query': ^4.14.5
+      '@tanstack/react-virtual': 3.0.0-beta.22
       '@testing-library/react': ^13.4.0
       '@types/jsonwebtoken': ^8.5.9
       '@types/node': ^17.0.45
@@ -78,6 +79,7 @@ importers:
       '@next-auth/upstash-redis-adapter': 3.0.3_n6cpmqbz2alp536worvl5pkpgm
       '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
       '@tanstack/react-query': 4.14.5_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-virtual': 3.0.0-beta.22_react@18.2.0
       '@upstash/redis': 1.16.0
       '@wanin/ui': link:../../packages/ui
       '@wanin/utils': link:../../packages/utils
@@ -1308,6 +1310,21 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/react-virtual/3.0.0-beta.22_react@18.2.0:
+    resolution: {integrity: sha512-OPgnjp6+F/8twCToWq1bglbxaNoOIKac/K6zhljhGIVq5lp1VXpkw47lWvLTU7RFfcFl03E61zZkqGbSFTk9uA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tanstack/virtual-core': 3.0.0-beta.22
+      react: 18.2.0
+    dev: false
+
+  /@tanstack/virtual-core/3.0.0-beta.22:
+    resolution: {integrity: sha512-kMpEeXXxHXP3mmXmMwKJvCzsiGGRDK745EsOYCiBP9hER04kyPk89rOQIvXhIFBkSj+TjSNCovIIhEzqkpIDNw==}
+    engines: {node: '>=12'}
     dev: false
 
   /@testing-library/dom/8.19.0:

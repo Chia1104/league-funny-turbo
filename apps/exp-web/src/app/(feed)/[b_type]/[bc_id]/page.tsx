@@ -1,7 +1,7 @@
 import type { Feed } from "@wanin/types";
 import { FeedDetail } from "@/components/server";
 import { notFound } from "next/navigation";
-import { fetchFeedDetail, generateBcIdPath } from "@/helpers/api/server-only";
+import { fetchFeedDetail } from "@/helpers/api/server-only";
 
 // export const generateStaticParams = async ({ b_type }: { b_type: string }) => {
 //   return await generateBcIdPath(b_type);
