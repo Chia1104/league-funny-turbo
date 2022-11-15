@@ -51,4 +51,24 @@ const laravelLogin = async (
   return data.json();
 };
 
-export { fetchSidebar, fetchMoreFeedList, laravelLogin };
+const fetchCommentList = async ({
+  fid,
+  page,
+}: {
+  fid: number;
+  page?: number;
+}) => {
+  const res = await fetch(
+    `${getBaseUrl()}/api/comment?${setSearchParams({
+      searchParams: {
+        fid: fid.toString(),
+        page: page?.toString() || "1",
+      },
+    })}`
+  );
+  const data = (await res.json()) as Pagenate<Comment[]>;
+  const { data: commentList } = data;
+  return commentList;
+};
+
+export { fetchSidebar, fetchMoreFeedList, laravelLogin, fetchCommentList };
