@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ChatIcon, EyeIcon } from "@/lib/ui";
 import type { Feed } from "@wanin/types";
-import { Avatar } from "@/components/client";
+import { Avatar, CommentList } from "@/components/client";
 import { type FC } from "react";
 
 const FeedWithHTML = dynamic(() => import("../../client/FeedWithHTML"));
@@ -36,13 +36,13 @@ const FeedDetail: FC<Props> = (props) => {
           <EyeIcon size="base" className="text-gray-500" />
           <p className="text-base">{data.f_views}</p>
         </div>
-        <div className="flex gap-1 items-center">
+        <a href="#commentlist" className="flex gap-1 items-center">
           <ChatIcon size="base" className="text-gray-500" />
           <p className="text-base">{data.f_commentcount}</p>
-        </div>
+        </a>
       </div>
       <hr className="dark:border-gray-700 mb-7" />
-      <div className="">
+      <div className="mb-3">
         {data.f_type === "html" && (
           <FeedWithHTML htmlSource={data.f_attachment} />
         )}
@@ -69,6 +69,8 @@ const FeedDetail: FC<Props> = (props) => {
         )}
         {data.f_type === "article" && <>{data.f_attachment}</>}
       </div>
+      <hr className="dark:border-gray-700" />
+      <CommentList fid={data.fid} count={data.f_commentcount} />
     </div>
   );
 };

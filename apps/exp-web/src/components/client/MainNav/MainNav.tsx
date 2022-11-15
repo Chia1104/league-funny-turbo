@@ -8,9 +8,11 @@ import { Tooltip, Popover } from "@geist-ui/core";
 import data from "@/shared/data/bill.json";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useDarkMode } from "@/hooks";
 
 const MainNav: FC = () => {
   const { data: session } = useSession();
+  const { toggle } = useDarkMode();
 
   const content = () => (
     <>
@@ -31,6 +33,9 @@ const MainNav: FC = () => {
     <>
       <Popover.Item title>
         <span>{session?.user?.name ?? "您尚未登入"}</span>
+      </Popover.Item>
+      <Popover.Item>
+        <button onClick={toggle}>Toggle Theme</button>
       </Popover.Item>
       {data.map((item) => (
         <Popover.Item key={item.id}>
@@ -71,6 +76,8 @@ const MainNav: FC = () => {
         <ul className="flex items-center w-[70%] justify-end mr-3 gap-3">
           <li>
             <Popover
+              enterDelay={0}
+              leaveDelay={0}
               content={content}
               placement="bottom"
               portalClassName="min-w-[230px]">
@@ -81,7 +88,11 @@ const MainNav: FC = () => {
             </Popover>
           </li>
           <li>
-            <Tooltip text="任務" placement="bottom">
+            <Tooltip
+              text="任務"
+              placement="bottom"
+              enterDelay={0}
+              leaveDelay={0}>
               <MissionIcon
                 size={Size.Large}
                 className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg"
@@ -89,7 +100,11 @@ const MainNav: FC = () => {
             </Tooltip>
           </li>
           <li>
-            <Tooltip text="成就" placement="bottom">
+            <Tooltip
+              text="成就"
+              placement="bottom"
+              enterDelay={0}
+              leaveDelay={0}>
               <AchievementIcon
                 size={Size.Large}
                 className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg"
@@ -97,7 +112,11 @@ const MainNav: FC = () => {
             </Tooltip>
           </li>
           <li>
-            <Tooltip text="信件" placement="bottom">
+            <Tooltip
+              text="信件"
+              placement="bottom"
+              enterDelay={0}
+              leaveDelay={0}>
               <EnvelopIcon
                 size={Size.Large}
                 className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg"
@@ -120,6 +139,8 @@ const MainNav: FC = () => {
             {session && (
               <>
                 <Popover
+                  enterDelay={0}
+                  leaveDelay={0}
                   content={userInfo}
                   placement="bottom"
                   portalClassName="min-w-[230px]">

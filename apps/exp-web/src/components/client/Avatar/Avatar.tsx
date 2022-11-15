@@ -7,7 +7,7 @@ import Link from "next/link";
 interface Props {
   username: string;
   userId?: string | number;
-  url?: string;
+  url: string;
   ratio: number;
 }
 

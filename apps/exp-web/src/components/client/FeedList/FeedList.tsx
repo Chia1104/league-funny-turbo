@@ -46,7 +46,8 @@ const FeedList: FC<Props> = (props) => {
       pageParams: [initPage - 1],
     },
     getNextPageParam: (lastPage, pages) => {
-      if (lastPage.length === 0 || !lastPage) return undefined;
+      if (lastPage.length === 0 || !lastPage || lastPage.length < 20)
+        return undefined;
       return pages.length + 1;
     },
   });
@@ -120,6 +121,11 @@ const FeedList: FC<Props> = (props) => {
             <h3 className="text-warning">
               Something went wrong, please try again later.
             </h3>
+          </div>
+        )}
+        {!hasMore && !isLoading && (
+          <div className="w-full h-20 flex justify-center items-center">
+            <h3 className="text-gray-400">沒更多文章囉</h3>
           </div>
         )}
       </>

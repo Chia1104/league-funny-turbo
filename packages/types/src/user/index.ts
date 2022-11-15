@@ -26,4 +26,5 @@ export type UserInfo = {
   uid: number;
   u_exp: number;
   u_golds: number;
+  u_lv: number;
 };

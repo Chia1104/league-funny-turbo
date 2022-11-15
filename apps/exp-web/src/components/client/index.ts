@@ -12,3 +12,5 @@ export { default as FeedList } from "./FeedList";
 export { default as Provider } from "./Provider";
 export { default as FeedWithHTML } from "./FeedWithHTML";
 export { default as PostCategoryList } from "./PostCategoryList";
+export { default as CommentList } from "./CommentList";
+export * from "./CommentList";

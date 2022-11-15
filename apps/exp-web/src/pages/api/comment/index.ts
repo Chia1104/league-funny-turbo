@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
-import type { Feed, Pagenate, ApiResponse } from "@wanin/types";
+import type { Comment, Pagenate, ApiResponse } from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
 
 export default async function handler(
@@ -8,13 +8,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { page = 1, top = 20, skip = 0, ...rest } = req.query;
+    const { fid, page, ...rest } = req.query;
     const data = await fetch(
-      `${API_URL}/api/feed?${setSearchParams({
+      `${API_URL}/api/comment?${setSearchParams({
         searchParams: {
-          page: page.toString(),
-          top: top.toString(),
-          skip: skip.toString(),
+          fid: fid?.toString() || "",
+          page: page?.toString() || "1",
           ...rest,
         },
       })}`,
@@ -25,11 +24,11 @@ export default async function handler(
         },
       }
     );
-    const feeds = (await data.json()) as ApiResponse<Pagenate<Feed[]>>;
+    const comments = (await data.json()) as ApiResponse<Pagenate<Comment[]>>;
     if (data.status !== 200) {
       res.status(404).json({ message: "Not Found" });
     }
-    return res.status(200).json(feeds.data);
+    return res.status(200).json(comments.data);
   } catch (error) {
     const { message, code, status } = error as any;
     return res.status(500).json({ status, message, code });
