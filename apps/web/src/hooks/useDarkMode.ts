@@ -15,10 +15,12 @@ interface UseDarkModeOutput {
 export default function useDarkMode(): UseDarkModeOutput {
   const isDarkOS = useMediaQuery(COLOR_SCHEME_QUERY);
   const { theme, setTheme } = useTheme();
+  const systemTheme = isDarkOS ? "dark" : "light";
+  const localTheme = theme === "dark" ? "dark" : "light";
 
   useEffect(() => {
-    setTheme(isDarkOS ? "dark" : "light");
-  }, [isDarkOS]);
+    setTheme(!theme ? systemTheme : localTheme);
+  }, [systemTheme]);
 
   return {
     isDarkMode: theme === "dark",
