@@ -4,9 +4,13 @@ import { type FC, useState } from "react";
 import NextImage, { type ImageProps as NextImageProps } from "next/image";
 import cx from "classnames";
 
-const Image: FC<NextImageProps> = (props) => {
-  const { alt, className, ...rest } = props;
-  const [isLoading, setLoading] = useState<boolean>(true);
+interface ImageProps extends NextImageProps {
+  blur?: boolean;
+}
+
+const Image: FC<ImageProps> = (props) => {
+  const { alt, className, blur, ...rest } = props;
+  const [isLoading, setLoading] = useState<boolean>(blur ?? false);
   return (
     <NextImage
       alt={alt}

@@ -11,7 +11,7 @@ const BCPage = async ({ params }: { params: { bc_id: string } }) => {
   const { data: initFeed, status } = await fetchFeedDetail(params.bc_id);
   if (status !== 200) return notFound();
   return (
-    <article className="w-full flex flex-col">
+    <article className="w-full flex flex-col pt-[110px]">
       <FeedDetail data={initFeed as Feed} />
     </article>
   );

@@ -35,7 +35,8 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
             ratio={25}
           />
           <Link
-            // prefetch={false}
+            scroll
+            prefetch={false}
             href={`/user/${feed?.f_uid}`}
             className="text-sm w-text-bg-info-half dark:w-text-bg-primary-half">
             <p>{feed?.f_author_name || ""}</p>
@@ -56,6 +57,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
         <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded">
           {feed?.f_cover && (
             <Image
+              blur
               src={feed?.f_cover || "/error/error-memoji.png"}
               alt={feed?.f_desc || ""}
               className="object-cover rounded group-hover:scale-[1.05] duration-300 transition ease-in-out"
@@ -70,7 +72,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
         </div>
       </span>
       <Link
-        // prefetch={false}
+        scroll
         className="absolute top-0 bottom-0 right-0 left-0"
         href={`/${feed?.f_game_type}/${feed?.fid}`}
       />
