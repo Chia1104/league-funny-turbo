@@ -1,0 +1,80 @@
+.about {
+  .banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url("/about/about_top.jpg") top center no-repeat fixed;
+    background-size: auto;
+    height: 340px;
+    width: 100%;
+    margin-top: 65px;
+    .banner-logo {
+      position: absolute;
+      background: url("/about/about_top2.png") center center no-repeat;
+      width: 300px;
+      height: 212px;
+      left: 50%;
+      margin: 54px 0 0 -149px;
+    }
+  }
+  .article {
+    position: relative;
+    margin-top: 480px;
+    .title {
+      text-align: center;
+      margin: 0 auto;
+      .title-logo {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .title-hr {
+        margin: 0 auto;
+        text-align: center;
+        width: 250px;
+        border: 1px #aaa solid;
+      }
+    }
+    .article-about {
+      margin: 3% 20%;
+    }
+    .audience {
+      background-color: #f4f4f4;
+      .title {
+        padding: 5%;
+      }
+      .about-img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5% 0;
+        .tr{
+          color: #2b2b2b;
+          font-size: 28px;
+          line-height: 16px;
+          padding-bottom: 20px;
+        }
+        .tr2 {
+          color: #868686;
+          font-size: 24px;
+          line-height: 24px;
+          padding-bottom: 7px;
+        }
+        .tr3 {
+          color: #818181;
+          font-size: 12px;
+        }
+        .sign {
+          color: #007cfb;
+          font-size: 50px;
+          font-weight: 400;
+          line-height: 40px;
+          padding-bottom: 13px;
+        }
+      }
+      .bg-r2 {
+        background: #eeeeee;
+      }
+    }
+  }
+}
