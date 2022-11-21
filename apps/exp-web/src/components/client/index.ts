@@ -14,3 +14,4 @@ export { default as FeedWithHTML } from "./FeedWithHTML";
 export { default as PostCategoryList } from "./PostCategoryList";
 export { default as CommentList } from "./CommentList";
 export * from "./CommentList";
+export { default as FroalaEditor } from "./FroalaEditor";

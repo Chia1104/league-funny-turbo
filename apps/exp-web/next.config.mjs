@@ -60,20 +60,6 @@ export default defineNextConfig({
       "static-cdn.jtvnw.net",
     ],
   },
-  webpack: (config) => {
-    config.resolve = {
-      ...config.resolve,
-
-      fallback: {
-        ...config.resolve.fallback,
-        child_process: false,
-        fs: false,
-        "react/jsx-runtime": "react/jsx-runtime.js",
-      },
-    };
-
-    return config;
-  },
   async headers() {
     return [
       {
