@@ -6,7 +6,7 @@ const HomePage = async () => {
   const { data: initFeed } = await fetchFeedList();
 
   return (
-    <article className="w-full">
+    <article className="w-full pt-[110px]">
       <FeedList
         initFeed={initFeed?.data as Feed[]}
         queryKey="home_feed_list"

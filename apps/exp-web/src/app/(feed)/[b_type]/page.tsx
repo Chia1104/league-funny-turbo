@@ -11,7 +11,7 @@ const BTPage = async ({ params }: { params: { b_type: string } }) => {
   const { data: initFeed } = await fetchFeedList(params.b_type);
   if (!initFeed || initFeed?.data?.length === 0) return notFound();
   return (
-    <article className="w-full">
+    <article className="w-full pt-[110px]">
       <FeedList
         initFeed={initFeed?.data as Feed[]}
         searchParams={{

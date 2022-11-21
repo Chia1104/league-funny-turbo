@@ -4,8 +4,10 @@
 
 @layer base {
   [data-nextjs-scroll-focus-boundary] {
-    all: inherit;
-    display: contents;
+    /*all: inherit;*/
+    /*display: contents;*/
+    @apply
+    w-full
   }
 }
 
