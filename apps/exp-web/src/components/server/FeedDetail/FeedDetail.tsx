@@ -43,7 +43,7 @@ const FeedDetail: FC<Props> = (props) => {
       </div>
       <hr className="dark:border-gray-700 mb-7" />
       <div className="mb-3">
-        {data.f_type === "html" && (
+        {(data.f_type === "html" || "article") && (
           <FeedWithHTML htmlSource={data.f_attachment} />
         )}
         {data.f_type === "youtube" && (
@@ -67,7 +67,6 @@ const FeedDetail: FC<Props> = (props) => {
         {data.f_type === "playlist" && (
           <PlayList attachment={data.f_attachment} />
         )}
-        {data.f_type === "article" && <>{data.f_attachment}</>}
       </div>
       <hr className="dark:border-gray-700" />
       <CommentList fid={data.fid} count={data.f_commentcount} />
