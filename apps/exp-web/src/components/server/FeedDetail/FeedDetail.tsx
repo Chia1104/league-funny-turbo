@@ -43,7 +43,10 @@ const FeedDetail: FC<Props> = (props) => {
       </div>
       <hr className="dark:border-gray-700 mb-7" />
       <div className="mb-3">
-        {(data.f_type === "html" || "article") && (
+        {data.f_type === "html" && (
+          <FeedWithHTML htmlSource={data.f_attachment} />
+        )}
+        {data.f_type === "article" && (
           <FeedWithHTML htmlSource={data.f_attachment} />
         )}
         {data.f_type === "youtube" && (

@@ -24,7 +24,7 @@ const Button: FC<Props> = (props) => {
       {...rest}>
       <span
         className={cx(
-          "w-button-secondary transform text-base",
+          "p-button-secondary transform text-base",
           disabled
             ? "text-gray-400 cursor-not-allowed"
             : "group-hover:-translate-x-1 group-hover:-translate-y-1"
