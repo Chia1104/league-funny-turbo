@@ -2,9 +2,9 @@ name: Web CI
 
 on:
   push:
-    branches: [ master, main, develop ]
+    branches: [ master, main ]
   pull_request:
-    branches: [ dev/web, develop ]
+    branches: [ apps/web, develop ]
 
 env:
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
