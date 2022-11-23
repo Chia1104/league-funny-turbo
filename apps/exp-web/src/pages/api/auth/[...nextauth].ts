@@ -43,13 +43,13 @@ export const authOptions: NextAuthOptions = {
     async encode({ secret, token }) {
       const _laravelCache = laravelCache.get(
         token?.email || "laravelCache"
-      ) as ApiResponse<User[]>;
+      ) as ApiResponse<User>;
       return jwt.sign(
         {
-          id: _laravelCache?.data[0].uid,
-          a: _laravelCache?.data[0].admin_id,
-          b: _laravelCache?.data[0].ban,
-          name: _laravelCache?.data[0].u_name,
+          id: _laravelCache?.data.uid,
+          a: _laravelCache?.data.admin_id,
+          b: _laravelCache?.data.ban,
+          name: _laravelCache?.data.u_name,
           exp: Math.floor(Date.now() / 1000) + TOKEN_EXPIRE,
           ...token,
         },
