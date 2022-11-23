@@ -8,11 +8,11 @@
 
 - [ ] web
 - [ ] exp-web
-- [ ] package (***which one***)
+- [ ] package (**_which one_**)
 
 ### Description
 
-*leave the description here*
+_leave the description here_
 
 ### Tests
 
@@ -23,4 +23,3 @@ pnpm lint
 pnpm test
 pnpm test:e2e
 ```
-

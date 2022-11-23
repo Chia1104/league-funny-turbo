@@ -48,6 +48,7 @@ export const authOptions: NextAuthOptions = {
         {
           id: _laravelCache?.data.uid,
           a: _laravelCache?.data.admin_id,
+          b: _laravelCache?.data.ban,
           name: _laravelCache?.data.u_name,
           exp: Math.floor(Date.now() / 1000) + TOKEN_EXPIRE,
           ...token,

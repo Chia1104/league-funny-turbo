@@ -39,7 +39,7 @@ const securityHeaders = [
 ];
 
 export default defineNextConfig({
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   output: "standalone",
   experimental: {
@@ -59,20 +59,6 @@ export default defineNextConfig({
       "platform-lookaside.fbsbx.com",
       "static-cdn.jtvnw.net",
     ],
-  },
-  webpack: (config) => {
-    config.resolve = {
-      ...config.resolve,
-
-      fallback: {
-        ...config.resolve.fallback,
-        child_process: false,
-        fs: false,
-        "react/jsx-runtime": "react/jsx-runtime.js",
-      },
-    };
-
-    return config;
   },
   async headers() {
     return [

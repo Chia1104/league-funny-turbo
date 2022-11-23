@@ -21,7 +21,8 @@
         "API_URL",
         "UPSTASH_REDIS_URL",
         "UPSTASH_REDIS_TOKEN",
-        "TOKEN_EXPIRE"
+        "TOKEN_EXPIRE",
+        "NEXT_PUBLIC_FROALA_KEY"
       ]
     },
     "web#build": {
