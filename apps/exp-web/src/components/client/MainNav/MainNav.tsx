@@ -9,10 +9,12 @@ import data from "@/shared/data/bill.json";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useDarkMode } from "@/hooks";
+import { useRouter } from "next/navigation";
 
 const MainNav: FC = () => {
   const { data: session } = useSession();
   const { toggle } = useDarkMode();
+  const router = useRouter();
 
   const content = () => (
     <>
@@ -36,6 +38,9 @@ const MainNav: FC = () => {
       </Popover.Item>
       <Popover.Item>
         <button onClick={toggle}>Toggle Theme</button>
+      </Popover.Item>
+      <Popover.Item>
+        <button onClick={() => router.push("/new-post")}>New Post</button>
       </Popover.Item>
       {data.map((item) => (
         <Popover.Item key={item.id}>

@@ -71,4 +71,22 @@ const fetchCommentList = async ({
   return commentList;
 };
 
-export { fetchSidebar, fetchMoreFeedList, laravelLogin, fetchCommentList };
+const fetchBoardCategory = async (
+  b_id: number
+): Promise<{ bc_id: number; bc_name: string }[]> => {
+  const res = await fetch(`${getBaseUrl()}/api/main-bord/${b_id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+  return await res.json();
+};
+
+export {
+  fetchSidebar,
+  fetchMoreFeedList,
+  laravelLogin,
+  fetchCommentList,
+  fetchBoardCategory,
+};
