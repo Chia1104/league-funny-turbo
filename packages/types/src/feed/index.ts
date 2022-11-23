@@ -1,3 +1,9 @@
+export type FeedTag = {
+  pid: string;
+  p_name: string;
+  p_fbname?: string;
+};
+
 export type Feed = {
   fid: number;
   f_type: string;
@@ -16,7 +22,7 @@ export type Feed = {
   f_hot: number;
   f_v_hot: number;
   f_dateline: number;
-  f_tags_info: string;
+  f_tags_info: FeedTag[];
   f_displayorder: number;
   f_collectcount: number;
   f_report: number;
