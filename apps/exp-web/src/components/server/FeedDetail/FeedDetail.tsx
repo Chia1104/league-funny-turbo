@@ -19,7 +19,7 @@ const FeedDetail: FC<Props> = (props) => {
 
   return (
     <div className="w-full w-bg-secondary rounded-lg p-7 flex flex-col overflow-hidden">
-      <h2 className="mb-7">{data.f_desc}</h2>
+      <h2 className="mb-7 text-3xl font-bold">{data.f_desc}</h2>
       <div className="mb-5 flex items-center">
         <Avatar
           username={data.f_author_name}
