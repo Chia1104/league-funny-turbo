@@ -1,33 +1,44 @@
 "use client";
 
-import { type FC } from "react";
+import { type FC, useEffect } from "react";
+import { useIsMounted } from "@/hooks";
 import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
-import dynamic from "next/dynamic";
+// @ts-ignore
+import FE from "froala-editor";
 
-const FroalaEditorComponent = dynamic(
-  async () => {
-    const values = await Promise.all([import("react-froala-wysiwyg")]);
-    return values[0];
-  },
-  {
-    loading: () => null,
-    ssr: false,
-  }
-);
+const SPECIAL_TAGS = ["img", "button", "input", "a"];
+const INNER_HTML_ATTR = "innerHTML";
 
-const FroalaEditor: FC = () => {
-  return (
-    <>
-      <FroalaEditorComponent
-        tag="textarea"
-        config={{
-          placeholderText: "Edit Your Content Here!",
-          charCounterCount: false,
-        }}
-      />
-    </>
-  );
+interface Props {
+  tag?: string;
+  config?: object;
+  model?: string | object | null;
+  onModelChange?: object;
+  onManualControllerReady?: object;
+  skipReset?: boolean | false;
+}
+
+const FroalaEditor: FC<Props> = (props) => {
+  const {
+    tag = "div",
+    config,
+    model,
+    onModelChange,
+    onManualControllerReady,
+    skipReset,
+  } = props;
+  const isMounted = useIsMounted();
+
+  useEffect(() => {
+    if (isMounted) {
+      const tagName = tag.toLowerCase();
+      if (SPECIAL_TAGS.indexOf(tagName) !== -1) {
+      }
+    }
+  }, [isMounted]);
+
+  return <></>;
 };
 
 export default FroalaEditor;
