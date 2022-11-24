@@ -44,7 +44,7 @@ const UpsPage = async ({ params }: { params: { uid: string } }) => {
       <article className="mt-96 w-full">
         <FeedList
           initFeed={initFeed?.data as Feed[]}
-          queryKey="home_feed_list"
+          queryKey={`${params.uid}_up_feed_list`}
           experimental
         />
       </article>

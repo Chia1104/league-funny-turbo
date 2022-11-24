@@ -19,7 +19,7 @@ const UserDetailPage = async ({ params }: { params: { uid: string } }) => {
           <UserComment />
           <FeedList
             initFeed={initFeed?.data as Feed[]}
-            queryKey="home_feed_list"
+            queryKey={`${params.uid}_feed_list`}
             experimental
           />
         </div>
