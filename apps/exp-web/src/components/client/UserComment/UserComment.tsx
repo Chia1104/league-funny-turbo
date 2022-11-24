@@ -3,10 +3,11 @@
 import { type FC, useState } from "react";
 import { Textarea, Checkbox, Button } from "@geist-ui/core";
 import Image from "next/image";
+import cx from "classnames";
 import "./UserComment.scss";
 
 const UserComment: FC = () => {
-  const [msgPrivate, setMsgPrivate] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="w-full w-bg-secondary rounded-lg shadow-lg mb-4">
@@ -32,7 +33,7 @@ const UserComment: FC = () => {
               <input
                 type="checkbox"
                 onChange={() => {
-                  setMsgPrivate(!msgPrivate);
+                  setIsOpen(!isOpen);
                 }}
               />
               <svg
@@ -40,12 +41,12 @@ const UserComment: FC = () => {
                 fill="none"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
-                className={`checkbox ${msgPrivate ? "checkbox--active" : ""}`}>
+                className={cx("checkbox", isOpen && "checkbox--active")}>
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   strokeWidth="3"
-                  stroke={msgPrivate ? "#fff" : "none"}
+                  stroke={isOpen ? "#fff" : "none"}
                   d="M4.5 12.75l6 6 9-13.5"
                 />
               </svg>
