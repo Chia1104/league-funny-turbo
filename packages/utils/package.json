@@ -16,10 +16,10 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.{ts,js,tsx,jsx}\" --fix"
   },
   "devDependencies": {
-    "@types/node": "^17.0.45",
+    "@types/node": "^18.11.9",
     "@wanin/eslint-config-base": "workspace:0.0.0",
     "dayjs": "^1.11.6",
     "tsconfig": "workspace:0.0.0",
-    "tsup": "^6.4.0"
+    "tsup": "^6.5.0"
   }
 }

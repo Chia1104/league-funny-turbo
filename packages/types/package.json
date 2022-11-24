@@ -17,11 +17,11 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
-    "@types/node": "^17.0.45",
+    "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.8",
+    "@types/react-dom": "^18.0.9",
     "@wanin/eslint-config-base": "workspace:0.0.0",
     "tsconfig": "workspace:0.0.0",
-    "tsup": "^6.4.0"
+    "tsup": "^6.5.0"
   }
 }

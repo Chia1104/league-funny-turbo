@@ -1,22 +1,51 @@
-import type { FC } from "react";
+import { type FC } from "react";
 import type { PostCategory } from "@wanin/types";
 import Link from "next/link";
+import { fetchSidebar } from "@/helpers/api/client";
+import { useQuery } from "@tanstack/react-query";
+import cx from "classnames";
+import { useRouter } from "next/router";
+import ListLoader from "./ListLoader";
 
-interface Props {
-  categories: PostCategory[];
+interface ListProps {
+  bord: PostCategory[];
 }
 
-const PostCategoryList: FC<Props> = ({ categories }) => {
+const PostCategoryList: FC = () => {
+  const {
+    data: bord,
+    isError,
+    isLoading,
+    isSuccess,
+  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar);
+
+  return (
+    <>
+      {isLoading && <ListLoader />}
+      {isSuccess && <List bord={bord as PostCategory[]} />}
+      {isError && <h3 className="text-danger">error</h3>}
+    </>
+  );
+};
+
+const List: FC<ListProps> = ({ bord }) => {
+  const router = useRouter();
   return (
     <div className="overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full">
-      {categories.map((category) => (
+      {bord.map((category) => (
         <div key={category.group_id} className="my-3">
           <h2 className="w-subtitle">{category.group_name}</h2>
           {category.contents.map((detail) => (
             <p key={detail.b_id} className="my-1">
               <Link
+                scroll
                 href={`/l/${detail.b_type}`}
-                className="ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg">
+                className={cx(
+                  "ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition duration-300 ease-in-out",
+                  detail.b_type.toLowerCase() ===
+                    router.pathname.split("/")[2]?.toLowerCase() &&
+                    "bg-gray-100 dark:bg-black"
+                )}>
                 {detail.b_zh_name}
               </Link>
             </p>
