@@ -1,12 +1,4 @@
-import { API_URL } from "@/shared/constants";
-import type {
-  Pagenate,
-  PostCategory,
-  Feed,
-  ApiResponse,
-  LoginSession,
-  User,
-} from "@wanin/types";
+import type { Pagenate, PostCategory, Feed } from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
 
@@ -35,20 +27,6 @@ const fetchMoreFeedList = async ({
   const data = (await res.json()) as Pagenate<Feed[]>;
   const { data: feedList } = data;
   return feedList;
-};
-
-const laravelLogin = async (
-  loginSession: LoginSession
-): Promise<ApiResponse<User[]>> => {
-  const data = await fetch(`${API_URL}/api/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(loginSession),
-  });
-  return data.json();
 };
 
 const fetchCommentList = async ({
