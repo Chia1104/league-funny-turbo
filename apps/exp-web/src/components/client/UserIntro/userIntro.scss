@@ -1,0 +1,126 @@
+.banner {
+  .user-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url("/about/about_top.jpg") top center no-repeat fixed;
+    background-size: auto;
+    height: 340px;
+    width: 100%;
+    margin-top: 65px;
+    .user-data {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+      .data-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        background-color: #fff
+      }
+      .edit-img {
+        position: absolute;
+        right: 0px;
+        bottom: 5px;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: gray;
+        cursor: pointer;
+        .edit-svg {
+          color: #fff;
+        }
+      }
+      .txt-shadow {
+        text-shadow: #42424277 0.1rem 0.05em 0.1em;
+      }
+      .level {
+        padding: 2px 5px;
+        line-height: 15px;
+        color: #fff;
+        background: #a2d0ff;
+        margin: 11px 0 0 7px;
+        box-shadow: 1px 1px 0 rgb(0 0 0 / 20%);
+        text-shadow: 1px 1px 2px transparent;
+      }
+    }
+  }
+  .btn-group {
+    position: absolute;
+    width: 100%;
+    bottom: -20px;
+    float: left; 
+    .group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 80%;
+      margin: 0 auto;
+      background-color: #fff;
+      border: 1px rgba(107,107,107,.25) solid;
+      border-radius: 4px;
+      .group-btns {
+        position: relative;
+        top: 0px;
+        margin: 0px;
+        border: 0px;
+        border-radius: 0px;
+      }
+      .btn-left:hover {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        border-top-right-radius: 0px;
+        border-top-right-radius: 0px;
+      }
+      .btn-hover:hover {
+        color: #fff;
+      }
+      .btn-right {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      .msg {
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+        line-height: 34px;
+      }
+      .msg:hover {
+        color: #fff;
+      }
+      .dropdown-style {
+        border: none;
+        summary {
+          border-left: none;
+        }
+      }
+    }
+  }
+  .btn-group button:not(:last-child) {
+    border-right: none;
+  }
+  
+  .btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .btn-group button:hover {
+    background-color: #2291ff;
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .banner {
+    .user-bg {
+      background-size: contain;
+    }
+  }
+}

@@ -13,5 +13,7 @@ export { default as Provider } from "./Provider";
 export { default as FeedWithHTML } from "./FeedWithHTML";
 export { default as PostCategoryList } from "./PostCategoryList";
 export { default as CommentList } from "./CommentList";
+export { default as UserIntro } from "./UserIntro";
+export { default as UserAbout } from "./UserAbout";
+export { default as UserComment } from "./UserComment";
 export * from "./CommentList";
-export { default as FroalaEditor } from "./FroalaEditor";
