@@ -2,8 +2,8 @@ import NextHead from "next/head";
 import { type FC } from "react";
 
 export interface HeadProps {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   canonicalUrl?: string;
   keywords?: string[];
   type?: "website" | "article" | "book" | "profile";

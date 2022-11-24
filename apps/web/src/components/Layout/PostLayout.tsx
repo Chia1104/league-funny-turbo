@@ -7,26 +7,16 @@ import {
   ShopIcon,
   TimeLineIcon,
 } from "@wanin/ui";
-import { type PostCategory, Size } from "@wanin/types";
+import { Size } from "@wanin/types";
 import { useDarkMode } from "@/hooks";
 import Link from "next/link";
 
 interface Props {
-  isLoading: boolean;
-  isError?: boolean;
-  isSuccess?: boolean;
-  categories: PostCategory[];
   children: ReactNode;
 }
 
 const PostLayout: FC<Props> = (props) => {
-  const {
-    categories,
-    children,
-    isLoading = true,
-    isError = false,
-    isSuccess = false,
-  } = props;
+  const { children } = props;
   const { toggle } = useDarkMode();
   return (
     <div className="w-container flex px-5">
@@ -74,15 +64,7 @@ const PostLayout: FC<Props> = (props) => {
             </Link>
           </li>
           <hr className="my-3" />
-          {isLoading &&
-            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-              <div
-                className="w-full h-10 w-bg-primary rounded-lg animate-pulse"
-                key={item}
-              />
-            ))}
-          {isError && null}
-          {isSuccess && <PostCategoryList categories={categories} />}
+          <PostCategoryList />
         </ul>
       </aside>
       <div className="w-full w-main">{children}</div>

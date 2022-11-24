@@ -48,6 +48,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
         <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded">
           {feed.f_cover && (
             <Image
+              blur
               src={feed.f_cover || "/error/error-memoji.png"}
               alt={feed.f_desc as string}
               className="object-cover rounded group-hover:scale-[1.05] duration-300 transition ease-in-out"
@@ -64,10 +65,8 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
       <Link
         className="absolute top-0 bottom-0 right-0 left-0"
         href={{
-          // pathname: "/l/[cat]/p/[fid]",
-          // query: { cat: feed.f_game_type, fid: feed.fid },
-          pathname: "/l/feed-ssr/[fid]",
-          query: { fid: feed.fid },
+          pathname: "/l/[b_type]/p/[bc_id]",
+          query: { b_type: feed.f_game_type, bc_id: feed.fid },
         }}
       />
     </div>

@@ -16,7 +16,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 RUN yarn global add pnpm && \
-    pnpm i
+    pnpm add sharp
 
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json

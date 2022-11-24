@@ -1,20 +1,17 @@
 "use client";
 
-import { type FC, use } from "react";
+import { type FC } from "react";
 import type { PostCategory } from "@wanin/types";
 import Link from "next/link";
 import { fetchSidebar } from "@/helpers/api/client";
 import { useQuery } from "@tanstack/react-query";
 import { ListLoader } from "@/components/client/PostCategoryList";
-import { makeQueryClient } from "@/utils/make-query-client.util";
 import cx from "classnames";
 import { useSelectedLayoutSegments } from "next/navigation";
 
 interface ListProps {
   bord: PostCategory[];
 }
-
-const queryClient = makeQueryClient();
 
 const PostCategoryList: FC = () => {
   const {
@@ -31,8 +28,6 @@ const PostCategoryList: FC = () => {
       {isError && <h3 className="text-danger">error</h3>}
     </>
   );
-  // const bord = use(queryClient("sidebar", fetchSidebar));
-  // return <List bord={bord as PostCategory[]} />;
 };
 
 const List: FC<ListProps> = ({ bord }) => {
