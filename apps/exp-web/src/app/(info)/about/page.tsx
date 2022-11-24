@@ -131,7 +131,7 @@ const AboutPage = () => {
           </div>
         </div>
       </div>
-    </>
+    </article>
   );
 };
 
