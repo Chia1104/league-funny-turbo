@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import "./about.scss";
+import { Tooltip } from "@geist-ui/core";
+import { About } from "@/components/client";
 
 const AboutPage = () => {
   return (
@@ -9,12 +11,12 @@ const AboutPage = () => {
         <div className="banner-bg">
           <div className="banner-logo"></div>
         </div>
-        <div className="article">
+        <div className="about-content">
           <div className="title">
             <h1 className="title-logo">關於“遊戲大亂鬥”</h1>
             <hr className="title-hr"></hr>
           </div>
-          <div className="article-about">
+          <div className="about-content-txt">
             <p className="py-2">
               「遊戲大亂鬥」網站創立於 2012
               年，主要致力於推廣台灣電子競技以及實況影片、直播之電競社群。
@@ -32,10 +34,11 @@ const AboutPage = () => {
           <div className="audience">
             <div className="title">
               <p>我們的觀眾</p>
-              <h2>OUR AUDIENCE</h2>
+              <p className="text-4xl font-medium">OUR AUDIENCE</p>
             </div>
             <div className="about-img">
               <Image
+                className="img"
                 src="/about/about_img1.png"
                 alt="about/img1"
                 width={350}
@@ -60,6 +63,7 @@ const AboutPage = () => {
                 <p className="tr3">資料來源 Facebook.</p>
               </div>
               <Image
+                className="img"
                 src="/about/about_img2.png"
                 alt="about/img2"
                 width={350}
@@ -68,6 +72,7 @@ const AboutPage = () => {
             </div>
             <div className="about-img">
               <Image
+                className="img"
                 src="/about/about_img3.png"
                 alt="about/img3"
                 width={350}
@@ -87,47 +92,7 @@ const AboutPage = () => {
           <div className="text-center mt-20">
             <p className="text-3xl">您可以從下列地方追蹤我們的最新消息，</p>
             <p className="text-3xl">也歡迎您來信合作洽談。</p>
-            <div className="flex justify-center mt-12">
-              <Link href={"https://www.facebook.com/GameSmash/"}>
-                <Image
-                  className="mx-3"
-                  src="/about/about_icon1.png"
-                  alt="fb"
-                  width={30}
-                  height={30}
-                />
-              </Link>
-              <Link
-                href={
-                  "https://www.youtube.com/channel/UCd4vjuRpRn8Ibd3OcPZHsuw"
-                }>
-                <Image
-                  className="mx-3"
-                  src="/about/about_icon2.png"
-                  alt="yt"
-                  width={30}
-                  height={30}
-                />
-              </Link>
-              <Link href={"https://www.facebook.com/messages/GameSmash"}>
-                <Image
-                  className="mx-3"
-                  src="/about/about_icon3.png"
-                  alt="email"
-                  width={30}
-                  height={30}
-                />
-              </Link>
-              <Link href={"https://www.league-funny.com/advertise"}>
-                <Image
-                  className="mx-3"
-                  src="/about/about_icon4.png"
-                  alt="ad"
-                  width={30}
-                  height={30}
-                />
-              </Link>
-            </div>
+            <About />
           </div>
         </div>
       </div>

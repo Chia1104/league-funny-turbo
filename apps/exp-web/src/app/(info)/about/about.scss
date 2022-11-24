@@ -1,4 +1,5 @@
 .about {
+  min-width: 800px;
   .banner-bg {
     position: absolute;
     top: 0;
@@ -17,7 +18,7 @@
       margin: 54px 0 0 -149px;
     }
   }
-  .article {
+  .about-content {
     position: relative;
     margin-top: 480px;
     .title {
@@ -35,7 +36,7 @@
         border: 1px #aaa solid;
       }
     }
-    .article-about {
+    .about-content-txt {
       margin: 3% 20%;
     }
     .audience {
@@ -48,7 +49,7 @@
         justify-content: center;
         align-items: center;
         padding: 5% 0;
-        .tr{
+        .tr {
           color: #2b2b2b;
           font-size: 28px;
           line-height: 16px;
@@ -75,6 +76,40 @@
       .bg-r2 {
         background: #eeeeee;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .about {
+    .about-content {
+      .audience {
+        .about-img {
+          .img {
+            width: 40%;
+          }
+          .tr {
+            font-size: 24px;
+          }
+          .tr2 {
+            font-size: 20px;
+          }
+          .tr3 {
+            font-size: 8px;
+          }
+          .sign {
+            font-size: 42px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .about {
+    .banner-bg {
+      background-size: contain;
     }
   }
 }
