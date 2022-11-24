@@ -4,7 +4,7 @@ import "./about.scss";
 
 const AboutPage = () => {
   return (
-    <>
+    <article>
       <div className="about">
         <div className="banner-bg">
           <div className="banner-logo"></div>
