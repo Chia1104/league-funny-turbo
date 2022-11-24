@@ -2,7 +2,7 @@ import NextAuth, { type Awaitable, type NextAuthOptions } from "next-auth";
 import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
 import jwt from "jsonwebtoken";
-import { laravelLogin } from "@/helpers/api/client";
+import { laravelLogin } from "@/helpers/api/server-only";
 import {
   type ApiResponse,
   type LoginSession,
