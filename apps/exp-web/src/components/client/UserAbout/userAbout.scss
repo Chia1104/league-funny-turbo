@@ -1,0 +1,10 @@
+.online:before {
+  content: "";
+  float: left;
+  // background: #79bd10;
+  background: rgb(34 197 94 / var(--tw-border-opacity));
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  margin: 6px 4px 0 0;
+}

@@ -1,11 +1,31 @@
-import { Button } from "@/lib/ui";
+// import { Button } from "@/lib/ui";
+import type { Feed } from "@wanin/types";
+import {
+  FeedList,
+  UserIntro,
+  UserAbout,
+  UserComment,
+} from "@/components/client";
+import { fetchFeedList } from "@/helpers/api/server-only";
+import "./user.scss";
 
-const UserDetailPage = ({ params }: { params: { uid: string } }) => {
+const UserDetailPage = async ({ params }: { params: { uid: string } }) => {
+  const { data: initFeed } = await fetchFeedList();
   return (
-    <article className="mt-28 w-full">
-      <h1>User Detail Page</h1>
-      <Button text={params.uid} />
-    </article>
+    <>
+      <UserIntro />
+      <div className="article">
+        <div className="w-full">
+          <UserComment />
+          <FeedList
+            initFeed={initFeed?.data as Feed[]}
+            queryKey={`${params.uid}_feed_list`}
+            experimental
+          />
+        </div>
+        <UserAbout />
+      </div>
+    </>
   );
 };
 
