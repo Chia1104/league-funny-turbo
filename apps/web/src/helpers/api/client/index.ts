@@ -86,7 +86,6 @@ const fetchBoardCategory = async (
 export {
   fetchSidebar,
   fetchMoreFeedList,
-  laravelLogin,
   fetchCommentList,
   fetchBoardCategory,
 };
