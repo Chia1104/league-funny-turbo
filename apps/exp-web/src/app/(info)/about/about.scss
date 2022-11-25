@@ -1,5 +1,4 @@
 .about {
-  min-width: 800px;
   .banner-bg {
     position: absolute;
     top: 0;
@@ -9,13 +8,12 @@
     height: 340px;
     width: 100%;
     margin-top: 65px;
+    display: flex;
+    align-items: center;
     .banner-logo {
-      position: absolute;
-      background: url("/about/about_top2.png") center center no-repeat;
-      width: 300px;
-      height: 212px;
-      left: 50%;
-      margin: 54px 0 0 -149px;
+      margin: 0 auto;
+      width: 200px;
+      height: "auto";
     }
   }
   .about-content {
@@ -43,12 +41,22 @@
       background-color: #f4f4f4;
       .title {
         padding: 5%;
+        .subtxt {
+          font-size: 16px;
+        }
+        .subtxt2 {
+          font-size: 36px;
+          font-weight: 500;
+        }
       }
       .about-img {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 5% 0;
+        .content {
+          padding-left: 64px;
+        }
         .tr {
           color: #2b2b2b;
           font-size: 28px;
@@ -77,16 +85,83 @@
         background: #eeeeee;
       }
     }
+    .last-sentence {
+      font-size: 30px;
+    }
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
+  .about {
+    .banner-bg {
+      height: 295px;
+      .banner-logo {
+        width: 180px;
+        height: "auto";
+      }
+    }
+    .about-content {
+      margin-top: 420px;
+      .about-content-txt {
+        margin: 3%;
+      }
+      .audience {
+        .title {
+          .subtxt {
+            font-size: 12px;
+          }
+          .subtxt2 {
+            font-size: 30px;
+          }
+        }
+        .about-img {
+          flex-direction: column;
+          .content {
+            padding-left: 0;
+            padding: 40px 0;
+            text-align: center;
+          }
+          .img {
+            width: 35%;
+            height: "auto";
+          }
+          .tr {
+            font-size: 20px;
+          }
+          .tr2 {
+            font-size: 18px;
+          }
+          .tr3 {
+            font-size: 7px;
+          }
+          .sign {
+            font-size: 40px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
   .about {
     .about-content {
+      .about-content-txt {
+        margin: 4%;
+      }
       .audience {
+        .title {
+          .subtxt {
+            font-size: 14px;
+          }
+          .subtxt2 {
+            font-size: 32px;
+          }
+        }
         .about-img {
           .img {
             width: 40%;
+            height: "auto";
           }
           .tr {
             font-size: 24px;
@@ -98,9 +173,12 @@
             font-size: 8px;
           }
           .sign {
-            font-size: 42px;
+            font-size: 40px;
           }
         }
+      }
+      .last-sentence {
+        font-size: 24px;
       }
     }
   }

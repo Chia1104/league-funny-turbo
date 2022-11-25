@@ -1,15 +1,20 @@
 import Image from "next/image";
-import Link from "next/link";
-import "./about.scss";
-import { Tooltip } from "@geist-ui/core";
 import { About } from "@/components/client";
+import "./about.scss";
 
 const AboutPage = () => {
   return (
     <article>
       <div className="about">
         <div className="banner-bg">
-          <div className="banner-logo"></div>
+          {/* <div className="banner-logo"></div> */}
+          <Image
+            className="banner-logo"
+            src="/about/about_top2.png"
+            alt="/about/about_top2"
+            width={300}
+            height={300}
+          />
         </div>
         <div className="about-content">
           <div className="title">
@@ -33,8 +38,8 @@ const AboutPage = () => {
           </div>
           <div className="audience">
             <div className="title">
-              <p>我們的觀眾</p>
-              <p className="text-4xl font-medium">OUR AUDIENCE</p>
+              <p className="subtxt">我們的觀眾</p>
+              <p className="subtxt2">OUR AUDIENCE</p>
             </div>
             <div className="about-img">
               <Image
@@ -44,7 +49,7 @@ const AboutPage = () => {
                 width={350}
                 height={350}
               />
-              <div className="pl-16">
+              <div className="content">
                 <p className="tr">
                   單月
                   <br />
@@ -55,7 +60,7 @@ const AboutPage = () => {
               </div>
             </div>
             <div className="about-img bg-r2">
-              <div className="pr-16 text-right">
+              <div className="content text-right pr-16">
                 <p className="tr">facebook粉絲</p>
                 <p className="sign">52 萬人</p>
                 <p className="tr2">單篇貼文平均</p>
@@ -78,7 +83,7 @@ const AboutPage = () => {
                 width={350}
                 height={350}
               />
-              <div className="pl-16">
+              <div className="content">
                 <p className="tr">
                   <b className="sign">52% </b>
                   的使用者
@@ -90,8 +95,10 @@ const AboutPage = () => {
             </div>
           </div>
           <div className="text-center mt-20">
-            <p className="text-3xl">您可以從下列地方追蹤我們的最新消息，</p>
-            <p className="text-3xl">也歡迎您來信合作洽談。</p>
+            <p className="last-sentence">
+              您可以從下列地方追蹤我們的最新消息，
+            </p>
+            <p className="last-sentence">也歡迎您來信合作洽談。</p>
             <About />
           </div>
         </div>
