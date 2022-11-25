@@ -9,7 +9,7 @@ import { fetchFeedList } from "@/helpers/api/server-only";
 
 const BTPage = async ({ params }: { params: { b_type: string } }) => {
   const { data: initFeed } = await fetchFeedList(params.b_type);
-  if (!initFeed || initFeed?.data?.length === 0) return notFound();
+  if (!initFeed || initFeed?.data?.length === 0) notFound();
   return (
     <article className="w-full pt-[110px]">
       <FeedList

@@ -29,7 +29,7 @@ const MainNav: FC = () => {
     <nav className="w-bg-secondary w-screen flex h-[65px] items-center top-0 fixed justify-center z-50 shadow-lg shadow-gray-200 dark:shadow-none dark:border-b dark:border-gray-700">
       <div className="flex container w-[100%]">
         <div className="flex items-center w-[30%] justify-start">
-          <Link href="/" className="ml-3">
+          <Link href="/l" className="ml-3">
             <Image
               className="hidden md:block"
               src="/logo-2.png"

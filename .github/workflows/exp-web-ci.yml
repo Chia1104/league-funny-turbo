@@ -14,7 +14,7 @@ env:
   TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
   API_URL: ${{ secrets.API_URL }}
   PNPM_VERSION: 6.32.2
-  NODE_VERSION: 16.*
+  NODE_VERSION: 18.*
 
 jobs:
   build:
@@ -57,7 +57,7 @@ jobs:
       - name: Build
         run: cd ../.. && pnpm build --filter exp-web...
 
-#      - uses: actions/cache@v2
+#      - uses: actions/cache@v3
 #        with:
 #          path: |
 #            ${{ github.workspace }}/apps/exp-web/.next
@@ -92,7 +92,7 @@ jobs:
 #          run_install: false
 #
 #      - name: Cache
-#        uses: actions/cache@v2
+#        uses: actions/cache@v3
 #        id: restore-build
 #        with:
 #          path: |
