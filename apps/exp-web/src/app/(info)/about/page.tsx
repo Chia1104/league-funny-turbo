@@ -7,7 +7,6 @@ const AboutPage = () => {
     <article>
       <div className="about">
         <div className="banner-bg">
-          {/* <div className="banner-logo"></div> */}
           <Image
             className="banner-logo"
             src="/about/about_top2.png"
