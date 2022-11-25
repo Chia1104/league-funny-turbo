@@ -42,6 +42,9 @@ export default defineNextConfig({
   reactStrictMode: false,
   swcMinify: true,
   output: "standalone",
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   experimental: {
     appDir: true,
     outputFileTracingRoot: join(

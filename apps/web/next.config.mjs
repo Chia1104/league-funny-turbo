@@ -49,6 +49,9 @@ export default defineNextConfig({
       "../.."
     ),
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async redirects() {
     return [
       {
