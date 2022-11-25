@@ -19,8 +19,6 @@
         "RAILWAY_STATIC_URL",
         "VERCEL_URL",
         "API_URL",
-        "UPSTASH_REDIS_URL",
-        "UPSTASH_REDIS_TOKEN",
         "TOKEN_EXPIRE",
         "NEXT_PUBLIC_FROALA_KEY"
       ]
@@ -38,7 +36,9 @@
         "TWITCH_CLIENT_SECRET",
         "RAILWAY_STATIC_URL",
         "VERCEL_URL",
-        "API_URL"
+        "API_URL",
+        "TOKEN_EXPIRE",
+        "NEXT_PUBLIC_FROALA_KEY"
       ]
     },
     "test": {
