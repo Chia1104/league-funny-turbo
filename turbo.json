@@ -20,7 +20,9 @@
         "VERCEL_URL",
         "API_URL",
         "TOKEN_EXPIRE",
-        "NEXT_PUBLIC_FROALA_KEY"
+        "NEXT_PUBLIC_FROALA_KEY",
+        "NEXT_PUBLIC_BASE_URL",
+        "NEXTAUTH_URL"
       ]
     },
     "web#build": {
@@ -38,7 +40,9 @@
         "VERCEL_URL",
         "API_URL",
         "TOKEN_EXPIRE",
-        "NEXT_PUBLIC_FROALA_KEY"
+        "NEXT_PUBLIC_FROALA_KEY",
+        "NEXT_PUBLIC_BASE_URL",
+        "NEXTAUTH_URL"
       ]
     },
     "test": {
@@ -75,6 +79,9 @@
     ".env"
   ],
   "globalEnv": [
+    "HOST",
+    "NEXT_PUBLIC_HOST",
+    "PORT",
     "DATABASE_URL",
     "SHADOW_DATABASE_URL",
     "NODE_ENV"

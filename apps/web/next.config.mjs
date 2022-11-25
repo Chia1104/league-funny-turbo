@@ -65,21 +65,12 @@ export default defineNextConfig({
     removeConsole: false,
   },
   images: {
-    domains: ["img.league-funny.com", "img.youtube.com"],
-  },
-  webpack: (config) => {
-    config.resolve = {
-      ...config.resolve,
-
-      fallback: {
-        ...config.resolve.fallback,
-        child_process: false,
-        fs: false,
-        "react/jsx-runtime": "react/jsx-runtime.js",
-      },
-    };
-
-    return config;
+    domains: [
+      "img.league-funny.com",
+      "img.youtube.com",
+      "platform-lookaside.fbsbx.com",
+      "static-cdn.jtvnw.net",
+    ],
   },
   async headers() {
     return [
