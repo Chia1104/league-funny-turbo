@@ -57,13 +57,13 @@ jobs:
       - name: Build
         run: cd ../.. && pnpm build --filter exp-web...
 
-#      - uses: actions/cache@v3
-#        with:
-#          path: |
-#            ${{ github.workspace }}/apps/exp-web/.next
-#          key: ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-#          restore-keys: |
-#            ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/apps/exp-web/.next
+          key: ${{ runner.os }}-exp-web-build-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-exp-web-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: ESLint
         run: pnpm lint --filter exp-web...
@@ -71,46 +71,46 @@ jobs:
       - name: Unit tests
         run: pnpm test --filter exp-web...
 
-#  e2e-on-chrome:
-#    needs: [ build ]
-#    runs-on: ubuntu-latest
-#    name: E2E on Chrome
-#    steps:
-#      - name: Check out code
-#        uses: actions/checkout@v3
-#
-#      - name: Install Node.js
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ env.NODE_VERSION }}
-#
-#      - uses: pnpm/action-setup@v2
-#        name: Install pnpm
-#        id: pnpm-install
-#        with:
-#          version: ${{ env.PNPM_VERSION }}
-#          run_install: false
-#
-#      - name: Cache
-#        uses: actions/cache@v3
-#        id: restore-build
-#        with:
-#          path: |
-#            ${{ github.workspace }}/apps/exp-web/.next
-#          key: |
-#            ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
-#
-#      - uses: cypress-io/github-action@v4
-#        env:
-#          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
-#          FACEBOOK_ID: ${{ env.FACEBOOK_ID }}
-#          FACEBOOK_SECRET: ${{ env.FACEBOOK_SECRET }}
-#          TWITCH_CLIENT_ID: ${{ env.TWITCH_CLIENT_ID }}
-#          TWITCH_CLIENT_SECRET: ${{ env.TWITCH_CLIENT_SECRET }}
-#          API_URL: ${{ env.API_URL }}
-#        with:
-#          start: pnpm start --filter exp-web...
-#          wait-on: "http://localhost:3001"
-#          wait-on-timeout: 120
-#          browser: chrome
-#          command: pnpm e2e:chrome --filter exp-web
+  e2e-on-chrome:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    name: E2E on Chrome
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Cache
+        uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: |
+            ${{ github.workspace }}/apps/exp-web/.next
+          key: |
+            ${{ runner.os }}-exp-web-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
+
+      - uses: cypress-io/github-action@v4
+        env:
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          FACEBOOK_ID: ${{ env.FACEBOOK_ID }}
+          FACEBOOK_SECRET: ${{ env.FACEBOOK_SECRET }}
+          TWITCH_CLIENT_ID: ${{ env.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ env.TWITCH_CLIENT_SECRET }}
+          API_URL: ${{ env.API_URL }}
+        with:
+          start: pnpm start --filter exp-web...
+          wait-on: "http://localhost:3001"
+          wait-on-timeout: 120
+          browser: chrome
+          command: pnpm e2e:chrome --filter exp-web
