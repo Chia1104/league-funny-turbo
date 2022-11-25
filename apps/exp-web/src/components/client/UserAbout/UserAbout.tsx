@@ -6,30 +6,68 @@ import { Divider } from "@geist-ui/core";
 
 const UserAbout: FC = () => {
   return (
-    <div className="w-2/6 h-full ml-5 p-5 w-bg-secondary rounded-lg shadow-lg">
-      <div className="flex items-center justify-between mb-3">
-        <h3>關於Vivian</h3>
-        <div className="border rounded border-green-500 px-1">
-          <p className="online text-sm text-green-500">上線中</p>
+    <div className="user-about">
+      <div className="about-lg w-full ml-5 p-5 w-bg-secondary rounded-lg shadow-lg">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-start">
+            <h3 className="mr-3">關於Vivian</h3>
+            <div className="border rounded border-green-500 px-1">
+              <p className="online text-sm text-green-500">上線中</p>
+            </div>
+          </div>
+        </div>
+        <Divider />
+        <div>
+          <p className="text-sm leading-7">等級：Lv.1</p>
+          <p className="text-sm leading-7">經驗值：0</p>
+        </div>
+        <Divider />
+        <div>
+          <p className="text-sm leading-7">鬥幣：1</p>
+        </div>
+        <Divider />
+        <div>
+          <p className="text-sm text-gray-400 leading-7">今日人氣：1</p>
+          <p className="text-sm text-gray-400 leading-7">累積人氣：58</p>
+          <p className="text-sm text-gray-400 leading-7">進站次數：24</p>
+          <p className="text-sm text-gray-400 leading-7">
+            註冊日期：2015-11-03
+          </p>
+          <p className="text-sm text-gray-400 leading-7">
+            上站日期：2022-11-23
+          </p>
         </div>
       </div>
-      <Divider />
-      <div>
-        <p className="text-sm leading-7">等級：Lv.1</p>
-        <p className="text-sm leading-7">經驗值：0</p>
-      </div>
-      <Divider />
-      <div>
-        <p className="text-sm leading-7">鬥幣：1</p>
-        <p className="text-sm leading-7">紅寶石：1</p>
-      </div>
-      <Divider />
-      <div>
-        <p className="text-sm text-gray-400 leading-7">今日人氣：1</p>
-        <p className="text-sm text-gray-400 leading-7">累積人氣：58</p>
-        <p className="text-sm text-gray-400 leading-7">進站次數：24</p>
-        <p className="text-sm text-gray-400 leading-7">註冊日期：2015-11-03</p>
-        <p className="text-sm text-gray-400 leading-7">上站日期：2022-11-23</p>
+      <div className="about-sm">
+        <div className="flex justify-between mb-4">
+          <div className="flex items-start">
+            <h3 className="text-xl mr-3">關於Vivian</h3>
+            <div className="border rounded border-green-500 px-1">
+              <p className="online text-sm text-green-500">上線中</p>
+            </div>
+          </div>
+          <div className="w-2/4 grid grid-cols-3 divide-x text-center">
+            <p className="text-sm text-gray-400 leading-7">等級：Lv.1</p>
+            <p className="text-sm text-gray-400 leading-7">經驗值：0</p>
+            <p className="text-sm text-gray-400 leading-7">鬥幣：1</p>
+          </div>
+        </div>
+        <div className="content">
+          <div className="grid grid-cols-2">
+            <div className="text-left">
+              <p className="text-sm text-gray-400 leading-7">今日人氣：1</p>
+              <p className="text-sm text-gray-400 leading-7">累積人氣：58</p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-gray-400 leading-7">
+                註冊日期：2015-11-03
+              </p>
+              <p className="text-sm text-gray-400 leading-7">
+                上站日期：2022-11-23
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

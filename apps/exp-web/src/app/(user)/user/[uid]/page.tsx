@@ -12,20 +12,20 @@ import "./user.scss";
 const UserDetailPage = async ({ params }: { params: { uid: string } }) => {
   const { data: initFeed } = await fetchFeedList();
   return (
-    <>
+    <article>
       <UserIntro />
-      <div className="article">
+      <div className="user-page">
+        <UserAbout />
         <div className="w-full">
           <UserComment />
           <FeedList
             initFeed={initFeed?.data as Feed[]}
-            queryKey={`${params.uid}_feed_list`}
             experimental
+            queryKey={`${params.uid}_feed_list`}
           />
         </div>
-        <UserAbout />
       </div>
-    </>
+    </article>
   );
 };
 

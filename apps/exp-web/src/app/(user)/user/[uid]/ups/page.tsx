@@ -17,7 +17,6 @@ const UpsPage = async ({ params }: { params: { uid: string } }) => {
               src="/about/about_img1.png"
               width={100}
               height={100}
-              objectFit="cover"
             />
             <div className="flex items-start mt-3">
               <h5 className="text-3xl font-medium text-white shadow">
