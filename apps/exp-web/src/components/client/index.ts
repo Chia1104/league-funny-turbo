@@ -18,3 +18,4 @@ export { default as UserAbout } from "./UserAbout";
 export { default as UserComment } from "./UserComment";
 export * from "./CommentList";
 export { default as FroalaEditor } from "./FroalaEditor";
+export { default as About } from "./About";
