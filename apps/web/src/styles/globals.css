@@ -44,4 +44,8 @@
     .w-text-bg-primary-half {
         background-image: linear-gradient(transparent 60%, #9200ff 55%);
     }
+
+    .w-border-primary {
+        @apply border dark:border-gray-700
+    }
 }

@@ -17,7 +17,7 @@ const MainEdit: FC<Props> = (props) => {
         <span>文章</span>
       </Popover.Item>
       <Popover.Item>
-        <Link href="#">
+        <Link href="/new-post">
           <span className="flex gap-2">
             <EditIcon size={Size.Small} />
             發表文章

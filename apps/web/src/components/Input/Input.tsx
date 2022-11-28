@@ -1,12 +1,14 @@
 import {
-  type FC,
   forwardRef,
   useId,
   useState,
   type ChangeEvent,
+  type FocusEvent,
   type Ref,
   type DetailedHTMLProps,
   type InputHTMLAttributes,
+  useImperativeHandle,
+  useRef,
 } from "react";
 import { ZodType } from "zod";
 import cx from "classnames";
@@ -18,31 +20,60 @@ interface Props
   > {
   title?: string;
   error?: string;
-  placeholder?: string;
   ref?: Ref<HTMLInputElement>;
   titleClassName?: string | undefined;
   schema?: ZodType<any>;
 }
 
-const Input: FC<Props> = forwardRef((props: Props, ref) => {
+interface InputRef {
+  getValidity: () => boolean;
+  getNativeInput: () => HTMLInputElement;
+}
+
+const Input = forwardRef<InputRef, Props>((props, ref) => {
   const {
     title,
     error,
-    placeholder,
     titleClassName,
     schema,
     type = "text",
     className,
+    onChange,
+    onBlur,
+    onFocus,
     ...rest
   } = props;
   const [isError, setIsError] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const id = useId();
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    getValidity: () => {
+      if (schema) return isError;
+      return true;
+    },
+    getNativeInput: () => {
+      return inputRef.current as HTMLInputElement;
+    },
+  }));
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!schema) return;
     const { value } = e.target;
     const isValid = schema.safeParse(value).success;
     setIsError(!isValid);
+    onChange && onChange(e);
+  };
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+    setIsFocus(false);
+    onBlur && onBlur(e);
+  };
+
+  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+    setIsFocus(true);
+    onFocus && onFocus(e);
   };
 
   return (
@@ -60,27 +91,26 @@ const Input: FC<Props> = forwardRef((props: Props, ref) => {
         {title ?? ""}
       </label>
       <input
-        ref={ref}
+        ref={inputRef}
         id={`${id}-input`}
-        placeholder={placeholder}
-        onChange={onChange}
+        onChange={handleChange}
         type={type}
-        required
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         className={cx(
-          "border-[#CBD2D7] w-full rounded-lg border-2 transition ease-in-out focus:outline-none w-bg-primary",
-          isError && "border-danger",
+          "border-[#CBD2D7] w-full rounded-lg w-border-primary transition ease-in-out focus:outline-none w-bg-primary",
+          isError && "border-danger hover:cursor-not-allowed",
           isFocus && !isError && "border-primary",
           className
         )}
         {...rest}
       />
-      {isError && <div className="text-error">{error ?? ""}</div>}
+      {isError && <p className="text-error">{error ?? ""}</p>}
     </>
   );
 });
 
 Input.displayName = "Input";
 
+export { type InputRef };
 export default Input;

@@ -32,6 +32,7 @@ const FroalaEditor: FC = () => {
         key={FROALA_KEY}
         config={{
           theme,
+          quickInsertEnabled: false,
           language: "zh_tw",
           toolbarButtons: [
             ["bold", "italic", "underline", "fontSize", "textColor"],

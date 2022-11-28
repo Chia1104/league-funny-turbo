@@ -49,7 +49,7 @@ const NewPostPage = () => {
   return (
     <Page className="w-main w-full">
       <Head />
-      <article className="w-full flex flex-col items-center">
+      <article className="w-full flex flex-col items-center mt-28 px-5">
         <div className="max-w-[1000px] w-full">
           <div className="flex flex-col sm:flex-row gap-5 mb-5">
             <Select
@@ -88,7 +88,7 @@ const NewPostPage = () => {
               )}
             </Select>
           </div>
-          <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3">
+          <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3 w-border-primary">
             <TagItem
               label="tag-1sdddddddddddddddddddddddddddddddddddddddddddddd"
               onDeleted={() => null}
