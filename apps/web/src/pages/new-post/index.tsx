@@ -3,7 +3,7 @@ import { Select } from "@geist-ui/core";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PostCategory } from "@wanin/types";
 import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/client";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { Page } from "@wanin/ui";
 
 const NewPostPage = () => {
@@ -33,10 +33,6 @@ const NewPostPage = () => {
     mutationFn: async (b_id: number) => {
       return await fetchBoardCategory(b_id);
     },
-  });
-
-  useEffect(() => {
-    fetchBordCategory.data && console.log(fetchBordCategory.data);
   });
 
   const handleSelectBord = (value: string) => {

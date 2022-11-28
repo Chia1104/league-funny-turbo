@@ -82,8 +82,6 @@
     "HOST",
     "NEXT_PUBLIC_HOST",
     "PORT",
-    "DATABASE_URL",
-    "SHADOW_DATABASE_URL",
     "NODE_ENV"
   ]
 }
