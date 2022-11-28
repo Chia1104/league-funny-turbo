@@ -4,7 +4,8 @@ on:
   push:
     branches: [ master, main ]
   pull_request:
-    branches: [ apps/exp-web, develop ]
+#    branches: [ apps/exp-web, develop ]
+    types: [opened, synchronize]
 
 env:
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
