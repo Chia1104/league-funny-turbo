@@ -32,8 +32,8 @@ export const authOptions: NextAuthOptions = {
       clientSecret: FACEBOOK_SECRET as string,
     }),
     TwitchProvider({
-      clientId: TWITCH_CLIENT_SECRET as string,
-      clientSecret: TWITCH_CLIENT_ID as string,
+      clientId: TWITCH_CLIENT_ID as string,
+      clientSecret: TWITCH_CLIENT_SECRET as string,
     }),
   ],
   session: { strategy: "jwt", maxAge: TOKEN_EXPIRE },
