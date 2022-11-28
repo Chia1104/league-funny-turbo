@@ -12,25 +12,24 @@
   .about-lg {
     display: block;
   }
+  
+  .about-sm {
+    display: none;
+  }
 }
 
-.about-sm {
-  display: none;
-}
 
 @media screen and (max-width: 768px) {
   .user-about {
     width: 100%;
     margin-left: 0;
-    margin-bottom: 5%;
-    padding: 2%;
-  }
-  .about-lg {
-    display: none;
-  }
-  .about-sm {
-    display: block;
-    margin-bottom: 5%;
-    padding: 2%;
+    .about-lg {
+      display: none;
+    }
+    .about-sm {
+      display: block;
+      padding: 2%;
+      margin-bottom: 5%;
+    }
   }
 }

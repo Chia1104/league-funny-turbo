@@ -10,7 +10,7 @@ const UserComment: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full w-bg-secondary rounded-lg shadow-lg mb-4">
+    <div className="user-comment w-full w-bg-secondary rounded-lg shadow-lg mb-4">
       <div className="w-full bg-blue-500 rounded-t px-4 py-2">
         <span className="text-2xl text-white">Vivian的留言板</span>
         <span>(目前有0則留言)</span>

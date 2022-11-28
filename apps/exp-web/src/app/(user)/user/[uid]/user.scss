@@ -5,18 +5,12 @@
   margin-top: 28.5rem;
   margin-left: 3%;
   margin-right: 3%;
-  .data-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #fff;
-    object-fit: cover;
-  }
 }
 
 
 @media screen and (max-width: 768px) {
   .user-page {
     flex-direction: column;
+    margin-top: 26rem;
   }
 }

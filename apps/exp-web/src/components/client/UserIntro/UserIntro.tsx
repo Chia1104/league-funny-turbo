@@ -1,15 +1,28 @@
 "use client";
 
-import { type FC } from "react";
+import { type FC, useState, useEffect } from "react";
 import { ButtonGroup, Button, ButtonDropdown } from "@geist-ui/core";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import EditDataModal from "./EditDataModal";
 import SendPrivateMsgModal from "./SendPrivateMsgModal";
 import "./userIntro.scss";
 
-const UserIntro: FC = () => {
+interface Props {
+  querykey: string;
+}
+
+const UserIntro: FC<Props> = (props) => {
+  const querykey = props.querykey;
+  const router = useRouter();
+
+  const onSelectChange = (e: { target: { value: any } }) => {
+    const route = e.target.value;
+    router.push(route);
+  };
+
   return (
-    <div className="banner">
+    <div className="user-intro">
       <div className="user-bg">
         <div className="btn-changeBG">
           <button className="changeBG">
@@ -65,21 +78,47 @@ const UserIntro: FC = () => {
         </div>
         <div className="btn-group">
           <div className="group">
-            <ButtonDropdown className="sm-group">
-              <ButtonDropdown.Item main>個人主堡首頁</ButtonDropdown.Item>
-              <ButtonDropdown.Item>發表文章</ButtonDropdown.Item>
-              <ButtonDropdown.Item>按過的↑</ButtonDropdown.Item>
-              <ButtonDropdown.Item>按過的↓</ButtonDropdown.Item>
-              <ButtonDropdown.Item>留言</ButtonDropdown.Item>
-              <ButtonDropdown.Item>收藏</ButtonDropdown.Item>
-            </ButtonDropdown>
+            <div className="sm-group">
+              <select onChange={onSelectChange}>
+                <option value={`/user/${querykey}/`}>個人主堡首頁</option>
+                <option value={`/user/${querykey}/posts`}>發表文章</option>
+                <option value={`/user/${querykey}/ups`}>按過的↑</option>
+                <option value={`/user/${querykey}/downs`}>按過的↓</option>
+                <option value={`/user/${querykey}/comments`}>留言</option>
+                <option value={`/user/${querykey}/collects`}>收藏</option>
+              </select>
+            </div>
             <ButtonGroup className="group-btns">
-              <Button className="btn-hover btn-left">個人主堡首頁</Button>
-              <Button className="btn-hover">發表文章</Button>
-              <Button className="btn-hover">按過的↑</Button>
-              <Button className="btn-hover">按過的↓</Button>
-              <Button className="btn-hover">留言</Button>
-              <Button className="btn-hover btn-right">收藏</Button>
+              <Button
+                className="btn-hover btn-left"
+                onClick={() => router.push(`/user/${querykey}/`)}>
+                個人主堡首頁
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/posts`)}>
+                發表文章
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/ups`)}>
+                按過的↑
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/downs`)}>
+                按過的↓
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/comments`)}>
+                留言
+              </Button>
+              <Button
+                className="btn-hover btn-right"
+                onClick={() => router.push(`/user/${querykey}/collects`)}>
+                收藏
+              </Button>
             </ButtonGroup>
             <EditDataModal />
             {/* <SendPrivateMsgModal /> */}
