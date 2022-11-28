@@ -1,5 +1,5 @@
 import { z } from "zod";
 
-export const uuidValidator = z.string().uuid();
+export const uuidSchema = z.string().uuid();
 
-export type UUID = z.infer<typeof uuidValidator>;
+export type UUID = z.infer<typeof uuidSchema>;
