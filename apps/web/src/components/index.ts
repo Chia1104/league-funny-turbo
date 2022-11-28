@@ -18,3 +18,4 @@ export { default as CommentList } from "./CommentList";
 export { default as FeedDetail } from "./FeedDetail";
 export { default as FroalaEditor } from "./FroalaEditor";
 export { default as Head } from "./Head";
+export { default as Input } from "./Input";

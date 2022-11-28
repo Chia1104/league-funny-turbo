@@ -5,6 +5,8 @@ import { PostCategory } from "@wanin/types";
 import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/client";
 import { useMemo, useState } from "react";
 import { Page } from "@wanin/ui";
+import TagItem from "@/components/Tag/TagItem";
+import SearchTag from "@/components/Tag/SearchTag";
 
 const NewPostPage = () => {
   const {
@@ -85,6 +87,24 @@ const NewPostPage = () => {
                 <Select.Option>請先選擇版面</Select.Option>
               )}
             </Select>
+          </div>
+          <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3">
+            <TagItem
+              label="tag-1sdddddddddddddddddddddddddddddddddddddddddddddd"
+              onDeleted={() => null}
+            />
+            <TagItem label="tag-1" onDeleted={() => null} />
+            <TagItem label="tag-1" onDeleted={() => null} />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <TagItem label="tag-1" />
+            <SearchTag />
           </div>
           <FroalaEditor />
         </div>
