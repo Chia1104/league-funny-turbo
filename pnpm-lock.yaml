@@ -72,6 +72,7 @@ importers:
       '@geist-ui/core': 2.3.8_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-query': 4.16.1_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-virtual': 3.0.0-alpha.0_react@18.2.0
+      '@wanin/types': link:../../packages/types
       '@wanin/ui': link:../../packages/ui
       '@wanin/utils': link:../../packages/utils
       classnames: 2.3.2
@@ -99,7 +100,6 @@ importers:
       '@vitejs/plugin-react': 2.2.0
       '@wanin/eslint-config-nextjs': link:../../packages/eslint-config-nextjs
       '@wanin/tailwind-config': link:../../packages/tailwind-config
-      '@wanin/types': link:../../packages/types
       autoprefixer: 10.4.13_postcss@8.4.19
       postcss: 8.4.19
       tailwindcss: 3.2.4_postcss@8.4.19
@@ -116,6 +116,7 @@ importers:
       '@types/jsonwebtoken': ^8.5.9
       '@types/node': ^18.11.9
       '@types/react': ^18.0.25
+      '@types/react-dom': ^18.0.9
       '@vitejs/plugin-react': ^2.2.0
       '@wanin/eslint-config-nextjs': workspace:0.0.0
       '@wanin/tailwind-config': workspace:0.0.0
@@ -150,6 +151,7 @@ importers:
       '@next/bundle-analyzer': 13.0.5
       '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
       '@tanstack/react-query': 4.16.1_biqbaboplfbrettd7655fr4n2y
+      '@wanin/types': link:../../packages/types
       '@wanin/ui': link:../../packages/ui
       '@wanin/utils': link:../../packages/utils
       classnames: 2.3.2
@@ -165,7 +167,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-froala-wysiwyg: 4.0.16_biqbaboplfbrettd7655fr4n2y
-      react-redux: 8.0.5_2zx2umvpluuhvlq44va5bta2da
+      react-redux: 8.0.5_cn3ejhfta5lq2dae4xucvtkwvu
       react-virtuoso: 3.1.5_biqbaboplfbrettd7655fr4n2y
       sass: 1.56.1
       usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
@@ -176,10 +178,10 @@ importers:
       '@types/jsonwebtoken': 8.5.9
       '@types/node': 18.11.9
       '@types/react': 18.0.25
+      '@types/react-dom': 18.0.9
       '@vitejs/plugin-react': 2.2.0
       '@wanin/eslint-config-nextjs': link:../../packages/eslint-config-nextjs
       '@wanin/tailwind-config': link:../../packages/tailwind-config
-      '@wanin/types': link:../../packages/types
       autoprefixer: 10.4.13_postcss@8.4.19
       jsdom: 20.0.3
       postcss: 8.4.19
@@ -268,11 +270,13 @@ importers:
       tsconfig: workspace:0.0.0
       tsup: ^6.5.0
       usehooks-ts: ^2.9.1
+      zod: ^3.19.1
     dependencies:
       '@radix-ui/react-tooltip': 1.0.2_fan5qbzahqtxlm5dzefqlqx5ia
       classnames: 2.3.2
       framer-motion: 7.6.12_react@18.2.0
       usehooks-ts: 2.9.1_react@18.2.0
+      zod: 3.19.1
     devDependencies:
       '@types/react': 18.0.25
       '@types/react-dom': 18.0.9
@@ -1184,7 +1188,7 @@ packages:
     dependencies:
       immer: 9.0.16
       react: 18.2.0
-      react-redux: 8.0.5_2zx2umvpluuhvlq44va5bta2da
+      react-redux: 8.0.5_cn3ejhfta5lq2dae4xucvtkwvu
       redux: 4.2.0
       redux-thunk: 2.4.2_redux@4.2.0
       reselect: 4.1.7
@@ -1332,7 +1336,6 @@ packages:
     resolution: {integrity: sha512-qnVvHxASt/H7i+XG1U1xMiY5t+IHcPGUK7TDMDzom08xa7e86eCeKOiLZezwCKVxJn6NEiiy2ekgX8aQssjIKg==}
     dependencies:
       '@types/react': 18.0.25
-    dev: true
 
   /@types/react/18.0.25:
     resolution: {integrity: sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==}
@@ -4387,7 +4390,7 @@ packages:
       '@panva/hkdf': 1.0.2
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.0.5_m5sxuueb27gk6ddc5gums6vtgq
+      next: 13.0.5_vgii64pd2ccbnbx2v3ro5gbin4
       oauth: 0.9.15
       openid-client: 5.3.0
       preact: 10.11.3
@@ -4416,7 +4419,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 13.0.5_m5sxuueb27gk6ddc5gums6vtgq
+      next: 13.0.5_vgii64pd2ccbnbx2v3ro5gbin4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -5058,7 +5061,7 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-redux/8.0.5_2zx2umvpluuhvlq44va5bta2da:
+  /react-redux/8.0.5_cn3ejhfta5lq2dae4xucvtkwvu:
     resolution: {integrity: sha512-Q2f6fCKxPFpkXt1qNRZdEDLlScsDWyrgSj0mliK59qU6W5gvBiKkdMEG2lJzhd1rCctf0hb6EtePPLZ2e0m1uw==}
     peerDependencies:
       '@types/react': ^16.8 || ^17.0 || ^18.0
@@ -5082,6 +5085,7 @@ packages:
       '@babel/runtime': 7.20.1
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.0.25
+      '@types/react-dom': 18.0.9
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
       react: 18.2.0

@@ -27,36 +27,35 @@ const FroalaEditor: FC = () => {
   const [model, setModel] = useState("");
 
   return (
-    <div className="w-full">
-      <FroalaEditorComponent
-        key={FROALA_KEY}
-        config={{
-          theme,
-          language: "zh_tw",
-          toolbarButtons: [
-            ["bold", "italic", "underline", "fontSize", "textColor"],
-            ["insertLink", "insertImage", "undo", "redo", "embedly", "html"],
-          ],
-          imageDefaultWidth: 0,
-          imageDefaultAlign: "left",
-          imageDefaultDisplay: "inline",
-          imageEditButtons: [],
-          imageInsertButtons: ["imageBack", "|", "imageUpload", "imageByURL"],
-          attribution: false,
-          linkAlwaysBlank: true,
-          linkAlwaysNoFollow: true,
-          htmlAllowedStyleProps: [
-            "font-size",
-            "color",
-            "width",
-            "height",
-            "background-color",
-          ],
-          height: 500,
-        }}
-        onModelChange={setModel}
-      />
-    </div>
+    <FroalaEditorComponent
+      key={FROALA_KEY}
+      config={{
+        theme,
+        quickInsertEnabled: false,
+        language: "zh_tw",
+        toolbarButtons: [
+          ["bold", "italic", "underline", "fontSize", "textColor"],
+          ["insertLink", "insertImage", "undo", "redo", "embedly", "html"],
+        ],
+        imageDefaultWidth: 0,
+        imageDefaultAlign: "left",
+        imageDefaultDisplay: "inline",
+        imageEditButtons: [],
+        imageInsertButtons: ["imageBack", "|", "imageUpload", "imageByURL"],
+        attribution: false,
+        linkAlwaysBlank: true,
+        linkAlwaysNoFollow: true,
+        htmlAllowedStyleProps: [
+          "font-size",
+          "color",
+          "width",
+          "height",
+          "background-color",
+        ],
+        height: 500,
+      }}
+      onModelChange={setModel}
+    />
   );
 };
 

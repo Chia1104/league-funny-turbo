@@ -1,4 +1,4 @@
-import { FroalaEditor, Head } from "@/components";
+import { FroalaEditor, Head, Tag } from "@/components";
 import { Select } from "@geist-ui/core";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PostCategory } from "@wanin/types";
@@ -47,8 +47,8 @@ const NewPostPage = () => {
   return (
     <Page className="w-main w-full">
       <Head />
-      <article className="w-full flex flex-col items-center">
-        <div className="max-w-[1000px] w-full">
+      <article className="w-full flex flex-col items-center mt-28 px-5">
+        <div className="max-w-[1000px] w-full mb-24">
           <div className="flex flex-col sm:flex-row gap-5 mb-5">
             <Select
               placeholder="選擇版面"
@@ -87,6 +87,7 @@ const NewPostPage = () => {
             </Select>
           </div>
           <FroalaEditor />
+          <Tag />
         </div>
       </article>
     </Page>

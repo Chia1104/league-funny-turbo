@@ -6,7 +6,6 @@ export default defineConfig({
   splitting: true,
   dts: true,
   clean: true,
-  sourcemap: true,
   minify: true,
   target: "esnext",
   outDir: "dist",

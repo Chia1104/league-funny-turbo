@@ -1,4 +1,4 @@
-import type { Pagenate, PostCategory, Feed } from "@wanin/types";
+import type { Pagenate, PostCategory, Feed, Tag } from "@wanin/types";
 import { setSearchParams } from "@wanin/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
 
@@ -61,9 +61,27 @@ const fetchBoardCategory = async (
   return await res.json();
 };
 
+const fetchTagList = async (searchTag: string): Promise<Tag[]> => {
+  const res = await fetch(
+    `${getBaseUrl()}/api/tag?${setSearchParams({
+      searchParams: {
+        q: searchTag,
+      },
+    })}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }
+  );
+  return await res.json();
+};
+
 export {
   fetchSidebar,
   fetchMoreFeedList,
   fetchCommentList,
   fetchBoardCategory,
+  fetchTagList,
 };
