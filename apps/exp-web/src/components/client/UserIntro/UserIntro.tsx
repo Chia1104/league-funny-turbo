@@ -13,7 +13,7 @@ interface Props {
 }
 
 const UserIntro: FC<Props> = (props) => {
-  const querykey = props.querykey;
+  const { querykey } = props;
   const router = useRouter();
 
   const onSelectChange = (e: { target: { value: any } }) => {
