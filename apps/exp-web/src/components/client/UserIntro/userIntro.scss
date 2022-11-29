@@ -90,6 +90,13 @@
       border-radius: 4px;
       .sm-group {
         display: none;
+        .select {
+          border: none;
+          .option {
+            font-size: 14px;
+            color: gray;
+          }
+        }
       }
       .group-btns {
         position: relative;
@@ -184,6 +191,11 @@
     }
     .btn-group {
       .group {
+        .sm-group {
+          .select {
+            min-width: 8rem;
+          }
+        }
         .msg {
           .edit-lg {
             display: none;

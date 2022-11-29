@@ -8,9 +8,14 @@ const SendPrivateMsgModal: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModal = () => {
-    setIsModalOpen(true);
+    setIsModalOpen(!isModalOpen);
   };
-  const closeModal = () => {
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = () => {
     setIsModalOpen(false);
   };
 
@@ -23,8 +28,7 @@ const SendPrivateMsgModal: FC = () => {
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke="currentColor"
-          >
+          stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -33,16 +37,16 @@ const SendPrivateMsgModal: FC = () => {
         </svg>
         <span className="ml-2">私訊他</span>
       </Button>
-      <Modal visible={isModalOpen} onClose={closeModal}>
+      <Modal visible={isModalOpen} onClose={handleModal}>
         <Modal.Title>TO：</Modal.Title>
         <Modal.Content>
           <input className="msg-title" placeholder="標題" />
           <textarea className="msg-content" placeholder="內文..." />
         </Modal.Content>
-        <Modal.Action passive onClick={() => setIsModalOpen(false)}>
+        <Modal.Action passive onClick={handleCancel}>
           Cancel
         </Modal.Action>
-        <Modal.Action onClick={() => setIsModalOpen(false)}>送出</Modal.Action>
+        <Modal.Action onClick={handleSubmit}>送出</Modal.Action>
       </Modal>
     </div>
   );

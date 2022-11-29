@@ -8,9 +8,14 @@ const EditDataModal: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModal = () => {
-    setIsModalOpen(true);
+    setIsModalOpen(!isModalOpen);
   };
-  const closeModal = () => {
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = () => {
     setIsModalOpen(false);
   };
 
@@ -33,7 +38,7 @@ const EditDataModal: FC = () => {
         <span className="ml-2 edit-lg">編輯個人資料</span>
         <span className="ml-2 edit-sm">編輯</span>
       </Button>
-      <Modal width="45rem" visible={isModalOpen} onClose={closeModal}>
+      <Modal width="45rem" visible={isModalOpen} onClose={handleModal}>
         <Modal.Title>編輯個人資料</Modal.Title>
         <Modal.Content>
           <ul>
@@ -78,10 +83,10 @@ const EditDataModal: FC = () => {
             </li>
           </ul>
         </Modal.Content>
-        <Modal.Action passive onClick={() => setIsModalOpen(false)}>
+        <Modal.Action passive onClick={handleCancel}>
           取消
         </Modal.Action>
-        <Modal.Action onClick={() => setIsModalOpen(false)}>儲存</Modal.Action>
+        <Modal.Action onClick={handleSubmit}>儲存</Modal.Action>
       </Modal>
     </div>
   );

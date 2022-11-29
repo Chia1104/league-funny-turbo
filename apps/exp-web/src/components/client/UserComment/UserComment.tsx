@@ -52,7 +52,7 @@ const UserComment: FC = () => {
               設為私密
             </label>
             <div className="flex item-center">
-              <div className="bg-white w-20 border rounded mx-3">
+              <div className="btn-picture">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -66,7 +66,9 @@ const UserComment: FC = () => {
                   />
                 </svg>
               </div>
-              <Button>留言</Button>
+              <div className="btn-comment">
+                <p>留言</p>
+              </div>
             </div>
           </div>
         </div>
