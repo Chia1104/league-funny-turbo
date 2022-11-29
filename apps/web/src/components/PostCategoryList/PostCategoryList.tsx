@@ -39,11 +39,11 @@ const List: FC<ListProps> = ({ bord }) => {
             <p key={detail.b_id} className="my-1">
               <Link
                 scroll
-                href={`/l/${detail.b_type}`}
+                href={`/b/${detail.b_type}`}
                 className={cx(
                   "ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition duration-300 ease-in-out",
                   detail.b_type.toLowerCase() ===
-                    router.pathname.split("/")[2]?.toLowerCase() &&
+                    router.asPath.split("/")[2]?.toLowerCase() &&
                     "bg-gray-100 dark:bg-black"
                 )}>
                 {detail.b_zh_name}

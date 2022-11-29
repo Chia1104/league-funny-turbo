@@ -30,7 +30,7 @@ interface FeedProps {
 const LPFeed: NextPage<FeedProps> = (props) => {
   const { initFeed } = props;
   return (
-    <Page className="w-main w-full">
+    <Page className="w-main w-full justify-start">
       <Head />
       <article className="w-full flex flex-col pt-[110px]">
         <FeedDetail data={initFeed as Feed} />

@@ -2,14 +2,7 @@ import "../styles/globals.css";
 import "@wanin/ui/styles.css";
 import type { AppProps } from "next/app";
 import { AnimatePresence } from "framer-motion";
-import {
-  ErrorBoundary,
-  MainNav,
-  MainEdit,
-  GeistProvider,
-  Layout,
-  Footer,
-} from "@/components";
+import { ErrorBoundary, GeistProvider, Layout } from "@/components";
 import { ThemeProvider } from "next-themes";
 import { DefaultSeo } from "next-seo";
 import { SessionProvider } from "next-auth/react";
@@ -29,14 +22,11 @@ function Web({
         <GeistProvider>
           <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
-              <MainNav />
-              <MainEdit className="fixed bottom-0 right-0 mr-5 mb-5 md:mr-10 md:mb-10" />
               <Layout>
                 <AnimatePresence mode="wait">
                   <Component {...pageProps} key={router.route} />
                 </AnimatePresence>
               </Layout>
-              <Footer />
             </QueryClientProvider>
           </SessionProvider>
         </GeistProvider>

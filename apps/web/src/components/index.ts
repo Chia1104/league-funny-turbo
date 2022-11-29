@@ -1,9 +1,11 @@
 export { ErrorBoundary } from "./ErrorBoundary";
 export { default as Image } from "./Image";
+export * from "./Image";
 export { default as MainNav } from "./MainNav";
 export { default as MainEdit } from "./MainEdit";
 export { default as GeistProvider } from "./GeistProvider";
 export { default as Layout } from "./Layout";
+export * from "./Layout";
 export { default as PostCategoryList } from "./PostCategoryList";
 export { default as Banner } from "./Banner";
 export { default as Footer } from "./Footer";
@@ -20,3 +22,4 @@ export { default as FroalaEditor } from "./FroalaEditor";
 export { default as Head } from "./Head";
 export { default as Tag } from "./Tag";
 export * from "./Tag";
+export { default as IsLogin } from "./IsLogin";
