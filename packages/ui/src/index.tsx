@@ -5,3 +5,5 @@ export { default as Modal } from "./Modal";
 export { default as Popover } from "./Popover";
 export { default as Page } from "./Page";
 export { default as Tooltip } from "./Tooltip";
+export { default as Input } from "./Input";
+export * from "./Input";

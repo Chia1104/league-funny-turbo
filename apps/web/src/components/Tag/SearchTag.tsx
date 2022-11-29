@@ -1,5 +1,5 @@
 import { type FC, useRef, type ChangeEvent, useEffect, useState } from "react";
-import { Input, type InputRef } from "@/components";
+import { Input, type InputRef } from "@wanin/ui";
 import { z } from "zod";
 import { useDebounce } from "usehooks-ts";
 

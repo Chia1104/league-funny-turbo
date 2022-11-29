@@ -4,7 +4,6 @@ import {
   useState,
   type ChangeEvent,
   type FocusEvent,
-  type Ref,
   type DetailedHTMLProps,
   type InputHTMLAttributes,
   useImperativeHandle,
@@ -20,7 +19,6 @@ interface Props
   > {
   title?: string;
   error?: string;
-  ref?: Ref<HTMLInputElement>;
   titleClassName?: string | undefined;
   schema?: ZodType<any>;
 }
@@ -78,16 +76,7 @@ const Input = forwardRef<InputRef, Props>((props, ref) => {
 
   return (
     <>
-      <label
-        style={{
-          fontStyle: "normal",
-          fontWeight: 600,
-          fontSize: "16px",
-          lineHeight: "19px",
-          letterSpacing: "0.05em",
-        }}
-        className={cx("text-primary", titleClassName)}
-        htmlFor={`${id}-input`}>
+      <label className={titleClassName} htmlFor={`${id}-input`}>
         {title ?? ""}
       </label>
       <input
