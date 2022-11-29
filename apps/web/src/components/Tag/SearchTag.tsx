@@ -72,7 +72,7 @@ const SearchTag: FC = () => {
               onClick={() => handleAddTag(tag)}
               key={tag.id}
               className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
-              <span>{tag.name}</span>
+              <span className="line-clamp-1">{tag.name}</span>
             </button>
           ))}
         {isFocus &&
@@ -92,7 +92,7 @@ const SearchTag: FC = () => {
                   })
                 }
                 className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
-                <span>{value}</span>
+                <span className="line-clamp-1">{value}</span>
               </button>
             </>
           )}
