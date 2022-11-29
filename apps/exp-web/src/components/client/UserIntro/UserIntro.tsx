@@ -1,122 +1,46 @@
 "use client";
 
-import { type FC, useState } from "react";
-import {
-  ButtonGroup,
-  Button,
-  Modal,
-  Input,
-  Textarea,
-  Divider,
-} from "@geist-ui/core";
+import { type FC, type ChangeEvent } from "react";
+import { ButtonGroup, Button, Select } from "@geist-ui/core";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import EditDataModal from "./EditDataModal";
+import SendPrivateMsgModal from "./SendPrivateMsgModal";
 import "./userIntro.scss";
 
-const UserIntro: FC = () => {
-  const [modal, setModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
+interface Props {
+  querykey: string;
+}
 
-  const MsgModal = () => (
-    <>
-      <Modal visible={modal} onClose={closeHandler}>
-        <Modal.Title>TO：</Modal.Title>
-        <Modal.Content>
-          <Input className="w-full" placeholder="標題" />
-          <Textarea placeholder="內文..." />
-        </Modal.Content>
-        <Modal.Action passive onClick={() => setModal(false)}>
-          Cancel
-        </Modal.Action>
-        <Modal.Action onClick={() => setModal(false)}>送出</Modal.Action>
-      </Modal>
-    </>
-  );
+const UserIntro: FC<Props> = (props) => {
+  const { querykey } = props;
+  const router = useRouter();
 
-  const handleMsg = () => {
-    setModal(true);
-  };
-  const closeHandler = () => {
-    setModal(false);
-    console.log("closed");
-  };
-
-  const EditModal = () => (
-    <>
-      <Modal width="45rem" visible={editModal} onClose={closeEdit}>
-        <Modal.Title>編輯個人資料</Modal.Title>
-        <Modal.Content>
-          <ul>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">暱稱*</span>
-              <Input width="100%" placeholder="必填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">認證信箱</span>
-              <div className="flex w-full">
-                <Input width="100%" placeholder="欲參加站內活動者，需認證" />
-                <div className="ml-4">
-                  <Button ghost auto scale={0.7}>
-                    寄送驗證信
-                  </Button>
-                </div>
-              </div>
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">姓名</span>
-              <div className="flex w-full">
-                <Input width="100%" placeholder="選填" />
-                <Input width="100%" placeholder="選填" />
-              </div>
-            </li>
-            <li className="flex items-center mt-3 mb-6">
-              <span className="w-44 pr-7">變更封面背景</span>
-              <div className="flex w-full">
-                <Input width="100%" placeholder="請上傳圖片" disabled />
-                <div className="ml-4">
-                  <Button ghost auto scale={0.7}>
-                    圖片上傳
-                  </Button>
-                </div>
-              </div>
-            </li>
-            <Divider />
-            <li className="flex items-center mt-6 mb-3">
-              <span className="w-44 pr-7">facebook</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">個人網站</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">巴哈小屋</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">Twitch</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-          </ul>
-        </Modal.Content>
-        <Modal.Action passive onClick={() => setEditModal(false)}>
-          取消
-        </Modal.Action>
-        <Modal.Action onClick={() => setEditModal(false)}>儲存</Modal.Action>
-      </Modal>
-    </>
-  );
-
-  const editData = () => {
-    setEditModal(true);
-  };
-  const closeEdit = () => {
-    setEditModal(false);
-    console.log("closed");
+  const onSelectChange = (value: string | string[]) => {
+    router.push(value as string);
   };
 
   return (
-    <div className="banner">
+    <div className="user-intro">
       <div className="user-bg">
+        <div className="btn-changeBG">
+          <button className="changeBG">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-5 h-6">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+              />
+            </svg>
+            <span className="text-sm ml-2">更換背景</span>
+          </button>
+        </div>
         <div className="user-data">
           <div className="relative">
             <Image
@@ -125,7 +49,6 @@ const UserIntro: FC = () => {
               src="/about/about_img1.png"
               width={100}
               height={100}
-              objectFit="cover"
             />
             <div className="edit-img">
               <svg
@@ -148,54 +71,70 @@ const UserIntro: FC = () => {
             </h5>
             <span className="level txt-shadow">Lv.1</span>
           </div>
-          <p className="text-xs  text-gray-300 mt-3 txt-shadow">總貼文數</p>
+          <p className="text-xs text-gray-300 mt-3 txt-shadow">總貼文數</p>
           <p className="text-4xl text-white txt-shadow">0</p>
         </div>
         <div className="btn-group">
           <div className="group">
+            <div className="sm-group">
+              <Select
+                placeholder="個人主堡首頁"
+                defaultValue={`/user/${querykey}/`}
+                onChange={onSelectChange}>
+                <Select.Option value={`/user/${querykey}/`}>
+                  個人主堡首頁
+                </Select.Option>
+                <Select.Option value={`/user/${querykey}/posts`}>
+                  發表文章
+                </Select.Option>
+                <Select.Option value={`/user/${querykey}/ups`}>
+                  按過的↑
+                </Select.Option>
+                <Select.Option value={`/user/${querykey}/downs`}>
+                  按過的↓
+                </Select.Option>
+                <Select.Option value={`/user/${querykey}/comments`}>
+                  留言
+                </Select.Option>
+                <Select.Option value={`/user/${querykey}/collects`}>
+                  收藏
+                </Select.Option>
+              </Select>
+            </div>
             <ButtonGroup className="group-btns">
-              <Button className="btn-hover btn-left">個人主堡首頁</Button>
-              <Button className="btn-hover">發表文章</Button>
-              <Button className="btn-hover">按過的↑</Button>
-              <Button className="btn-hover">按過的↓</Button>
-              <Button className="btn-hover">留言</Button>
-              <Button className="btn-hover btn-right">收藏</Button>
+              <Button
+                className="btn-hover btn-left"
+                onClick={() => router.push(`/user/${querykey}/`)}>
+                個人主堡首頁
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/posts`)}>
+                發表文章
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/ups`)}>
+                按過的↑
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/downs`)}>
+                按過的↓
+              </Button>
+              <Button
+                className="btn-hover"
+                onClick={() => router.push(`/user/${querykey}/comments`)}>
+                留言
+              </Button>
+              <Button
+                className="btn-hover btn-right"
+                onClick={() => router.push(`/user/${querykey}/collects`)}>
+                收藏
+              </Button>
             </ButtonGroup>
-            <Button auto type="success" className="msg" onClick={editData}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                />
-              </svg>
-              <span className="ml-2">編輯個人檔案</span>
-            </Button>
-            <EditModal />
-            {/* <Button auto type="success" className="msg" onClick={handleMsg}>
-              <svg
-                className="text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                />
-              </svg>
-              <span className="ml-2">私訊他</span>  
-            </Button>
-            <MsgModal /> */}
+            <EditDataModal />
+            {/* <SendPrivateMsgModal /> */}
           </div>
         </div>
       </div>
