@@ -65,7 +65,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
       <Link
         className="absolute top-0 bottom-0 right-0 left-0"
         href={{
-          pathname: "/l/[b_type]/p/[bc_id]",
+          pathname: "/b/[b_type]/f/[bc_id]",
           query: { b_type: feed.f_game_type, bc_id: feed.fid },
         }}
       />

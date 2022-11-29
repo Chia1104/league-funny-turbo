@@ -7,14 +7,16 @@ interface Props {
   userId?: string | number;
   url?: string;
   ratio: number;
+  onClick?: () => void;
 }
 
 const Avatar: FC<Props> = (props) => {
-  const { username, userId, url, ratio } = props;
+  const { username, userId, url, ratio, onClick } = props;
 
   return (
     <span className="relative">
       <Image
+        onClick={onClick}
         src={url || "/error/error-memoji.png"}
         width={ratio}
         height={ratio}

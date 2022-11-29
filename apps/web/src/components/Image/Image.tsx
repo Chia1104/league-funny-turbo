@@ -2,7 +2,7 @@ import { type FC, useState } from "react";
 import NextImage, { type ImageProps as NextImageProps } from "next/image";
 import cx from "classnames";
 
-interface ImageProps extends NextImageProps {
+export interface ImageProps extends NextImageProps {
   blur?: boolean;
 }
 
