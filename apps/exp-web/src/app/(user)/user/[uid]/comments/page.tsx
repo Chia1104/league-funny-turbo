@@ -1,13 +1,12 @@
 import type { Feed } from "@wanin/types";
-import { FeedList, UserComment } from "@/components/client";
+import { FeedList } from "@/components/client";
 import { fetchFeedList } from "@/helpers/api/server-only";
-import "./user.scss";
+import "../user.scss";
 
-const UserDetailPage = async ({ params }: { params: { uid: string } }) => {
+const UserCommentsPage = async ({ params }: { params: { uid: string } }) => {
   const { data: initFeed } = await fetchFeedList();
   return (
     <article>
-      <UserComment />
       <FeedList
         initFeed={initFeed?.data as Feed[]}
         experimental
@@ -17,4 +16,4 @@ const UserDetailPage = async ({ params }: { params: { uid: string } }) => {
   );
 };
 
-export default UserDetailPage;
+export default UserCommentsPage;

@@ -10,7 +10,7 @@ const UserComment: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full w-bg-secondary rounded-lg shadow-lg mb-4">
+    <div className="user-comment w-full w-bg-secondary rounded-lg shadow-lg mb-4">
       <div className="w-full bg-blue-500 rounded-t px-4 py-2">
         <span className="text-2xl text-white">Vivian的留言板</span>
         <span>(目前有0則留言)</span>
@@ -24,7 +24,6 @@ const UserComment: FC = () => {
               src="/about/about_img1.png"
               width={100}
               height={100}
-              objectFit="cover"
             />
             <textarea className="txt-area" />
           </div>
@@ -43,8 +42,8 @@ const UserComment: FC = () => {
                 aria-hidden="true"
                 className={cx("checkbox", isOpen && "checkbox--active")}>
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   strokeWidth="3"
                   stroke={isOpen ? "#fff" : "none"}
                   d="M4.5 12.75l6 6 9-13.5"
@@ -53,7 +52,7 @@ const UserComment: FC = () => {
               設為私密
             </label>
             <div className="flex item-center">
-              <div className="bg-white w-20 border rounded mx-3">
+              <div className="btn-picture">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -67,7 +66,9 @@ const UserComment: FC = () => {
                   />
                 </svg>
               </div>
-              <Button>留言</Button>
+              <div className="btn-comment">
+                <p>留言</p>
+              </div>
             </div>
           </div>
         </div>
