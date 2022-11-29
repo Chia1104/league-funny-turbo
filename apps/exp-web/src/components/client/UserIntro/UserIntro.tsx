@@ -16,8 +16,8 @@ const UserIntro: FC<Props> = (props) => {
   const { querykey } = props;
   const router = useRouter();
 
-  const onSelectChange = (e: string | string[]) => {
-    router.push(e as string);
+  const onSelectChange = (value: string | string[]) => {
+    router.push(value as string);
   };
 
   return (
