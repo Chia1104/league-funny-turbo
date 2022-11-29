@@ -20,3 +20,6 @@ export { default as FroalaEditor } from "./FroalaEditor";
 export { default as Head } from "./Head";
 export { default as Tag } from "./Tag";
 export * from "./Tag";
+export { default as UserAbout } from "./UserAbout";
+export { default as UserComment } from "./UserComment";
+export { default as UserIntro } from "./UserIntro";
