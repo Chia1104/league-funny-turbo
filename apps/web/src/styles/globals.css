@@ -48,4 +48,60 @@
     .w-border-primary {
         @apply border dark:border-gray-700
     }
+
+    .w-main-scrollbar {
+        @apply scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full
+    }
+}
+
+h1 {
+    @apply text-4xl font-bold
+}
+
+h2 {
+    @apply text-3xl font-bold
+}
+
+h3 {
+    @apply text-2xl font-bold
+}
+
+h4 {
+    @apply text-xl font-bold
+}
+
+h5 {
+    @apply text-lg font-bold
+}
+
+h6 {
+    @apply text-base font-bold
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+::selection {
+    color: #fff;
+    background: rgba(146, 0, 255, 0.5);
 }

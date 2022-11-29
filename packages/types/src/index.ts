@@ -10,3 +10,4 @@ export * from "./user";
 export * from "./login-session";
 export * from "./laravel-token";
 export * from "./comment";
+export * from "./tag";

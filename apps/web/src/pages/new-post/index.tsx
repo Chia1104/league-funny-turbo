@@ -1,12 +1,10 @@
-import { FroalaEditor, Head } from "@/components";
+import { FroalaEditor, Head, Tag } from "@/components";
 import { Select } from "@geist-ui/core";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PostCategory } from "@wanin/types";
 import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/client";
 import { useMemo, useState } from "react";
 import { Page } from "@wanin/ui";
-import TagItem from "@/components/Tag/TagItem";
-import SearchTag from "@/components/Tag/SearchTag";
 
 const NewPostPage = () => {
   const {
@@ -50,7 +48,7 @@ const NewPostPage = () => {
     <Page className="w-main w-full">
       <Head />
       <article className="w-full flex flex-col items-center mt-28 px-5">
-        <div className="max-w-[1000px] w-full">
+        <div className="max-w-[1000px] w-full mb-24">
           <div className="flex flex-col sm:flex-row gap-5 mb-5">
             <Select
               placeholder="選擇版面"
@@ -88,25 +86,8 @@ const NewPostPage = () => {
               )}
             </Select>
           </div>
-          <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3 w-border-primary">
-            <TagItem
-              label="tag-1sdddddddddddddddddddddddddddddddddddddddddddddd"
-              onDeleted={() => null}
-            />
-            <TagItem label="tag-1" onDeleted={() => null} />
-            <TagItem label="tag-1" onDeleted={() => null} />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <TagItem label="tag-1" />
-            <SearchTag />
-          </div>
           <FroalaEditor />
+          <Tag />
         </div>
       </article>
     </Page>

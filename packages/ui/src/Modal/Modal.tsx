@@ -34,6 +34,7 @@ const Modal: FC<ModalProps> = (props) => {
           className="modal">
           <motion.div
             initial={"closed"}
+            onClick={(e) => e.stopPropagation()}
             animate={isOpen ? "open" : "closed"}
             exit={"closed"}
             variants={iv}

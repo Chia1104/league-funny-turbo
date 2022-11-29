@@ -89,7 +89,7 @@ const MainNav: FC = () => {
                 portalClassName="min-w-[230px]">
                 <BillIcon
                   size={Size.Large}
-                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg"
+                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition-all ease-in-out"
                 />
               </Popover>
             </li>
@@ -101,7 +101,7 @@ const MainNav: FC = () => {
                 leaveDelay={0}>
                 <MissionIcon
                   size={Size.Large}
-                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg"
+                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition-all ease-in-out"
                 />
               </Tooltip>
             </li>
@@ -113,7 +113,7 @@ const MainNav: FC = () => {
                 leaveDelay={0}>
                 <AchievementIcon
                   size={Size.Large}
-                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg"
+                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition-all ease-in-out"
                 />
               </Tooltip>
             </li>
@@ -125,31 +125,33 @@ const MainNav: FC = () => {
                 leaveDelay={0}>
                 <EnvelopIcon
                   size={Size.Large}
-                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg"
+                  className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition-all ease-in-out"
                 />
               </Tooltip>
             </li>
           </ul>
-          {session ? (
-            <Popover
-              enterDelay={0}
-              leaveDelay={0}
-              content={userInfo}
-              placement="bottom"
-              portalClassName="min-w-[230px]">
-              <Avatar
-                username={session?.user?.name ?? ""}
-                ratio={30}
-                url={session?.user?.image ?? ""}
-              />
-            </Popover>
-          ) : (
-            <button
-              className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg min-w-[50px]"
-              onClick={() => setIsOpen(true)}>
-              登入
-            </button>
-          )}
+          <div className="mr-5">
+            {session ? (
+              <Popover
+                enterDelay={0}
+                leaveDelay={0}
+                content={userInfo}
+                placement="bottom"
+                portalClassName="min-w-[230px]">
+                <Avatar
+                  username={session?.user?.name ?? ""}
+                  ratio={30}
+                  url={session?.user?.image ?? ""}
+                />
+              </Popover>
+            ) : (
+              <button
+                className="hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg min-w-[50px] transition-all ease-in-out w-border-primary"
+                onClick={() => setIsOpen(true)}>
+                登入
+              </button>
+            )}
+          </div>
         </div>
       </nav>
       <LoginModel isOpen={isOpen} activityModal={() => setIsOpen(!isOpen)} />

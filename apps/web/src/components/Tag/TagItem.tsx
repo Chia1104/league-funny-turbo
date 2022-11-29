@@ -21,7 +21,7 @@ const TagItem: FC<Props> = (props) => {
   }
 
   return (
-    <div className="w-fit rounded-full px-5 pr-6 py-1 w-bg-primary shadow group relative max-w-[100px]">
+    <div className="w-fit rounded-full px-5 hover:pr-6 py-1 w-bg-primary shadow group relative max-w-[100px] transition-all ease-in-out">
       <p className="text-sm text-gray-500 line-clamp-1">{label}</p>
       {onDeleted && (
         <button
