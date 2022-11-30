@@ -74,10 +74,14 @@ const FeedList: FC<Props> = (props) => {
             <Virtuoso
               totalCount={_feeds.length}
               data={_feeds}
-              overscan={100}
+              overscan={{
+                main: 1000,
+                reverse: 700,
+              }}
               endReached={() => fetchNextPage()}
               style={{ height: "100%" }}
               useWindowScroll
+              initialItemCount={19}
               itemContent={(index, item) => {
                 return (
                   <>
