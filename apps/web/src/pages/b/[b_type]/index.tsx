@@ -5,6 +5,7 @@ import { FeedList, Head } from "@/components";
 import { Page } from "@wanin/ui";
 import { fetchFeedList } from "@/helpers/api/server-only";
 import { useUpdateEffect } from "usehooks-ts";
+import { useState } from "react";
 
 interface FeedProps {
   status: number;
@@ -28,37 +29,38 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-/**
- * 🔖 Issue #14
- * [Issue] (https://github.com/league-funny/frontend-nextjs/issues/14)
- *
- * 🔖 Feature #16 (Been solved in `exp-web`)
- * [Feature] (https://github.com/league-funny/frontend-nextjs/issues/16)
- */
 const LCat: NextPage<FeedProps> = (props) => {
   const router = useRouter();
   const { b_type } = router.query;
   const { initFeed } = props;
+  const [isClient, setIsClient] = useState(false);
   useUpdateEffect(() => {
-    if (!b_type) return;
-    router.push(`/l/${b_type}`);
-    return () => {
-      initFeed.data = [];
-    };
+    setIsClient(true);
   }, [b_type]);
 
   return (
-    <Page className="w-main w-full">
+    <Page className="w-main w-full justify-start">
       <Head />
       <article className="mt-28 w-full">
-        <FeedList
-          initFeed={initFeed?.data as Feed[]}
-          experimental
-          searchParams={{
-            boardType: b_type as string,
-          }}
-          queryKey={`${b_type}_feed_list`}
-        />
+        {!isClient ? (
+          <FeedList
+            initFeed={initFeed?.data as Feed[]}
+            experimental
+            searchParams={{
+              boardType: b_type as string,
+            }}
+            queryKey={`${b_type}_feed_list`}
+          />
+        ) : (
+          <FeedList
+            experimental
+            searchParams={{
+              boardType: b_type as string,
+            }}
+            initPage={1}
+            queryKey={`${b_type}_feed_list`}
+          />
+        )}
       </article>
     </Page>
   );

@@ -9,7 +9,7 @@ import { Virtuoso } from "react-virtuoso";
 
 interface Props {
   queryKey?: string;
-  initFeed: Feed[];
+  initFeed?: Feed[];
   searchParams?: Record<string, string>;
   experimental?: boolean;
   initPage?: number;
@@ -40,7 +40,7 @@ const FeedList: FC<Props> = (props) => {
   } = useInfiniteQuery<Feed[]>({
     queryKey: [queryKey],
     queryFn: fetcher,
-    initialData: {
+    initialData: initFeed && {
       pages: [initFeed],
       pageParams: [initPage - 1],
     },
@@ -74,10 +74,14 @@ const FeedList: FC<Props> = (props) => {
             <Virtuoso
               totalCount={_feeds.length}
               data={_feeds}
-              overscan={100}
+              overscan={{
+                main: 1000,
+                reverse: 700,
+              }}
               endReached={() => fetchNextPage()}
               style={{ height: "100%" }}
               useWindowScroll
+              initialItemCount={19}
               itemContent={(index, item) => {
                 return (
                   <>

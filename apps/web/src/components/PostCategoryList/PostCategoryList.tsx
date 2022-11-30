@@ -38,6 +38,7 @@ const List: FC<ListProps> = ({ bord }) => {
           {category.contents.map((detail) => (
             <p key={detail.b_id} className="my-1">
               <Link
+                shallow
                 scroll
                 href={`/b/${detail.b_type}`}
                 className={cx(
