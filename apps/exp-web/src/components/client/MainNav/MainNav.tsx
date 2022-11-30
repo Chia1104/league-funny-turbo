@@ -61,6 +61,7 @@ const MainNav: FC = () => {
         <div className="flex items-center w-[30%] justify-start">
           <Link href="/" className="ml-3">
             <Image
+              data-cy="logo"
               className="hidden md:block"
               src="/logo-2.png"
               alt="logo"
@@ -69,6 +70,7 @@ const MainNav: FC = () => {
               loading="lazy"
             />
             <Image
+              data-cy="logo"
               className="block md:hidden"
               src="/logo-1.png"
               alt="logo-1"
