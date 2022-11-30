@@ -13,6 +13,7 @@ env:
   FACEBOOK_SECRET: ${{ secrets.FACEBOOK_SECRET }}
   TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
   TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
   API_URL: ${{ secrets.API_URL }}
   PNPM_VERSION: 6.32.2
   NODE_VERSION: 18.*
@@ -109,9 +110,11 @@ jobs:
           TWITCH_CLIENT_ID: ${{ env.TWITCH_CLIENT_ID }}
           TWITCH_CLIENT_SECRET: ${{ env.TWITCH_CLIENT_SECRET }}
           API_URL: ${{ env.API_URL }}
+          CYPRESS_RECORD_KEY: ${{ env.CYPRESS_RECORD_KEY }}
         with:
           start: pnpm start --filter web...
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
           command: pnpm e2e:chrome --filter web
+          record: true
