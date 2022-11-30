@@ -32,7 +32,6 @@ const UserDetailPage: NextPage<FeedProps> = (props) => {
       <FeedList
         initFeed={initFeed?.data as Feed[]}
         experimental
-        // queryKey={`${params.uid}_feed_list`}
         queryKey="home_feed_list"
       />
     </article>
