@@ -19,3 +19,7 @@ export const TWITCH_CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
 export const TOKEN_EXPIRE =
   parseInt(process.env.TOKEN_EXPIRE as string) || 60 * 60 * 24 * 30;
 export const FROALA_KEY = process.env.NEXT_PUBLIC_FROALA_KEY;
+export const S3_UPLOAD_KEY = process.env.S3_UPLOAD_KEY;
+export const S3_UPLOAD_SECRET = process.env.S3_UPLOAD_SECRET;
+export const S3_UPLOAD_BUCKET = process.env.S3_UPLOAD_BUCKET;
+export const S3_UPLOAD_REGION = process.env.S3_UPLOAD_REGION;

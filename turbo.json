@@ -42,7 +42,11 @@
         "TOKEN_EXPIRE",
         "NEXT_PUBLIC_FROALA_KEY",
         "NEXT_PUBLIC_BASE_URL",
-        "NEXTAUTH_URL"
+        "NEXTAUTH_URL",
+        "S3_UPLOAD_KEY",
+        "S3_UPLOAD_SECRET",
+        "S3_UPLOAD_BUCKET",
+        "S3_UPLOAD_REGION"
       ]
     },
     "test": {
