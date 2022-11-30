@@ -20,3 +20,4 @@ export { default as EyeIcon } from "./EyeIcon";
 export { default as ChatIcon } from "./ChatIcon";
 export { default as GoldenIcon } from "./GoldenIcon";
 export { default as CloseIcon } from "./CloseIcon";
+export { default as HamburgerIcon } from "./HamburgerIcon";

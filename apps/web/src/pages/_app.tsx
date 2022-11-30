@@ -32,8 +32,6 @@ function Web({
         <GeistProvider>
           <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
-              <MainNav />
-              <MainEdit className="fixed bottom-0 right-0 mr-5 mb-5 md:mr-10 md:mb-10" />
               <Layout>
                 <AnimatePresence mode="wait">
                   {router.pathname.includes("/user") ? (
@@ -53,7 +51,6 @@ function Web({
                   )}
                 </AnimatePresence>
               </Layout>
-              <Footer />
             </QueryClientProvider>
           </SessionProvider>
         </GeistProvider>
