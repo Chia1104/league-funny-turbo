@@ -3,6 +3,6 @@ describe("Home page spec", () => {
     cy.visit("/");
   });
   it("Make sure the default URL redirects to HomePage", () => {
-    cy.url().should("include", "l");
+    cy.location("pathname").should("eq", "/b");
   });
 });

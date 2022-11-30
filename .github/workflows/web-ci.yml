@@ -70,7 +70,7 @@ jobs:
         run: pnpm lint --filter web...
 
       - name: Unit tests
-        run: pnpm test --filter web.
+        run: pnpm test --filter web...
 
   e2e-on-chrome:
     needs: [ build ]
