@@ -4390,7 +4390,7 @@ packages:
       '@panva/hkdf': 1.0.2
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.0.5_vgii64pd2ccbnbx2v3ro5gbin4
+      next: 13.0.5_m5sxuueb27gk6ddc5gums6vtgq
       oauth: 0.9.15
       openid-client: 5.3.0
       preact: 10.11.3
@@ -4419,7 +4419,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 13.0.5_vgii64pd2ccbnbx2v3ro5gbin4
+      next: 13.0.5_m5sxuueb27gk6ddc5gums6vtgq
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
