@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
-import type { ApiResponse, PostCategory } from "@wanin/types";
+import type { ApiResponse, PostCategory } from "@wanin/shared/types";
 
 export default async function handler(
   req: NextApiRequest,

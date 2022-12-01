@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import type { Feed, Pagenate } from "@wanin/types";
+import type { Feed, Pagenate } from "@wanin/shared/types";
 import { FeedList, Head } from "@/components";
 import { Page } from "@wanin/ui";
 import { fetchFeedList } from "@/helpers/api/server-only";

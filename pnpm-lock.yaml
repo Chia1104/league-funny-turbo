@@ -119,6 +119,7 @@ importers:
       '@types/react-dom': ^18.0.9
       '@vitejs/plugin-react': ^2.2.0
       '@wanin/eslint-config-nextjs': workspace:0.0.0
+      '@wanin/shared': workspace:*
       '@wanin/tailwind-config': workspace:0.0.0
       '@wanin/types': workspace:0.0.0
       '@wanin/ui': workspace:0.0.0
@@ -151,6 +152,7 @@ importers:
       '@next/bundle-analyzer': 13.0.5
       '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
       '@tanstack/react-query': 4.16.1_biqbaboplfbrettd7655fr4n2y
+      '@wanin/shared': link:../../packages/shared
       '@wanin/types': link:../../packages/types
       '@wanin/ui': link:../../packages/ui
       '@wanin/utils': link:../../packages/utils
@@ -197,7 +199,7 @@ importers:
     dependencies:
       eslint-config-next: 13.0.2
       eslint-config-prettier: 8.5.0
-      eslint-config-turbo: 0.0.4
+      eslint-config-turbo: 0.0.6
       eslint-plugin-prettier: 4.2.1_ttcikbw5yztdadzhevg6ml5cuy
 
   packages/eslint-config-nextjs:
@@ -217,6 +219,22 @@ importers:
       '@wanin/eslint-config-base': link:../eslint-config-base
       tsconfig: link:../tsconfig
       tsup: 6.5.0
+
+  packages/shared:
+    specifiers:
+      '@types/node': ^18.11.9
+      '@wanin/eslint-config-base': workspace:0.0.0
+      dayjs: ^1.11.6
+      tsconfig: workspace:0.0.0
+      tsup: ^6.5.0
+      zod: ^3.19.1
+    devDependencies:
+      '@types/node': 18.11.9
+      '@wanin/eslint-config-base': link:../eslint-config-base
+      dayjs: 1.11.6
+      tsconfig: link:../tsconfig
+      tsup: 6.5.0
+      zod: 3.19.1
 
   packages/tailwind-config:
     specifiers:
@@ -2837,12 +2855,12 @@ packages:
       eslint: '>=7.0.0'
     dev: false
 
-  /eslint-config-turbo/0.0.4:
-    resolution: {integrity: sha512-HErPS/wfWkSdV9Yd2dDkhZt3W2B78Ih/aWPFfaHmCMjzPalh+5KxRRGTf8MOBQLCebcWJX0lP1Zvc1rZIHlXGg==}
+  /eslint-config-turbo/0.0.6:
+    resolution: {integrity: sha512-Cx0yRJvAvPh0lJI1jVJMDRdJiF3w/Q7fA7Lgak568uBVYU0vetaak3yVHJtCLik2Z88emkSyOj2pAUPwqOEg9g==}
     peerDependencies:
-      eslint: ^7.23.0 || ^8.0.0
+      eslint: ^6.6.0 || ^8.0.0
     dependencies:
-      eslint-plugin-turbo: 0.0.4
+      eslint-plugin-turbo: 0.0.6
     dev: false
 
   /eslint-import-resolver-node/0.3.6:
@@ -3018,10 +3036,10 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: false
 
-  /eslint-plugin-turbo/0.0.4:
-    resolution: {integrity: sha512-dfmYE/iPvoJInQq+5E/0mj140y/rYwKtzZkn3uVK8+nvwC5zmWKQ6ehMWrL4bYBkGzSgpOndZM+jOXhPQ2m8Cg==}
+  /eslint-plugin-turbo/0.0.6:
+    resolution: {integrity: sha512-GgisxIg4saIUlwUbiXPec00dkp2D8iar717g8TuIgCzStO4P24Ob2920CVFNftC5Rm4NFx19E9dLa4P1SwCniA==}
     peerDependencies:
-      eslint: ^7.23.0 || ^8.0.0
+      eslint: ^6.6.0 || ^8.0.0
     dev: false
 
   /eslint-scope/5.1.1:
@@ -6361,4 +6379,3 @@ packages:
 
   /zod/3.19.1:
     resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}
-    dev: false

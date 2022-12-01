@@ -1,5 +1,5 @@
-import type { Pagenate, PostCategory, Feed, Tag } from "@wanin/types";
-import { setSearchParams } from "@wanin/utils";
+import type { Pagenate, PostCategory, Feed, Tag } from "@wanin/shared/types";
+import { setSearchParams } from "@wanin/shared/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
 
 const fetchSidebar = async (): Promise<PostCategory[]> => {

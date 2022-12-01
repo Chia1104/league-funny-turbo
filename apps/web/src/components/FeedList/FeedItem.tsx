@@ -1,5 +1,5 @@
 import { type FC, type Ref, forwardRef } from "react";
-import type { Feed } from "@wanin/types";
+import type { Feed } from "@wanin/shared/types";
 import { Image, Avatar } from "@/components";
 import { GoldenIcon, ChatIcon, EyeIcon } from "@wanin/ui";
 import Link from "next/link";

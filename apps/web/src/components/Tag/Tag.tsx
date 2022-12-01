@@ -9,7 +9,7 @@ import {
 } from "react";
 import TagItem from "./TagItem";
 import SearchTag from "./SearchTag";
-import type { TagDTO, Tag as TagType } from "@wanin/types";
+import type { TagDTO, Tag as TagType } from "@wanin/shared/types";
 import { Tooltip } from "@geist-ui/core";
 
 interface State {
