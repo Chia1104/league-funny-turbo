@@ -121,9 +121,7 @@ importers:
       '@wanin/eslint-config-nextjs': workspace:0.0.0
       '@wanin/shared': workspace:*
       '@wanin/tailwind-config': workspace:0.0.0
-      '@wanin/types': workspace:0.0.0
       '@wanin/ui': workspace:0.0.0
-      '@wanin/utils': workspace:0.0.0
       autoprefixer: ^10.4.13
       classnames: ^2.3.2
       cross-env: ^7.0.3
@@ -153,9 +151,7 @@ importers:
       '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
       '@tanstack/react-query': 4.16.1_biqbaboplfbrettd7655fr4n2y
       '@wanin/shared': link:../../packages/shared
-      '@wanin/types': link:../../packages/types
       '@wanin/ui': link:../../packages/ui
-      '@wanin/utils': link:../../packages/utils
       classnames: 2.3.2
       cross-env: 7.0.3
       framer-motion: 7.6.12_biqbaboplfbrettd7655fr4n2y
