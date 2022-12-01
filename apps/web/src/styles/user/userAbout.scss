@@ -1,0 +1,36 @@
+.user-about {
+  width: 40%;
+  .online:before {
+    content: "";
+    float: left;
+    background: rgb(34 197 94 / var(--tw-border-opacity));
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    margin: 6px 4px 0 0;
+  }
+  .gray-icon {
+    filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(100%);
+    color: rgb(156 163 175);
+    width: 25px;
+    height: 25px;
+  }
+  .icon-bahamut {
+    background: url("/user/icon.png") -352px -121px no-repeat;
+    margin: 2px 3px 0;
+    width: 20px;
+    height: 25px;
+  }
+  .gray-icon-twitch {
+    filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(0%);
+    width: 25px;
+    height: 25px;
+  } 
+}
+
+@media screen and (max-width: 768px) {
+  .user-about {
+    width: 100%;
+    margin-left: 0;
+  }
+}

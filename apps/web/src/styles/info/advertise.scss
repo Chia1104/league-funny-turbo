@@ -1,0 +1,284 @@
+.advertise {
+  top: 0;
+  left: 0;
+  margin-top: 65px;
+  .banner-bg {
+    background: url("/advertise/advertise_top.jpg") top center no-repeat fixed;
+    background-size: auto;
+    height: 390px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .banner-logo {
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+    }
+    .ad-en {
+      color: #007cfb;
+      font-size: 36px;
+      font-weight: 600;
+    }
+  }
+  .banner2 {
+    width: 100%;
+    background: #2b2b2b;
+    color: #fff;
+    padding: 5% 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .banner2-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    .banner2-content {
+      font-size: 1rem;
+    }
+    .btns {
+      display: flex;
+      flex-direction: column;
+      .ad-btn {
+        margin: 3% 0;
+        padding: 12px 28px;
+        background: #007cfb;
+        color: #fff;
+        font-weight: bold;
+        font-size: 19px;
+        border: 1px rgba(107,107,107,.25) solid;
+        border-radius: 4px;
+      }
+      .ad-btn:hover {
+        background-color: #2291ff;
+      }
+    }
+  }
+  .advertise-content {
+    .audience {
+      .title {
+        text-align: center;
+        margin: 0 auto;
+        padding: 5%;
+        .subtxt {
+          font-size: 16px;
+        }
+        .subtxt2 {
+          font-size: 36px;
+          font-weight: 500;
+        }
+      }
+      .advertise-img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5% 0;
+        .content {
+          padding-left: 64px;
+        }
+        .tr {
+          font-size: 28px;
+          line-height: 16px;
+          padding-bottom: 20px;
+        }
+        .tr2 {
+          color: #868686;
+          font-size: 24px;
+          line-height: 24px;
+          padding-bottom: 7px;
+        }
+        .is-lg {
+          display: block;
+        }
+        .tr3 {
+          color: #818181;
+          font-size: 12px;
+        }
+        .sign {
+          color: #007cfb;
+          font-size: 50px;
+          font-weight: 400;
+          line-height: 40px;
+          padding-bottom: 13px;
+        }
+        .block-2-txt {
+          text-align: right;
+          padding-right: 64px;
+        }
+      }
+    }
+    .last {
+      text-align: center;
+      margin: 10%;
+      .last-sentence {
+        font-size: 1.7rem;
+        margin-bottom: 20px;
+      }
+      .last-btn {
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background: #007cfb;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+        border: 1px rgba(107,107,107,.25) solid;
+        border-radius: 4px;
+      }
+      .last-btn:hover {
+        background-color: #2291ff;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .advertise {
+    .banner-bg {
+      height: 200px;
+      .banner-logo {
+        display: none;
+      }
+      .ad-en {
+        font-size: 30px;
+      }
+    }
+    .banner2 {
+      padding: 5% 10%;
+      flex-direction: column;
+      .banner2-title {
+        font-size: 1.3rem;
+      }
+      .banner2-content {
+        font-size: 1rem;
+      }
+      .btns {
+        width: 100%;
+        margin: 2%;
+        flex-direction: row;
+        justify-content: space-around;
+        .ad-btn {
+          font-size: 1rem;
+        }
+      }
+    }
+    .advertise-content {
+      .audience {
+        .title {
+          padding: 5% 0 0;
+          .subtxt {
+            font-size: 1rem;
+          }
+          .subtxt2 {
+            font-size: 1.6rem;
+          }
+        }
+        .advertise-img {
+          flex-direction: column;
+          padding: 10% 0;
+          .content {
+            padding: 8% 0;
+          }
+          .img {
+            width: 50%;
+            height: auto;
+          }
+          .tr {
+            font-size: 20px;
+            line-height: 16px;
+            padding-bottom: 20px;
+          }
+          .tr2 {
+            font-size: 16px;
+            line-height: 16px;
+            padding-bottom: 7px;
+          }
+          .is-lg {
+            display: inline-block;
+          }
+          .tr3 {
+            font-size: 6px;
+          }
+          .sign {
+            font-size: 30px;
+            line-height: 20px;
+            padding-bottom: 13px;
+          }
+          .block-2-txt {
+            text-align: left;
+          }
+        }
+        .block-2 {
+          flex-direction: column-reverse;
+        }
+      }
+      .last {
+        .last-sentence {
+          font-size: 1.4rem;
+        }
+        .last-btn {
+          padding: 9px 15px;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .advertise {
+    .banner2 {
+      padding: 5% 15%;
+      .banner2-title {
+        font-size: 1.2rem;
+      }
+      .banner2-content {
+        font-size: 1rem;
+      }
+      .btns {
+        .ad-btn {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    .advertise-content {
+      .audience {
+        .advertise-img {
+          .img {
+            width: 30%;
+          }
+          .tr {
+            font-size: 24px;
+          }
+          .tr2 {
+            font-size: 20px;
+          }
+          .tr3 {
+            font-size: 8px;
+          }
+          .sign {
+            font-size: 40px;
+          }
+        }
+      }
+      .last {
+        .last-sentence {
+          font-size: 1.7rem;
+        }
+        .last-btn {
+          padding: 10px 18px;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .advertise {
+    .banner-bg {
+      background-size: contain;
+    }
+  }
+}
