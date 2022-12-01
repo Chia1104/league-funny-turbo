@@ -195,7 +195,7 @@ importers:
     dependencies:
       eslint-config-next: 13.0.2
       eslint-config-prettier: 8.5.0
-      eslint-config-turbo: 0.0.6
+      eslint-config-turbo: 0.0.7
       eslint-plugin-prettier: 4.2.1_ttcikbw5yztdadzhevg6ml5cuy
 
   packages/eslint-config-nextjs:
@@ -241,7 +241,6 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       rollup: ^3.5.1
-      rollup-plugin-dts: ^5.0.0
       rollup-plugin-typescript2: ^0.34.1
       tailwindcss: ^3.2.4
       tsconfig: workspace:0.0.0
@@ -272,7 +271,6 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       rollup: 3.5.1
-      rollup-plugin-dts: 5.0.0_rollup@3.5.1
       rollup-plugin-typescript2: 0.34.1_rollup@3.5.1
       tailwindcss: 3.2.4
       tsconfig: link:../tsconfig
@@ -4267,12 +4265,12 @@ packages:
       eslint: '>=7.0.0'
     dev: false
 
-  /eslint-config-turbo/0.0.6:
-    resolution: {integrity: sha512-Cx0yRJvAvPh0lJI1jVJMDRdJiF3w/Q7fA7Lgak568uBVYU0vetaak3yVHJtCLik2Z88emkSyOj2pAUPwqOEg9g==}
+  /eslint-config-turbo/0.0.7:
+    resolution: {integrity: sha512-WbrGlyfs94rOXrhombi1wjIAYGdV2iosgJRndOZtmDQeq5GLTzYmBUCJQZWtLBEBUPCj96RxZ2OL7Cn+xv/Azg==}
     peerDependencies:
-      eslint: ^6.6.0 || ^8.0.0
+      eslint: '>6.6.0'
     dependencies:
-      eslint-plugin-turbo: 0.0.6
+      eslint-plugin-turbo: 0.0.7
     dev: false
 
   /eslint-import-resolver-node/0.3.6:
@@ -4448,10 +4446,10 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: false
 
-  /eslint-plugin-turbo/0.0.6:
-    resolution: {integrity: sha512-GgisxIg4saIUlwUbiXPec00dkp2D8iar717g8TuIgCzStO4P24Ob2920CVFNftC5Rm4NFx19E9dLa4P1SwCniA==}
+  /eslint-plugin-turbo/0.0.7:
+    resolution: {integrity: sha512-iajOH8eD4jha3duztGVBD1BEmvNrQBaA/y3HFHf91vMDRYRwH7BpHSDFtxydDpk5ghlhRxG299SFxz7D6z4MBQ==}
     peerDependencies:
-      eslint: ^6.6.0 || ^8.0.0
+      eslint: '>6.6.0'
     dev: false
 
   /eslint-scope/5.1.1:
@@ -6907,19 +6905,6 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
-    dev: true
-
-  /rollup-plugin-dts/5.0.0_rollup@3.5.1:
-    resolution: {integrity: sha512-OO8ayCvuJCKaQSShyVTARxGurVVk4ulzbuvz+0zFd1f93vlnWFU5pBMT7HFeS6uj7MvvZLx4kUAarGATSU1+Ng==}
-    engines: {node: '>=v14'}
-    peerDependencies:
-      rollup: ^3.0.0
-      typescript: ^4.1
-    dependencies:
-      magic-string: 0.26.7
-      rollup: 3.5.1
-    optionalDependencies:
-      '@babel/code-frame': 7.18.6
     dev: true
 
   /rollup-plugin-typescript2/0.34.1_rollup@3.5.1:
