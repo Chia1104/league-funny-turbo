@@ -10,7 +10,7 @@ const About: FC = () => {
         <Link href={"https://www.facebook.com/GameSmash/"}>
           <Image
             className="icon"
-            src="/about/about_icon1.svg"
+            src="/about/about_icon_fb.svg"
             alt="fb"
             width={40}
             height={40}
@@ -21,7 +21,7 @@ const About: FC = () => {
         <Link href={"https://www.youtube.com/channel/UCd4vjuRpRn8Ibd3OcPZHsuw"}>
           <Image
             className="icon"
-            src="/about/about_icon2.svg"
+            src="/about/about_icon_yt.svg"
             alt="yt"
             width={40}
             height={40}
@@ -32,7 +32,7 @@ const About: FC = () => {
         <Link href={"https://www.facebook.com/messages/t/GameSmash"}>
           <Image
             className="icon"
-            src="/about/about_icon3.svg"
+            src="/about/about_icon_messenger.svg"
             alt="email"
             width={40}
             height={40}

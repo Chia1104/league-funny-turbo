@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "./info/about.scss";
 @import "./info/advertise.scss";
 @import "./info/privacy.scss";
@@ -9,51 +5,3 @@
 @import "./user/userIntro.scss";
 @import "./user/userAbout.scss";
 @import "./user/userComment.scss";
-
-@layer components {
-    .w-container {
-        @apply
-        container mx-auto
-    }
-
-    .w-bg-primary {
-        @apply bg-light dark:bg-black text-dark dark:text-white transition ease-in-out
-    }
-
-    .w-bg-secondary {
-        @apply bg-white/90 dark:bg-dark/90 text-dark dark:text-white transition ease-in-out backdrop-blur-sm
-    }
-
-    .w-bg-other {
-        @apply bg-black/5 dark:bg-white/10 text-dark dark:text-white transition ease-in-out
-    }
-
-    .w-main {
-        @apply min-h-screen flex flex-col justify-center items-center
-    }
-
-    .w-title {
-        @apply text-2xl font-bold
-    }
-
-    .w-subtitle {
-        @apply text-xl font-medium
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .no-scrollbar {
-        -ms-overflow-style: auto;
-        scrollbar-width: none;
-    }
-
-    .w-text-bg-info-half {
-        background-image: linear-gradient(transparent 60%, #2196f3 55%);
-    }
-
-    .w-text-bg-primary-half {
-        background-image: linear-gradient(transparent 60%, #9200ff 55%);
-    }
-}

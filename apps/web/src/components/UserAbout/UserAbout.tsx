@@ -1,10 +1,11 @@
 import { type FC } from "react";
 import { Divider } from "@geist-ui/core";
+import Links from "./Links";
 
 const UserAbout: FC = () => {
   return (
     <div className="user-about">
-      <div className="about-lg w-full ml-5 p-5 w-bg-secondary rounded-lg shadow-lg">
+      <div className="hidden md:block p-5 ml-5 w-full w-bg-secondary rounded-lg shadow-lg">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-start">
             <h3 className="mr-3">關於Vivian</h3>
@@ -34,8 +35,17 @@ const UserAbout: FC = () => {
             上站日期：2022-11-23
           </p>
         </div>
+        <div>
+          <Divider />
+          <Links
+            linkFb={""}
+            linkPersonal={""}
+            linkBahamut={""}
+            linkTwitch={""}
+          />
+        </div>
       </div>
-      <div className="about-sm w-full w-bg-secondary rounded-lg shadow-lg">
+      <div className="block p-5 mt-3 w-full w-bg-secondary rounded-lg shadow-lg md:hidden">
         <div className="flex justify-between mb-4">
           <div className="flex flex-col items-start">
             <h3 className="text-xl mb-2.5">關於Vivian</h3>
