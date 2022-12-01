@@ -1,3 +1,4 @@
+import "../styles/globals.scss";
 import "../styles/globals.css";
 import "@wanin/ui/styles.css";
 import type { AppProps } from "next/app";

@@ -1,0 +1,223 @@
+.about {
+  top: 0;
+  left: 0;
+  margin-top: 65px;
+  .banner-bg {
+    background: url("/about/about_top.jpg") top center no-repeat fixed;
+    background-size: auto;
+    height: 340px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .banner-logo {
+      margin: 0 auto;
+      width: 200px;
+      height: auto;
+    }
+  }
+  .about-content {
+    margin-top: 70px;
+    .title {
+      text-align: center;
+      margin: 0 auto;
+      .title-logo {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .title-hr {
+        margin: 0 auto;
+        text-align: center;
+        width: 250px;
+        border: 1px #aaa solid;
+      }
+    }
+    .about-content-txt {
+      margin: 3% 20%;
+    }
+    .audience {
+      .title {
+        padding: 5%;
+        .subtxt {
+          font-size: 16px;
+        }
+        .subtxt2 {
+          font-size: 36px;
+          font-weight: 500;
+        }
+      }
+      .about-img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5% 0;
+        .content {
+          padding-left: 64px;
+        }
+        .tr {
+          font-size: 28px;
+          line-height: 16px;
+          padding-bottom: 20px;
+        }
+        .tr2 {
+          color: #868686;
+          font-size: 24px;
+          line-height: 24px;
+          padding-bottom: 7px;
+        }
+        .is-lg {
+          display: block;
+        }
+        .tr3 {
+          color: #818181;
+          font-size: 12px;
+        }
+        .sign {
+          color: #007cfb;
+          font-size: 50px;
+          font-weight: 400;
+          line-height: 40px;
+          padding-bottom: 13px;
+        }
+        .block-2-txt {
+          text-align: right;
+          padding-right: 64px;
+        }
+      }
+    }
+    .last {
+      text-align: center;
+      margin: 10%;
+      .last-sentence {
+        font-size: 30px;
+      }
+      .icon {
+        margin: 0 15px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about {
+    .banner-bg {
+      height: 280px;
+      .banner-logo {
+        width: 150px;
+        height: auto;
+      }
+    }
+    .about-content {
+      margin-top: 50px;
+      .title {
+        .title-logo {
+          font-size: 1.6rem;
+          margin-bottom: 8px;
+        }
+        .title-hr {
+          width: 180px;
+        }
+      }
+      .about-content-txt {
+        margin: 3% 10%;
+        font-size: 0.95rem;
+      }
+      .audience {
+        .title {
+          padding: 5% 0 0;
+          .subtxt {
+            font-size: 1rem;
+          }
+          .subtxt2 {
+            font-size: 1.6rem;
+          }
+        }
+        .about-img {
+          flex-direction: column;
+          padding: 10% 0;
+          .content {
+            padding: 8% 0;
+          }
+          .img {
+            width: 50%;
+            height: auto;
+          }
+          .tr {
+            font-size: 20px;
+            line-height: 16px;
+            padding-bottom: 20px;
+          }
+          .tr2 {
+            font-size: 16px;
+            line-height: 16px;
+            padding-bottom: 7px;
+          }
+          .is-lg {
+            display: inline-block;
+          }
+          .tr3 {
+            font-size: 6px;
+          }
+          .sign {
+            font-size: 30px;
+            line-height: 20px;
+            padding-bottom: 13px;
+          }
+          .block-2-txt {
+            text-align: left;
+          }
+        }
+        .block-2 {
+          flex-direction: column-reverse;
+        }
+      }
+      .last {
+        .last-sentence {
+          font-size: 1.4rem;
+        }
+        .icon {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .about {
+    .about-content {
+      .audience {
+        .about-img {
+          .img {
+            width: 30%;
+          }
+          .tr {
+            font-size: 24px;
+          }
+          .tr2 {
+            font-size: 20px;
+          }
+          .tr3 {
+            font-size: 8px;
+          }
+          .sign {
+            font-size: 40px;
+          }
+        }
+      }
+      .last {
+        .last-sentence {
+          font-size: 1.7rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .about {
+    .banner-bg {
+      background-size: contain;
+    }
+  }
+}

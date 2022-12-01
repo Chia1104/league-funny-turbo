@@ -1,0 +1,86 @@
+.privacy {
+  top: 0;
+  left: 0;
+  margin-top: 65px;
+  .banner-bg {
+    background: url("/about/about_top.jpg") top center no-repeat fixed;
+    background-size: auto;
+    height: 340px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .banner-logo {
+      margin: 0 auto;
+      width: 200px;
+      height: auto;
+    }
+  }
+  .privacy-content {
+    margin-top: 70px;
+    .title {
+      text-align: center;
+      margin: 0 auto;
+      .title-logo {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .title-hr {
+        margin: 0 auto;
+        text-align: center;
+        width: 300px;
+        border: 1px #aaa solid;
+      }
+    }
+    .privacy-content-txt {
+      margin: 3% 20%;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .privacy {
+    .banner-bg {
+      height: 280px;
+      .banner-logo {
+        width: 150px;
+        height: auto;
+      }
+    }
+    .privacy-content {
+      margin-top: 50px;
+      .title {
+        margin-bottom: 20px;
+        .title-logo {
+          font-size: 1.6rem;
+          margin-bottom: 8px;
+        }
+        .title-hr {
+          width: 180px;
+        }
+      }
+      .privacy-content-txt {
+        margin: 3% 10%;
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .privacy {
+    .privacy-content {
+      .privacy-content-txt {
+        margin: 3% 15%;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .privacy {
+    .banner-bg {
+      background-size: contain;
+    }
+  }
+}

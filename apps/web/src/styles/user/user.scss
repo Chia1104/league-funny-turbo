@@ -1,0 +1,17 @@
+.user-page {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  margin-top: 28.5rem;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+
+@media screen and (max-width: 768px) {
+  .user-page {
+    flex-direction: column;
+    margin-top: 26rem;
+  }
+}
