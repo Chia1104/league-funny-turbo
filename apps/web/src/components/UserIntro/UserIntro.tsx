@@ -21,7 +21,7 @@ const UserIntro: FC<Props> = (props) => {
     <div className="user-intro">
       <div className="user-bg">
         <div className="btn-changeBG">
-          <button className="changeBG">
+          <button className="btn-styleA hover:btn-styleA-hover">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

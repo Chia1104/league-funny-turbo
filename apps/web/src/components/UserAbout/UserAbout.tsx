@@ -45,7 +45,7 @@ const UserAbout: FC = () => {
           />
         </div>
       </div>
-      <div className="block p-5 mt-3 w-full w-bg-secondary rounded-lg shadow-lg md:hidden">
+      <div className="block p-5 mt-2 mb-5 w-full w-bg-secondary rounded-lg shadow-lg md:hidden">
         <div className="flex justify-between mb-4">
           <div className="flex flex-col items-start">
             <h3 className="text-xl mb-2.5">關於Vivian</h3>
