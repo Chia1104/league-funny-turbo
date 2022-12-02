@@ -6,8 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { fetchTagList } from "@/helpers/api/client";
 import cx from "classnames";
 import { TagContext, ActionType } from "./Tag";
-import type { Tag as TagType } from "@wanin/types";
-import { encodeString } from "@wanin/utils";
+import type { Tag as TagType } from "@wanin/shared/types";
+import { encodeString } from "@wanin/shared/utils";
 
 const searchSchema = z.string().min(0).max(10);
 

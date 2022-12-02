@@ -6,8 +6,8 @@ import {
   SetStateAction,
 } from "react";
 import { useUpdateEffect } from "usehooks-ts";
-import type { Pagenate } from "@wanin/types";
-import { setSearchParams } from "@wanin/utils";
+import type { Pagenate } from "@wanin/shared/types";
+import { setSearchParams } from "@wanin/shared/utils";
 
 export interface UseInfiniteQueryOptions<T = any> {
   url: string;

@@ -1,4 +1,4 @@
-import type { Feed } from "@wanin/types";
+import type { Feed } from "@wanin/shared/types";
 import { FeedList } from "@/components/client";
 import { notFound } from "next/navigation";
 import { fetchFeedList } from "@/helpers/api/server-only";

@@ -1,9 +1,9 @@
 "use client";
 
 import { type FC, type Ref, forwardRef } from "react";
-import type { Feed } from "@wanin/types";
+import type { Feed } from "@wanin/shared/types";
 import { Image, Avatar } from "@/components/client";
-import { GoldenIcon, ChatIcon, EyeIcon } from "@wanin/ui";
+import { GoldenIcon, ChatIcon, EyeIcon } from "@wanin/icons";
 import Link from "next/link";
 
 interface Props {

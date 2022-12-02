@@ -1,8 +1,8 @@
 "use client";
 
 import { type FC } from "react";
-import { EditIcon, FilmIcon } from "@wanin/ui";
-import { Size } from "@wanin/types";
+import { EditIcon, FilmIcon } from "@wanin/icons";
+import { Size } from "@wanin/shared/types";
 import { Popover } from "@geist-ui/core";
 import cx from "classnames";
 import Link from "next/link";

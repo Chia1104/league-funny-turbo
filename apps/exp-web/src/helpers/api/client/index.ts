@@ -6,8 +6,8 @@ import type {
   ApiResponse,
   LoginSession,
   User,
-} from "@wanin/types";
-import { setSearchParams } from "@wanin/utils";
+} from "@wanin/shared/types";
+import { setSearchParams } from "@wanin/shared/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
 
 const fetchSidebar = async (): Promise<PostCategory[]> => {

@@ -1,0 +1,40 @@
+{
+  "name": "@wanin/shared",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./types": {
+      "import": "./dist/types/index.mjs",
+      "require": "./dist/types/index.js"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.js"
+    },
+    "./utils/zod-schema": {
+      "import": "./dist/utils/zod-schema/index.mjs",
+      "require": "./dist/utils/zod-schema/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "lint": "eslint \"{types,utils}/**/*.{ts,js,tsx,jsx}\" --fix"
+  },
+  "browser": {
+    "./types": "./dist/types/index.js",
+    "./utils": "./dist/utils/index.js",
+    "./utils/zod-schema": "./dist/utils/zod-schema/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@wanin/eslint-config-base": "workspace:0.0.0",
+    "tsconfig": "workspace:0.0.0",
+    "tsup": "^6.5.0",
+    "zod": "^3.19.1",
+    "dayjs": "^1.11.6"
+  }
+}

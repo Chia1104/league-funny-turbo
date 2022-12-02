@@ -2,8 +2,13 @@
 
 import { type FC } from "react";
 import { Image, Avatar } from "@/components/client";
-import { BillIcon, MissionIcon, AchievementIcon, EnvelopIcon } from "@wanin/ui";
-import { Size } from "@wanin/types";
+import {
+  BillIcon,
+  MissionIcon,
+  AchievementIcon,
+  EnvelopIcon,
+} from "@wanin/icons";
+import { Size } from "@wanin/shared/types";
 import { Tooltip, Popover } from "@geist-ui/core";
 import data from "@/shared/data/bill.json";
 import { signIn, signOut, useSession } from "next-auth/react";

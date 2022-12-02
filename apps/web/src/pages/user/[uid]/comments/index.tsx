@@ -1,7 +1,7 @@
 import { FeedList } from "@/components";
 import { fetchFeedList } from "@/helpers/api/server-only";
 import { GetServerSideProps, NextPage } from "next";
-import type { Feed, Pagenate } from "@wanin/types";
+import type { Feed, Pagenate } from "@wanin/shared/types";
 
 interface FeedProps {
   status: number;

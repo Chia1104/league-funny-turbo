@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { CloseIcon } from "@wanin/ui";
+import { CloseIcon } from "@wanin/icons";
 
 interface Props {
   label: string;

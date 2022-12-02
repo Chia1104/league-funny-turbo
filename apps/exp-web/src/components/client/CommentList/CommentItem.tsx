@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC, Ref, forwardRef, useState } from "react";
-import type { Comment } from "@wanin/types";
+import type { Comment } from "@wanin/shared/types";
 import { Avatar } from "@/components/client";
 import Link from "next/link";
 import cx from "classnames";
