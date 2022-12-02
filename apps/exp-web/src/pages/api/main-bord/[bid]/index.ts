@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ApiResponse } from "@wanin/types";
+import { ApiResponse } from "@wanin/shared/types";
 import { API_URL } from "@/shared/constants";
 
 const fetchBoardCategory = async (

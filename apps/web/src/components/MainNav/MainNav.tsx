@@ -6,7 +6,7 @@ import {
   AchievementIcon,
   EnvelopIcon,
   HamburgerIcon,
-} from "@wanin/ui";
+} from "@wanin/icons";
 import { Size } from "@wanin/shared/types";
 import { Tooltip, Popover, Drawer } from "@geist-ui/core";
 import data from "@/shared/data/bill.json";

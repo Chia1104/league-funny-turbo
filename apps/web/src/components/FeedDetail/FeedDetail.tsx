@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ChatIcon, EyeIcon } from "@wanin/ui";
+import { ChatIcon, EyeIcon } from "@wanin/icons";
 import type { Feed } from "@wanin/shared/types";
 import { Avatar, CommentList } from "@/components";
 import { type FC } from "react";

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/shared/constants";
-import type { Comment, Pagenate, ApiResponse } from "@wanin/types";
-import { setSearchParams } from "@wanin/utils";
+import type { Comment, Pagenate, ApiResponse } from "@wanin/shared/types";
+import { setSearchParams } from "@wanin/shared/utils";
 
 export default async function handler(
   req: NextApiRequest,

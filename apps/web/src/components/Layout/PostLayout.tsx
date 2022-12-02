@@ -6,7 +6,7 @@ import {
   RocketIcon,
   ShopIcon,
   TimeLineIcon,
-} from "@wanin/ui";
+} from "@wanin/icons";
 import { Size } from "@wanin/shared/types";
 import Link from "next/link";
 import cx from "classnames";
