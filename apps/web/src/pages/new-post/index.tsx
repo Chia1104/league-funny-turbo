@@ -3,10 +3,11 @@ import { Select } from "@geist-ui/core";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PostCategory } from "@wanin/shared/types";
 import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/client";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Page } from "@wanin/ui";
 import { type GetServerSideProps } from "next";
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
+import { useS3ImageUpload } from "@/hooks";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerAuthSession(context);
@@ -63,6 +64,12 @@ const NewPostPage = () => {
     setSelecteCategory(value);
   };
 
+  const { FileInput, fileUrl, isS3UploadComplete } = useS3ImageUpload({});
+
+  useEffect(() => {
+    console.log(fileUrl);
+  });
+
   return (
     <Page className="w-main w-full">
       <Head />
@@ -105,6 +112,8 @@ const NewPostPage = () => {
               )}
             </Select>
           </div>
+          <FileInput />
+          {isS3UploadComplete && <img src={fileUrl as string} alt="preview" />}
           <FroalaEditor />
           <Tag />
         </div>

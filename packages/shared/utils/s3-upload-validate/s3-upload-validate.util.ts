@@ -25,7 +25,7 @@ const ImageSchema = z.object({
     ),
 });
 
-const validateImage = (image: File | Blob) => {
+const validateImage = (image: File) => {
   return ImageSchema.safeParse({ image: image });
 };
 

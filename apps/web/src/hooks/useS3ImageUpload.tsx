@@ -16,9 +16,10 @@ import {
   type RefAttributes,
 } from "react";
 import { validateImage } from "@wanin/shared/utils";
+import { uploadImage } from "@/helpers/api/client";
 
 interface UseS3ImageUploadOptions {
-  endpoint: string;
+  endpoint?: string;
   onS3UploadComplete?: () => void;
   onS3UploadError?: () => void;
 }
@@ -41,7 +42,11 @@ interface UseS3ImageUploadResult {
 const useS3ImageUpload = (
   options: UseS3ImageUploadOptions
 ): UseS3ImageUploadResult => {
-  const { endpoint, onS3UploadComplete, onS3UploadError } = options;
+  const {
+    endpoint = "/api/s3/image",
+    onS3UploadComplete,
+    onS3UploadError,
+  } = options;
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -56,7 +61,8 @@ const useS3ImageUpload = (
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+      setIsUploading(true);
       onChange && onChange(e);
       // @ts-ignore
       const file = e.target.files[0];
@@ -68,7 +74,53 @@ const useS3ImageUpload = (
         onS3UploadError && onS3UploadError();
         return;
       }
-      onS3UploadComplete && onS3UploadComplete();
+      const res = await uploadImage(file, { endpoint });
+      if (res.status !== 200) {
+        // @ts-ignore
+        setS3UploadError(res.data?.message ?? "Something went wrong");
+        setIsFileValid(false);
+        onS3UploadError && onS3UploadError();
+        setIsUploading(false);
+        return;
+      }
+      const client = new S3Client({
+        credentials: {
+          accessKeyId: res.data.token.Credentials.AccessKeyId,
+          secretAccessKey: res.data.token.Credentials.SecretAccessKey,
+          sessionToken: res.data.token.Credentials.SessionToken,
+        },
+        region: res.data.region,
+      });
+      const params = {
+        Bucket: res.data.bucket,
+        Key: res.data.key,
+        Body: file,
+        CacheControl: "max-age=630720000, public",
+        ContentType: file.type,
+      };
+      try {
+        const upload = new Upload({
+          client,
+          params,
+        });
+        const uploadResult =
+          (await upload.done()) as CompleteMultipartUploadCommandOutput;
+        setFileUrl(
+          uploadResult.Bucket && uploadResult.Key
+            ? `https://${uploadResult.Bucket}.s3.${res.data.region}.amazonaws.com/${uploadResult.Key}`
+            : ""
+        );
+        setFile(file);
+        setIsS3UploadComplete(true);
+        onS3UploadComplete && onS3UploadComplete();
+        setIsUploading(false);
+      } catch (e) {
+        console.error(e);
+        setS3UploadError("Something went wrong");
+        setIsFileValid(false);
+        onS3UploadError && onS3UploadError();
+        setIsUploading(false);
+      }
     };
     return (
       <input {...rest} ref={inputRef} type="file" onChange={handleChange} />
