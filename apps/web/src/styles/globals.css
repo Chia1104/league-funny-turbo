@@ -52,6 +52,24 @@
     .w-main-scrollbar {
         @apply scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full
     }
+
+    .w-block {
+        @apply block p-5 ml-5 w-bg-secondary rounded-lg shadow-lg
+    }
+
+    .btn-styleA {
+        @apply flex items-center bg-white border-0 rounded px-2 py-1 text-black text-center cursor-pointer;
+    }
+    .btn-styleA-hover {
+        @apply text-white bg-blue-500;
+    }
+
+    .btn-styleB {
+        @apply bg-blue-500 border-0 rounded px-2 py-1 text-white text-center cursor-pointer;
+    }
+    .btn-styleB-hover {
+        @apply bg-blue-400;
+    }
 }
 
 h1 {

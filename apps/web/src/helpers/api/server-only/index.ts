@@ -5,9 +5,9 @@ import type {
   ApiResponse,
   LoginSession,
   User,
-} from "@wanin/types";
+} from "@wanin/shared/types";
 import { type ApiResult } from "@/helpers/api/type";
-import { setSearchParams } from "@wanin/utils";
+import { setSearchParams } from "@wanin/shared/utils";
 
 const fetchFeedDetail = async (bcId: string): Promise<ApiResult<Feed>> => {
   const data = await fetch(`${API_URL}/api/feed/${bcId}`, {

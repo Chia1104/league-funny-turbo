@@ -1,7 +1,7 @@
 import { type FC } from "react";
-import type { PostCategory } from "@wanin/types";
+import type { PostCategory } from "@wanin/shared/types";
 import { fetchSidebar } from "@/helpers/api/client";
-import { asyncComponent } from "@wanin/utils";
+import { asyncComponent } from "@wanin/shared/utils";
 import Link from "next/link";
 
 interface ListProps {

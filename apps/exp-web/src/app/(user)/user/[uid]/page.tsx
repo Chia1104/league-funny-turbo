@@ -1,4 +1,4 @@
-import type { Feed } from "@wanin/types";
+import type { Feed } from "@wanin/shared/types";
 import { FeedList, UserComment } from "@/components/client";
 import { fetchFeedList } from "@/helpers/api/server-only";
 import "./user.scss";

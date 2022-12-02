@@ -1,7 +1,7 @@
 import { type FC, type ReactNode, useMemo } from "react";
 import { PostLayout } from "@/components/Layout";
 import { useRouter } from "next/router";
-import { Footer, MainEdit, MainNav, IsLogin } from "@/components";
+import { Footer, MainEdit, MainNav, IsLogin, UserLayout } from "@/components";
 
 interface Props {
   children: ReactNode;
@@ -16,6 +16,8 @@ const Layout: FC<Props> = (props) => {
     switch (rootPath) {
       case "b":
         return <PostLayout>{children}</PostLayout>;
+      case "user":
+        return <UserLayout>{children}</UserLayout>;
       default:
         return <>{children}</>;
     }

@@ -1,13 +1,13 @@
 import { PostCategoryList } from "@/components/client";
+import { Page } from "@/lib/ui";
 import {
   LiveIcon,
-  Page,
   PostIcon,
   RocketIcon,
   ShopIcon,
   TimeLineIcon,
-} from "@/lib/ui";
-import { Size } from "@wanin/types";
+} from "@wanin/icons";
+import { Size } from "@wanin/shared/types";
 import Link from "next/link";
 import { type ReactNode } from "react";
 import { Banner } from "@/components/client";

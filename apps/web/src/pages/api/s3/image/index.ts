@@ -13,7 +13,7 @@ import {
   S3_UPLOAD_BUCKET,
   S3_UPLOAD_REGION,
 } from "@/shared/constants";
-import { slugFormat } from "@wanin/utils";
+import { slugFormat } from "@wanin/shared/utils";
 
 const uuid = () => uuidv4();
 const s3Config: STSClientConfig = {
@@ -67,5 +67,7 @@ export default async function handler(
       } catch (error) {
         return res.status(400).json({ message: "Bad Request" });
       }
+    default:
+      return res.status(405).json({ message: "Method Not Allowed" });
   }
 }

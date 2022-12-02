@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { Page } from "@wanin/ui";
-import type { Feed, Pagenate } from "@wanin/types";
+import type { Feed, Pagenate } from "@wanin/shared/types";
 import { FeedList, Head } from "@/components";
 import { fetchFeedList } from "@/helpers/api/server-only";
 

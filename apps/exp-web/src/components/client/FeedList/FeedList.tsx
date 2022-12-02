@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC, Fragment, useMemo } from "react";
-import type { Feed } from "@wanin/types";
+import type { Feed } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
 import FeedSkeleton from "./FeedSkeleton";
 import { useInfiniteScroll } from "@/hooks";

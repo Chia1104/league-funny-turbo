@@ -9,7 +9,7 @@ import {
   type User,
   LoginProvider,
   ApiResponseStatus,
-} from "@wanin/types";
+} from "@wanin/shared/types";
 import type { JWT } from "next-auth/jwt";
 import NodeCache from "node-cache";
 import {

@@ -6,8 +6,8 @@ import {
   AchievementIcon,
   EnvelopIcon,
   HamburgerIcon,
-} from "@wanin/ui";
-import { Size } from "@wanin/types";
+} from "@wanin/icons";
+import { Size } from "@wanin/shared/types";
 import { Tooltip, Popover, Drawer } from "@geist-ui/core";
 import data from "@/shared/data/bill.json";
 import { signOut, useSession } from "next-auth/react";

@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC, useMemo } from "react";
-import type { Comment } from "@wanin/types";
+import type { Comment } from "@wanin/shared/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchCommentList } from "@/helpers/api/client";
 import CommentItem from "./CommentItem";

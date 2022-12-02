@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import type { PostCategory } from "@wanin/types";
+import type { PostCategory } from "@wanin/shared/types";
 import Link from "next/link";
 import { fetchSidebar } from "@/helpers/api/client";
 import { useQuery } from "@tanstack/react-query";

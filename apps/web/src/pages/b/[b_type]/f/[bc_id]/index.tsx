@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
 import { fetchFeedDetail } from "@/helpers/api/server-only";
-import type { Feed } from "@wanin/types";
+import type { Feed } from "@wanin/shared/types";
 import { FeedDetail, Head } from "@/components";
 import { Page } from "@wanin/ui";
 

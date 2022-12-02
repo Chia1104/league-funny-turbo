@@ -15,7 +15,7 @@ import {
   type ForwardRefExoticComponent,
   type RefAttributes,
 } from "react";
-import { validateImage } from "@wanin/utils";
+import { validateImage } from "@wanin/shared/utils";
 
 interface UseS3ImageUploadOptions {
   endpoint: string;

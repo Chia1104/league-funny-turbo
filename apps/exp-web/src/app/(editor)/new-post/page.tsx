@@ -3,7 +3,7 @@
 import { FroalaEditor } from "@/components/client";
 import { Select } from "@geist-ui/core";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { PostCategory } from "@wanin/types";
+import { PostCategory } from "@wanin/shared/types";
 import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/client";
 import { useMemo, useState } from "react";
 
