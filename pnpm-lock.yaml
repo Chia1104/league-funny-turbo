@@ -208,7 +208,6 @@ importers:
 
   packages/icons:
     specifiers:
-      '@radix-ui/react-tooltip': ^1.0.2
       '@types/react': ^18.0.25
       '@types/react-dom': ^18.0.9
       '@wanin/eslint-config-nextjs': workspace:0.0.0
@@ -216,18 +215,12 @@ importers:
       '@wanin/tailwind-config': workspace:0.0.0
       classnames: ^2.3.2
       concurrently: ^7.6.0
-      framer-motion: ^7.6.12
       react: ^18.2.0
       react-dom: ^18.2.0
       tailwindcss: ^3.2.4
       tsconfig: workspace:0.0.0
       tsup: ^6.5.0
-      usehooks-ts: ^2.9.1
-      zod: ^3.19.1
-    dependencies:
-      react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@radix-ui/react-tooltip': 1.0.2_2zx2umvpluuhvlq44va5bta2da
       '@types/react': 18.0.25
       '@types/react-dom': 18.0.9
       '@wanin/eslint-config-nextjs': link:../eslint-config-nextjs
@@ -235,13 +228,11 @@ importers:
       '@wanin/tailwind-config': link:../tailwind-config
       classnames: 2.3.2
       concurrently: 7.6.0
-      framer-motion: 7.6.12_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
       tailwindcss: 3.2.4
       tsconfig: link:../tsconfig
       tsup: 6.5.0
-      usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
-      zod: 3.19.1
 
   packages/laravel-api:
     specifiers:
