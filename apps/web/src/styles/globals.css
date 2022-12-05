@@ -54,7 +54,7 @@
     }
 
     .w-block {
-        @apply w-bg-secondary rounded-lg flex flex-col gap-1 shadow-lg
+        @apply w-bg-secondary rounded-lg flex flex-col shadow-lg
     }
 
     .btn-styleA {

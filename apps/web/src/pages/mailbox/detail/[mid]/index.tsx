@@ -1,35 +1,31 @@
 import { type FC } from "react";
-import { useState } from "react";
 import Image from "next/image";
-import { MailboxCenter } from "@/components";
+import { MailboxCenter, MailReceive } from "@/components";
 import Link from "next/link";
 
-interface Props {
-  user: string;
-  detail: string;
-  time: string;
-}
-
-const MailboxDetailPage: FC<Props> = (props) => {
-  const { user, detail, time } = props;
-  const [mailTitle, setMailTitle] = useState(
-    "hifffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-  );
+const MailboxDetailPage: FC = () => {
+  const user1 = {
+    userImgPath: "/about/about_img1.png",
+    userName: "Vivian",
+    userID: "132268",
+    mailTitle:
+      "hihi hifffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    detail:
+      "Customizing the default breakpoints for your project. Configuring custom screens You define your project’s breakpoints in the theme.screens section of your tailwind.config.js file. The keys become your responsive modifiers (like md:text-center), and the values are the min-width where that breakpoint should start. The default breakpoints are inspired by common device resolutions:",
+    time: "12月02日 10:32",
+  };
 
   return (
     <article>
-      <div className="top-0 left-0 mt-16">
-        <div className="w-full h-72 flex items-center justify-center w-bg-secondary">
-          <div className="w-2/4 h-full bg-gray-300">
-            <h3>AD</h3>
-          </div>
-        </div>
-        <div className="flex justify-center mt-7">
+      <div className="top-0 left-0 mt-16 md:mt-28">
+        <div className="flex flex-col justify-center mt-0 md:flex-row">
           <MailboxCenter />
-          <div className="w-block p-5 w-3/5">
+          <div className="w-block p-5 md:w-3/5">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-ellipsis overflow-hidden w-3/5">{mailTitle}</p>
-              <div className="flex items-center">
+              <div className="flex-1 break-all">
+                <p>{user1.mailTitle}</p>
+              </div>
+              <div className="hidden md:flex items-center ml-4">
                 <button className="btn-styleB text-sm mr-2 hover:btn-styleB-hover">
                   回覆
                 </button>
@@ -65,51 +61,38 @@ const MailboxDetailPage: FC<Props> = (props) => {
                     <Image
                       className="rounded-full bg-white object-cover"
                       alt="about/img1"
-                      src="/about/about_img1.png"
+                      src={user1.userImgPath}
                       width={30}
                       height={30}
                     />
                     <span className="text-secondary font-semibold ml-2">
-                      {"Vivian (ID:132268)"}
+                      {`${user1.userName} (ID:${user1.userID})`}
                     </span>
                   </div>
                 </div>
-                <span className="text-sm font-semibold">
-                  {"12月02日 10:32"}
-                </span>
+                <span className="text-sm font-semibold">{user1.time}</span>
               </div>
               <div className="bg-white py-5 px-2 break-words">
-                <p>
-                  {
-                    "Customizing the default breakpoints for your project. Configuring custom screens You define your project’s breakpoints in the theme.screens section of your tailwind.config.js file. The keys become your responsive modifiers (like md:text-center), and the values are the min-width where that breakpoint should start. The default breakpoints are inspired by common device resolutions:"
-                  }
-                </p>
+                <p>{user1.detail}</p>
               </div>
-              <div className="p-3 flex items-center justify-between bg-gray-100">
-                <div className="flex items-center">
-                  <span className="text-sm text-gray-400 mr-2 font-semibold">
-                    Re：
-                  </span>
-                  <div className="flex items-center">
-                    <Image
-                      className="rounded-full bg-white object-cover"
-                      alt="about/img1"
-                      src="/about/about_img1.png"
-                      width={30}
-                      height={30}
-                    />
-                    <span className="text-secondary font-semibold ml-2">
-                      {"AAA (ID:123456)"}
-                    </span>
-                  </div>
-                </div>
-                <span className="text-sm font-semibold">
-                  {"12月02日 10:52"}
-                </span>
-              </div>
-              <div className="bg-white py-5 px-2">
-                <p>{"哈囉～"}</p>
-              </div>
+              <MailReceive
+                userImgPath="/about/about_img1.png"
+                userName="AAA"
+                userID="123456"
+                detail="哈囉～"
+              />
+              <MailReceive
+                userImgPath="/about/about_img1.png"
+                userName="AAA"
+                userID="123456"
+                detail="你好～"
+              />
+              <MailReceive
+                userImgPath="/about/about_img1.png"
+                userName="AAA"
+                userID="123456"
+                detail="OK"
+              />
             </div>
             <div className="flex items-center justify-center mt-5">
               <Link href={"/mailbox"}>
