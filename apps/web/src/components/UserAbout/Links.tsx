@@ -15,7 +15,7 @@ const Links: FC<Props> = (props) => {
   return (
     <div>
       <Link
-        className={cx("flex items-center", linkFb === "" && "hidden")}
+        className={cx("flex items-center", !linkFb && "hidden")}
         href={linkFb}>
         <Image
           className="gray-icon"
@@ -27,7 +27,7 @@ const Links: FC<Props> = (props) => {
         <span className="text-sm text-gray-400 leading-7 ml-2">Facebook</span>
       </Link>
       <Link
-        className={cx("flex items-center", linkPersonal === "" && "hidden")}
+        className={cx("flex items-center", !linkPersonal && "hidden")}
         href={linkPersonal}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -45,13 +45,13 @@ const Links: FC<Props> = (props) => {
         <span className="text-sm text-gray-400 leading-7 ml-2">個人網站</span>
       </Link>
       <Link
-        className={cx("flex items-center", linkBahamut === "" && "hidden")}
+        className={cx("flex items-center", !linkBahamut && "hidden")}
         href={linkBahamut}>
         <div className="icon-bahamut"></div>
         <span className="text-sm text-gray-400 leading-7 ml-2">巴哈姆特</span>
       </Link>
       <Link
-        className={cx("flex items-center", linkTwitch === "" && "hidden")}
+        className={cx("flex items-center", !linkTwitch && "hidden")}
         href={linkTwitch}>
         <Image
           className="gray-icon-twitch"
