@@ -9,22 +9,34 @@ interface Props {
     isLogin?: boolean;
     isAdmin?: boolean;
   };
+  useAdmin?: boolean;
+  adminFallBack?: ReactNode;
 }
 
 const IsLogin: FC<Props> = (props) => {
   const {
     fallBack = null,
     children,
+    useAdmin = false,
+    adminFallBack = null,
     debug = { isLogin: false, isAdmin: false },
   } = props;
   const { data: session } = useSession();
 
-  if (!IS_PRODUCTION && debug?.isLogin) {
-    return <>{children}</>;
+  if (!IS_PRODUCTION) {
+    if (debug.isAdmin || debug.isLogin) {
+      return <>{children}</>;
+    }
+    if (!debug.isAdmin) {
+      return <>{adminFallBack}</>;
+    }
+    if (!debug.isLogin) {
+      return <>{fallBack}</>;
+    }
   }
 
-  if (!IS_PRODUCTION && debug?.isAdmin) {
-    return <>{children}</>;
+  if (useAdmin) {
+    return <>{session?.user.admin_id ? children : adminFallBack ?? fallBack}</>;
   }
 
   return <>{session ? children : fallBack}</>;
