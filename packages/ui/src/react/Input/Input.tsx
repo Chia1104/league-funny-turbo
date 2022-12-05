@@ -57,10 +57,11 @@ const Input = forwardRef<InputRef, Props>((props, ref) => {
   }));
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!schema) return;
-    const { value } = e.target;
-    const isValid = schema.safeParse(value).success;
-    setIsError(!isValid);
+    if (schema) {
+      const { value } = e.target;
+      const isValid = schema.safeParse(value).success;
+      setIsError(!isValid);
+    }
     onChange && onChange(e);
   };
 

@@ -40,7 +40,6 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt", maxAge: TOKEN_EXPIRE },
   jwt: {
     maxAge: TOKEN_EXPIRE,
-    secret: NEXTAUTH_SECRET,
     async encode({ secret, token }) {
       const _laravelCache = laravelCache.get(
         token?.email || "laravelCache"
@@ -77,6 +76,19 @@ export const authOptions: NextAuthOptions = {
       if (result.status !== ApiResponseStatus.SUCCESS) return false;
       laravelCache.set(user.email as string, result, CACHE_TTL);
       return true;
+    },
+    session({ session, token }) {
+      if (token && session.user) {
+        session.user = {
+          id: session.user.id,
+          admin_id: token.a as number,
+          ban: token.b as number,
+          name: token.name,
+          email: token.email,
+          image: session.user.image,
+        };
+      }
+      return session;
     },
   },
 };
