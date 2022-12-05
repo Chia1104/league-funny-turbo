@@ -3,7 +3,7 @@ import { Select } from "@geist-ui/core";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PostCategory } from "@wanin/shared/types";
 import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/client";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { Page } from "@wanin/ui";
 import { type GetServerSideProps } from "next";
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
@@ -32,8 +32,8 @@ const NewPostPage = () => {
     isSuccess,
     isLoading,
   } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar);
-  const [selecteBord, setSelecteBord] = useState<string>("");
-  const [selecteCategory, setSelecteCategory] = useState<string>("");
+  const [selectBord, setSelectBord] = useState<string>("");
+  const [selectCategory, setSelectCategory] = useState<string>("");
   const catalogue = useMemo(() => {
     if (isSuccess) {
       return bord
@@ -55,20 +55,16 @@ const NewPostPage = () => {
     },
   });
 
-  const handleSelectBord = (value: string) => {
-    setSelecteBord(value);
+  const handleSelectBord = (value: string | string[]) => {
+    setSelectBord(value as string);
     fetchBordCategory.mutate(Number(value));
   };
 
-  const handleSelectCategory = (value: string) => {
-    setSelecteCategory(value);
+  const handleSelectCategory = (value: string | string[]) => {
+    setSelectCategory(value as string);
   };
 
-  const { FileInput, fileUrl, isS3UploadComplete } = useS3ImageUpload({});
-
-  useEffect(() => {
-    console.log(fileUrl);
-  });
+  const { FileInput, fileUrl, isS3UploadComplete } = useS3ImageUpload();
 
   return (
     <Page className="w-main w-full">
@@ -79,7 +75,6 @@ const NewPostPage = () => {
             <Select
               placeholder="選擇版面"
               type="default"
-              // @ts-ignore
               onChange={handleSelectBord}>
               {isSuccess &&
                 (catalogue as { label: string; value: number }[]).map(
@@ -96,7 +91,6 @@ const NewPostPage = () => {
             <Select
               placeholder="選擇分類"
               type="default"
-              // @ts-ignore
               onChange={handleSelectCategory}>
               {fetchBordCategory.isSuccess &&
                 fetchBordCategory.data.map((item) => (

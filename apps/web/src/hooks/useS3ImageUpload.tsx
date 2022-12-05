@@ -22,6 +22,7 @@ interface UseS3ImageUploadOptions {
   endpoint?: string;
   onS3UploadComplete?: () => void;
   onS3UploadError?: () => void;
+  errorMessage?: string;
 }
 
 interface UseS3ImageUploadResult {
@@ -40,10 +41,12 @@ interface UseS3ImageUploadResult {
 }
 
 const useS3ImageUpload = (
-  options: UseS3ImageUploadOptions
+  options?: UseS3ImageUploadOptions
 ): UseS3ImageUploadResult => {
+  options ??= {};
   const {
     endpoint = "/api/s3/image",
+    errorMessage = "Something went wrong",
     onS3UploadComplete,
     onS3UploadError,
   } = options;
@@ -64,20 +67,19 @@ const useS3ImageUpload = (
     const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
       setIsUploading(true);
       onChange && onChange(e);
-      // @ts-ignore
-      const file = e.target.files[0];
+      const file = e.target?.files?.[0];
       if (!file) return;
       const validation = validateImage(file);
       if (!validation.success) {
         setS3UploadError(validation.error.errors[0].message);
         setIsFileValid(false);
         onS3UploadError && onS3UploadError();
+        setIsUploading(false);
         return;
       }
       const res = await uploadImage(file, { endpoint });
       if (res.status !== 200) {
-        // @ts-ignore
-        setS3UploadError(res.data?.message ?? "Something went wrong");
+        setS3UploadError(res.data?.message ?? errorMessage);
         setIsFileValid(false);
         onS3UploadError && onS3UploadError();
         setIsUploading(false);
@@ -115,8 +117,7 @@ const useS3ImageUpload = (
         onS3UploadComplete && onS3UploadComplete();
         setIsUploading(false);
       } catch (e) {
-        console.error(e);
-        setS3UploadError("Something went wrong");
+        setS3UploadError(errorMessage);
         setIsFileValid(false);
         onS3UploadError && onS3UploadError();
         setIsUploading(false);

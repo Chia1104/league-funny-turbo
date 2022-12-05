@@ -89,12 +89,14 @@ const uploadImage = async (
   file: File,
   { endpoint = "/api/s3/image" }: { endpoint?: string } = {}
 ): Promise<
-  ApiResponse<{
-    token: S3ClientToken;
-    key: string;
-    bucket: string;
-    region: string;
-  }>
+  ApiResponse<
+    | {
+        token: S3ClientToken;
+        key: string;
+        bucket: string;
+        region: string;
+      } & { message: string }
+  >
 > => {
   const { name: filename } = file;
   const res = await fetch(`${getBaseUrl()}${endpoint}`, {
