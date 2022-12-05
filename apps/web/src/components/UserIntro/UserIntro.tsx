@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import { ButtonGroup, Button, Select } from "@geist-ui/core";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import EditDataModal from "./EditDataModal";
 import SendPrivateMsgModal from "./SendPrivateMsgModal";
 
