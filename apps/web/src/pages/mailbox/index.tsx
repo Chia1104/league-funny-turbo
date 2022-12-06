@@ -1,4 +1,5 @@
 import { MailboxCenter, MailboxDetail } from "@/components";
+import { mail } from "./fakedata";
 
 const Mailbox = () => {
   return (
@@ -13,27 +14,21 @@ const Mailbox = () => {
                 標示全部已讀
               </button>
             </div>
-            <MailboxDetail
-              mid="1"
-              user="Vivian"
-              detail="Hi"
-              isNew={true}
-              time="12月02日 10:27"
-            />
-            <MailboxDetail
-              mid="1"
-              user="Vivian"
-              detail="Hi"
-              isNew={true}
-              time="12月02日 10:27"
-            />
-            <MailboxDetail
-              mid="1"
-              user="Vivian"
-              detail="Hidddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-              isNew={false}
-              time="12月02日 10:27"
-            />
+            {mail.content.map((item, i) => (
+              <MailboxDetail
+                key={i}
+                message={{
+                  m_id: item.m_id,
+                  m_type: item.m_type,
+                  m_title: item.m_title,
+                  m_content: item.m_content,
+                  m_time: item.m_time,
+                  m_uid: item.m_uid,
+                  m_uname: item.m_uname,
+                  m_isNew: item.m_isNew,
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>

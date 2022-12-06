@@ -1,37 +1,40 @@
 import { type FC } from "react";
-import Image from "next/image";
-
+import type { Message } from "@wanin/shared/types";
+import { Avatar } from "@/components";
+import Link from "next/link";
 interface Props {
-  userImgPath: string;
-  userName: string;
-  userID: string;
-  detail: string;
+  message: Message;
 }
 
 const MailReceive: FC<Props> = (props) => {
-  const { userImgPath, userName, userID, detail } = props;
+  const { message } = props;
   return (
     <div>
       <div className="p-3 flex items-center justify-between bg-gray-100">
         <div className="flex items-center">
-          <span className="text-sm text-gray-400 mr-2 font-semibold">Re：</span>
+          <span className="text-sm text-gray-400 mr-2 font-semibold">
+            {message.m_type}
+          </span>
           <div className="flex items-center">
-            <Image
-              className="rounded-full bg-white object-cover"
-              alt={`${userID}/${userImgPath}`}
-              src={userImgPath}
-              width={30}
-              height={30}
+            <Avatar
+              url={`https://img.league-funny.com/user_cover/${
+                message?.m_uid || ""
+              }.jpg`}
+              userId={message?.m_uid}
+              ratio={25}
+              username={message?.m_uname}
             />
-            <span className="text-secondary font-semibold ml-2">
-              {`${userName} (ID:${userID})`}
-            </span>
+            <Link
+              href={`/user/${message?.m_uid}`}
+              className="ml-2 text-secondary font-semibold hover:underline">
+              {`${message?.m_uname} (ID: ${message.m_uid})`}
+            </Link>
           </div>
         </div>
-        <span className="text-sm font-semibold">{"12月02日 10:52"}</span>
+        <span className="text-sm font-semibold">{message.m_time}</span>
       </div>
       <div className="bg-white py-5 px-2">
-        <p>{detail}</p>
+        <p>{message.m_content}</p>
       </div>
     </div>
   );
