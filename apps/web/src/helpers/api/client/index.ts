@@ -113,6 +113,63 @@ const uploadImage = async (
   };
 };
 
+const resizeImage = async ({
+  width,
+  height,
+  image,
+}: {
+  width: number;
+  height: number;
+  image: string;
+}): Promise<ApiResponse<{ resizedImage: string }>> => {
+  const res = await fetch(`${getBaseUrl()}/api/services/resize`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ width, height, image }),
+  });
+  return {
+    status: res.status,
+    data: await res.json(),
+  };
+};
+
+const uploadImageToS3 = async ({
+  width,
+  height,
+  resize,
+  image,
+}: {
+  width?: number;
+  height?: number;
+  resize?: boolean;
+  image: string;
+}): Promise<ApiResponse<{ resizedImage?: string; imageUrl: string }>> => {
+  const res = await fetch(
+    `${getBaseUrl()}/api/services/s3/upload?${setSearchParams({
+      searchParams: {
+        width: width?.toString() || "",
+        height: height?.toString() || "",
+        resize: resize?.toString() || "",
+      },
+    })}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ image }),
+    }
+  );
+  return {
+    status: res.status,
+    data: await res.json(),
+  };
+};
+
 export {
   fetchSidebar,
   fetchMoreFeedList,
@@ -120,4 +177,6 @@ export {
   fetchBoardCategory,
   fetchTagList,
   uploadImage,
+  resizeImage,
+  uploadImageToS3,
 };

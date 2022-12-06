@@ -1,6 +1,7 @@
 FROM node:18-alpine AS builder
-RUN apk add --no-cache libc6-compat
-RUN apk update
+RUN apk update && \
+    apk add --no-cache \
+    libc6-compat
 
 WORKDIR /app
 RUN yarn global add turbo@1.6.3
@@ -8,15 +9,22 @@ COPY . .
 RUN turbo prune --scope=web --docker
 
 FROM node:18-alpine AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
+RUN apk update && \
+    apk add --no-cache \
+    libc6-compat \
+    build-base \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    giflib-dev \
+
 WORKDIR /app
 
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
 RUN yarn global add pnpm && \
-    pnpm add sharp --filter web && \
     pnpm i
 
 COPY --from=builder /app/out/full/ .
