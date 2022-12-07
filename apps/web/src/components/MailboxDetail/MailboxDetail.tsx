@@ -23,14 +23,14 @@ const MailBoxDetail: FC<Props> = (props) => {
                 "text-sm text-gray-400 mr-2 font-semibold",
                 !message?.m_isNew && "font-normal"
               )}>
-              {message.m_type}
+              {message?.m_type ?? ""}
             </span>
             <span
               className={cx(
                 "text-secondary font-semibold",
                 message?.m_isNew && "font-normal"
               )}>
-              {message?.m_uname}
+              {message?.m_uname ?? ""}
             </span>
           </div>
           <div className="w-full flex-1 flex items-center overflow-hidden md:w-24">
@@ -46,7 +46,7 @@ const MailBoxDetail: FC<Props> = (props) => {
                 "overflow-hidden text-ellipsis pr-5 font-semibold",
                 !message?.m_isNew && "font-normal"
               )}>
-              {message?.m_title}
+              {message?.m_title ?? ""}
             </div>
           </div>
           <span
@@ -54,7 +54,7 @@ const MailBoxDetail: FC<Props> = (props) => {
               "w-full text-sm font-semibold text-right absolute pr-5 md:w-32 md:relative flex-1",
               !message?.m_isNew && "font-normal"
             )}>
-            {message?.m_time}
+            {message?.m_time ?? ""}
           </span>
         </div>
       </div>

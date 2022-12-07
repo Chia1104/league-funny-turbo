@@ -1,13 +1,13 @@
 import { type FC } from "react";
 import { MailboxCenter, MailReceive } from "@/components";
 import Link from "next/link";
-import { mail, comment } from "../../fakedata";
+import mail from "@/shared/data/mail.json";
+import comment from "@/shared/data/mail-comment.json";
 import { useRouter } from "next/router";
 
 const MailboxDetailPage: FC = () => {
   const router = useRouter();
   const mid = router.query.mid;
-
   return (
     <article>
       <div className="top-0 left-0 mt-16 md:mt-28">
@@ -54,19 +54,7 @@ const MailboxDetailPage: FC = () => {
             <div className="border-t w-full">
               <MailReceive message={mail.content[0]} />
               {comment.content.map((item, i) => (
-                <MailReceive
-                  key={i}
-                  message={{
-                    m_id: item.m_id,
-                    m_type: item.m_type,
-                    m_title: "",
-                    m_content: item.m_content,
-                    m_time: item.m_time,
-                    m_uid: item.m_uid,
-                    m_uname: item.m_uname,
-                    m_isNew: item.m_isNew,
-                  }}
-                />
+                <MailReceive key={i} message={item} />
               ))}
             </div>
             <div className="flex items-center justify-center mt-5">

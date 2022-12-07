@@ -13,7 +13,7 @@ const MailReceive: FC<Props> = (props) => {
       <div className="p-3 flex items-center justify-between bg-gray-100">
         <div className="flex items-center">
           <span className="text-sm text-gray-400 mr-2 font-semibold">
-            {message.m_type}
+            {message?.m_type}
           </span>
           <div className="flex items-center">
             <Avatar
@@ -22,19 +22,19 @@ const MailReceive: FC<Props> = (props) => {
               }.jpg`}
               userId={message?.m_uid}
               ratio={25}
-              username={message?.m_uname}
+              username={message?.m_uname ?? ""}
             />
             <Link
               href={`/user/${message?.m_uid}`}
               className="ml-2 text-secondary font-semibold hover:underline">
-              {`${message?.m_uname} (ID: ${message.m_uid})`}
+              {`${message?.m_uname ?? ""} (ID: ${message?.m_uid})`}
             </Link>
           </div>
         </div>
-        <span className="text-sm font-semibold">{message.m_time}</span>
+        <span className="text-sm font-semibold">{message?.m_time}</span>
       </div>
       <div className="bg-white py-5 px-2">
-        <p>{message.m_content}</p>
+        <p>{message?.m_content ?? ""}</p>
       </div>
     </div>
   );
