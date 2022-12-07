@@ -1,7 +1,8 @@
+import { NextPage } from "next";
 import { MailboxCenter, MailboxDetail } from "@/components";
 import mail from "@/shared/data/mail.json";
 
-const Mailbox = () => {
+const Mailbox: NextPage = () => {
   return (
     <article>
       <div className="top-0 left-0 mt-16 md:mt-28">

@@ -1,7 +1,8 @@
+import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-const AdvertisePage = () => {
+const AdvertisePage: NextPage = () => {
   return (
     <article>
       <div className="advertise">

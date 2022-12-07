@@ -1,11 +1,11 @@
-import { type FC } from "react";
+import { NextPage } from "next";
 import { MailboxCenter, MailReceive } from "@/components";
 import Link from "next/link";
 import mail from "@/shared/data/mail.json";
 import comment from "@/shared/data/mail-comment.json";
 import { useRouter } from "next/router";
 
-const MailboxDetailPage: FC = () => {
+const MailboxDetailPage: NextPage = () => {
   const router = useRouter();
   const mid = router.query.mid;
   return (
