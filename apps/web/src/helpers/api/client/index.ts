@@ -8,6 +8,7 @@ import type {
 import { setSearchParams } from "@wanin/shared/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
 import { ApiResponse } from "@wanin/shared/types";
+import { ResizeOptions } from "@/server/image/services";
 
 const fetchSidebar = async (): Promise<PostCategory[]> => {
   const res = await fetch(`${getBaseUrl()}/api/main-bord`, {
@@ -141,29 +142,18 @@ const uploadImageToS3 = async ({
   height,
   resize,
   image,
-}: {
-  width?: number;
-  height?: number;
-  resize?: boolean;
-  image: string;
-}): Promise<ApiResponse<{ resizedImage?: string; imageUrl: string }>> => {
-  const res = await fetch(
-    `${getBaseUrl()}/api/services/s3/upload?${setSearchParams({
-      searchParams: {
-        width: width?.toString() || "",
-        height: height?.toString() || "",
-        resize: resize?.toString() || "",
-      },
-    })}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ image }),
-    }
-  );
+  format,
+}: ResizeOptions): Promise<
+  ApiResponse<{ resizedImage?: string; imageUrl?: string }>
+> => {
+  const res = await fetch(`${getBaseUrl()}/api/services/s3/upload`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ width, height, image, format, resize }),
+  });
   return {
     status: res.status,
     data: await res.json(),

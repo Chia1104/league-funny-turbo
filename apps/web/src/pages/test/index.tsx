@@ -14,10 +14,13 @@ const TestPage = () => {
     const ctx = canvas.getContext("2d");
     const image = imageRef.current;
     // @ts-ignore
-    ctx.drawImage(image, 0, 0, 500, 500);
+    ctx.drawImage(image, 0, 0, 110, 110);
     // @ts-ignore
     setImage(canvas.toDataURL(image.type));
   }, []);
+  useEffect(() => {
+    console.log(resizeImageMutation.data);
+  });
   const resizeImageMutation = useMutation({
     mutationFn: async ({
       width,
@@ -29,7 +32,10 @@ const TestPage = () => {
       image: string;
     }) => {
       return await uploadImageToS3({
+        // resize: true,
         image,
+        width: 50,
+        height: 50,
       });
     },
   });
@@ -38,17 +44,16 @@ const TestPage = () => {
       <h1>Test Page</h1>
       <p>Test page content</p>
       <img src="/logo-1.png" alt="logo" ref={imageRef} />
-      <canvas ref={canvasRef} width={500} height={500} className="hidden" />
+      <canvas ref={canvasRef} width={110} height={110} className="hidden" />
       <Button
         text={"Resize"}
         onClick={() => resizeImageMutation.mutate({ image: image as string })}
       />
-      {resizeImageMutation.data && (
-        <img
-          src={`data:image/webp;base64,${resizeImageMutation.data.data.resizedImage}`}
-          alt="resizes"
-        />
-      )}
+      {resizeImageMutation.data &&
+        resizeImageMutation.isSuccess &&
+        resizeImageMutation.data?.status === 200 && (
+          <img src={resizeImageMutation.data.data.resizedImage} alt="resizes" />
+        )}
     </Page>
   );
 };

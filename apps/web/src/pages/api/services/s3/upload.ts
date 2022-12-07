@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import { NEXTAUTH_SECRET } from "@/shared/constants";
-import { resize as resizeFN, convertToWebp } from "@/server/image/services";
+import { resizeImage, ResizeOptions } from "@/server/image/services";
+import { putObject } from "@/server/s3/services";
+import { v4 as uuidv4 } from "uuid";
 
 const regex = /^data:.+\/(.+);base64,(.*)$/;
 export default async function handler(
@@ -16,6 +18,7 @@ export default async function handler(
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
+  const uuid = () => uuidv4();
 
   switch (req.method) {
     case "POST":
@@ -24,27 +27,39 @@ export default async function handler(
           width,
           height,
           image,
-        }: { width: string; height: string; image: string } = req.body;
-        const { resize = false } = req.query;
+          format = "webp",
+          resize = false,
+          fileName = "",
+        }: ResizeOptions & { fileName?: string } = req.body;
         const matches = image.match(regex) as RegExpMatchArray;
         const data = matches[2];
-        const buffer = Buffer.from(data, "base64");
-        if (resize) {
-          const resizedImage = await resizeFN({
-            width: parseInt(width),
-            height: parseInt(height),
-            image: buffer,
-          });
-          const webp = await convertToWebp(resizedImage);
-          const base64 = Buffer.from(webp).toString("base64");
-          return res.status(200).json({
-            base64,
+        if (resize && (!width || !height)) {
+          return res.status(400).json({ message: "Missing width or height" });
+        }
+        const resizedImage = await resizeImage({
+          resize,
+          width,
+          height,
+          image: data,
+        });
+        const buffer = Buffer.from(
+          resizedImage.replace(/^data:image\/\w+;base64,/, ""),
+          "base64"
+        );
+        const key = `imgur/${uuid()}-${fileName}.${format}`;
+        const s3 = await putObject({
+          Key: key,
+          Body: buffer,
+          ContentType: `image/${format}`,
+        });
+        if (s3.$metadata.httpStatusCode !== 200) {
+          return res.status(s3.$metadata.httpStatusCode || 403).json({
+            message: "Error uploading image",
           });
         }
-        const webp = await convertToWebp(buffer);
-        const base64 = Buffer.from(webp).toString("base64");
         return res.status(200).json({
-          resizedImage: base64,
+          resizedImage: `data:image/${format};base64,${resizedImage}`,
+          imageUrl: `https://img.league-funny.com/${key}`,
         });
       } catch (error) {
         return res.status(400).json({ message: "Bad Request" });
