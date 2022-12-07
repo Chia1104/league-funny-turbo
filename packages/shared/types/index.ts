@@ -9,3 +9,4 @@ export * from "./user";
 export * from "./login-session";
 export * from "./comment";
 export * from "./tag";
+export * from "./message";
