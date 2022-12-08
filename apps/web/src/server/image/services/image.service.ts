@@ -1,7 +1,18 @@
 import { convertImage, resize as resizeFN } from "@/server/image/repositories";
 
 interface ResizeOptions {
-  image: string;
+  image:
+    | string
+    | Buffer
+    | Uint8Array
+    | Uint8ClampedArray
+    | Int8Array
+    | Uint16Array
+    | Int16Array
+    | Uint32Array
+    | Int32Array
+    | Float32Array
+    | Float64Array;
   width?: number;
   height?: number;
   format?: "webp" | "jpeg" | "jpg" | "png" | "gif";
@@ -10,11 +21,9 @@ interface ResizeOptions {
 
 const resizeImage = async (options: ResizeOptions): Promise<string> => {
   const { image, width, height, format = "webp", resize } = options;
-  const buffer = Buffer.from(image, "base64");
+  const buffer =
+    typeof image === "string" ? Buffer.from(image, "base64") : image;
   if (resize) {
-    if (!width || !height) {
-      throw new Error("Missing width or height");
-    }
     const resizedImage = await resizeFN({
       width,
       height,

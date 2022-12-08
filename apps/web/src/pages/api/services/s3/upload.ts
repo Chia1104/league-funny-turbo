@@ -31,7 +31,7 @@ export default async function handler(
           resize = false,
           fileName = "",
         }: ResizeOptions & { fileName?: string } = req.body;
-        const matches = image.match(regex) as RegExpMatchArray;
+        const matches = (image as string).match(regex) as RegExpMatchArray;
         const data = matches[2];
         if (resize && (!width || !height)) {
           return res.status(400).json({ message: "Missing width or height" });

@@ -37,6 +37,8 @@ const FroalaEditor: FC = () => {
           ["bold", "italic", "underline", "fontSize", "textColor"],
           ["insertLink", "insertImage", "undo", "redo", "embedly", "html"],
         ],
+        imageUploadURL: "/api/services/froala/upload",
+        imageUploadMethod: "POST",
         imageDefaultWidth: 0,
         imageDefaultAlign: "left",
         imageDefaultDisplay: "inline",
