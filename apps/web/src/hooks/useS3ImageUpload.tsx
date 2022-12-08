@@ -27,10 +27,8 @@ interface UseS3ImageUploadOptions {
     runtimes?: "canvas" | "nodejs";
   };
   format?: "webp" | "jpeg" | "jpg" | "png" | "gif";
-
-  // Client canvas resize is not supported yet
-  useCanvas?: boolean;
   fileName?: string;
+  bucketFolder?: string;
 }
 
 interface UseS3ImageUploadResult {
@@ -43,6 +41,7 @@ interface UseS3ImageUploadResult {
   file: File | null | string;
   fileUrl: string | null;
   isUploading: boolean;
+  isSuccess: boolean;
   isS3UploadComplete: boolean;
   s3UploadError: string | null;
   isFileValid: boolean;
@@ -59,8 +58,8 @@ const useS3ImageUpload = (
     onS3UploadError,
     resize,
     format = "webp",
-    useCanvas,
     fileName = "",
+    bucketFolder,
   } = options;
   const [file, setFile] = useState<File | null | string>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
@@ -68,6 +67,7 @@ const useS3ImageUpload = (
   const [isS3UploadComplete, setIsS3UploadComplete] = useState(false);
   const [s3UploadError, setS3UploadError] = useState<string | null>(null);
   const [isFileValid, setIsFileValid] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const FileInput = forwardRef<
     HTMLInputElement,
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
@@ -95,6 +95,7 @@ const useS3ImageUpload = (
           format,
           fileName,
           useNativeFile,
+          bucketFolder,
         });
       },
     });
@@ -108,6 +109,7 @@ const useS3ImageUpload = (
       if (!validation.success) {
         setS3UploadError(validation.error.errors[0].message);
         setIsFileValid(false);
+        setIsSuccess(false);
         onS3UploadError && onS3UploadError();
         setIsUploading(false);
         return;
@@ -116,12 +118,14 @@ const useS3ImageUpload = (
       if (result.status === 200) {
         setFile(result.data?.resizedImage as string);
         setFileUrl(result.data?.imageUrl as string);
-        onS3UploadComplete && onS3UploadComplete();
         setIsS3UploadComplete(true);
+        setIsSuccess(true);
+        onS3UploadComplete && onS3UploadComplete();
         setIsUploading(false);
         return;
       }
       setS3UploadError(errorMessage);
+      setIsSuccess(false);
       onS3UploadError && onS3UploadError();
       setIsUploading(false);
       return;
@@ -141,6 +145,7 @@ const useS3ImageUpload = (
     isS3UploadComplete,
     s3UploadError,
     isFileValid,
+    isSuccess,
   };
 };
 

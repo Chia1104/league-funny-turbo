@@ -86,34 +86,6 @@ const fetchTagList = async (searchTag: string): Promise<Tag[]> => {
   return await res.json();
 };
 
-const uploadImage = async (
-  file: File,
-  { endpoint = "/api/s3/image" }: { endpoint?: string } = {}
-): Promise<
-  ApiResponse<
-    | {
-        token: S3ClientToken;
-        key: string;
-        bucket: string;
-        region: string;
-      } & { message: string }
-  >
-> => {
-  const { name: filename } = file;
-  const res = await fetch(`${getBaseUrl()}${endpoint}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ filename }),
-  });
-  return {
-    status: res.status,
-    data: await res.json(),
-  };
-};
-
 const uploadImageToS3 = async ({
   width,
   height,
@@ -123,11 +95,14 @@ const uploadImageToS3 = async ({
   useNativeFile,
   file,
   fileName,
+  convert,
+  bucketFolder,
 }: ResizeOptions & {
   useNativeFile?: boolean;
   file?: File;
   fileName?: string;
   image?: string;
+  bucketFolder?: string;
 }): Promise<ApiResponse<{ resizedImage?: string; imageUrl?: string }>> => {
   if (useNativeFile) {
     const reader = new FileReader();
@@ -149,6 +124,10 @@ const uploadImageToS3 = async ({
         image: base64,
         format,
         resize,
+        convert,
+        bucketFolder,
+        fileName:
+          fileName || file?.name?.substr(0, file?.name.lastIndexOf(".")) || "",
       }),
     });
     return {
@@ -163,7 +142,15 @@ const uploadImageToS3 = async ({
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({ width, height, image, format, resize }),
+    body: JSON.stringify({
+      width,
+      height,
+      image,
+      format,
+      resize,
+      convert,
+      bucketFolder,
+    }),
   });
   return {
     status: res.status,
@@ -177,6 +164,5 @@ export {
   fetchCommentList,
   fetchBoardCategory,
   fetchTagList,
-  uploadImage,
   uploadImageToS3,
 };

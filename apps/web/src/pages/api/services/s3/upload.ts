@@ -30,7 +30,12 @@ export default async function handler(
           format = "webp",
           resize = false,
           fileName = "",
-        }: ResizeOptions & { fileName?: string } = req.body;
+          convert = true,
+          bucketFolder = "imgur",
+        }: ResizeOptions & {
+          fileName?: string;
+          bucketFolder?: string;
+        } = req.body;
         const matches = (image as string).match(regex) as RegExpMatchArray;
         const data = matches[2];
         if (resize && (!width || !height)) {
@@ -41,12 +46,13 @@ export default async function handler(
           width,
           height,
           image: data,
+          convert,
         });
         const buffer = Buffer.from(
           resizedImage.replace(/^data:image\/\w+;base64,/, ""),
           "base64"
         );
-        const key = `imgur/${uuid()}-${fileName}.${format}`;
+        const key = `${bucketFolder}/${uuid()}-${fileName}.${format}`;
         const s3 = await putObject({
           Key: key,
           Body: buffer,

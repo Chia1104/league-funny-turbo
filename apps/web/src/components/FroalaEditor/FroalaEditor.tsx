@@ -4,6 +4,7 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 import dynamic from "next/dynamic";
 import { FROALA_KEY } from "@/shared/constants";
 import { useDarkMode } from "@/hooks";
+import { MAX_FILE_SIZE } from "@wanin/shared/utils";
 
 const FroalaEditorComponent = dynamic(
   async () => {
@@ -39,6 +40,7 @@ const FroalaEditor: FC = () => {
         ],
         imageUploadURL: "/api/services/froala/upload",
         imageUploadMethod: "POST",
+        imageMaxSize: MAX_FILE_SIZE,
         imageDefaultWidth: 0,
         imageDefaultAlign: "left",
         imageDefaultDisplay: "inline",

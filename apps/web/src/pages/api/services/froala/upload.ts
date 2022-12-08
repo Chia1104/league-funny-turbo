@@ -5,6 +5,7 @@ import { resizeImage, getMetadata } from "@/server/image/services";
 import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
+import { MAX_FILE_SIZE } from "@wanin/shared/utils";
 
 function runMiddleware(
   req: NextApiRequest & { [key: string]: any },
@@ -48,23 +49,34 @@ export default async function handler(
         await runMiddleware(
           req,
           res,
-          multer({ storage: multer.memoryStorage() }).single("file")
+          multer({
+            limits: { fileSize: MAX_FILE_SIZE },
+            storage: multer.memoryStorage(),
+          }).single("file")
         );
         const file = req.file;
+        if (!file.mimetype.match(/jpg|jpeg|png|gif|webp/)) {
+          return res.status(400).json({ message: "Invalid file type" });
+        }
         const fileName = file.filename;
         const buffer = file.buffer;
         const metadata = await getMetadata(buffer);
         const resizedImage = await resizeImage({
-          resize: true,
+          resize: (metadata.width ?? 640) > 640,
           width: (metadata.width ?? 640) > 640 ? 640 : metadata.width,
           image: buffer,
+          convert: file.mimetype.match(/jpg|jpeg|png|webp/),
         });
         const s3Buffer = Buffer.from(resizedImage, "base64");
-        const key = `imgur/${uuid()}-${fileName}.webp`;
+        const key = `imgur/${uuid()}-${fileName}.${
+          file.mimetype === "image/gif" ? "gif" : "webp"
+        }`;
         const s3 = await putObject({
           Key: key,
           Body: s3Buffer,
-          ContentType: `image/webp`,
+          ContentType: `image/${
+            file.mimetype === "image/gif" ? "gif" : "webp"
+          }`,
         });
         if (s3.$metadata.httpStatusCode !== 200) {
           return res.status(s3.$metadata.httpStatusCode || 403).json({
