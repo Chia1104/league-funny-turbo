@@ -1,4 +1,5 @@
 import { convertImage, resize as resizeFN } from "@/server/image/repositories";
+import sharp from "sharp";
 
 interface ResizeOptions {
   image:
@@ -36,5 +37,24 @@ const resizeImage = async (options: ResizeOptions): Promise<string> => {
   return Buffer.from(convertedImage).toString("base64");
 };
 
+const getMetadata = async (
+  image:
+    | string
+    | Buffer
+    | Uint8Array
+    | Uint8ClampedArray
+    | Int8Array
+    | Uint16Array
+    | Int16Array
+    | Uint32Array
+    | Int32Array
+    | Float32Array
+    | Float64Array
+): Promise<sharp.Metadata> => {
+  const buffer =
+    typeof image === "string" ? Buffer.from(image, "base64") : image;
+  return await sharp(buffer).metadata();
+};
+
 export type { ResizeOptions };
-export { resizeImage };
+export { resizeImage, getMetadata };

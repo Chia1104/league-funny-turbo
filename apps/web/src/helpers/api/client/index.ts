@@ -114,38 +114,49 @@ const uploadImage = async (
   };
 };
 
-const resizeImage = async ({
-  width,
-  height,
-  image,
-}: {
-  width: number;
-  height: number;
-  image: string;
-}): Promise<ApiResponse<{ resizedImage: string }>> => {
-  const res = await fetch(`${getBaseUrl()}/api/services/resize`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ width, height, image }),
-  });
-  return {
-    status: res.status,
-    data: await res.json(),
-  };
-};
-
 const uploadImageToS3 = async ({
   width,
   height,
   resize,
   image,
   format,
-}: ResizeOptions): Promise<
-  ApiResponse<{ resizedImage?: string; imageUrl?: string }>
-> => {
+  useNativeFile,
+  file,
+  fileName,
+}: ResizeOptions & {
+  useNativeFile?: boolean;
+  file?: File;
+  fileName?: string;
+  image?: string;
+}): Promise<ApiResponse<{ resizedImage?: string; imageUrl?: string }>> => {
+  if (useNativeFile) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file!);
+    const base64 = await new Promise<string>((resolve) => {
+      reader.onload = () => {
+        resolve(reader.result as string);
+      };
+    });
+    const res = await fetch(`${getBaseUrl()}/api/services/s3/upload`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        width,
+        height,
+        image: base64,
+        format,
+        resize,
+      }),
+    });
+    return {
+      status: res.status,
+      data: await res.json(),
+    };
+  }
+
   const res = await fetch(`${getBaseUrl()}/api/services/s3/upload`, {
     method: "POST",
     headers: {
@@ -167,6 +178,5 @@ export {
   fetchBoardCategory,
   fetchTagList,
   uploadImage,
-  resizeImage,
   uploadImageToS3,
 };

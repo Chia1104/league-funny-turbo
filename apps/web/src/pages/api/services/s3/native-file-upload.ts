@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import { NEXTAUTH_SECRET } from "@/shared/constants";
-import { resizeImage, getMetadata } from "@/server/image/services";
+import { resizeImage, ResizeOptions } from "@/server/image/services";
 import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
@@ -45,26 +45,29 @@ export default async function handler(
   switch (req.method) {
     case "POST":
       try {
+        const { width, height, format = "webp", resize, fileName } = req.query;
         await runMiddleware(
           req,
           res,
           multer({ storage: multer.memoryStorage() }).single("file")
         );
         const file = req.file;
-        const fileName = file.filename;
         const buffer = file.buffer;
-        const metadata = await getMetadata(buffer);
         const resizedImage = await resizeImage({
-          resize: true,
-          width: (metadata.width ?? 640) > 640 ? 640 : metadata.width,
+          resize: resize === "true",
+          width: width ? parseInt(width as string) : undefined,
+          height: height ? parseInt(height as string) : undefined,
+          format: format as ResizeOptions["format"],
           image: buffer,
         });
         const s3Buffer = Buffer.from(resizedImage, "base64");
-        const key = `imgur/${uuid()}-${fileName}.webp`;
+        const key = `imgur/${uuid()}-${fileName || ""}.${
+          format as ResizeOptions["format"]
+        }`;
         const s3 = await putObject({
           Key: key,
           Body: s3Buffer,
-          ContentType: `image/webp`,
+          ContentType: `image/${format as ResizeOptions["format"]}`,
         });
         if (s3.$metadata.httpStatusCode !== 200) {
           return res.status(s3.$metadata.httpStatusCode || 403).json({
@@ -72,9 +75,11 @@ export default async function handler(
           });
         }
         return res.status(200).json({
-          link: `https://img.league-funny.com/${key}`,
+          resizedImage: `data:image/${format};base64,${resizedImage}`,
+          imageUrl: `https://img.league-funny.com/${key}`,
         });
       } catch (error) {
+        console.error(error);
         return res.status(400).json({ message: "Bad Request" });
       }
     default:

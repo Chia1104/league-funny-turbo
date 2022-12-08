@@ -1,9 +1,4 @@
 import {
-  CompleteMultipartUploadCommandOutput,
-  S3Client,
-} from "@aws-sdk/client-s3";
-import { Upload } from "@aws-sdk/lib-storage";
-import {
   type ChangeEvent,
   useRef,
   useState,
@@ -16,13 +11,26 @@ import {
   type RefAttributes,
 } from "react";
 import { validateImage } from "@wanin/shared/utils";
-import { uploadImage } from "@/helpers/api/client";
+import { uploadImageToS3 } from "@/helpers/api/client";
+import { useMutation } from "@tanstack/react-query";
 
 interface UseS3ImageUploadOptions {
+  // Will be deprecated soon
   endpoint?: string;
   onS3UploadComplete?: () => void;
   onS3UploadError?: () => void;
   errorMessage?: string;
+  resize?: {
+    width?: number;
+    height?: number;
+    // Client canvas resize is not supported yet
+    runtimes?: "canvas" | "nodejs";
+  };
+  format?: "webp" | "jpeg" | "jpg" | "png" | "gif";
+
+  // Client canvas resize is not supported yet
+  useCanvas?: boolean;
+  fileName?: string;
 }
 
 interface UseS3ImageUploadResult {
@@ -32,7 +40,7 @@ interface UseS3ImageUploadResult {
     > &
       RefAttributes<HTMLInputElement>
   >;
-  file: File | null;
+  file: File | null | string;
   fileUrl: string | null;
   isUploading: boolean;
   isS3UploadComplete: boolean;
@@ -45,12 +53,16 @@ const useS3ImageUpload = (
 ): UseS3ImageUploadResult => {
   options ??= {};
   const {
-    endpoint = "/api/s3/image",
+    endpoint = "/api/s3/services/native-file-upload",
     errorMessage = "Something went wrong",
     onS3UploadComplete,
     onS3UploadError,
+    resize,
+    format = "webp",
+    useCanvas,
+    fileName = "",
   } = options;
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null | string>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isS3UploadComplete, setIsS3UploadComplete] = useState(false);
@@ -63,6 +75,29 @@ const useS3ImageUpload = (
     const { onChange, ...rest } = props;
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
+
+    const resizeImageMutation = useMutation({
+      mutationFn: async ({
+        image,
+        file,
+        useNativeFile = true,
+      }: {
+        image?: string;
+        file?: File;
+        useNativeFile?: boolean;
+      }) => {
+        return await uploadImageToS3({
+          resize: !!resize,
+          image: image as string,
+          file,
+          width: resize?.width,
+          height: resize?.height,
+          format,
+          fileName,
+          useNativeFile,
+        });
+      },
+    });
 
     const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
       setIsUploading(true);
@@ -77,51 +112,19 @@ const useS3ImageUpload = (
         setIsUploading(false);
         return;
       }
-      const res = await uploadImage(file, { endpoint });
-      if (res.status !== 200) {
-        setS3UploadError(res.data?.message ?? errorMessage);
-        setIsFileValid(false);
-        onS3UploadError && onS3UploadError();
+      const result = await resizeImageMutation.mutateAsync({ file });
+      if (result.status === 200) {
+        setFile(result.data?.resizedImage as string);
+        setFileUrl(result.data?.imageUrl as string);
+        onS3UploadComplete && onS3UploadComplete();
+        setIsS3UploadComplete(true);
         setIsUploading(false);
         return;
       }
-      const client = new S3Client({
-        credentials: {
-          accessKeyId: res.data.token.Credentials.AccessKeyId,
-          secretAccessKey: res.data.token.Credentials.SecretAccessKey,
-          sessionToken: res.data.token.Credentials.SessionToken,
-        },
-        region: res.data.region,
-      });
-      const params = {
-        Bucket: res.data.bucket,
-        Key: res.data.key,
-        Body: file,
-        CacheControl: "max-age=630720000, public",
-        ContentType: file.type,
-      };
-      try {
-        const upload = new Upload({
-          client,
-          params,
-        });
-        const uploadResult =
-          (await upload.done()) as CompleteMultipartUploadCommandOutput;
-        setFileUrl(
-          uploadResult.Bucket && uploadResult.Key
-            ? `https://${uploadResult.Bucket}.s3.${res.data.region}.amazonaws.com/${uploadResult.Key}`
-            : ""
-        );
-        setFile(file);
-        setIsS3UploadComplete(true);
-        onS3UploadComplete && onS3UploadComplete();
-        setIsUploading(false);
-      } catch (e) {
-        setS3UploadError(errorMessage);
-        setIsFileValid(false);
-        onS3UploadError && onS3UploadError();
-        setIsUploading(false);
-      }
+      setS3UploadError(errorMessage);
+      onS3UploadError && onS3UploadError();
+      setIsUploading(false);
+      return;
     };
     return (
       <input {...rest} ref={inputRef} type="file" onChange={handleChange} />

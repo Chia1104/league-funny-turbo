@@ -1,7 +1,7 @@
 import { Page, Button } from "@wanin/ui";
 import { useRef, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { resizeImage, uploadImageToS3 } from "@/helpers/api/client";
+import { uploadImageToS3 } from "@/helpers/api/client";
 
 const TestPage = () => {
   const imageRef = useRef<HTMLImageElement>(null);
