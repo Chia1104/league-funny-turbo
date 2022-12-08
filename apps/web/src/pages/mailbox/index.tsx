@@ -1,44 +1,23 @@
+import { NextPage } from "next";
 import { MailboxCenter, MailboxDetail } from "@/components";
+import mail from "@/shared/data/mail.json";
 
-const Mailbox = () => {
+const Mailbox: NextPage = () => {
   return (
     <article>
-      <div className="top-0 left-0 mt-16">
-        <div className="w-full h-72 flex items-center justify-center w-bg-secondary">
-          <div className="w-2/4 h-full bg-gray-300">
-            <h3>AD</h3>
-          </div>
-        </div>
-        <div className="flex justify-center mt-7">
+      <div className="top-0 left-0 mt-16 md:mt-28">
+        <div className="flex flex-col justify-center mt-0 md:flex-row">
           <MailboxCenter />
-          <div className="w-block p-5 w-3/5">
-            <div className="flex items-center justify-between mb-3">
+          <div className="w-block p-3 md:w-3/5 md:p-5">
+            <div className="hidden md:flex items-center justify-between mb-3">
               <p>收件匣 (0)</p>
               <button className="btn-styleB hover:btn-styleB-hover">
                 標示全部已讀
               </button>
             </div>
-            <MailboxDetail
-              mid="1"
-              user="Vivian"
-              detail="Hi"
-              isNew={true}
-              time="12月02日 10:27"
-            />
-            <MailboxDetail
-              mid="1"
-              user="Vivian"
-              detail="Hi"
-              isNew={true}
-              time="12月02日 10:27"
-            />
-            <MailboxDetail
-              mid="1"
-              user="Vivian"
-              detail="Hidddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-              isNew={false}
-              time="12月02日 10:27"
-            />
+            {mail.content.map((item, i) => (
+              <MailboxDetail key={i} message={item} />
+            ))}
           </div>
         </div>
       </div>

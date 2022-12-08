@@ -1,35 +1,31 @@
-import { type FC } from "react";
-import { useState } from "react";
-import Image from "next/image";
-import { MailboxCenter } from "@/components";
+import { NextPage } from "next";
+import { MailboxCenter, MailReceive } from "@/components";
 import Link from "next/link";
+import mail from "@/shared/data/mail.json";
+import comment from "@/shared/data/mail-comment.json";
+import { useRouter } from "next/router";
 
-interface Props {
-  user: string;
-  detail: string;
-  time: string;
-}
-
-const MailboxDetailPage: FC<Props> = (props) => {
-  const { user, detail, time } = props;
-  const [mailTitle, setMailTitle] = useState(
-    "hifffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-  );
-
+const MailboxDetailPage: NextPage = () => {
+  const router = useRouter();
+  const mid = router.query.mid;
   return (
     <article>
-      <div className="top-0 left-0 mt-16">
-        <div className="w-full h-72 flex items-center justify-center w-bg-secondary">
-          <div className="w-2/4 h-full bg-gray-300">
-            <h3>AD</h3>
-          </div>
-        </div>
-        <div className="flex justify-center mt-7">
+      <div className="top-0 left-0 mt-16 md:mt-28">
+        <div className="flex flex-col justify-center mt-0 md:flex-row">
           <MailboxCenter />
-          <div className="w-block p-5 w-3/5">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-ellipsis overflow-hidden w-3/5">{mailTitle}</p>
-              <div className="flex items-center">
+          <div className="w-block p-5 md:w-3/5">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex-1 break-all">
+                {mail.content.map((item) => {
+                  if (item.m_id === "") return;
+                  if (item.m_id === mid) {
+                    return (
+                      <p className="text-2xl font-semibold">{item.m_title}</p>
+                    );
+                  }
+                })}
+              </div>
+              <div className="hidden md:flex items-center ml-4">
                 <button className="btn-styleB text-sm mr-2 hover:btn-styleB-hover">
                   回覆
                 </button>
@@ -56,60 +52,10 @@ const MailboxDetailPage: FC<Props> = (props) => {
               </div>
             </div>
             <div className="border-t w-full">
-              <div className="p-3 flex items-center justify-between bg-gray-100">
-                <div className="flex items-center">
-                  <span className="text-sm text-gray-400 mr-2 font-semibold">
-                    寄件人：
-                  </span>
-                  <div className="flex items-center">
-                    <Image
-                      className="rounded-full bg-white object-cover"
-                      alt="about/img1"
-                      src="/about/about_img1.png"
-                      width={30}
-                      height={30}
-                    />
-                    <span className="text-secondary font-semibold ml-2">
-                      {"Vivian (ID:132268)"}
-                    </span>
-                  </div>
-                </div>
-                <span className="text-sm font-semibold">
-                  {"12月02日 10:32"}
-                </span>
-              </div>
-              <div className="bg-white py-5 px-2 break-words">
-                <p>
-                  {
-                    "Customizing the default breakpoints for your project. Configuring custom screens You define your project’s breakpoints in the theme.screens section of your tailwind.config.js file. The keys become your responsive modifiers (like md:text-center), and the values are the min-width where that breakpoint should start. The default breakpoints are inspired by common device resolutions:"
-                  }
-                </p>
-              </div>
-              <div className="p-3 flex items-center justify-between bg-gray-100">
-                <div className="flex items-center">
-                  <span className="text-sm text-gray-400 mr-2 font-semibold">
-                    Re：
-                  </span>
-                  <div className="flex items-center">
-                    <Image
-                      className="rounded-full bg-white object-cover"
-                      alt="about/img1"
-                      src="/about/about_img1.png"
-                      width={30}
-                      height={30}
-                    />
-                    <span className="text-secondary font-semibold ml-2">
-                      {"AAA (ID:123456)"}
-                    </span>
-                  </div>
-                </div>
-                <span className="text-sm font-semibold">
-                  {"12月02日 10:52"}
-                </span>
-              </div>
-              <div className="bg-white py-5 px-2">
-                <p>{"哈囉～"}</p>
-              </div>
+              <MailReceive message={mail.content[0]} />
+              {comment.content.map((item, i) => (
+                <MailReceive key={i} message={item} />
+              ))}
             </div>
             <div className="flex items-center justify-center mt-5">
               <Link href={"/mailbox"}>
