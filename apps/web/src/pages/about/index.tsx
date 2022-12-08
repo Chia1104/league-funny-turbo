@@ -1,7 +1,8 @@
+import { NextPage } from "next";
 import Image from "next/image";
 import { About } from "@/components";
 
-const AboutPage = () => {
+const AboutPage: NextPage = () => {
   return (
     <article>
       <div className="about">

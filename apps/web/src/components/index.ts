@@ -27,3 +27,6 @@ export { default as UserComment } from "./UserComment";
 export { default as UserIntro } from "./UserIntro";
 export { default as IsLogin } from "./IsLogin";
 export { default as About } from "./About";
+export { default as MailboxDetail } from "./MailboxDetail";
+export { default as MailboxCenter } from "./MailboxCenter";
+export { default as MailReceive } from "./MailReceive";

@@ -1,6 +1,7 @@
+import { NextPage } from "next";
 import Image from "next/image";
 
-const PrivacyPage = () => {
+const PrivacyPage: NextPage = () => {
   return (
     <article>
       <div className="privacy">

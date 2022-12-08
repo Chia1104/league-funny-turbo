@@ -54,7 +54,7 @@
     }
 
     .w-block {
-        @apply block p-5 ml-5 w-bg-secondary rounded-lg shadow-lg
+        @apply w-bg-secondary rounded-lg flex flex-col shadow-lg
     }
 
     .btn-styleA {
@@ -65,7 +65,7 @@
     }
 
     .btn-styleB {
-        @apply bg-blue-500 border-0 rounded px-2 py-1 text-white text-center cursor-pointer;
+        @apply bg-brandblue border-0 rounded px-2 py-1 text-white text-center cursor-pointer;
     }
     .btn-styleB-hover {
         @apply bg-blue-400;
