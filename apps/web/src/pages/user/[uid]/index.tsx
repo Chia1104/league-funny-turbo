@@ -2,6 +2,7 @@ import { FeedList, UserComment } from "@/components";
 import { fetchFeedList } from "@/helpers/api/server-only";
 import { GetServerSideProps, NextPage } from "next";
 import type { Feed, Pagenate } from "@wanin/shared/types";
+import { useRouter } from "next/router";
 
 interface FeedProps {
   status: number;
@@ -28,7 +29,7 @@ const UserDetailPage: NextPage<FeedProps> = (props) => {
 
   return (
     <article>
-      <UserComment />
+      <UserComment querykey="1" />
       <FeedList
         initFeed={initFeed?.data as Feed[]}
         experimental

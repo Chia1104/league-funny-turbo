@@ -11,11 +11,11 @@ const MailBoxDetail: FC<Props> = (props) => {
   const { message } = props;
   return (
     <Link href={`/mailbox/detail/${message?.m_id}`}>
-      <div className="border-b w-full">
+      <div className="border-b dark:border-b-gray-700 w-full">
         <div
           className={cx(
-            "p-3 flex flex-col items-start md:flex-row md:items-center justify-between cursor-pointer relative hover:bg-gray-100",
-            !message?.m_isNew && "bg-gray-100"
+            "p-3 flex flex-col items-start md:flex-row md:items-center justify-between cursor-pointer relative hover:bg-gray-100 dark:hover:bg-[#00000080]",
+            !message?.m_isNew && "bg-gray-100 dark:bg-[#00000080]"
           )}>
           <div className="mb-3 text-left md:w-48 md:mb-0">
             <span
