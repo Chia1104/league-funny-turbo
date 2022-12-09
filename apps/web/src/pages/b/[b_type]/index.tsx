@@ -4,7 +4,7 @@ import type { Feed, Pagenate } from "@wanin/shared/types";
 import { FeedList, Head } from "@/components";
 import { Page } from "@wanin/ui";
 import { fetchFeedList } from "@/helpers/api/server-only";
-import { useUpdateEffect } from "usehooks-ts";
+import { useIsMounted } from "usehooks-ts";
 import { useState } from "react";
 
 interface FeedProps {
@@ -34,15 +34,13 @@ const LCat: NextPage<FeedProps> = (props) => {
   const { b_type } = router.query;
   const { initFeed } = props;
   const [isClient, setIsClient] = useState(false);
-  useUpdateEffect(() => {
-    setIsClient(true);
-  }, [b_type]);
+  const isMounted = useIsMounted();
 
   return (
     <Page className="w-main w-full justify-start">
       <Head />
       <article className="mt-28 w-full">
-        {!isClient ? (
+        {!isMounted() ? (
           <FeedList
             initFeed={initFeed?.data as Feed[]}
             experimental

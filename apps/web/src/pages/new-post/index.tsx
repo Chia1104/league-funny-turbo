@@ -31,7 +31,9 @@ const NewPostPage = () => {
     data: bord,
     isSuccess,
     isLoading,
-  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar);
+  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar, {
+    staleTime: 500000, // 5 minutes
+  });
   const [selectBord, setSelectBord] = useState<string>("");
   const [selectCategory, setSelectCategory] = useState<string>("");
   const catalogue = useMemo(() => {
