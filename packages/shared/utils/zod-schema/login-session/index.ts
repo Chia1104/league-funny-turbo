@@ -9,6 +9,8 @@ const loginSessionSchema = z.object({
   id: z.string(),
   email: emailSchema,
   name: z.string(),
+  imgUrl: z.string(),
+  ip: z.string().optional(),
 });
 
 export { loginProviderSchema, loginSessionSchema };

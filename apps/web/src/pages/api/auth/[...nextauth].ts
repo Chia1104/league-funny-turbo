@@ -70,6 +70,7 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
         email: user.email as string,
         name: user.name as string,
+        imgUrl: user.image as string,
       };
       if (!loginSessionSchema.safeParse(loginSession).success) return false;
       const result = await laravelLogin(loginSession);

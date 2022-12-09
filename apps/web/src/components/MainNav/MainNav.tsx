@@ -210,7 +210,7 @@ const MainNav: FC = () => {
       <PostbordList
         onClick={() => setIsMiniMenuOpen(false)}
         className={cx(
-          "pt-[65px] max-h-[700px] fixed top-0 w-full z-30 xl:hidden",
+          "pt-[80px] max-h-[700px] fixed top-0 w-full z-30 xl:hidden",
           isMiniMenuOpen ? "block" : "hidden"
         )}
       />

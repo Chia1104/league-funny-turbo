@@ -1,10 +1,11 @@
-import { type FC, useState } from "react";
+import { useState, useImperativeHandle, forwardRef } from "react";
 import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
 import dynamic from "next/dynamic";
 import { FROALA_KEY } from "@/shared/constants";
 import { useDarkMode } from "@/hooks";
 import { MAX_FILE_SIZE } from "@wanin/shared/utils";
+import { Loading } from "@geist-ui/core";
 
 const FroalaEditorComponent = dynamic(
   async () => {
@@ -18,14 +19,24 @@ const FroalaEditorComponent = dynamic(
     return values[0];
   },
   {
-    loading: () => <h1>Loading...</h1>,
+    loading: () => <Loading type="success" spaceRatio={2.5} />,
     ssr: false,
   }
 );
 
-const FroalaEditor: FC = () => {
+interface EditorRef {
+  getModel: () => string;
+}
+
+const FroalaEditor = forwardRef<EditorRef>((_, ref) => {
   const { theme } = useDarkMode();
   const [model, setModel] = useState("");
+
+  useImperativeHandle(ref, () => ({
+    getModel: () => {
+      return model;
+    },
+  }));
 
   return (
     <FroalaEditorComponent
@@ -61,6 +72,9 @@ const FroalaEditor: FC = () => {
       onModelChange={setModel}
     />
   );
-};
+});
 
+FroalaEditor.displayName = "FroalaEditor";
+
+export type { EditorRef };
 export default FroalaEditor;
