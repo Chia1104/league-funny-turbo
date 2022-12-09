@@ -6,6 +6,7 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/jpg",
   "image/png",
   "image/webp",
+  "image/gif",
 ];
 
 const MESSAGE = {

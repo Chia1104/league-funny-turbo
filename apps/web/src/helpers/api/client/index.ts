@@ -97,6 +97,7 @@ const uploadImageToS3 = async ({
   fileName,
   convert,
   bucketFolder,
+  quality,
 }: ResizeOptions & {
   useNativeFile?: boolean;
   file?: File;
@@ -126,6 +127,7 @@ const uploadImageToS3 = async ({
         resize,
         convert,
         bucketFolder,
+        quality,
         fileName:
           fileName || file?.name?.substr(0, file?.name.lastIndexOf(".")) || "",
       }),

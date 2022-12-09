@@ -32,21 +32,20 @@ export default async function handler(
           fileName = "",
           convert = true,
           bucketFolder = "imgur",
+          quality,
         }: ResizeOptions & {
           fileName?: string;
           bucketFolder?: string;
         } = req.body;
         const matches = (image as string).match(regex) as RegExpMatchArray;
         const data = matches[2];
-        if (resize && (!width || !height)) {
-          return res.status(400).json({ message: "Missing width or height" });
-        }
         const resizedImage = await resizeImage({
           resize,
           width,
           height,
           image: data,
           convert,
+          quality,
         });
         const buffer = Buffer.from(
           resizedImage.replace(/^data:image\/\w+;base64,/, ""),

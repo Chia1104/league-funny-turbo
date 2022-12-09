@@ -19,10 +19,19 @@ interface ResizeOptions {
   format?: "webp" | "jpeg" | "jpg" | "png" | "gif";
   resize?: boolean;
   convert?: boolean;
+  quality?: number;
 }
 
 const resizeImage = async (options: ResizeOptions): Promise<string> => {
-  const { image, width, height, format = "webp", resize, convert } = options;
+  const {
+    image,
+    width,
+    height,
+    format = "webp",
+    resize,
+    convert,
+    quality = 80,
+  } = options;
   const buffer =
     typeof image === "string" ? Buffer.from(image, "base64") : image;
   if (resize) {
@@ -32,13 +41,17 @@ const resizeImage = async (options: ResizeOptions): Promise<string> => {
       image: buffer,
     });
     if (convert) {
-      const convertedImage = await convertImage[format](resizedImage);
+      const convertedImage = await convertImage[format](resizedImage, {
+        quality,
+      });
       return Buffer.from(convertedImage).toString("base64");
     }
     return Buffer.from(resizedImage).toString("base64");
   }
   if (convert) {
-    const convertedImage = await convertImage[format](buffer);
+    const convertedImage = await convertImage[format](buffer, {
+      quality,
+    });
     return Buffer.from(convertedImage).toString("base64");
   }
   return Buffer.from(buffer).toString("base64");

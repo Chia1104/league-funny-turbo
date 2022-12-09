@@ -64,7 +64,17 @@ const NewPostPage = () => {
     setSelectCategory(value as string);
   };
 
-  const { FileInput, fileUrl, isS3UploadComplete } = useS3ImageUpload();
+  const {
+    FileInput,
+    fileUrl,
+    isS3UploadComplete,
+    isSuccess: isUploadSuccess,
+    s3UploadError,
+  } = useS3ImageUpload({
+    resize: {
+      quality: 100,
+    },
+  });
 
   return (
     <Page className="w-main w-full">
@@ -107,6 +117,7 @@ const NewPostPage = () => {
             </Select>
           </div>
           <FileInput />
+          {!isUploadSuccess && <h1>{s3UploadError}</h1>}
           {isS3UploadComplete && <img src={fileUrl as string} alt="preview" />}
           <FroalaEditor />
           <Tag />

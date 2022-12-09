@@ -25,8 +25,13 @@ interface UseS3ImageUploadOptions {
     height?: number;
     // Client canvas resize is not supported yet
     runtimes?: "canvas" | "nodejs";
+    // Only supported in nodejs, default is 80
+    quality?: number;
   };
+  // Default is webp
   format?: "webp" | "jpeg" | "jpg" | "png" | "gif";
+  // Default is true
+  convert?: boolean;
   fileName?: string;
   bucketFolder?: string;
 }
@@ -60,6 +65,7 @@ const useS3ImageUpload = (
     format = "webp",
     fileName = "",
     bucketFolder,
+    convert = true,
   } = options;
   const [file, setFile] = useState<File | null | string>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
@@ -96,6 +102,8 @@ const useS3ImageUpload = (
           fileName,
           useNativeFile,
           bucketFolder,
+          convert,
+          quality: resize?.quality,
         });
       },
     });

@@ -19,7 +19,7 @@ const resize = async ({
     | Int32Array
     | Float32Array
     | Float64Array;
-}) => {
+}): Promise<Buffer> => {
   return await sharp(image).rotate().resize(width, height).toBuffer();
 };
 
@@ -37,7 +37,7 @@ const convertToWebp = async (
     | Float32Array
     | Float64Array,
   options?: sharp.WebpOptions
-) => {
+): Promise<Buffer> => {
   return await sharp(image).webp(options).toBuffer();
 };
 
@@ -55,7 +55,7 @@ const convertToJpeg = async (
     | Float32Array
     | Float64Array,
   options?: sharp.JpegOptions
-) => {
+): Promise<Buffer> => {
   return await sharp(image).jpeg(options).toBuffer();
 };
 
@@ -73,7 +73,7 @@ const convertToPng = async (
     | Float32Array
     | Float64Array,
   options?: sharp.PngOptions
-) => {
+): Promise<Buffer> => {
   return await sharp(image).png(options).toBuffer();
 };
 
@@ -91,7 +91,7 @@ const convertToGif = async (
     | Float32Array
     | Float64Array,
   options?: sharp.GifOptions
-) => {
+): Promise<Buffer> => {
   return await sharp(image).gif(options).toBuffer();
 };
 
