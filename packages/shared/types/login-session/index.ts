@@ -10,7 +10,7 @@ interface LoginSession {
   id: string;
   email: Email;
   name: string;
-  imgUrl: string;
+  imgUrl?: string;
   ip?: string;
 }
 
