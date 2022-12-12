@@ -15,6 +15,10 @@ env:
   TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
   API_URL: ${{ secrets.API_URL }}
+  S3_UPLOAD_KEY: ${{ secrets.S3_UPLOAD_KEY }}
+  S3_UPLOAD_SECRET: ${{ secrets.S3_UPLOAD_SECRET }}
+  S3_UPLOAD_BUCKET: ${{ secrets.S3_UPLOAD_BUCKET }}
+  S3_UPLOAD_REGION: ${{ secrets.S3_UPLOAD_REGION }}
   PNPM_VERSION: 6.32.2
   NODE_VERSION: 18.*
 
@@ -32,6 +36,10 @@ jobs:
       API_URL: ${{ secrets.API_URL }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      S3_UPLOAD_KEY: ${{ secrets.S3_UPLOAD_KEY }}
+      S3_UPLOAD_SECRET: ${{ secrets.S3_UPLOAD_SECRET }}
+      S3_UPLOAD_BUCKET: ${{ secrets.S3_UPLOAD_BUCKET }}
+      S3_UPLOAD_REGION: ${{ secrets.S3_UPLOAD_REGION }}
       TURBO_REMOTE_ONLY: true
     strategy:
       matrix:
@@ -109,6 +117,10 @@ jobs:
           FACEBOOK_SECRET: ${{ env.FACEBOOK_SECRET }}
           TWITCH_CLIENT_ID: ${{ env.TWITCH_CLIENT_ID }}
           TWITCH_CLIENT_SECRET: ${{ env.TWITCH_CLIENT_SECRET }}
+          S3_UPLOAD_KEY: ${{ env.S3_UPLOAD_KEY }}
+          S3_UPLOAD_SECRET: ${{ env.S3_UPLOAD_SECRET }}
+          S3_UPLOAD_BUCKET: ${{ env.S3_UPLOAD_BUCKET }}
+          S3_UPLOAD_REGION: ${{ env.S3_UPLOAD_REGION }}
           API_URL: ${{ env.API_URL }}
           CYPRESS_RECORD_KEY: ${{ env.CYPRESS_RECORD_KEY }}
         with:

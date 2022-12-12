@@ -10,7 +10,8 @@ Current website: [https://league-funny.com](https://league-funny.com)
 
 ### Current Candidate
 
-- [Vercel - NextJS](https://league-funny.vercel.app)
+- [Vercel - NextJS (Pages)](https://league-funny.vercel.app) - Stable version
+- [Vercel - NextJS (apps)](https://league-funny-exp-web.vercel.app/) - Experimental version
 
 ## Project Structure
 
@@ -21,13 +22,10 @@ Current website: [https://league-funny.com](https://league-funny.com)
 
 ### Packages
 
-- `packages/db` - Database / Prisma
-- `packages/trpc-api` - API / tRPC
 - `packages/eslint-config-{base,nextjs}` - ESLint config
 - `packages/tailwind-config` - Tailwind config
 - `packages/tsconfig` - TypeScript config
-- `packages/types` - Typescript types
-- `packages/utils` - Utils
+- `packages/shared` - Some shared code, like `utils`, `types`, etc.
 - `packages/ui` - React components
 
 ## Development
@@ -78,13 +76,16 @@ docker build -f .\apps\exp-web\Dockerfile -t exp-web:latest . # Build the exp-we
 Set the environment variables in `.env` file and your own `docker-compose.yml` file.
 
 ```bash
-# exp-web
 NEXTAUTH_SECRET=<any string>
 FACEBOOK_ID=<FACEBOOK_ID>
 FACEBOOK_SECRET=<FACEBOOK_SECRET>
 TWITCH_CLIENT_ID=<TWITCH_CLIENT_ID>
 TWITCH_CLIENT_SECRET=<TWITCH_CLIENT_SECRET>
 API_URL=<localhost:8000>
+S3_UPLOAD_KEY=<S3_UPLOAD_KEY>
+S3_UPLOAD_SECRET=<S3_UPLOAD_SECRET>
+S3_UPLOAD_BUCKET=<S3_UPLOAD_BUCKET>
+S3_UPLOAD_REGION=<S3_UPLOAD_REGION>
 ```
 
 ### License

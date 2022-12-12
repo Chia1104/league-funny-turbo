@@ -17,7 +17,7 @@ RUN apk update && \
     cairo-dev \
     jpeg-dev \
     pango-dev \
-    giflib-dev \
+    giflib-dev
 
 WORKDIR /app
 
