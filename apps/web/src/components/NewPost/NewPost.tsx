@@ -55,7 +55,7 @@ const NewPostCtx = () => {
     const res = await addNewFeed(newPost);
     if (res.status !== 200) {
       setToast({
-        text: res.data.message || "新增文章失敗",
+        text: res.data?.message || "新增文章失敗",
         type: "warning",
       });
       return;
