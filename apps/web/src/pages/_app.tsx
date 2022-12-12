@@ -9,13 +9,14 @@ import { DefaultSeo } from "next-seo";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 
 function Web({
   Component,
   pageProps: { session, ...pageProps },
   router,
 }: AppProps<{ session: Session }>) {
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
   return (
     <ErrorBoundary>
       <DefaultSeo />

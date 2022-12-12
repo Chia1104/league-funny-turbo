@@ -67,6 +67,30 @@ const SearchTag: FC = () => {
         {isFocus &&
           searchTags.isSuccess &&
           searchTags.data.length !== 0 &&
+          (searchTags.data.some((tag) => tag.name === value) ? null : (
+            <>
+              {debouncedValue.length > 10 && (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-small">標籤名稱最多10個字</p>
+                </div>
+              )}
+              <button
+                disabled={debouncedValue.length > 10}
+                onClick={() =>
+                  handleAddTag({
+                    id: null,
+                    name: value,
+                    slug: encodeString(value),
+                  })
+                }
+                className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
+                <span className="line-clamp-1">{value}</span>
+              </button>
+            </>
+          ))}
+        {isFocus &&
+          searchTags.isSuccess &&
+          searchTags.data.length !== 0 &&
           searchTags.data.map((tag) => (
             <button
               onClick={() => handleAddTag(tag)}
@@ -83,7 +107,13 @@ const SearchTag: FC = () => {
               <div className="flex items-center justify-center h-full">
                 <p className="text-small">沒有符合的標籤</p>
               </div>
+              {debouncedValue.length > 10 && (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-small">標籤名稱最多10個字</p>
+                </div>
+              )}
               <button
+                disabled={debouncedValue.length > 10}
                 onClick={() =>
                   handleAddTag({
                     id: null,

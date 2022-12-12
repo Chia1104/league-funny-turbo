@@ -51,7 +51,6 @@ const reducer = (state: State, action: Action) => {
         p_name,
         p_fbname,
       } satisfies TagDTO;
-      console.log(tagDTO);
       if (state.tags.some((tag) => tag.p_fbname === tagDTO.p_fbname)) {
         return state;
       }
@@ -80,7 +79,7 @@ const TagProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TagList = () => {
+const TagListCtx = () => {
   const { state, dispatch } = useContext(TagContext);
   return (
     <>
@@ -124,7 +123,7 @@ const TagList = () => {
   );
 };
 
-const Search = () => {
+const SearchTagCtx = () => {
   const { state } = useContext(TagContext);
   return state.tags.length < 10 ? <SearchTag /> : null;
 };
@@ -133,12 +132,12 @@ const Tag: FC = () => {
   return (
     <TagProvider>
       <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3 w-border-primary">
-        <TagList />
-        <Search />
+        <TagListCtx />
+        <SearchTagCtx />
       </div>
     </TagProvider>
   );
 };
 
-export { TagContext, ActionType };
+export { TagContext, ActionType, TagProvider, TagListCtx, SearchTagCtx };
 export default Tag;

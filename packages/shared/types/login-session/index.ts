@@ -10,6 +10,8 @@ interface LoginSession {
   id: string;
   email: Email;
   name: string;
+  imgUrl?: string;
+  ip?: string;
 }
 
 export { LoginProvider, type LoginSession };

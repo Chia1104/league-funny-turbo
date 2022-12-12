@@ -49,6 +49,7 @@ const FeedList: FC<Props> = (props) => {
         return undefined;
       return pages.length + 1;
     },
+    staleTime: 500000, // 5 minutes
   });
 
   const _feeds = useMemo(() => {

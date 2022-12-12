@@ -1,6 +1,7 @@
 FROM node:18-alpine AS builder
-RUN apk add --no-cache libc6-compat
-RUN apk update
+RUN apk update && \
+    apk add --no-cache \
+    libc6-compat
 
 WORKDIR /app
 RUN yarn global add turbo@1.6.3
@@ -8,15 +9,22 @@ COPY . .
 RUN turbo prune --scope=web --docker
 
 FROM node:18-alpine AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
+RUN apk update && \
+    apk add --no-cache \
+    libc6-compat \
+    build-base \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    giflib-dev \
+
 WORKDIR /app
 
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
 RUN yarn global add pnpm && \
-    pnpm add sharp --filter web && \
     pnpm i
 
 COPY --from=builder /app/out/full/ .
@@ -38,7 +46,11 @@ ARG \
   NEXT_PUBLIC_FROALA_KEY \
   NEXT_PUBLIC_BASE_URL \
   NEXT_PUBLIC_HOST \
-  NEXTAUTH_URL
+  NEXTAUTH_URL \
+  S3_UPLOAD_KEY \
+  S3_UPLOAD_SECRET \
+  S3_UPLOAD_BUCKET \
+  S3_UPLOAD_REGION
 
 ENV \
   NODE_ENV=production \
@@ -52,7 +64,11 @@ ENV \
   NEXT_PUBLIC_FROALA_KEY=$NEXT_PUBLIC_FROALA_KEY \
   NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL \
   NEXT_PUBLIC_HOST=$NEXT_PUBLIC_HOST \
-  NEXTAUTH_URL=$NEXTAUTH_URL
+  NEXTAUTH_URL=$NEXTAUTH_URL \
+  S3_UPLOAD_KEY=$S3_UPLOAD_KEY \
+  S3_UPLOAD_SECRET=$S3_UPLOAD_SECRET \
+  S3_UPLOAD_BUCKET=$S3_UPLOAD_BUCKET \
+  S3_UPLOAD_REGION=$S3_UPLOAD_REGION
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

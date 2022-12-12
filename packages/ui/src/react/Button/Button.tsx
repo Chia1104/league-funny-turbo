@@ -17,6 +17,7 @@ const Button: FC<Props> = (props) => {
   const { text, disabled, className, ...rest } = props;
   return (
     <button
+      disabled={disabled}
       className={cx(
         "group relative inline-flex transition ease-in-out rounded self-center bg-secondary dark:bg-primary",
         className

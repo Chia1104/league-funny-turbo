@@ -17,7 +17,9 @@ const PostCategoryList: FC = () => {
     isError,
     isLoading,
     isSuccess,
-  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar);
+  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar, {
+    staleTime: 500000, // 5 minutes
+  });
 
   return (
     <>
