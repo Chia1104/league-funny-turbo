@@ -152,6 +152,8 @@ const uploadImageToS3 = async ({
       resize,
       convert,
       bucketFolder,
+      quality,
+      fileName,
     }),
   });
   return {

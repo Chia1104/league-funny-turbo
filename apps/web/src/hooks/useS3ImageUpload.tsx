@@ -9,13 +9,15 @@ import {
   type PropsWithoutRef,
   type ForwardRefExoticComponent,
   type RefAttributes,
+  type RefObject,
+  type CanvasHTMLAttributes,
 } from "react";
 import { validateImage } from "@wanin/shared/utils";
 import { uploadImageToS3 } from "@/helpers/api/client";
 import { useMutation } from "@tanstack/react-query";
 
 interface UseS3ImageUploadOptions {
-  // Will be deprecated soon
+  // Deprecated
   endpoint?: string;
   onS3UploadComplete?: () => void;
   onS3UploadError?: (error?: string) => void;
@@ -23,8 +25,8 @@ interface UseS3ImageUploadOptions {
   resize?: {
     width?: number;
     height?: number;
-    // Client canvas resize is not supported yet
     runtimes?: "canvas" | "nodejs";
+    imgRef?: RefObject<HTMLImageElement>;
     // Only supported in nodejs, default is 80
     quality?: number;
   };
@@ -43,6 +45,15 @@ interface UseS3ImageUploadResult {
     > &
       RefAttributes<HTMLInputElement>
   >;
+  CanvasPreview: ForwardRefExoticComponent<
+    PropsWithoutRef<
+      DetailedHTMLProps<
+        CanvasHTMLAttributes<HTMLCanvasElement>,
+        HTMLCanvasElement
+      >
+    > &
+      RefAttributes<HTMLCanvasElement>
+  > | null;
   file: File | null | string;
   fileUrl: string | null;
   isUploading: boolean;
@@ -57,7 +68,6 @@ const useS3ImageUpload = (
 ): UseS3ImageUploadResult => {
   options ??= {};
   const {
-    endpoint = "/api/s3/services/native-file-upload",
     errorMessage = "Something went wrong",
     onS3UploadComplete,
     onS3UploadError,
@@ -145,8 +155,37 @@ const useS3ImageUpload = (
 
   FileInput.displayName = "FileInput";
 
+  const CanvasPreview = forwardRef<
+    HTMLCanvasElement,
+    DetailedHTMLProps<
+      CanvasHTMLAttributes<HTMLCanvasElement>,
+      HTMLCanvasElement
+    >
+  >((props, ref) => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    useImperativeHandle(ref, () => canvasRef.current as HTMLCanvasElement);
+
+    const handleCanvasResize = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const img = resize?.imgRef?.current;
+      if (!img) return;
+      ctx.drawImage(img, 0, 0, resize?.width ?? 0, resize?.height ?? 0);
+      setFile(canvas.toDataURL(`image/png`));
+    };
+
+    return resize?.runtimes === "canvas" ? (
+      <canvas {...props} ref={canvasRef} />
+    ) : null;
+  });
+
+  CanvasPreview.displayName = "CanvasPreview";
+
   return {
     FileInput,
+    CanvasPreview,
     file,
     fileUrl,
     isUploading,
