@@ -11,7 +11,7 @@ const MailboxFrom: NextPage = () => {
           <div className="w-block p-3 md:w-3/5 md:p-5">
             <div className="hidden md:flex items-center justify-between mb-3">
               <p>收件匣 (0)</p>
-              <button className="btn-styleB hover:btn-styleB-hover">
+              <button className="btn-styleB dark:hover:bg-black rounded-lg transition-all ease-in-out w-border-primary">
                 標示全部已讀
               </button>
             </div>

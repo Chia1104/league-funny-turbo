@@ -1,30 +1,36 @@
 import { type FC, useState } from "react";
-import Image from "next/image";
+import { Avatar } from "@/components";
 import cx from "classnames";
 
-const UserComment: FC = () => {
+interface Props {
+  querykey: string;
+}
+
+const UserComment: FC<Props> = (props) => {
+  const { querykey } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="user-comment w-full w-bg-secondary rounded-lg shadow-lg mb-4">
-      <div className="w-full bg-blue-500 rounded-t px-4 py-2">
+    <div className="user-comment w-full w-bg-secondary rounded-lg shadow-lg mb-4 w-border-primary">
+      <div className="w-full bg-blue-500 rounded-t px-4 py-2 rounded-t-lg dark:bg-dark">
         <span className="text-2xl text-white">Vivian的留言板</span>
         <span>(目前有0則留言)</span>
       </div>
-      <div className="p-3">
-        <div className="bg-gray-200 p-3">
+      <div className="p-2 w-bg-primary rounded-b-lg">
+        <div className="bg-gray-200 p-2 dark:bg-dark">
           <div className="flex items-center">
-            <Image
-              className="data-img"
-              alt="about/img1"
-              src="/about/about_img1.png"
-              width={100}
-              height={100}
+            <Avatar
+              url={`https://img.league-funny.com/user_cover/${
+                querykey || ""
+              }.jpg`}
+              userId={querykey}
+              ratio={60}
+              username={""}
             />
-            <textarea className="txt-area" />
+            <textarea className="w-full min-h-[50px] max-h-[280px] w-border-primary outline-0 rounded-lg ml-4 px-2 py-2" />
           </div>
           <div className="flex justify-between item-center mt-3">
-            <label className="private-btn">
+            <label className="private-btn hover:bg-gray-100 dark:bg-dark dark:hover:bg-black">
               <input
                 type="checkbox"
                 onChange={() => {
@@ -48,7 +54,7 @@ const UserComment: FC = () => {
               設為私密
             </label>
             <div className="flex item-center">
-              <div className="btn-picture">
+              <button className="px-3 bg-light btn-styleA hover:bg-gray-100 dark:bg-dark dark:hover:bg-black">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -61,10 +67,10 @@ const UserComment: FC = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-              <div className="btn-comment">
-                <p>留言</p>
-              </div>
+              </button>
+              <button className="px-7 ml-2 btn-styleA bg-light hover:bg-gray-100 dark:bg-dark dark:hover:bg-black">
+                留言
+              </button>
             </div>
           </div>
         </div>

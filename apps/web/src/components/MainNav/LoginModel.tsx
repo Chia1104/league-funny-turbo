@@ -46,8 +46,7 @@ const LoginModel: FC<Props> = ({ isOpen, activityModal }) => {
         </div>
         <div className="flex items-center mt-12 leading-none">
           <p className="text-sm">※臉書找不到「代碼產生器」無法登入</p>
-          <Link
-            href={"https://www.league-funny.com/boardservice/article-226173"}>
+          <Link href={"/b/boardservice/f/226173"} onClick={activityModal}>
             <span className="text-sm text-secondary">教學</span>
           </Link>
         </div>

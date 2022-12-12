@@ -21,6 +21,9 @@ module.exports = {
         black: "#000000",
         code: "#24292e",
       },
+      screens: {
+        desktop: "1700px",
+      },
     },
   },
   corePlugins: {

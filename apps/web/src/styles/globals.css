@@ -58,17 +58,11 @@
     }
 
     .btn-styleA {
-        @apply flex items-center bg-white border-0 rounded px-2 py-1 text-black text-center cursor-pointer;
-    }
-    .btn-styleA-hover {
-        @apply text-white bg-blue-500;
+        @apply flex items-center hover:bg-gray-100 dark:hover:bg-black px-3 py-1 rounded-lg min-w-[50px] transition-all ease-in-out w-border-primary
     }
 
     .btn-styleB {
-        @apply bg-brandblue border-0 rounded px-2 py-1 text-white text-center cursor-pointer;
-    }
-    .btn-styleB-hover {
-        @apply bg-blue-400;
+        @apply bg-brandblue hover:bg-[#2291ff] text-white text-center dark:bg-dark dark:hover:bg-black px-3 py-1 rounded-lg min-w-[50px] transition-all ease-in-out;
     }
 }
 

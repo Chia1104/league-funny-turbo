@@ -22,6 +22,6 @@
   }
 
   .modal {
-    @apply bg-[#00000040] dark:bg-[#000000b5] fixed w-full h-full flex justify-center items-center z-[999]
+    @apply bg-[#00000040] dark:bg-[#000000b5] fixed w-full h-full flex justify-center items-center z-[999] top-0
   }
 }

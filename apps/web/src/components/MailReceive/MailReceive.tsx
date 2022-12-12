@@ -9,8 +9,8 @@ interface Props {
 const MailReceive: FC<Props> = (props) => {
   const { message } = props;
   return (
-    <div>
-      <div className="p-3 flex items-center justify-between bg-gray-100">
+    <>
+      <div className="p-3 flex items-center justify-between bg-gray-100 dark:bg-[#00000080]">
         <div className="flex items-center">
           <span className="text-sm text-gray-400 mr-2 font-semibold">
             {message?.m_type}
@@ -33,10 +33,10 @@ const MailReceive: FC<Props> = (props) => {
         </div>
         <span className="text-sm font-semibold">{message?.m_time}</span>
       </div>
-      <div className="bg-white py-5 px-2">
+      <div className="py-5 px-2">
         <p>{message?.m_content ?? ""}</p>
       </div>
-    </div>
+    </>
   );
 };
 

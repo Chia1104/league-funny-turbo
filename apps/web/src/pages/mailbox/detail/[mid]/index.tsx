@@ -13,7 +13,7 @@ const MailboxDetailPage: NextPage = () => {
       <div className="top-0 left-0 mt-16 md:mt-28">
         <div className="flex flex-col justify-center mt-0 md:flex-row">
           <MailboxCenter />
-          <div className="w-block p-5 md:w-3/5">
+          <div className="w-block p-5 md:w-3/5 dark:bg-dark/90">
             <div className="flex items-center justify-between mb-6">
               <div className="flex-1 break-all">
                 {mail.content.map((item) => {
@@ -26,12 +26,12 @@ const MailboxDetailPage: NextPage = () => {
                 })}
               </div>
               <div className="hidden md:flex items-center ml-4">
-                <button className="btn-styleB text-sm mr-2 hover:btn-styleB-hover">
+                <button className="text-sm mr-2 btn-styleB dark:hover:bg-black rounded-lg transition-all ease-in-out w-border-primary">
                   回覆
                 </button>
                 <Link href={"/mailbox"}>
                   <div className="flex">
-                    <button className="flex btn-styleB text-sm hover:btn-styleB-hover">
+                    <button className="flex text-sm btn-styleB dark:hover:bg-black rounded-lg transition-all ease-in-out w-border-primary">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -51,7 +51,7 @@ const MailboxDetailPage: NextPage = () => {
                 </Link>
               </div>
             </div>
-            <div className="border-t w-full">
+            <div className="border-t dark:border-t-gray-700 w-full">
               <MailReceive message={mail.content[0]} />
               {comment.content.map((item, i) => (
                 <MailReceive key={i} message={item} />
@@ -60,7 +60,7 @@ const MailboxDetailPage: NextPage = () => {
             <div className="flex items-center justify-center mt-5">
               <Link href={"/mailbox"}>
                 <div className="flex mr-2">
-                  <button className="flex btn-styleB text-sm hover:btn-styleB-hover">
+                  <button className="flex text-sm btn-styleB dark:hover:bg-black rounded-lg transition-all ease-in-out w-border-primary">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -78,7 +78,7 @@ const MailboxDetailPage: NextPage = () => {
                   </button>
                 </div>
               </Link>
-              <button className="btn-styleB text-sm hover:btn-styleB-hover">
+              <button className="text-sm btn-styleB dark:hover:bg-black rounded-lg transition-all ease-in-out w-border-primary">
                 回覆
               </button>
             </div>

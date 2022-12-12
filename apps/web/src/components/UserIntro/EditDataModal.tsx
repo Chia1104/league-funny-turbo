@@ -1,91 +1,73 @@
-import { type FC, useState } from "react";
-import { Button, Modal, Input, Divider } from "@geist-ui/core";
+import { type FC } from "react";
+import { Divider } from "@geist-ui/core";
+import { Modal, Input } from "@wanin/ui";
 
-const EditDataModal: FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface Props {
+  isOpen: boolean;
+  activityModal: () => void;
+}
 
-  const handleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSubmit = () => {
-    setIsModalOpen(false);
-  };
-
+const EditDataModal: FC<Props> = ({ isOpen, activityModal }) => {
   return (
-    <div>
-      <Button auto type="success" className="msg" onClick={handleModal}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-          />
-        </svg>
-        <span className="ml-2 edit-lg">編輯個人資料</span>
-        <span className="ml-2 edit-sm">編輯</span>
-      </Button>
-      <Modal width="45rem" visible={isModalOpen} onClose={handleModal}>
-        <Modal.Title>編輯個人資料</Modal.Title>
-        <Modal.Content>
-          <ul>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">暱稱*</span>
-              <Input width="100%" placeholder="必填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">認證信箱</span>
-              <div className="flex w-full">
-                <Input width="100%" placeholder="欲參加站內活動者，需認證" />
-                <div className="ml-4">
-                  <Button ghost auto scale={0.7}>
-                    寄送驗證信
-                  </Button>
-                </div>
-              </div>
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">姓名</span>
-              <div className="flex w-full">
-                <Input width="100%" placeholder="選填" />
-                <Input width="100%" placeholder="選填" />
-              </div>
-            </li>
-            <Divider />
-            <li className="flex items-center mt-6 mb-3">
-              <span className="w-44 pr-7">facebook</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">個人網站</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">巴哈小屋</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-            <li className="flex items-center my-3">
-              <span className="w-44 pr-7">Twitch</span>
-              <Input width="100%" placeholder="選填" />
-            </li>
-          </ul>
-        </Modal.Content>
-        <Modal.Action passive onClick={handleCancel}>
-          取消
-        </Modal.Action>
-        <Modal.Action onClick={handleSubmit}>儲存</Modal.Action>
-      </Modal>
-    </div>
+    <Modal isOpen={isOpen} activityModal={activityModal}>
+      <div className="w-[34rem] w-bg-primary flex flex-col items-center mb-28 px-10 pt-5 pb-4 rounded-lg shadow-2xl">
+        <p className="text-2xl font-semibold mb-5">編輯個人資料</p>
+        <ul>
+          <li className="flex items-center my-3">
+            <span className="w-44 pr-6">暱稱*</span>
+            <Input placeholder="必填" className="w-full p-2" />
+          </li>
+          <li className="flex items-center my-3">
+            <span className="w-44 pr-6">認證信箱</span>
+            <div className="flex w-full">
+              <Input
+                placeholder="欲參加站內活動者，需認證"
+                className="w-full p-2"
+              />
+              <button className="w-36 ml-2 btn-styleA justify-center text-sm border rounded">
+                寄送驗證信
+              </button>
+            </div>
+          </li>
+          <li className="flex items-center my-3">
+            <span className="w-44 pr-6">姓名</span>
+            <div className="flex w-full">
+              <Input placeholder="選填" className="w-full p-2" />
+              <Input placeholder="選填" className="w-full p-2" />
+            </div>
+          </li>
+          <Divider />
+          <li className="flex items-center mt-6 mb-3">
+            <span className="w-44 pr-6">facebook</span>
+            <Input placeholder="選填" className="w-full p-2" />
+          </li>
+          <li className="flex items-center my-3">
+            <span className="w-44 pr-6">個人網站</span>
+            <Input placeholder="選填" className="w-full p-2" />
+          </li>
+          <li className="flex items-center my-3">
+            <span className="w-44 pr-6">巴哈小屋</span>
+            <Input placeholder="選填" className="w-full p-2" />
+          </li>
+          <li className="flex items-center my-3">
+            <span className="w-44 pr-6">Twitch</span>
+            <Input placeholder="選填" className="w-full p-2" />
+          </li>
+        </ul>
+        <div className="w-full flex items-center mt-5">
+          <button
+            className="btn-styleA flex-1 justify-center border rounded px-4 py-2 mr-2"
+            onClick={activityModal}>
+            取消
+          </button>
+          <button
+            className="btn-styleA flex-1 justify-center border rounded px-4 py-2"
+            onClick={activityModal}>
+            送出
+          </button>
+        </div>
+      </div>
+    </Modal>
   );
 };
 
