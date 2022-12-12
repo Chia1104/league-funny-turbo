@@ -3,7 +3,7 @@ import type {
   PostCategory,
   Feed,
   Tag,
-  S3ClientToken,
+  NewPostDTO,
 } from "@wanin/shared/types";
 import { setSearchParams } from "@wanin/shared/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
@@ -160,6 +160,31 @@ const uploadImageToS3 = async ({
   };
 };
 
+const addNewFeed = async (
+  newPost: Partial<NewPostDTO>
+): Promise<
+  ApiResponse<
+    {
+      fid: number;
+      gameType: string;
+    } & { message: string }
+  >
+> => {
+  const res = await fetch(`${getBaseUrl()}/api/feed`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(newPost),
+  });
+  const data = await res.json();
+  return {
+    status: res.status,
+    data: data.data,
+  };
+};
+
 export {
   fetchSidebar,
   fetchMoreFeedList,
@@ -167,4 +192,5 @@ export {
   fetchBoardCategory,
   fetchTagList,
   uploadImageToS3,
+  addNewFeed,
 };

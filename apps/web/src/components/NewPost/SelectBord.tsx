@@ -29,6 +29,7 @@ const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
         .map((group) =>
           group.contents.map((content) => {
             return {
+              slug: content.b_type,
               label: content.b_zh_name,
               value: content.b_id,
             };
@@ -45,7 +46,13 @@ const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
   });
 
   const handleSelectBord = (value: string | string[]) => {
-    setSelectedBord(value as string);
+    setSelectedBord(
+      ((catalogue as { label: string; value: number; slug: string }[])?.find(
+        (item) => {
+          return item.value === Number(value);
+        }
+      )?.slug as string) || ""
+    );
     fetchBordCategory.mutate(Number(value));
   };
 
@@ -60,11 +67,13 @@ const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
         onChange={handleSelectBord}
         width="100%">
         {isSuccess &&
-          (catalogue as { label: string; value: number }[]).map((item) => (
-            <Select.Option value={item.value.toString()} key={item.value}>
-              {item.label}
-            </Select.Option>
-          ))}
+          (catalogue as { label: string; value: number; slug: string }[]).map(
+            (item) => (
+              <Select.Option value={item.value.toString()} key={item.value}>
+                {item.label}
+              </Select.Option>
+            )
+          )}
         {isLoading && <Select.Option>loading</Select.Option>}
       </Select>
       <Select

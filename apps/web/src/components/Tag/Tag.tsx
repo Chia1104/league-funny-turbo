@@ -51,7 +51,6 @@ const reducer = (state: State, action: Action) => {
         p_name,
         p_fbname,
       } satisfies TagDTO;
-      console.log(tagDTO);
       if (state.tags.some((tag) => tag.p_fbname === tagDTO.p_fbname)) {
         return state;
       }

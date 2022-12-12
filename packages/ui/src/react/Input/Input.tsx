@@ -19,7 +19,8 @@ interface Props
   > {
   title?: string;
   error?: string;
-  titleClassName?: string | undefined;
+  titleClassName?: string;
+  errorClassName?: string;
   schema?: ZodType<any>;
 }
 
@@ -39,6 +40,7 @@ const Input = forwardRef<InputRef, Props>((props, ref) => {
     onChange,
     onBlur,
     onFocus,
+    errorClassName,
     ...rest
   } = props;
   const [isError, setIsError] = useState(false);
@@ -95,7 +97,9 @@ const Input = forwardRef<InputRef, Props>((props, ref) => {
         )}
         {...rest}
       />
-      {isError && <p className="text-error">{error ?? ""}</p>}
+      {isError && (
+        <p className={cx("text-danger", errorClassName)}>{error ?? ""}</p>
+      )}
     </>
   );
 });

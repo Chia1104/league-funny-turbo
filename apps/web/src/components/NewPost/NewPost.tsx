@@ -9,8 +9,10 @@ import { FroalaEditor, type EditorRef } from "@/components";
 import SelectBord, { type SelectBordRef } from "./SelectBord";
 import UploadCover, { type UploadCoverRef } from "./UploadCover";
 import { Button, Input, InputRef } from "@wanin/ui";
-import { titleSchema, newPostSchema } from "./utils";
+import { titleSchema, newPostSchema } from "@wanin/shared/utils/zod-schema";
 import { useToasts } from "@geist-ui/core";
+import { addNewFeed } from "@/helpers/api/client";
+import { useRouter } from "next/router";
 
 const NewPost = () => {
   return (
@@ -28,18 +30,20 @@ const NewPostCtx = () => {
   const selectBordRef = useRef<SelectBordRef>(null);
   const uploadCoverRef = useRef<UploadCoverRef>(null);
   const { setToast } = useToasts();
+  const router = useRouter();
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
-  const addPost = () => {
+  const addPost = async () => {
+    console.log(state.tags);
     const newPost = {
       title: titleRef.current?.getNativeInput().value,
       content: editorRef.current?.getModel(),
-      cover: uploadCoverRef.current?.fileUrl,
+      cover: uploadCoverRef.current?.fileUrl || "",
       gameType: selectBordRef.current?.getSelectedBord(),
       catalogue: selectBordRef.current?.getSelectedCategory(),
-      tags: state,
+      tags: state.tags,
     };
     if (!newPostSchema.safeParse(newPost).success) {
       setToast({
@@ -48,16 +52,30 @@ const NewPostCtx = () => {
       });
       return;
     }
+    const res = await addNewFeed(newPost);
+    if (res.status !== 200) {
+      setToast({
+        text: res.data.message || "新增文章失敗",
+        type: "warning",
+      });
+      return;
+    }
+    setToast({
+      text: "新增文章成功",
+      type: "success",
+    });
+    await router.push(`/b/${res.data.gameType}/f/${res.data.fid}`);
   };
 
   const handleChange = () => {
+    console.log(state.tags);
     const newPost = {
       title: titleRef.current?.getNativeInput().value,
       content: editorRef.current?.getModel(),
-      cover: uploadCoverRef.current?.fileUrl,
+      cover: uploadCoverRef.current?.fileUrl || "",
       gameType: selectBordRef.current?.getSelectedBord(),
       catalogue: selectBordRef.current?.getSelectedCategory(),
-      tags: state,
+      tags: state.tags,
     };
     if (!newPostSchema.safeParse(newPost).success) {
       setDisable(true);
@@ -76,6 +94,8 @@ const NewPostCtx = () => {
         className="p-2 text-2xl"
         placeholder="文章標題"
         schema={titleSchema}
+        errorClassName="my-1"
+        error="標題太長或太短了"
       />
       <div className="w-full flex justify-center my-6">
         <UploadCover ref={uploadCoverRef} />

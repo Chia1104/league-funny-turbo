@@ -18,7 +18,7 @@ interface UseS3ImageUploadOptions {
   // Will be deprecated soon
   endpoint?: string;
   onS3UploadComplete?: () => void;
-  onS3UploadError?: () => void;
+  onS3UploadError?: (error?: string) => void;
   errorMessage?: string;
   resize?: {
     width?: number;
@@ -118,7 +118,7 @@ const useS3ImageUpload = (
         setS3UploadError(validation.error.errors[0].message);
         setIsFileValid(false);
         setIsSuccess(false);
-        onS3UploadError && onS3UploadError();
+        onS3UploadError && onS3UploadError(validation.error.errors[0].message);
         setIsUploading(false);
         return;
       }
@@ -134,7 +134,7 @@ const useS3ImageUpload = (
       }
       setS3UploadError(errorMessage);
       setIsSuccess(false);
-      onS3UploadError && onS3UploadError();
+      onS3UploadError && onS3UploadError(errorMessage);
       setIsUploading(false);
       return;
     };

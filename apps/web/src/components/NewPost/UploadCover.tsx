@@ -1,7 +1,6 @@
 import { useS3ImageUpload } from "@/hooks";
-import { forwardRef, useImperativeHandle, useMemo } from "react";
-import { useToasts } from "@geist-ui/core";
-import { useIsMounted } from "usehooks-ts";
+import { forwardRef, useImperativeHandle } from "react";
+import { Loading, useToasts } from "@geist-ui/core";
 
 interface UploadCoverRef {
   fileUrl: string | null;
@@ -9,31 +8,34 @@ interface UploadCoverRef {
 
 const UploadCover = forwardRef<UploadCoverRef>((props, ref) => {
   const { setToast } = useToasts();
-  const isMounted = useIsMounted();
   const {
     FileInput,
     fileUrl,
     isS3UploadComplete,
     isSuccess: isUploadSuccess,
-    s3UploadError,
+    isUploading,
   } = useS3ImageUpload({
     resize: {
       quality: 100,
     },
+    onS3UploadError: (error) => {
+      setToast({
+        text: error,
+        type: "warning",
+      });
+    },
+    onS3UploadComplete: () => {
+      setToast({
+        text: "上傳成功",
+        type: "success",
+      });
+    },
+    errorMessage: "上傳失敗",
   });
 
   useImperativeHandle(ref, () => ({
     fileUrl,
   }));
-
-  useMemo(() => {
-    if (!isUploadSuccess && isMounted()) {
-      setToast({
-        text: s3UploadError,
-        type: "warning",
-      });
-    }
-  }, [isUploadSuccess, s3UploadError]);
 
   return (
     <div className="w-full max-w-[640px]">
@@ -49,8 +51,9 @@ const UploadCover = forwardRef<UploadCoverRef>((props, ref) => {
             className="object-contain"
           />
         )}
-        <div className="w-full h-full flex justify-center items-center">
-          {!isUploadSuccess && <p>圖片上傳</p>}
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          {!isUploadSuccess && !isUploading && <p>圖片上傳</p>}
+          {isUploading && <Loading type="success" />}
         </div>
         <FileInput className="opacity-0 h-full w-full absolute top-0 left-0" />
       </div>
