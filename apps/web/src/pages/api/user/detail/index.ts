@@ -14,5 +14,5 @@ export default async function handler(
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 }
