@@ -108,13 +108,6 @@ const uploadImageToS3 = async ({
   fileNamePrefix?: string;
 }): Promise<ApiResponse<{ resizedImage?: string; imageUrl?: string }>> => {
   if (useNativeFile) {
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file!);
-    // const base64 = await new Promise<string>((resolve) => {
-    //   reader.onload = () => {
-    //     resolve(reader.result as string);
-    //   };
-    // });
     const data = new FormData();
     data.append("file", file!);
     const res = await fetch(
@@ -145,6 +138,14 @@ const uploadImageToS3 = async ({
     };
   }
 
+  const reader = new FileReader();
+  reader.readAsDataURL(file!);
+  const base64 = await new Promise<string>((resolve) => {
+    reader.onload = () => {
+      resolve(reader.result as string);
+    };
+  });
+
   const res = await fetch(`${getBaseUrl()}/api/services/s3/upload`, {
     method: "POST",
     headers: {
@@ -154,7 +155,7 @@ const uploadImageToS3 = async ({
     body: JSON.stringify({
       width,
       height,
-      image,
+      image: base64,
       format,
       resize,
       convert,

@@ -30,7 +30,7 @@ export default function handler(
           ? searchParams.get("title")?.slice(0, 100)
           : "My default title";
 
-        const ogImage = new ImageResponse(
+        return new ImageResponse(
           (
             <div
               style={{
@@ -72,8 +72,6 @@ export default function handler(
             height: 630,
           }
         );
-        console.log(ogImage);
-        return ogImage;
       } catch (e: any) {
         return res.status(400).json({ message: "Bad request" });
       }

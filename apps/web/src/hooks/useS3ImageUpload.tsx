@@ -4,6 +4,7 @@ import {
   useState,
   forwardRef,
   useImperativeHandle,
+  useEffect,
   type DetailedHTMLProps,
   type InputHTMLAttributes,
   type PropsWithoutRef,
@@ -55,7 +56,7 @@ interface UseS3ImageUploadResult {
       >
     > &
       RefAttributes<HTMLCanvasElement>
-  > | null;
+  >;
   file: File | null | string;
   fileUrl: string | null;
   isUploading: boolean;
@@ -88,6 +89,26 @@ const useS3ImageUpload = (
   const [s3UploadError, setS3UploadError] = useState<string | null>(null);
   const [isFileValid, setIsFileValid] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const resizeImageMutation = useMutation({
+    mutationFn: async ({ image, file }: { image?: string; file?: File }) => {
+      return await uploadImageToS3({
+        resize: !!resize,
+        image: image as string,
+        file,
+        width: resize?.width,
+        height: resize?.height,
+        format,
+        fileName,
+        useNativeFile,
+        bucketFolder,
+        convert,
+        quality: resize?.quality,
+        fileNamePrefix,
+      });
+    },
+  });
+
   const FileInput = forwardRef<
     HTMLInputElement,
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
@@ -95,25 +116,6 @@ const useS3ImageUpload = (
     const { onChange, ...rest } = props;
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
-
-    const resizeImageMutation = useMutation({
-      mutationFn: async ({ image, file }: { image?: string; file?: File }) => {
-        return await uploadImageToS3({
-          resize: !!resize,
-          image: image as string,
-          file,
-          width: resize?.width,
-          height: resize?.height,
-          format,
-          fileName,
-          useNativeFile,
-          bucketFolder,
-          convert,
-          quality: resize?.quality,
-          fileNamePrefix,
-        });
-      },
-    });
 
     const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
       setIsUploading(true);
@@ -129,7 +131,9 @@ const useS3ImageUpload = (
         setIsUploading(false);
         return;
       }
-      const result = await resizeImageMutation.mutateAsync({ file });
+      const result = await resizeImageMutation.mutateAsync({
+        file,
+      });
       if (result.status === 200) {
         setFile(result.data?.resizedImage as string);
         setFileUrl(result.data?.imageUrl as string);
@@ -165,7 +169,10 @@ const useS3ImageUpload = (
       HTMLCanvasElement
     >
   >((props, ref) => {
+    const { ...rest } = props;
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [imgWidth, setImgWidth] = useState(0);
+    const [imgHeight, setImgHeight] = useState(0);
     useImperativeHandle(ref, () => canvasRef.current as HTMLCanvasElement);
 
     const handleCanvasResize = () => {
@@ -175,12 +182,53 @@ const useS3ImageUpload = (
       if (!ctx) return;
       const img = resize?.imgRef?.current;
       if (!img) return;
-      ctx.drawImage(img, 0, 0, resize?.width ?? 0, resize?.height ?? 0);
-      setFile(canvas.toDataURL(`image/png`));
+      ctx.drawImage(
+        img,
+        0,
+        0,
+        resize?.width ?? img.width,
+        resize?.height ?? img.height
+      );
+      setImgHeight(img.height);
+      setImgWidth(img.width);
+    };
+
+    useEffect(() => {
+      if (!resize?.imgRef?.current) return;
+      if (resize?.runtimes !== "canvas") return;
+      handleCanvasResize();
+    }, []);
+
+    const handleCanvasUpload = async () => {
+      setIsUploading(true);
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const result = await resizeImageMutation.mutateAsync({
+        image: canvas.toDataURL(),
+      });
+      if (result.status === 200) {
+        setFile(result.data?.resizedImage as string);
+        setFileUrl(result.data?.imageUrl as string);
+        setIsS3UploadComplete(true);
+        setIsSuccess(true);
+        onS3UploadComplete && onS3UploadComplete();
+        setIsUploading(false);
+        return;
+      }
+      setS3UploadError(errorMessage);
+      setIsSuccess(false);
+      onS3UploadError && onS3UploadError(errorMessage);
+      setIsUploading(false);
+      return;
     };
 
     return resize?.runtimes === "canvas" ? (
-      <canvas {...props} ref={canvasRef} />
+      <canvas
+        {...rest}
+        ref={canvasRef}
+        width={resize?.width ?? imgWidth}
+        height={resize?.height ?? imgHeight}
+      />
     ) : null;
   });
 
