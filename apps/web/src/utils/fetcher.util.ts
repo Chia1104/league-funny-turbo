@@ -84,7 +84,7 @@ const fetcher = async <T = any>(
       }
     );
     const data = (await res.json()) as ApiResponse<T>;
-    if (res.status !== 200) {
+    if (res.status !== 200 && data?.status !== ApiResponseStatus.SUCCESS) {
       return {
         statusCode: res.status,
         status: ApiResponseStatus.ERROR,
@@ -104,3 +104,6 @@ const fetcher = async <T = any>(
     };
   }
 };
+
+export { fetcher };
+export type { IFetcherOptions };
