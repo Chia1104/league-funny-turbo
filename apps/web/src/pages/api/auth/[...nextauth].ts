@@ -37,6 +37,9 @@ export const authOptions: NextAuthOptions = {
       clientSecret: TWITCH_CLIENT_SECRET as string,
     }),
   ],
+  pages: {
+    signIn: "/login",
+  },
   session: { strategy: "jwt", maxAge: TOKEN_EXPIRE },
   jwt: {
     maxAge: TOKEN_EXPIRE,
