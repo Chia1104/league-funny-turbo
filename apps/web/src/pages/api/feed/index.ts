@@ -59,7 +59,6 @@ export default async function handler(
           gameType,
           catalogue,
         });
-        console.log(tags);
         if (!validate.success) {
           return res.status(400).json({ message: "Bad Request" });
         }
@@ -80,7 +79,6 @@ export default async function handler(
           }),
         });
         if (response.status !== 200) {
-          console.log(await response.json());
           return res.status(400).json({ message: "Bad Request" });
         }
         const data = (await response.json()) as ApiResponse<{

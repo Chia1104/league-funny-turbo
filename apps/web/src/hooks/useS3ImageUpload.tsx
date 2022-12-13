@@ -13,10 +13,9 @@ import {
 import { validateImage } from "@wanin/shared/utils";
 import { uploadImageToS3 } from "@/helpers/api/client";
 import { useMutation } from "@tanstack/react-query";
+import { ACCEPTED_IMAGE_TYPES } from "@wanin/shared/utils";
 
 interface UseS3ImageUploadOptions {
-  // Will be deprecated soon
-  endpoint?: string;
   onS3UploadComplete?: () => void;
   onS3UploadError?: (error?: string) => void;
   errorMessage?: string;
@@ -34,6 +33,8 @@ interface UseS3ImageUploadOptions {
   convert?: boolean;
   fileName?: string;
   bucketFolder?: string;
+  useNativeFile?: boolean;
+  fileNamePrefix?: string;
 }
 
 interface UseS3ImageUploadResult {
@@ -57,7 +58,6 @@ const useS3ImageUpload = (
 ): UseS3ImageUploadResult => {
   options ??= {};
   const {
-    endpoint = "/api/s3/services/native-file-upload",
     errorMessage = "Something went wrong",
     onS3UploadComplete,
     onS3UploadError,
@@ -66,6 +66,8 @@ const useS3ImageUpload = (
     fileName = "",
     bucketFolder,
     convert = true,
+    useNativeFile = true,
+    fileNamePrefix,
   } = options;
   const [file, setFile] = useState<File | null | string>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
@@ -83,15 +85,7 @@ const useS3ImageUpload = (
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     const resizeImageMutation = useMutation({
-      mutationFn: async ({
-        image,
-        file,
-        useNativeFile = true,
-      }: {
-        image?: string;
-        file?: File;
-        useNativeFile?: boolean;
-      }) => {
+      mutationFn: async ({ image, file }: { image?: string; file?: File }) => {
         return await uploadImageToS3({
           resize: !!resize,
           image: image as string,
@@ -104,6 +98,7 @@ const useS3ImageUpload = (
           bucketFolder,
           convert,
           quality: resize?.quality,
+          fileNamePrefix,
         });
       },
     });
@@ -139,7 +134,13 @@ const useS3ImageUpload = (
       return;
     };
     return (
-      <input {...rest} ref={inputRef} type="file" onChange={handleChange} />
+      <input
+        {...rest}
+        ref={inputRef}
+        type="file"
+        onChange={handleChange}
+        accept={ACCEPTED_IMAGE_TYPES.join(", ")}
+      />
     );
   });
 

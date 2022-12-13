@@ -1,5 +1,5 @@
 import { useS3ImageUpload } from "@/hooks";
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle, useEffect } from "react";
 import { Loading, useToasts } from "@geist-ui/core";
 
 interface UploadCoverRef {
@@ -15,9 +15,13 @@ const UploadCover = forwardRef<UploadCoverRef>((props, ref) => {
     isSuccess: isUploadSuccess,
     isUploading,
   } = useS3ImageUpload({
+    fileNamePrefix: "_n",
     resize: {
+      width: 1200,
+      height: 630,
       quality: 100,
     },
+    format: "png",
     onS3UploadError: (error) => {
       setToast({
         text: error,
@@ -52,7 +56,7 @@ const UploadCover = forwardRef<UploadCoverRef>((props, ref) => {
           />
         )}
         <div className="w-full h-full flex flex-col justify-center items-center">
-          {!isUploadSuccess && !isUploading && <p>圖片上傳</p>}
+          {!isUploadSuccess && !isUploading && <p>圖片上傳 (1200 * 630)</p>}
           {isUploading && <Loading type="success" />}
         </div>
         <FileInput className="opacity-0 h-full w-full absolute top-0 left-0" />

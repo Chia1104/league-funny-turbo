@@ -58,7 +58,8 @@ export default async function handler(
         if (!file.mimetype.match(/jpg|jpeg|png|gif|webp/)) {
           return res.status(400).json({ message: "Invalid file type" });
         }
-        const fileName = file.filename;
+        const fileName = file.originalname.split(".")[0];
+        const ext = file.mimetype.split("/")[1];
         const buffer = file.buffer;
         const metadata = await getMetadata(buffer);
         const resizedImage = await resizeImage({
@@ -68,9 +69,12 @@ export default async function handler(
           convert: file.mimetype.match(/jpg|jpeg|png|webp/),
         });
         const s3Buffer = Buffer.from(resizedImage, "base64");
-        const key = `imgur/${uuid()}-${fileName}.${
+        const originalImage = Buffer.from(buffer, "base64");
+        const _uuid = uuid();
+        const key = `imgur/${_uuid}_n${fileName}.${
           file.mimetype === "image/gif" ? "gif" : "webp"
         }`;
+        const originalKey = `imgur/${_uuid}_o${fileName}.${ext}`;
         const s3 = await putObject({
           Key: key,
           Body: s3Buffer,
@@ -78,8 +82,18 @@ export default async function handler(
             file.mimetype === "image/gif" ? "gif" : "webp"
           }`,
         });
+        const originalS3 = await putObject({
+          Key: originalKey,
+          Body: originalImage,
+          ContentType: `image/${ext}`,
+        });
         if (s3.$metadata.httpStatusCode !== 200) {
           return res.status(s3.$metadata.httpStatusCode || 403).json({
+            message: "Error uploading image",
+          });
+        }
+        if (originalS3.$metadata.httpStatusCode !== 200) {
+          return res.status(originalS3.$metadata.httpStatusCode || 403).json({
             message: "Error uploading image",
           });
         }

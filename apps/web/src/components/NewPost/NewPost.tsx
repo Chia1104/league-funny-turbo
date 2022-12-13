@@ -36,7 +36,6 @@ const NewPostCtx = () => {
   };
 
   const addPost = async () => {
-    console.log(state.tags);
     const newPost = {
       title: titleRef.current?.getNativeInput().value,
       content: editorRef.current?.getModel(),
@@ -68,7 +67,6 @@ const NewPostCtx = () => {
   };
 
   const handleChange = () => {
-    console.log(state.tags);
     const newPost = {
       title: titleRef.current?.getNativeInput().value,
       content: editorRef.current?.getModel(),

@@ -98,40 +98,47 @@ const uploadImageToS3 = async ({
   convert,
   bucketFolder,
   quality,
+  fileNamePrefix,
 }: ResizeOptions & {
   useNativeFile?: boolean;
   file?: File;
   fileName?: string;
   image?: string;
   bucketFolder?: string;
+  fileNamePrefix?: string;
 }): Promise<ApiResponse<{ resizedImage?: string; imageUrl?: string }>> => {
   if (useNativeFile) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file!);
-    const base64 = await new Promise<string>((resolve) => {
-      reader.onload = () => {
-        resolve(reader.result as string);
-      };
-    });
-    const res = await fetch(`${getBaseUrl()}/api/services/s3/upload`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        width,
-        height,
-        image: base64,
-        format,
-        resize,
-        convert,
-        bucketFolder,
-        quality,
-        fileName:
-          fileName || file?.name?.substr(0, file?.name.lastIndexOf(".")) || "",
-      }),
-    });
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file!);
+    // const base64 = await new Promise<string>((resolve) => {
+    //   reader.onload = () => {
+    //     resolve(reader.result as string);
+    //   };
+    // });
+    const data = new FormData();
+    data.append("file", file!);
+    const res = await fetch(
+      `${getBaseUrl()}/api/services/s3/native-file-upload?${setSearchParams({
+        searchParams: {
+          fileName: fileName || "",
+          bucketFolder: bucketFolder || "",
+          width: width?.toString() || "",
+          height: height?.toString() || "",
+          resize: resize?.toString() || "",
+          format: format || "",
+          convert: convert?.toString() || "",
+          quality: quality?.toString() || "",
+          fileNamePrefix: fileNamePrefix || "",
+        },
+      })}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Length": file?.size.toString() || "0",
+        },
+        body: data,
+      }
+    );
     return {
       status: res.status,
       data: await res.json(),
@@ -152,6 +159,9 @@ const uploadImageToS3 = async ({
       resize,
       convert,
       bucketFolder,
+      quality,
+      fileName,
+      fileNamePrefix,
     }),
   });
   return {
