@@ -1,5 +1,5 @@
 import { useS3ImageUpload } from "@/hooks";
-import { forwardRef, useImperativeHandle, useEffect } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { Loading, useToasts } from "@geist-ui/core";
 
 interface UploadCoverRef {
