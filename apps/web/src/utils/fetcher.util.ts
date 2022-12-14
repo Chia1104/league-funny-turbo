@@ -26,10 +26,7 @@ const authToken = async (): Promise<
   try {
     const res = await fetch("/api/user/detail", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      credentials: "include",
     });
     if (res.status !== 200) {
       return {
@@ -59,7 +56,13 @@ const authToken = async (): Promise<
 const fetcher = async <T = unknown>(
   options: IFetcherOptions
 ): Promise<IApiResponse<T>> => {
-  const { requestInit = {}, endpoint, params, path, useAuth } = options;
+  const {
+    requestInit = {},
+    endpoint,
+    params,
+    path,
+    useAuth = { useAdmin: false },
+  } = options;
   let raw = "";
   let token = {} as JWT;
   if (useAuth) {
@@ -87,27 +90,29 @@ const fetcher = async <T = unknown>(
   });
   try {
     const res = await fetch(
-      `${endpoint || API_URL}${path || ""}?${searchParams}`,
+      `${endpoint || API_URL}${path || ""}${
+        searchParams && `?${searchParams}`
+      }`,
       {
+        ...requestInit,
         headers: {
           ...requestInit["headers"],
           ...(useAuth && { Authorization: `Bearer ${raw}` }),
         },
-        ...requestInit,
       }
     );
-    const data = (await res.json()) as IApiResponse<T>;
-    if (res.status !== 200 && data?.status !== ApiResponseStatus.SUCCESS) {
+    const _data = (await res.json()) as IApiResponse<T>;
+    if (res.status !== 200 && _data?.status !== ApiResponseStatus.SUCCESS) {
       return {
         statusCode: res.status,
         status: ApiResponseStatus.ERROR,
-        message: data?.message ?? "Something went wrong",
+        message: _data?.message ?? "Something went wrong",
       } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
     }
     return {
       statusCode: res.status,
       status: ApiResponseStatus.SUCCESS,
-      data: data?.data,
+      data: _data?.data,
     } satisfies Pick<IApiResponse<T>, "statusCode" | "status" | "data">;
   } catch (e) {
     return {

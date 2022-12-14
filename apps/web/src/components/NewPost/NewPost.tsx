@@ -11,7 +11,7 @@ import UploadCover, { type UploadCoverRef } from "./UploadCover";
 import { Button, Input, InputRef } from "@wanin/ui";
 import { titleSchema, newPostSchema } from "@wanin/shared/utils/zod-schema";
 import { useToasts } from "@geist-ui/core";
-import { addNewFeed } from "@/helpers/api/client";
+import { addNewFeed } from "@/helpers/api/routes/feed";
 import { useRouter } from "next/router";
 
 const NewPost = () => {
@@ -52,9 +52,9 @@ const NewPostCtx = () => {
       return;
     }
     const res = await addNewFeed(newPost);
-    if (res.status !== 200) {
+    if (res.statusCode !== 200) {
       setToast({
-        text: res.data?.message || "新增文章失敗",
+        text: res?.message || "新增文章失敗",
         type: "warning",
       });
       return;
@@ -63,7 +63,7 @@ const NewPostCtx = () => {
       text: "新增文章成功",
       type: "success",
     });
-    await router.push(`/b/${res.data.gameType}/f/${res.data.fid}`);
+    await router.push(`/b/${res?.data?.gameType}/f/${res?.data?.fid}`);
   };
 
   const handleChange = () => {
