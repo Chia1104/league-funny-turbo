@@ -3,8 +3,13 @@ import { API_URL, NEXTAUTH_SECRET } from "@/shared/constants";
 import type { Feed, Pagenate, ApiResponse } from "@wanin/shared/types";
 import { setSearchParams } from "@wanin/shared/utils";
 import { newPostSchema } from "@wanin/shared/utils/zod-schema";
-import { NewPostDTO } from "@wanin/shared/types";
+import { NewPostDTO, ApiResponseStatus } from "@wanin/shared/types";
 import { getToken } from "next-auth/jwt";
+import {
+  fetcher,
+  type IFetcherOptions,
+  type IApiResponse,
+} from "@/utils/fetcher.util";
 
 export default async function handler(
   req: NextApiRequest,
@@ -62,37 +67,30 @@ export default async function handler(
         if (!validate.success) {
           return res.status(400).json({ message: "Bad Request" });
         }
-        const response = await fetch(`${API_URL}/api/feed`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
+        const result = await fetcher<{ fid: number; gameType: string }>({
+          path: "/api/feed",
+          requestInit: {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           },
-          body: JSON.stringify({
-            title,
-            content,
-            cover,
-            tags,
-            gameType,
-            catalogue,
-          }),
-        });
-        if (response.status !== 200) {
-          return res.status(400).json({ message: "Bad Request" });
-        }
-        const data = (await response.json()) as ApiResponse<{
-          fid: number;
-          gameType: string;
-        }>;
-        return res.status(200).json({
-          status: 200,
-          data: data.data,
-        });
+        } satisfies IFetcherOptions);
+        return res.status(result.statusCode).json(result);
       } catch (e) {
-        return res.status(400).json({ message: "Bad Request" });
+        return res.status(400).json({
+          statusCode: 400,
+          status: ApiResponseStatus.ERROR,
+          message: "Bad Request",
+        });
       }
     default:
-      return res.status(405).json({ message: "Method not allowed" });
+      return res.status(405).json({
+        statusCode: 405,
+        status: ApiResponseStatus.ERROR,
+        message: "Method Not Allowed",
+      });
   }
 }

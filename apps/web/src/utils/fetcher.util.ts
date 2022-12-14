@@ -1,19 +1,27 @@
-import { type ApiResponse, ApiResponseStatus } from "@wanin/shared/types";
+import { ApiResponseStatus } from "@wanin/shared/types";
 import { setSearchParams } from "@wanin/shared/utils";
 import { BASE_URL } from "@/shared/constants";
+import { type JWT } from "next-auth/jwt";
+
+interface IApiResponse<T = unknown> {
+  statusCode: number;
+  status: ApiResponseStatus;
+  data?: T;
+  message?: string;
+}
 
 interface IFetcherOptions {
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  headers?: Record<string, string>;
-  body?: any;
+  requestInit?: RequestInit;
   endpoint?: string;
   params?: Record<string, string>;
   path?: string;
-  useAuth?: boolean;
+  useAuth?: {
+    useAdmin?: boolean;
+  };
 }
 
 const authToken = async (): Promise<
-  Partial<ApiResponse<{ token: string }> & { message: string }>
+  IApiResponse<{ token: JWT; raw: string }>
 > => {
   try {
     const res = await fetch("/api/user/detail", {
@@ -28,82 +36,87 @@ const authToken = async (): Promise<
         statusCode: res.status,
         status: ApiResponseStatus.ERROR,
         message: "Unauthorized",
-      };
+      } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
     }
-    const { token } = await res.json();
+    const { token, raw } = await res.json();
     return {
       statusCode: res.status,
       status: ApiResponseStatus.SUCCESS,
-      data: { token },
-    };
+      data: { token, raw },
+    } satisfies Pick<
+      IApiResponse<{ token: JWT; raw: string }>,
+      "statusCode" | "status" | "data"
+    >;
   } catch (e) {
     return {
       statusCode: 500,
       status: ApiResponseStatus.ERROR,
       message: "Internal Server Error",
-    };
+    } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
   }
 };
 
-const fetcher = async <T = any>(
+const fetcher = async <T = unknown>(
   options: IFetcherOptions
-): Promise<Partial<ApiResponse<T> & { message: string }>> => {
-  const {
-    method = "GET",
-    headers = {},
-    body,
-    endpoint,
-    params,
-    path,
-    useAuth,
-  } = options;
-  let token = "";
+): Promise<IApiResponse<T>> => {
+  const { requestInit = {}, endpoint, params, path, useAuth } = options;
+  let raw = "";
+  let token = {} as JWT;
   if (useAuth) {
     const { data, message, status, statusCode } = await authToken();
-    if (status === ApiResponseStatus.ERROR) {
-      return { message, statusCode, status };
+    if (status !== ApiResponseStatus.SUCCESS) {
+      return { message, statusCode, status } satisfies Pick<
+        IApiResponse,
+        "statusCode" | "status" | "message"
+      >;
     }
-    token = data?.token as string;
+    raw = data?.raw as string;
+    token = data?.token as JWT;
+    if (useAuth.useAdmin && !token?.a) {
+      return {
+        statusCode: 401,
+        status: ApiResponseStatus.ERROR,
+        message: "Unauthorized",
+      } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
+    }
   }
   const searchParams = setSearchParams({
     searchParams: {
       ...params,
     },
   });
-  const _headers = {
-    ...headers,
-    ...(useAuth ? { Authorization: `Bearer ${token}` } : {}),
-  };
   try {
     const res = await fetch(
       `${endpoint || BASE_URL}${path || ""}?${searchParams}`,
       {
-        method,
-        headers: _headers,
-        body: JSON.stringify(body),
+        headers: {
+          ...requestInit["headers"],
+          ...(useAuth && { Authorization: `Bearer ${raw}` }),
+        },
+        ...requestInit,
       }
     );
-    const data = (await res.json()) as ApiResponse<T>;
+    const data = (await res.json()) as IApiResponse<T>;
     if (res.status !== 200 && data?.status !== ApiResponseStatus.SUCCESS) {
       return {
         statusCode: res.status,
         status: ApiResponseStatus.ERROR,
-        message: "Something went wrong",
-      };
+        message: data?.message ?? "Something went wrong",
+      } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
     }
     return {
       statusCode: res.status,
       status: ApiResponseStatus.SUCCESS,
-      data: data.data,
-    };
+      data: data?.data,
+    } satisfies Pick<IApiResponse<T>, "statusCode" | "status" | "data">;
   } catch (e) {
     return {
       statusCode: 500,
       status: ApiResponseStatus.ERROR,
       message: "Internal Server Error",
-    };
+    } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
   }
 };
 
 export { fetcher };
-export type { IFetcherOptions };
+export type { IFetcherOptions, IApiResponse };
