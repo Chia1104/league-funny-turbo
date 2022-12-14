@@ -76,6 +76,14 @@ export default async function handler(
               Accept: "application/json",
               Authorization: `Bearer ${token}`,
             },
+            body: JSON.stringify({
+              title,
+              content,
+              cover,
+              tags,
+              gameType,
+              catalogue,
+            }),
           },
         } satisfies IFetcherOptions);
         return res.status(result.statusCode).json(result);
