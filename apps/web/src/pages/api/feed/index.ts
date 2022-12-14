@@ -65,7 +65,11 @@ export default async function handler(
           catalogue,
         });
         if (!validate.success) {
-          return res.status(400).json({ message: "Bad Request" });
+          return res.status(400).json({
+            statusCode: 400,
+            status: ApiResponseStatus.ERROR,
+            message: "Bad Request",
+          });
         }
         const result = await fetcher<{ fid: number; gameType: string }>({
           path: "/api/feed",

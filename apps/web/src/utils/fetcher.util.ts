@@ -1,6 +1,6 @@
 import { ApiResponseStatus } from "@wanin/shared/types";
 import { setSearchParams } from "@wanin/shared/utils";
-import { BASE_URL } from "@/shared/constants";
+import { API_URL } from "@/shared/constants";
 import { type JWT } from "next-auth/jwt";
 
 interface IApiResponse<T = unknown> {
@@ -87,7 +87,7 @@ const fetcher = async <T = unknown>(
   });
   try {
     const res = await fetch(
-      `${endpoint || BASE_URL}${path || ""}?${searchParams}`,
+      `${endpoint || API_URL}${path || ""}?${searchParams}`,
       {
         headers: {
           ...requestInit["headers"],
