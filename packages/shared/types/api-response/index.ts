@@ -4,6 +4,7 @@ export enum ApiResponseStatus {
 }
 
 export interface ApiResponse<T = any> {
+  statusCode?: number;
   status: number | string | ApiResponseStatus;
   data: T;
 }
