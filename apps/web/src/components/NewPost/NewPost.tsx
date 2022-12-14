@@ -1,34 +1,21 @@
-import {
-  TagProvider,
-  TagListCtx,
-  SearchTagCtx,
-  TagContext,
-} from "@/components";
-import { type ChangeEvent, useContext, useRef, useState } from "react";
+import { Tag, type TagRef } from "@/components";
+import { type ChangeEvent, useRef, useState } from "react";
 import { FroalaEditor, type EditorRef } from "@/components";
 import SelectBord, { type SelectBordRef } from "./SelectBord";
 import UploadCover, { type UploadCoverRef } from "./UploadCover";
 import { Button, Input, InputRef } from "@wanin/ui";
 import { titleSchema, newPostSchema } from "@wanin/shared/utils/zod-schema";
 import { useToasts } from "@geist-ui/core";
-import { addNewFeed } from "@/helpers/api/routes/feed";
+import { addNewFeed } from "@/helpers/api/routes/new-post";
 import { useRouter } from "next/router";
 
 const NewPost = () => {
-  return (
-    <TagProvider>
-      <NewPostCtx />
-    </TagProvider>
-  );
-};
-
-const NewPostCtx = () => {
-  const { state } = useContext(TagContext);
   const [disable, setDisable] = useState(true);
   const editorRef = useRef<EditorRef>(null);
   const titleRef = useRef<InputRef>(null);
   const selectBordRef = useRef<SelectBordRef>(null);
   const uploadCoverRef = useRef<UploadCoverRef>(null);
+  const tagRef = useRef<TagRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
@@ -42,7 +29,7 @@ const NewPostCtx = () => {
       cover: uploadCoverRef.current?.fileUrl || "",
       gameType: selectBordRef.current?.getSelectedBord(),
       catalogue: selectBordRef.current?.getSelectedCategory(),
-      tags: state.tags,
+      tags: tagRef.current?.getTags(),
     };
     if (!newPostSchema.safeParse(newPost).success) {
       setToast({
@@ -73,7 +60,7 @@ const NewPostCtx = () => {
       cover: uploadCoverRef.current?.fileUrl || "",
       gameType: selectBordRef.current?.getSelectedBord(),
       catalogue: selectBordRef.current?.getSelectedCategory(),
-      tags: state.tags,
+      tags: tagRef.current?.getTags(),
     };
     if (!newPostSchema.safeParse(newPost).success) {
       setDisable(true);
@@ -100,9 +87,8 @@ const NewPostCtx = () => {
       </div>
       <SelectBord ref={selectBordRef} />
       <FroalaEditor ref={editorRef} />
-      <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3 w-border-primary relative z-20">
-        <TagListCtx />
-        <SearchTagCtx />
+      <div className="relative z-20">
+        <Tag ref={tagRef} />
       </div>
       <div className="z-10 relative w-full flex justify-center">
         <Button

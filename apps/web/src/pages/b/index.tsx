@@ -1,8 +1,12 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { Page } from "@wanin/ui";
-import type { Feed, Pagenate } from "@wanin/shared/types";
+import {
+  type Feed,
+  type Pagenate,
+  ApiResponseStatus,
+} from "@wanin/shared/types";
 import { FeedList, Head } from "@/components";
-import { fetchFeedList } from "@/helpers/api/server-only";
+import { fetchFeedList } from "@/helpers/api/routes/feed";
 
 interface FeedProps {
   status: number;
@@ -10,16 +14,23 @@ interface FeedProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data: initFeed, status } = await fetchFeedList();
-  if (!initFeed || initFeed?.data?.length === 0 || status !== 200)
+  const {
+    data: initFeed,
+    status,
+    statusCode,
+  } = await fetchFeedList({
+    page: 1,
+  });
+  if (status !== ApiResponseStatus.SUCCESS || statusCode !== 200) {
     return {
       notFound: true,
     };
+  }
 
   return {
     props: {
       status,
-      initFeed,
+      initFeed: initFeed as Pagenate<Feed[]>,
     },
   };
 };
@@ -31,11 +42,7 @@ const Home: NextPage<FeedProps> = (props) => {
     <Page className="w-main w-full">
       <Head />
       <article className="mt-28 w-full">
-        <FeedList
-          initFeed={initFeed.data as Feed[]}
-          experimental
-          queryKey="home_feed_list"
-        />
+        <FeedList initFeed={initFeed.data} queryKey="home_feed_list" />
       </article>
     </Page>
   );

@@ -1,12 +1,13 @@
-import { type FC, useRef, type ChangeEvent, useState, useContext } from "react";
+import { type ChangeEvent, type FC, useContext, useRef, useState } from "react";
 import { Input, type InputRef } from "@wanin/ui";
 import { z } from "zod";
 import { useDebounce, useUpdateEffect } from "usehooks-ts";
 import { useMutation } from "@tanstack/react-query";
-import { fetchTagList } from "@/helpers/api/client";
+import { fetchTagList } from "@/helpers/api/routes/others";
 import cx from "classnames";
-import { TagContext, ActionType } from "./Tag";
+import { ActionType, TagContext } from "./Tag";
 import type { Tag as TagType } from "@wanin/shared/types";
+import { ApiResponseStatus } from "@wanin/shared/types";
 import { encodeString } from "@wanin/shared/utils";
 
 const searchSchema = z.string().min(0).max(10);
@@ -64,68 +65,74 @@ const SearchTag: FC = () => {
             isFocus &&
             "h-auto py-2 gap-3"
         )}>
-        {isFocus &&
-          searchTags.isSuccess &&
-          searchTags.data.length !== 0 &&
-          (searchTags.data.some((tag) => tag.name === value) ? null : (
-            <>
-              {debouncedValue.length > 10 && (
-                <div className="flex items-center justify-center h-full">
-                  <p className="text-small">標籤名稱最多10個字</p>
-                </div>
+        {searchTags?.data?.status === ApiResponseStatus.SUCCESS && (
+          <>
+            {isFocus &&
+              searchTags.isSuccess &&
+              searchTags?.data?.data?.length !== 0 &&
+              (searchTags?.data?.data?.some(
+                (tag) => tag.name === value
+              ) ? null : (
+                <>
+                  {debouncedValue.length > 10 && (
+                    <div className="flex items-center justify-center h-full">
+                      <p className="text-small">標籤名稱最多10個字</p>
+                    </div>
+                  )}
+                  <button
+                    disabled={debouncedValue.length > 10}
+                    onClick={() =>
+                      handleAddTag({
+                        id: null,
+                        name: value,
+                        slug: encodeString(value),
+                      })
+                    }
+                    className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
+                    <span className="line-clamp-1">{value}</span>
+                  </button>
+                </>
+              ))}
+            {isFocus &&
+              searchTags.isSuccess &&
+              searchTags?.data?.data?.length !== 0 &&
+              searchTags?.data?.data?.map((tag) => (
+                <button
+                  onClick={() => handleAddTag(tag)}
+                  key={tag.id}
+                  className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
+                  <span className="line-clamp-1">{tag.name}</span>
+                </button>
+              ))}
+            {isFocus &&
+              searchTags.isSuccess &&
+              searchTags?.data?.data?.length === 0 &&
+              debouncedValue && (
+                <>
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-small">沒有符合的標籤</p>
+                  </div>
+                  {debouncedValue.length > 10 && (
+                    <div className="flex items-center justify-center h-full">
+                      <p className="text-small">標籤名稱最多10個字</p>
+                    </div>
+                  )}
+                  <button
+                    disabled={debouncedValue.length > 10}
+                    onClick={() =>
+                      handleAddTag({
+                        id: null,
+                        name: value,
+                        slug: encodeString(value),
+                      })
+                    }
+                    className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
+                    <span className="line-clamp-1">{value}</span>
+                  </button>
+                </>
               )}
-              <button
-                disabled={debouncedValue.length > 10}
-                onClick={() =>
-                  handleAddTag({
-                    id: null,
-                    name: value,
-                    slug: encodeString(value),
-                  })
-                }
-                className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
-                <span className="line-clamp-1">{value}</span>
-              </button>
-            </>
-          ))}
-        {isFocus &&
-          searchTags.isSuccess &&
-          searchTags.data.length !== 0 &&
-          searchTags.data.map((tag) => (
-            <button
-              onClick={() => handleAddTag(tag)}
-              key={tag.id}
-              className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
-              <span className="line-clamp-1">{tag.name}</span>
-            </button>
-          ))}
-        {isFocus &&
-          searchTags.isSuccess &&
-          searchTags.data.length === 0 &&
-          debouncedValue && (
-            <>
-              <div className="flex items-center justify-center h-full">
-                <p className="text-small">沒有符合的標籤</p>
-              </div>
-              {debouncedValue.length > 10 && (
-                <div className="flex items-center justify-center h-full">
-                  <p className="text-small">標籤名稱最多10個字</p>
-                </div>
-              )}
-              <button
-                disabled={debouncedValue.length > 10}
-                onClick={() =>
-                  handleAddTag({
-                    id: null,
-                    name: value,
-                    slug: encodeString(value),
-                  })
-                }
-                className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
-                <span className="line-clamp-1">{value}</span>
-              </button>
-            </>
-          )}
+          </>
+        )}
       </div>
     </div>
   );

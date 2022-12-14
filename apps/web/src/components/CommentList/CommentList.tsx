@@ -3,10 +3,11 @@
 import { type FC, useMemo } from "react";
 import type { Comment } from "@wanin/shared/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchCommentList } from "@/helpers/api/client";
+import { fetchCommentList } from "@/helpers/api/routes/feed";
 import CommentItem from "./CommentItem";
 import CommentSkeleton from "./CommentSkeleton";
 import { Virtuoso } from "react-virtuoso";
+import { ApiResponseStatus } from "@wanin/shared/types";
 
 interface Props {
   fid: number;
@@ -17,10 +18,17 @@ const CommentList: FC<Props> = (props) => {
   const { fid, count } = props;
 
   const fetcher = async ({ pageParam = 1 }): Promise<Comment[]> => {
-    return (await fetchCommentList({
+    const result = await fetchCommentList({
       fid,
       page: pageParam,
-    })) as unknown as Comment[];
+    });
+    if (
+      result.statusCode !== 200 ||
+      !result?.data?.data ||
+      result.status !== ApiResponseStatus.SUCCESS
+    )
+      throw new Error("error");
+    return result.data.data;
   };
 
   const {
@@ -29,6 +37,7 @@ const CommentList: FC<Props> = (props) => {
     fetchNextPage,
     hasNextPage: hasMore,
     isFetching: isLoading,
+    isSuccess,
   } = useInfiniteQuery<Comment[]>({
     queryKey: ["comment", fid],
     queryFn: fetcher,
@@ -49,24 +58,26 @@ const CommentList: FC<Props> = (props) => {
       <p id="commentlist" className="text-xl">
         留言 ({count || 0}則)
       </p>
-      <Virtuoso
-        totalCount={_comments.length}
-        data={_comments}
-        overscan={100}
-        endReached={() => fetchNextPage()}
-        style={{ height: "100%" }}
-        useWindowScroll
-        itemContent={(index, item) => {
-          return (
-            <>
-              <CommentItem comment={item} />
-              {index !== _comments.length - 1 && (
-                <hr className="dark:border-gray-700" />
-              )}
-            </>
-          );
-        }}
-      />
+      {isSuccess && (
+        <Virtuoso
+          totalCount={_comments.length}
+          data={_comments}
+          overscan={100}
+          endReached={() => fetchNextPage()}
+          style={{ height: "100%" }}
+          useWindowScroll
+          itemContent={(index, item) => {
+            return (
+              <>
+                <CommentItem comment={item} />
+                {index !== _comments.length - 1 && (
+                  <hr className="dark:border-gray-700" />
+                )}
+              </>
+            );
+          }}
+        />
+      )}
       {isLoading && <CommentSkeleton />}
       {!hasMore && !isLoading && <p className="py-5">沒更多留言囉</p>}
     </div>

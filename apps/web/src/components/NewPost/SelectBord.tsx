@@ -1,7 +1,7 @@
 import { Select } from "@geist-ui/core";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PostCategory } from "@wanin/shared/types";
-import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/client";
+import { fetchSidebar, fetchBoardCategory } from "@/helpers/api/routes/others";
 import { useMemo, useState, forwardRef, useImperativeHandle } from "react";
 
 interface SelectBordRef {
@@ -9,12 +9,19 @@ interface SelectBordRef {
   getSelectedCategory: () => number;
 }
 
+const fetcher = async (): Promise<PostCategory[]> => {
+  const { data, status, statusCode } = await fetchSidebar();
+  if (statusCode !== 200 || status !== "success" || !data)
+    throw new Error("error");
+  return data;
+};
+
 const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
   const {
     data: bord,
     isSuccess,
     isLoading,
-  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar, {
+  } = useQuery<PostCategory[]>(["sidebar"], fetcher, {
     staleTime: 500000, // 5 minutes
   });
   const [selectedBord, setSelectedBord] = useState<string>("");
@@ -46,6 +53,7 @@ const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
   });
 
   const handleSelectBord = (value: string | string[]) => {
+    setSelectedCategory(0);
     setSelectedBord(
       ((catalogue as { label: string; value: number; slug: string }[])?.find(
         (item) => {
@@ -82,7 +90,7 @@ const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
         type="default"
         onChange={handleSelectCategory}>
         {fetchBordCategory.isSuccess &&
-          fetchBordCategory.data.map((item) => (
+          fetchBordCategory?.data?.data?.map((item) => (
             <Select.Option value={item.bc_id.toString()} key={item.bc_id}>
               {item.bc_name}
             </Select.Option>

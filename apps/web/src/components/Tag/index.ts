@@ -5,6 +5,7 @@ export {
   TagProvider,
   TagListCtx,
   SearchTagCtx,
+  type TagRef,
 } from "./Tag";
 export { default as SearchTag } from "./SearchTag";
 export * from "./SearchTag";
