@@ -12,9 +12,25 @@ interface IApiResponse<T = unknown> {
 
 interface IFetcherOptions {
   requestInit?: RequestInit;
+
+  /**
+   * @description
+   * The endpoint of the API, default is `API_URL`(laravel api)
+   */
   endpoint?: string;
+
+  /**
+   * @description
+   * The search params of the API (query string)
+   */
   params?: Record<string, string>;
   path?: string;
+
+  /**
+   * @description
+   * Only on client side, if you want to use auth token on server side,
+   * use `getToken()` on server and pass it to `requestInit` instead.
+   */
   useAuth?: {
     useAdmin?: boolean;
   };
@@ -56,13 +72,7 @@ const authToken = async (): Promise<
 const fetcher = async <T = unknown>(
   options: IFetcherOptions
 ): Promise<IApiResponse<T>> => {
-  const {
-    requestInit = {},
-    endpoint,
-    params,
-    path,
-    useAuth = { useAdmin: false },
-  } = options;
+  const { requestInit = {}, endpoint, params, path, useAuth } = options;
   let raw = "";
   let token = {} as JWT;
   if (useAuth) {

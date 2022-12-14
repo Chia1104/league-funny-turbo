@@ -1,10 +1,10 @@
-import { type FC, Fragment, useMemo } from "react";
+import { type FC, useMemo } from "react";
 import type { Feed } from "@wanin/shared/types";
+import { ApiResponseStatus } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
 import FeedSkeleton from "./FeedSkeleton";
-import { useInfiniteScroll } from "@/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchMoreFeedList } from "@/helpers/api/client";
+import { fetchFeedList } from "@/helpers/api/routes/feed";
 import { Virtuoso } from "react-virtuoso";
 
 interface Props {
@@ -18,17 +18,24 @@ interface Props {
 const FeedList: FC<Props> = (props) => {
   const {
     queryKey,
-    experimental = false,
+    experimental,
     initFeed,
     initPage = 2,
     searchParams,
   } = props;
 
   const fetcher = async ({ pageParam = initPage }): Promise<Feed[]> => {
-    return (await fetchMoreFeedList({
+    const result = await fetchFeedList({
       page: pageParam,
       searchParams,
-    })) as Feed[];
+    });
+    if (
+      result.statusCode !== 200 ||
+      !result?.data?.data ||
+      result.status !== ApiResponseStatus.SUCCESS
+    )
+      throw new Error("error");
+    return result.data.data;
   };
 
   const {
@@ -37,6 +44,7 @@ const FeedList: FC<Props> = (props) => {
     fetchNextPage,
     hasNextPage: hasMore,
     isFetching: isLoading,
+    isSuccess,
   } = useInfiniteQuery<Feed[]>({
     queryKey: [queryKey],
     queryFn: fetcher,
@@ -57,61 +65,32 @@ const FeedList: FC<Props> = (props) => {
     return feeds.pages.flat();
   }, [feeds]);
 
-  const { ref: lastItemRef } = useInfiniteScroll({
-    isLoading,
-    isError: isError as boolean,
-    hasMore: hasMore as boolean,
-    onLoadMore: fetchNextPage,
-    intersectionObserverInit: {
-      rootMargin: "150px",
-    },
-  });
-
   return (
     <div className="w-full w-bg-secondary rounded-lg shadow-lg">
       <>
-        {experimental && (
-          <>
-            <Virtuoso
-              totalCount={_feeds.length}
-              data={_feeds}
-              overscan={{
-                main: 1000,
-                reverse: 700,
-              }}
-              endReached={() => fetchNextPage()}
-              style={{ height: "100%" }}
-              useWindowScroll
-              initialItemCount={19}
-              itemContent={(index, item) => {
-                return (
-                  <>
-                    <FeedItem feed={item} />
-                    {index !== _feeds.length - 1 && (
-                      <hr className="dark:border-gray-700" />
-                    )}
-                  </>
-                );
-              }}
-            />
-          </>
-        )}
-        {!experimental && (
-          <>
-            {_feeds.map((item, index) => {
-              if (index === _feeds.length - 1) {
-                return (
-                  <FeedItem key={item.fid} feed={item} ref={lastItemRef} />
-                );
-              }
+        {isSuccess && (
+          <Virtuoso
+            totalCount={_feeds.length}
+            data={_feeds}
+            overscan={{
+              main: 1000,
+              reverse: 700,
+            }}
+            endReached={() => fetchNextPage()}
+            style={{ height: "100%" }}
+            useWindowScroll
+            initialItemCount={19}
+            itemContent={(index, item) => {
               return (
-                <Fragment key={item.fid}>
+                <>
                   <FeedItem feed={item} />
-                  <hr className="dark:border-gray-700" />
-                </Fragment>
+                  {index !== _feeds.length - 1 && (
+                    <hr className="dark:border-gray-700" />
+                  )}
+                </>
               );
-            })}
-          </>
+            }}
+          />
         )}
         {isLoading && <FeedSkeleton />}
         {isError && (
