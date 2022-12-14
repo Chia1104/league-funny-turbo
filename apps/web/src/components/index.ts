@@ -33,3 +33,4 @@ export { default as MailboxCenter } from "./MailboxCenter";
 export { default as MailReceive } from "./MailReceive";
 export { default as NewPost } from "./NewPost";
 export { default as Provider } from "./Provider";
+export { default as NewVideo } from "./NewVideo";

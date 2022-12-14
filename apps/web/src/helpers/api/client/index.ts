@@ -4,11 +4,13 @@ import type {
   Feed,
   Tag,
   NewPostDTO,
+  NewVideoDTO,
 } from "@wanin/shared/types";
 import { setSearchParams } from "@wanin/shared/utils";
 import { getBaseUrl } from "@/utils/get-base-url";
 import { ApiResponse } from "@wanin/shared/types";
 import { ResizeOptions } from "@/server/image/services";
+import { API_URL } from "@/shared/constants";
 
 const fetchSidebar = async (): Promise<PostCategory[]> => {
   const res = await fetch(`${getBaseUrl()}/api/main-bord`, {
@@ -195,6 +197,31 @@ const addNewFeed = async (
   };
 };
 
+const addPlaylist = async (
+  newPlaylist: Partial<NewVideoDTO>
+): Promise<
+  ApiResponse<
+    {
+      fid: number;
+      gameType: string;
+    } & { message: string }
+  >
+> => {
+  const res = await fetch(`${API_URL}/api/playlist`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(newPlaylist),
+  });
+  const data = await res.json();
+  return {
+    status: res.status,
+    data: data.data,
+  };
+};
+
 export {
   fetchSidebar,
   fetchMoreFeedList,
@@ -203,4 +230,5 @@ export {
   fetchTagList,
   uploadImageToS3,
   addNewFeed,
+  addPlaylist,
 };
