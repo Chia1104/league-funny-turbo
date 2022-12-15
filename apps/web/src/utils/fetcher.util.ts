@@ -37,6 +37,12 @@ interface IFetcherOptions {
   };
 }
 
+const getErrorMessages = (statusCode: number): string => {
+  return (
+    errorConfig[statusCode as keyof typeof errorConfig] ?? errorConfig[500]
+  );
+};
+
 const authToken = async (): Promise<
   IApiResponse<{ token: JWT; raw: string }>
 > => {
@@ -101,7 +107,7 @@ const fetcher = async <T = unknown>(
       return {
         statusCode: 401,
         status: ApiResponseStatus.ERROR,
-        message: errorConfig[401],
+        message: getErrorMessages(401),
       } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
     }
   }
@@ -112,7 +118,7 @@ const fetcher = async <T = unknown>(
   });
   try {
     const res = await fetch(
-      `${endpoint || API_URL}${path || ""}${
+      `${endpoint ?? API_URL}${path ?? ""}${
         searchParams && `?${searchParams}`
       }`,
       {
@@ -128,11 +134,11 @@ const fetcher = async <T = unknown>(
     const _data = (await res.json()) as IApiResponse<T>;
     if (res.status !== 200 && _data?.status !== ApiResponseStatus.SUCCESS) {
       return {
-        statusCode: res.status,
+        statusCode: res.status ?? 400,
         status: ApiResponseStatus.ERROR,
         message:
           _data?.message ??
-          errorConfig[(res.status as keyof typeof errorConfig) ?? 400],
+          getErrorMessages(res.status as keyof typeof errorConfig),
       } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
     }
     return {
@@ -144,7 +150,7 @@ const fetcher = async <T = unknown>(
     return {
       statusCode: 500,
       status: ApiResponseStatus.ERROR,
-      message: errorConfig[500],
+      message: getErrorMessages(500),
     } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
   }
 };

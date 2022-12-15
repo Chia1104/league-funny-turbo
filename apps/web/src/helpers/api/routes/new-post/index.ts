@@ -1,5 +1,6 @@
 import { NewPostDTO } from "@wanin/shared/types";
 import { fetcher, IApiResponse } from "@/utils/fetcher.util";
+import { getBaseUrl } from "@/utils/get-base-url";
 
 const addNewFeed = async (
   newPost: Partial<NewPostDTO>
@@ -13,7 +14,8 @@ const addNewFeed = async (
     fid: number;
     gameType: string;
   }>({
-    path: "/api/feed",
+    endpoint: getBaseUrl(),
+    path: "/api/event/feed",
     useAuth: {
       useAdmin: false,
     },
