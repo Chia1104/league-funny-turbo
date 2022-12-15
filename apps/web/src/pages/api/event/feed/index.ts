@@ -1,25 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
 import { newPostSchema } from "@wanin/shared/utils/zod-schema";
 import { NewPostDTO, ApiResponseStatus } from "@wanin/shared/types";
-import { getToken } from "next-auth/jwt";
 import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
 import { errorConfig } from "@/shared/config/network.config";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getTokenRaw } from "@/server/auth/services";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IApiResponse<{ fid: number; gameType: string }>>
 ) {
-  const token = await getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    decode: authOptions?.jwt?.decode,
-    secureCookie: true,
-    raw: true,
-  });
+  const raw = await getTokenRaw(req);
 
-  if (!token) {
+  if (!raw) {
     return res.status(401).json({
       statusCode: 401,
       status: ApiResponseStatus.ERROR,
@@ -55,7 +47,7 @@ export default async function handler(
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${raw}`,
             },
             body: JSON.stringify({
               title,

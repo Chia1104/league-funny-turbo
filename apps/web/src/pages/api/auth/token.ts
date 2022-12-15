@@ -1,10 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken, JWT } from "next-auth/jwt";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
-import { authOptions } from "./[...nextauth]";
+import { type JWT } from "next-auth/jwt";
 import { IApiResponse } from "@/utils/fetcher.util";
 import { errorConfig } from "@/shared/config/network.config";
 import { ApiResponseStatus } from "@wanin/shared/types";
+import { getToken, getTokenRaw } from "@/server/auth/services";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,18 +12,8 @@ export default async function handler(
   switch (req.method) {
     case "POST":
       try {
-        const raw = await getToken({
-          req,
-          secret: NEXTAUTH_SECRET,
-          raw: true,
-          secureCookie: true,
-        });
-        const token = await getToken({
-          req,
-          secret: NEXTAUTH_SECRET,
-          decode: authOptions?.jwt?.decode,
-          secureCookie: true,
-        });
+        const token = await getToken(req);
+        const raw = await getTokenRaw(req);
         if (!token || !raw) {
           return res.status(401).json({
             statusCode: 401,

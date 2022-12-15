@@ -1,28 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
 import { ApiResponseStatus } from "@wanin/shared/types";
-import { getToken } from "next-auth/jwt";
 import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
 import { errorConfig } from "@/shared/config/network.config";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getTokenRaw, getToken } from "@/server/auth/services";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IApiResponse>
 ) {
-  const token = await getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    decode: authOptions?.jwt?.decode,
-    secureCookie: true,
-  });
-  const raw = await getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    decode: authOptions?.jwt?.decode,
-    raw: true,
-    secureCookie: true,
-  });
+  const token = await getToken(req);
+  const raw = await getTokenRaw(req);
 
   if (!token?.a || !raw) {
     return res.status(401).json({
