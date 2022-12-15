@@ -6,6 +6,7 @@ import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import { MAX_FILE_SIZE } from "@wanin/shared/utils";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 function runMiddleware(
   req: NextApiRequest & { [key: string]: any },
@@ -36,6 +37,8 @@ export default async function handler(
   const token = await getToken({
     req,
     secret: NEXTAUTH_SECRET,
+    decode: authOptions?.jwt?.decode,
+    secureCookie: true,
     raw: true,
   });
   if (!token) {

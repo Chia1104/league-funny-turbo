@@ -4,6 +4,7 @@ import { NEXTAUTH_SECRET } from "@/shared/constants";
 import { resizeImage, ResizeOptions } from "@/server/image/services";
 import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const regex = /^data:.+\/(.+);base64,(.*)$/;
 export default async function handler(
@@ -13,6 +14,8 @@ export default async function handler(
   const token = await getToken({
     req,
     secret: NEXTAUTH_SECRET,
+    decode: authOptions?.jwt?.decode,
+    secureCookie: true,
     raw: true,
   });
   if (!token) {
