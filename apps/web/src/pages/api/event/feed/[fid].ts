@@ -14,9 +14,17 @@ export default async function handler(
     req,
     secret: NEXTAUTH_SECRET,
     decode: authOptions?.jwt?.decode,
+    secureCookie: true,
+  });
+  const raw = await getToken({
+    req,
+    secret: NEXTAUTH_SECRET,
+    decode: authOptions?.jwt?.decode,
+    raw: true,
+    secureCookie: true,
   });
 
-  if (!token?.a) {
+  if (!token?.a || !raw) {
     return res.status(401).json({
       statusCode: 401,
       status: ApiResponseStatus.ERROR,
@@ -33,7 +41,7 @@ export default async function handler(
           requestInit: {
             method: "DELETE",
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${raw}`,
             },
           },
         });

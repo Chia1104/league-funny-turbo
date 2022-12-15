@@ -5,6 +5,7 @@ import { NewPostDTO, ApiResponseStatus } from "@wanin/shared/types";
 import { getToken } from "next-auth/jwt";
 import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
 import { errorConfig } from "@/shared/config/network.config";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,6 +14,8 @@ export default async function handler(
   const token = await getToken({
     req,
     secret: NEXTAUTH_SECRET,
+    decode: authOptions?.jwt?.decode,
+    secureCookie: true,
     raw: true,
   });
 
