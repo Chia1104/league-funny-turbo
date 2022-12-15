@@ -16,7 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ACCEPTED_IMAGE_TYPES } from "@wanin/shared/utils";
 
 interface UseS3ImageUploadOptions {
-  onS3UploadComplete?: () => void;
+  onS3UploadComplete?: (imgUrl?: string) => void;
   onS3UploadError?: (error?: string) => void;
   errorMessage?: string;
   resize?: {
@@ -123,7 +123,7 @@ const useS3ImageUpload = (
         setFileUrl(result.data?.imageUrl as string);
         setIsS3UploadComplete(true);
         setIsSuccess(true);
-        onS3UploadComplete && onS3UploadComplete();
+        onS3UploadComplete && onS3UploadComplete(fileUrl as string);
         setIsUploading(false);
         return;
       }
