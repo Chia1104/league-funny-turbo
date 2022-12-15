@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useDarkMode, useIsMounted } from "@/hooks";
 import { GeistProvider as GP } from "@geist-ui/core";
 import { DefaultSeo } from "next-seo";
-import { TokenProvider } from "@/components";
 
 interface Props {
   session: Session;
@@ -31,7 +30,7 @@ const Provider: FC<Props> = (props) => {
       <ThemeProvider enableSystem={true} attribute="class">
         <GeistProvider>
           <QueryClientProvider client={queryClient}>
-            <TokenProvider>{children}</TokenProvider>
+            {children}
           </QueryClientProvider>
         </GeistProvider>
       </ThemeProvider>

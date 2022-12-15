@@ -1,22 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
 import { ApiResponseStatus } from "@wanin/shared/types";
-import { getToken } from "next-auth/jwt";
 import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
 import { errorConfig } from "@/shared/config/network.config";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getTokenRaw, getToken } from "@/server/auth/services";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IApiResponse>
 ) {
-  const token = await getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    decode: authOptions?.jwt?.decode,
-  });
+  const token = await getToken(req);
+  const raw = await getTokenRaw(req);
 
-  if (!token?.a) {
+  if (!token?.a || !raw) {
     return res.status(401).json({
       statusCode: 401,
       status: ApiResponseStatus.ERROR,
@@ -33,7 +28,7 @@ export default async function handler(
           requestInit: {
             method: "DELETE",
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${raw}`,
             },
           },
         });
