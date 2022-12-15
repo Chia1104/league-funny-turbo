@@ -17,6 +17,7 @@ export default async function handler(
   });
 
   if (!token) {
+    console.log("No token found");
     return res.status(401).json({
       statusCode: 401,
       status: ApiResponseStatus.ERROR,
