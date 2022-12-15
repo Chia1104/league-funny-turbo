@@ -37,9 +37,12 @@ export default async function handler(
             },
           },
         });
+        if (result.statusCode === 204) {
+          return res.status(204);
+        }
         return res.status(result.statusCode).json({
           statusCode: result.statusCode,
-          status: ApiResponseStatus.SUCCESS,
+          status: result.status,
           message: result?.message,
           data: result?.data,
         });
