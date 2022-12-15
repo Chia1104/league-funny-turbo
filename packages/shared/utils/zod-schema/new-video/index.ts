@@ -7,8 +7,12 @@ const commentSchema = z.string().min(1);
 
 const newVideoSchema = z.object({
   title: titleSchema,
-  video_url: video_urlSchema,
-  comment: commentSchema,
+  // video_url: video_urlSchema,
+  // comment: commentSchema,
+  videoUrls: z.object({
+    video_url: video_urlSchema,
+    comment: commentSchema,
+  }),
   tags: z.array(tagSchema).max(10).optional(),
   gameType: z.string(),
   catalogue: z.number().min(1),

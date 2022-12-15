@@ -1,56 +1,48 @@
-import {
-  TagProvider,
-  TagListCtx,
-  SearchTagCtx,
-  TagContext,
-} from "@/components";
-import { type ChangeEvent, useContext, useRef, useState } from "react";
+import { Tag, type TagRef } from "@/components";
+import { type ChangeEvent, useRef, useState } from "react";
 import SelectBord, { type SelectBordRef } from "../NewPost/SelectBord";
 import { Button, Input, InputRef } from "@wanin/ui";
 import {
   titleSchema,
   newVideoSchema,
   video_urlSchema,
+  commentSchema,
 } from "@wanin/shared/utils/zod-schema";
 import { useToasts } from "@geist-ui/core";
-import { addNewFeed } from "@/helpers/api/client";
 import { useRouter } from "next/router";
+import AddLink from "./AddLink";
+import { addPlaylist } from "@/helpers/api/routes/playlist";
 
 const NewVideo = () => {
-  return (
-    <TagProvider>
-      <NewVideoCtx />
-    </TagProvider>
-  );
-};
-
-const NewVideoCtx = () => {
-  const { state } = useContext(TagContext);
   const [disable, setDisable] = useState(true);
   const titleRef = useRef<InputRef>(null);
-  const linkRef = useRef<InputRef>(null);
-  const commentRef = useRef<InputRef>(null);
   const selectBordRef = useRef<SelectBordRef>(null);
+  const tagRef = useRef<TagRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
-  const [inputList, setInputList] = useState([{ list: "" }]);
 
-  const handleInputListAdd = () => {
-    setInputList([...inputList, { list: "" }]);
-  };
+  const [inputList, setInputList] = useState<
+    {
+      video_url: string;
+      comment: string;
+    }[]
+  >([
+    {
+      video_url: "",
+      comment: "",
+    },
+  ]);
 
   const addVideo = async () => {
-    console.log(state.tags);
     const newVideo = {
       title: titleRef.current?.getNativeInput().value,
-      video_url: linkRef.current?.getNativeInput().value,
-      comment: commentRef.current?.getNativeInput().value,
+      videoUrls: inputList,
       gameType: selectBordRef.current?.getSelectedBord(),
       catalogue: selectBordRef.current?.getSelectedCategory(),
-      tags: state.tags,
+      tags: tagRef.current?.getTags(),
     };
     if (!newVideoSchema.safeParse(newVideo).success) {
       setToast({
@@ -59,10 +51,10 @@ const NewVideoCtx = () => {
       });
       return;
     }
-    const res = await addNewFeed(newVideo);
-    if (res.status !== 200) {
+    const res = await addPlaylist(newVideo);
+    if (res.statusCode !== 200) {
       setToast({
-        text: res.data?.message || "新增影片失敗",
+        text: res.message || "新增影片失敗",
         type: "warning",
       });
       return;
@@ -76,20 +68,42 @@ const NewVideoCtx = () => {
   };
 
   const handleChange = () => {
-    console.log(state.tags);
     const newVideo = {
       title: titleRef.current?.getNativeInput().value,
-      video_url: linkRef.current?.getNativeInput().value,
-      comment: commentRef.current?.getNativeInput().value,
+      videoUrls: inputList,
       gameType: selectBordRef.current?.getSelectedBord(),
       catalogue: selectBordRef.current?.getSelectedCategory(),
-      tags: state.tags,
+      tags: tagRef.current?.getTags(),
     };
+    console.log(newVideo);
     if (!newVideoSchema.safeParse(newVideo).success) {
+      console.log(newVideoSchema.safeParse(newVideo));
       setDisable(true);
       return;
     }
     setDisable(false);
+  };
+
+  const handleInputListAdd = () => {
+    setInputList([
+      ...inputList,
+      {
+        video_url: "",
+        comment: "",
+      },
+    ]);
+  };
+
+  const handleChangeLink = (e: ChangeEvent<HTMLInputElement>, i: number) => {
+    const { value } = e.target;
+    const linkList = [...inputList];
+    linkList[i]["video_url"] = value;
+  };
+
+  const handleChangeComment = (e: ChangeEvent<HTMLInputElement>, i: number) => {
+    const { value } = e.target;
+    const commentList = [...inputList];
+    commentList[i]["comment"] = value;
   };
 
   return (
@@ -105,23 +119,35 @@ const NewVideoCtx = () => {
         errorClassName="my-1"
         error="標題太長或太短了"
       />
-      <div className="bg-light">
+      <div className="my-4 p-4 flex flex-col justify-between bg-gray-400 rounded-lg shadow-lg dark:bg-dark">
         {inputList.map((item, i) => (
-          <div className="flex items-center">
-            <div key={i + 1} className="mr-3">
-              {i + 1}
+          <div key={i} className="flex items-center mb-3 w-full">
+            <div className="mr-3 text-base text-white">{`${i + 1}.`}</div>
+            <div>
+              <Input
+                // ref={linkRef}
+                className="px-2 py-1 text-base"
+                placeholder="影片網址"
+                schema={video_urlSchema}
+                errorClassName="my-1"
+                error="網址不符"
+                onChange={(e) => handleChangeLink(e, i)}
+              />
+              <Input
+                // ref={commentRef}
+                className="px-2 py-1 text-base"
+                placeholder="個人短評 (輸入你對影片的簡短感想)"
+                schema={commentSchema}
+                errorClassName="my-1"
+                error="評論太長或太短了"
+                onChange={(e) => handleChangeComment(e, i)}
+              />
             </div>
-            <Input
-              ref={linkRef}
-              className="p-1 text-xl"
-              placeholder="影片網址"
-              schema={video_urlSchema}
-              errorClassName="my-1"
-              error="網址不符"
-            />
           </div>
         ))}
-        <button className="btn-styleB flex" onClick={handleInputListAdd}>
+        <button
+          className="btn-styleB flex justify-center mt-4 border-0 dark:hover:bg-black dark:border rounded-lg transition-all ease-in-out w-border-primary"
+          onClick={handleInputListAdd}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -138,10 +164,10 @@ const NewVideoCtx = () => {
           <span>增加選項</span>
         </button>
       </div>
+
       <SelectBord ref={selectBordRef} />
-      <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3 w-border-primary relative z-20">
-        <TagListCtx />
-        <SearchTagCtx />
+      <div className="relative z-20">
+        <Tag ref={tagRef} />
       </div>
       <div className="z-10 relative w-full flex justify-center">
         <Button
