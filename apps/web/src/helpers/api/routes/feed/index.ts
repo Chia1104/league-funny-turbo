@@ -1,5 +1,7 @@
 import type { Pagenate, Feed, Comment } from "@wanin/shared/types";
 import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
+import { NewPostDTO } from "@wanin/shared/types";
+import { getBaseUrl } from "@/utils/get-base-url";
 
 const fetchFeedList = async ({
   page = 1,
@@ -60,4 +62,47 @@ const fetchCommentList = async ({
   });
 };
 
-export { fetchFeedList, fetchCommentList, fetchFeedDetail };
+const addNewFeed = async ({
+  newPost,
+}: {
+  newPost: Partial<NewPostDTO>;
+}): Promise<
+  IApiResponse<{
+    fid: number;
+    gameType: string;
+  }>
+> => {
+  return await fetcher<{
+    fid: number;
+    gameType: string;
+  }>({
+    endpoint: getBaseUrl(),
+    path: "/api/event/feed",
+    requestInit: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(newPost),
+    },
+  });
+};
+
+const deleteFeed = async (fid: number): Promise<IApiResponse<null>> => {
+  return await fetcher<null>({
+    endpoint: getBaseUrl(),
+    path: `/api/event/feed/${fid}`,
+    requestInit: {
+      method: "DELETE",
+    },
+  });
+};
+
+export {
+  fetchFeedList,
+  fetchCommentList,
+  fetchFeedDetail,
+  addNewFeed,
+  deleteFeed,
+};

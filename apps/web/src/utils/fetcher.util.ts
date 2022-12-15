@@ -33,45 +33,16 @@ interface IFetcherOptions {
    * use `getToken()` on server and pass it to `requestInit` instead.
    */
   useAuth?: {
+    token?: JWT | null;
+    raw?: string | null;
     useAdmin?: boolean;
   };
 }
 
-const authToken = async (): Promise<
-  IApiResponse<{ token: JWT; raw: string }>
-> => {
-  try {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-    const res = await fetch("/api/user/detail", {
-      method: "POST",
-      credentials: "include",
-      signal: signal,
-    });
-    setTimeout(() => abortController.abort(), networkConfig["timeout"]);
-    if (res.status !== 200) {
-      return {
-        statusCode: res.status,
-        status: ApiResponseStatus.ERROR,
-        message: errorConfig[(res.status as keyof typeof errorConfig) ?? 401],
-      } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
-    }
-    const { token, raw } = await res.json();
-    return {
-      statusCode: res.status,
-      status: ApiResponseStatus.SUCCESS,
-      data: { token, raw },
-    } satisfies Pick<
-      IApiResponse<{ token: JWT; raw: string }>,
-      "statusCode" | "status" | "data"
-    >;
-  } catch (e) {
-    return {
-      statusCode: 500,
-      status: ApiResponseStatus.ERROR,
-      message: errorConfig[500],
-    } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
-  }
+const getErrorMessages = (statusCode: number): string => {
+  return (
+    errorConfig[statusCode as keyof typeof errorConfig] ?? errorConfig[500]
+  );
 };
 
 const fetcher = async <T = unknown>(
@@ -80,28 +51,24 @@ const fetcher = async <T = unknown>(
   const abortController = new AbortController();
   const signal = abortController.signal;
   const { requestInit = {}, endpoint, params, path, useAuth } = options;
-  let raw = "";
-  let token = {} as JWT;
   if (useAuth) {
     if (typeof window === "undefined") {
       throw new Error(
         "Only on client side, if you want to use auth token on server side, use `getToken()` on server and pass it to `requestInit` instead."
       );
     }
-    const { data, message, status, statusCode } = await authToken();
-    if (status !== ApiResponseStatus.SUCCESS) {
-      return { message, statusCode, status } satisfies Pick<
-        IApiResponse,
-        "statusCode" | "status" | "message"
-      >;
-    }
-    raw = data?.raw as string;
-    token = data?.token as JWT;
-    if (useAuth.useAdmin && !token?.a) {
+    if (!useAuth.raw || !useAuth.token) {
       return {
         statusCode: 401,
         status: ApiResponseStatus.ERROR,
-        message: errorConfig[401],
+        message: getErrorMessages(401),
+      } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
+    }
+    if (useAuth.useAdmin && !useAuth.token?.a) {
+      return {
+        statusCode: 401,
+        status: ApiResponseStatus.ERROR,
+        message: getErrorMessages(401),
       } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
     }
   }
@@ -112,27 +79,27 @@ const fetcher = async <T = unknown>(
   });
   try {
     const res = await fetch(
-      `${endpoint || API_URL}${path || ""}${
+      `${endpoint ?? API_URL}${path ?? ""}${
         searchParams && `?${searchParams}`
       }`,
       {
         ...requestInit,
         headers: {
           ...requestInit["headers"],
-          ...(useAuth && { Authorization: `Bearer ${raw}` }),
+          ...(useAuth && { Authorization: `Bearer ${useAuth.raw}` }),
         },
         signal: signal,
       }
     );
-    setTimeout(() => abortController.abort(), 5000);
+    setTimeout(() => abortController.abort(), networkConfig["timeout"]);
     const _data = (await res.json()) as IApiResponse<T>;
-    if (res.status !== 200 && _data?.status !== ApiResponseStatus.SUCCESS) {
+    if (!res.ok && _data?.status !== ApiResponseStatus.SUCCESS) {
       return {
-        statusCode: res.status,
+        statusCode: res.status ?? 400,
         status: ApiResponseStatus.ERROR,
         message:
           _data?.message ??
-          errorConfig[(res.status as keyof typeof errorConfig) ?? 400],
+          getErrorMessages(res.status as keyof typeof errorConfig),
       } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
     }
     return {
@@ -144,7 +111,7 @@ const fetcher = async <T = unknown>(
     return {
       statusCode: 500,
       status: ApiResponseStatus.ERROR,
-      message: errorConfig[500],
+      message: getErrorMessages(500),
     } satisfies Pick<IApiResponse, "statusCode" | "status" | "message">;
   }
 };
