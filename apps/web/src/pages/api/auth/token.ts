@@ -17,11 +17,13 @@ export default async function handler(
           req,
           secret: NEXTAUTH_SECRET,
           raw: true,
+          secureCookie: true,
         });
         const token = await getToken({
           req,
           secret: NEXTAUTH_SECRET,
           decode: authOptions?.jwt?.decode,
+          secureCookie: true,
         });
         if (!token || !raw) {
           return res.status(401).json({

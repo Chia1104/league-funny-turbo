@@ -15,6 +15,7 @@ export default async function handler(
     req,
     secret: NEXTAUTH_SECRET,
     decode: authOptions?.jwt?.decode,
+    secureCookie: true,
     raw: true,
   });
 
