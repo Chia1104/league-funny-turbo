@@ -1,6 +1,7 @@
 import { useS3ImageUpload } from "@/hooks";
 import { forwardRef, useImperativeHandle } from "react";
 import { Loading, useToasts } from "@geist-ui/core";
+import { resizeConfig } from "@/shared/config/image.config";
 
 interface UploadCoverRef {
   fileUrl: string | null;
@@ -17,11 +18,10 @@ const UploadCover = forwardRef<UploadCoverRef>((props, ref) => {
   } = useS3ImageUpload({
     fileNamePrefix: "_n",
     resize: {
-      width: 1200,
-      height: 630,
-      quality: 100,
+      width: resizeConfig["f_cover"].width,
+      height: resizeConfig["f_cover"].height,
     },
-    format: "png",
+    format: resizeConfig["f_cover"].format,
     onS3UploadError: (error) => {
       setToast({
         text: error,

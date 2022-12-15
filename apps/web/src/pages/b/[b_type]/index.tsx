@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     statusCode,
   } = await fetchFeedList({
     searchParams: {
-      b_type: params?.b_type as string,
+      boardType: params?.b_type as string,
     },
   });
   if (status !== ApiResponseStatus.SUCCESS || statusCode !== 200)

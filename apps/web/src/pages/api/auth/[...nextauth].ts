@@ -2,14 +2,14 @@ import NextAuth, { type Awaitable, type NextAuthOptions } from "next-auth";
 import TwitchProvider from "next-auth/providers/twitch";
 import FacebookProvider from "next-auth/providers/facebook";
 import jwt from "jsonwebtoken";
-import { laravelLogin } from "@/helpers/api/server-only";
+import { laravelLogin } from "@/helpers/api/routes/auth";
 import {
-  type ApiResponse,
   type LoginSession,
   type User,
   LoginProvider,
   ApiResponseStatus,
 } from "@wanin/shared/types";
+import { type IApiResponse } from "@/utils/fetcher.util";
 import { loginSessionSchema } from "@wanin/shared/utils/zod-schema";
 import type { JWT } from "next-auth/jwt";
 import NodeCache from "node-cache";
@@ -46,13 +46,13 @@ export const authOptions: NextAuthOptions = {
     async encode({ secret, token }) {
       const _laravelCache = laravelCache.get(
         token?.email || "laravelCache"
-      ) as ApiResponse<User>;
+      ) as IApiResponse<User>;
       return jwt.sign(
         {
-          id: _laravelCache?.data.uid,
-          a: _laravelCache?.data.admin_id,
-          b: _laravelCache?.data.ban,
-          name: _laravelCache?.data.u_name,
+          id: _laravelCache?.data?.uid,
+          a: _laravelCache?.data?.admin_id,
+          b: _laravelCache?.data?.ban,
+          name: _laravelCache?.data?.u_name,
           exp: Math.floor(Date.now() / 1000) + TOKEN_EXPIRE,
           ...token,
         },
