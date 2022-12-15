@@ -6,9 +6,8 @@ import UploadCover, { type UploadCoverRef } from "./UploadCover";
 import { Button, Input, InputRef } from "@wanin/ui";
 import { titleSchema, newPostSchema } from "@wanin/shared/utils/zod-schema";
 import { useToasts } from "@geist-ui/core";
-import { addNewFeed } from "@/helpers/api/routes/new-post";
+import { addNewFeed } from "@/helpers/api/routes/feed";
 import { useRouter } from "next/router";
-import { useToken } from "@/hooks";
 
 const NewPost = () => {
   const [disable, setDisable] = useState(true);
@@ -19,7 +18,6 @@ const NewPost = () => {
   const tagRef = useRef<TagRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
-  const { token, raw } = useToken();
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -40,7 +38,7 @@ const NewPost = () => {
       });
       return;
     }
-    const res = await addNewFeed({ token, raw, newPost });
+    const res = await addNewFeed({ newPost });
     if (res.statusCode !== 200) {
       setToast({
         text: res?.message || "新增文章失敗",
