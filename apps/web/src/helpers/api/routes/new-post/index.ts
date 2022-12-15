@@ -1,10 +1,16 @@
 import { NewPostDTO } from "@wanin/shared/types";
 import { fetcher, IApiResponse } from "@/utils/fetcher.util";
-import { getBaseUrl } from "@/utils/get-base-url";
+import { type JWT } from "next-auth/jwt";
 
-const addNewFeed = async (
-  newPost: Partial<NewPostDTO>
-): Promise<
+const addNewFeed = async ({
+  token,
+  raw,
+  newPost,
+}: {
+  token?: JWT | null;
+  raw?: string | null;
+  newPost: Partial<NewPostDTO>;
+}): Promise<
   IApiResponse<{
     fid: number;
     gameType: string;
@@ -14,10 +20,10 @@ const addNewFeed = async (
     fid: number;
     gameType: string;
   }>({
-    endpoint: getBaseUrl(),
-    path: "/api/event/feed",
+    path: "/api/feed",
     useAuth: {
-      useAdmin: false,
+      token,
+      raw,
     },
     requestInit: {
       method: "POST",
