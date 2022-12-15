@@ -1,15 +1,23 @@
 import { type FC } from "react";
 import type { PostCategory } from "@wanin/shared/types";
 import Link from "next/link";
-import { fetchSidebar } from "@/helpers/api/client";
+import { fetchSidebar } from "@/helpers/api/routes/others";
 import { useQuery } from "@tanstack/react-query";
 import cx from "classnames";
 import { useRouter } from "next/router";
 import ListLoader from "./ListLoader";
+import { ApiResponseStatus } from "@wanin/shared/types";
 
 interface ListProps {
   bord: PostCategory[];
 }
+
+const fetcher = async (): Promise<PostCategory[]> => {
+  const { data, status, statusCode } = await fetchSidebar();
+  if (statusCode !== 200 || status !== ApiResponseStatus.SUCCESS || !data)
+    throw new Error("error");
+  return data;
+};
 
 const PostCategoryList: FC = () => {
   const {
@@ -17,7 +25,7 @@ const PostCategoryList: FC = () => {
     isError,
     isLoading,
     isSuccess,
-  } = useQuery<PostCategory[]>(["sidebar"], fetchSidebar, {
+  } = useQuery<PostCategory[]>(["sidebar"], fetcher, {
     staleTime: 500000, // 5 minutes
   });
 

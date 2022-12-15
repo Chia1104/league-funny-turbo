@@ -1,11 +1,13 @@
 import {
-  type FC,
   useReducer,
   createContext,
   type Dispatch,
   type ReactNode,
   useContext,
   Fragment,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
 } from "react";
 import TagItem from "./TagItem";
 import SearchTag from "./SearchTag";
@@ -79,8 +81,15 @@ const TagProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TagListCtx = () => {
+interface TagRef {
+  getTags: () => TagDTO[];
+}
+
+const TagListCtx = forwardRef<TagRef>((_, ref) => {
   const { state, dispatch } = useContext(TagContext);
+  useImperativeHandle(ref, () => ({
+    getTags: () => state.tags,
+  }));
   return (
     <>
       {state.tags.map((tag) => {
@@ -121,23 +130,32 @@ const TagListCtx = () => {
       })}
     </>
   );
-};
+});
+
+TagListCtx.displayName = "TagListCtx";
 
 const SearchTagCtx = () => {
   const { state } = useContext(TagContext);
   return state.tags.length < 10 ? <SearchTag /> : null;
 };
 
-const Tag: FC = () => {
+const Tag = forwardRef<TagRef>((_, ref) => {
+  const tagRef = useRef<TagRef>(null);
+  useImperativeHandle(ref, () => ({
+    getTags: () => tagRef.current?.getTags() || [],
+  }));
   return (
     <TagProvider>
       <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3 w-border-primary">
-        <TagListCtx />
+        <TagListCtx ref={tagRef} />
         <SearchTagCtx />
       </div>
     </TagProvider>
   );
-};
+});
 
+Tag.displayName = "Tag";
+
+export type { TagRef };
 export { TagContext, ActionType, TagProvider, TagListCtx, SearchTagCtx };
 export default Tag;

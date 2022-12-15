@@ -6,6 +6,7 @@ import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import { MAX_FILE_SIZE } from "@wanin/shared/utils";
+import { resizeConfig } from "@/shared/config/image.config";
 
 function runMiddleware(
   req: NextApiRequest & { [key: string]: any },
@@ -42,6 +43,7 @@ export default async function handler(
     return res.status(401).json({ message: "Unauthorized" });
   }
   const uuid = () => uuidv4();
+  const resizeWidth = resizeConfig["froala"].width;
 
   switch (req.method) {
     case "POST":
@@ -63,8 +65,11 @@ export default async function handler(
         const buffer = file.buffer;
         const metadata = await getMetadata(buffer);
         const resizedImage = await resizeImage({
-          resize: (metadata.width ?? 640) > 640,
-          width: (metadata.width ?? 640) > 640 ? 640 : metadata.width,
+          resize: (metadata.width ?? resizeWidth) > resizeWidth,
+          width:
+            (metadata.width ?? resizeWidth) > resizeWidth
+              ? resizeWidth
+              : metadata.width,
           image: buffer,
           convert: file.mimetype.match(/jpg|jpeg|png|webp/),
         });
