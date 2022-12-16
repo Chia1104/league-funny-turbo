@@ -4,10 +4,9 @@ import { getBaseUrl } from "@/utils/get-base-url";
 import { useRef } from "react";
 import { type GetServerSideProps, type NextPage } from "next";
 import { encodeString } from "@wanin/shared/utils";
-import useImage from "use-image";
-import Konva from "konva";
+// import useImage from "use-image";
+// import Konva from "konva";
 import { Head } from "@/components";
-import { useIsMounted } from "usehooks-ts";
 // import { KonvaImage } from "@/components/konva";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -25,11 +24,11 @@ interface TestPageProps {
 
 const TestPage: NextPage<TestPageProps> = ({ title }) => {
   const imgRef = useRef<HTMLImageElement>(null);
-  const konvaRef = useRef<Konva.Stage>(null);
+  // const konvaRef = useRef<Konva.Stage>(null);
   const htmlCanvasRef = useRef<HTMLCanvasElement>(null);
-  const [image] = useImage(
-    `${getBaseUrl()}/api/services/og?title=${title || "Test"}`
-  );
+  // const [image] = useImage(
+  //   `${getBaseUrl()}/api/services/og?title=${title || "Test"}`
+  // );
   const { CanvasPreview } = useS3ImageUpload({
     resize: {
       width: 1200,
@@ -42,7 +41,6 @@ const TestPage: NextPage<TestPageProps> = ({ title }) => {
     useS3ImageUpload({
       fileName: "test_og_image",
     });
-  const isMounted = useIsMounted();
   return (
     <Page className="w-main gap-5 pt-20">
       <Head
