@@ -18,8 +18,9 @@ const NewPost = () => {
   const tagRef = useRef<TagRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
-  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    await addPost();
   };
 
   const addPost = async () => {
@@ -91,12 +92,7 @@ const NewPost = () => {
         <Tag ref={tagRef} />
       </div>
       <div className="z-10 relative w-full flex justify-center">
-        <Button
-          text="新增文章"
-          type="submit"
-          disabled={disable}
-          onClick={addPost}
-        />
+        <Button text="新增文章" type="submit" disabled={disable} />
       </div>
     </form>
   );
