@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { Image } from "@/components";
 import Link from "next/link";
-import { IS_PRODUCTION } from "@/shared/constants";
 
 interface Props {
   username: string;
