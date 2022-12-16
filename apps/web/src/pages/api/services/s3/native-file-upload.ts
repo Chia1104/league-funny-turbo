@@ -1,12 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
 import { resizeImage, ResizeOptions } from "@/server/image/services";
 import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import { MAX_FILE_SIZE } from "@wanin/shared/utils";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getTokenRaw } from "@/server/auth/services";
 
 function runMiddleware(
   req: NextApiRequest & { [key: string]: any },
@@ -34,14 +32,8 @@ export default async function handler(
   req: NextApiRequest & { [key: string]: any },
   res: NextApiResponse
 ) {
-  const token = await getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    decode: authOptions?.jwt?.decode,
-    secureCookie: true,
-    raw: true,
-  });
-  if (!token) {
+  const raw = await getTokenRaw(req);
+  if (!raw) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   const uuid = () => uuidv4();
