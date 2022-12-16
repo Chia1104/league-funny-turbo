@@ -21,6 +21,8 @@ const NewPost = () => {
   const tagRef = useRef<TagRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
+  const imgRegex = /<img([\w\W]+?)[\/]?>/;
+  const imgSrcRegex = /src\s*=\s*"(.+?)"/;
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     await addPost();
@@ -99,7 +101,13 @@ const NewPost = () => {
       />
       <FroalaEditor
         ref={editorRef}
-        onContentChange={(value) => setContent(value)}
+        onContentChange={(value) => {
+          setContent(value);
+          console.log(
+            value?.match(imgRegex)?.[0]?.match(imgSrcRegex)?.[1] ??
+              "No image src match"
+          );
+        }}
       />
       <div className="relative z-20">
         <Tag ref={tagRef} />

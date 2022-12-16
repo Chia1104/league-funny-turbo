@@ -1,22 +1,23 @@
 import {
+  type CanvasHTMLAttributes,
   type ChangeEvent,
-  useRef,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-  useEffect,
   type DetailedHTMLProps,
+  forwardRef,
+  type ForwardRefExoticComponent,
   type InputHTMLAttributes,
   type PropsWithoutRef,
-  type ForwardRefExoticComponent,
   type RefAttributes,
   type RefObject,
-  type CanvasHTMLAttributes,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
 } from "react";
-import { validateImage } from "@wanin/shared/utils";
-import { uploadImageToS3 } from "@/helpers/api/client";
+import { ACCEPTED_IMAGE_TYPES, validateImage } from "@wanin/shared/utils";
+import { uploadImageToS3 } from "@/helpers/api/routes/services/image";
 import { useMutation } from "@tanstack/react-query";
-import { ACCEPTED_IMAGE_TYPES } from "@wanin/shared/utils";
+import { ApiResponseStatus } from "@wanin/shared/types";
+import Konva from "konva";
 
 interface UseS3ImageUploadOptions {
   onS3UploadComplete?: (imgUrl?: string) => void;
@@ -37,7 +38,6 @@ interface UseS3ImageUploadOptions {
   convert?: boolean;
   fileName?: string;
   bucketFolder?: string;
-  useNativeFile?: boolean;
   fileNamePrefix?: string;
 }
 
@@ -64,6 +64,9 @@ interface UseS3ImageUploadResult {
   isS3UploadComplete: boolean;
   s3UploadError: string | null;
   isFileValid: boolean;
+  handleCanvasUpload: (
+    canvas: HTMLCanvasElement | Konva.Stage
+  ) => Promise<void>;
 }
 
 const useS3ImageUpload = (
@@ -79,7 +82,6 @@ const useS3ImageUpload = (
     fileName = "",
     bucketFolder,
     convert = true,
-    useNativeFile = true,
     fileNamePrefix,
   } = options;
   const [file, setFile] = useState<File | null | string>(null);
@@ -91,7 +93,15 @@ const useS3ImageUpload = (
   const [isSuccess, setIsSuccess] = useState(false);
 
   const resizeImageMutation = useMutation({
-    mutationFn: async ({ image, file }: { image?: string; file?: File }) => {
+    mutationFn: async ({
+      image,
+      file,
+      useNativeFile = true,
+    }: {
+      image?: string;
+      file?: File;
+      useNativeFile?: boolean;
+    }) => {
       return await uploadImageToS3({
         resize: !!resize,
         image: image as string,
@@ -134,7 +144,10 @@ const useS3ImageUpload = (
       const result = await resizeImageMutation.mutateAsync({
         file,
       });
-      if (result.status === 200) {
+      if (
+        result.statusCode === 200 &&
+        result.status === ApiResponseStatus.SUCCESS
+      ) {
         setFile(result.data?.resizedImage as string);
         setFileUrl(result.data?.imageUrl as string);
         setIsS3UploadComplete(true);
@@ -199,14 +212,33 @@ const useS3ImageUpload = (
       handleCanvasResize();
     }, []);
 
-    const handleCanvasUpload = async () => {
+    return resize?.runtimes === "canvas" ? (
+      <canvas
+        {...rest}
+        ref={canvasRef}
+        width={resize?.width ?? imgWidth}
+        height={resize?.height ?? imgHeight}
+      />
+    ) : null;
+  });
+
+  CanvasPreview.displayName = "CanvasPreview";
+
+  const handleCanvasUpload = async (
+    canvas: HTMLCanvasElement | Konva.Stage
+  ) => {
+    try {
       setIsUploading(true);
-      const canvas = canvasRef.current;
       if (!canvas) return;
+      console.log(canvas);
       const result = await resizeImageMutation.mutateAsync({
+        useNativeFile: false,
         image: canvas.toDataURL(),
       });
-      if (result.status === 200) {
+      if (
+        result.statusCode === 200 &&
+        result.status === ApiResponseStatus.SUCCESS
+      ) {
         setFile(result.data?.resizedImage as string);
         setFileUrl(result.data?.imageUrl as string);
         setIsS3UploadComplete(true);
@@ -220,19 +252,16 @@ const useS3ImageUpload = (
       onS3UploadError && onS3UploadError(errorMessage);
       setIsUploading(false);
       return;
-    };
-
-    return resize?.runtimes === "canvas" ? (
-      <canvas
-        {...rest}
-        ref={canvasRef}
-        width={resize?.width ?? imgWidth}
-        height={resize?.height ?? imgHeight}
-      />
-    ) : null;
-  });
-
-  CanvasPreview.displayName = "CanvasPreview";
+    } catch (error) {
+      setS3UploadError(errorMessage);
+      setIsSuccess(false);
+      onS3UploadError && onS3UploadError(errorMessage);
+      setIsUploading(false);
+      return;
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return {
     FileInput,
@@ -244,6 +273,7 @@ const useS3ImageUpload = (
     s3UploadError,
     isFileValid,
     isSuccess,
+    handleCanvasUpload,
   };
 };
 

@@ -1,6 +1,4 @@
 import type { NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
 import { ImageResponse } from "@vercel/og";
 import { type NextRequest } from "next/server";
 
@@ -12,14 +10,6 @@ export default function handler(
   req: NextRequest,
   res: NextApiResponse<ImageResponse>
 ) {
-  const token = getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    raw: true,
-  });
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
   switch (req.method) {
     case "GET":
       try {
