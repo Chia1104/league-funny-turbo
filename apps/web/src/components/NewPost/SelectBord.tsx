@@ -9,6 +9,11 @@ interface SelectBordRef {
   getSelectedCategory: () => number;
 }
 
+interface SelectBordProps {
+  onBordChange?: (bord: string) => void;
+  onCategoryChange?: (category: number) => void;
+}
+
 const fetcher = async (): Promise<PostCategory[]> => {
   const { data, status, statusCode } = await fetchSidebar();
   if (statusCode !== 200 || status !== "success" || !data)
@@ -16,7 +21,8 @@ const fetcher = async (): Promise<PostCategory[]> => {
   return data;
 };
 
-const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
+const SelectBord = forwardRef<SelectBordRef, SelectBordProps>((props, ref) => {
+  const { onBordChange, onCategoryChange } = props;
   const {
     data: bord,
     isSuccess,
@@ -61,11 +67,23 @@ const SelectBord = forwardRef<SelectBordRef>((_, ref) => {
         }
       )?.slug as string) || ""
     );
+    onBordChange?.(
+      ((
+        catalogue as {
+          label: string;
+          value: number;
+          slug: string;
+        }[]
+      )?.find((item) => {
+        return item.value === Number(value);
+      })?.slug as string) || ""
+    );
     fetchBordCategory.mutate(Number(value));
   };
 
   const handleSelectCategory = (value: string | string[]) => {
     setSelectedCategory(parseInt(value as string));
+    onCategoryChange?.(parseInt(value as string));
   };
   return (
     <div className="flex flex-col sm:flex-row gap-5 mb-5 w-full items-center justify-center">

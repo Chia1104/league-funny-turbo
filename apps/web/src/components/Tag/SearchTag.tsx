@@ -80,6 +80,7 @@ const SearchTag: FC = () => {
                     </div>
                   )}
                   <button
+                    type="button"
                     disabled={debouncedValue.length > 10}
                     onClick={() =>
                       handleAddTag({
@@ -98,6 +99,7 @@ const SearchTag: FC = () => {
               searchTags?.data?.data?.length !== 0 &&
               searchTags?.data?.data?.map((tag) => (
                 <button
+                  type="button"
                   onClick={() => handleAddTag(tag)}
                   key={tag.id}
                   className="flex items-center justify-between px-2 py-1 hover:w-bg-primary ml-2">
@@ -118,6 +120,7 @@ const SearchTag: FC = () => {
                     </div>
                   )}
                   <button
+                    type="button"
                     disabled={debouncedValue.length > 10}
                     onClick={() =>
                       handleAddTag({
