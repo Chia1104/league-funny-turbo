@@ -11,7 +11,6 @@ const getToken = async (
     req,
     secret: NEXTAUTH_SECRET,
     decode: authOptions?.jwt?.decode,
-    secureCookie: true,
   });
 };
 
@@ -21,8 +20,8 @@ const getTokenRaw = async (
   return await nextAutnGetToken({
     req,
     secret: NEXTAUTH_SECRET,
+    decode: authOptions?.jwt?.decode,
     raw: true,
-    secureCookie: true,
   });
 };
 
