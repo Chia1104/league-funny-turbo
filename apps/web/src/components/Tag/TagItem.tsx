@@ -13,6 +13,7 @@ const TagItem: FC<Props> = (props) => {
   if (onSelected) {
     return (
       <button
+        type="button"
         onClick={onSelected}
         className="flex items-center justify-center rounded-full px-5 py-1 mr-2 mb-2 w-bg-primary shadow">
         <span className="text-sm text-gray-500">{label}</span>
@@ -25,6 +26,7 @@ const TagItem: FC<Props> = (props) => {
       <p className="text-sm text-gray-500 line-clamp-1">{label}</p>
       {onDeleted && (
         <button
+          type="button"
           onClick={onDeleted}
           className="opacity-0 absolute right-0 top-0 group-hover:opacity-100 transition ease-in-out w-bg-secondary rounded-full mt-[0.1rem]">
           <CloseIcon className="text-red-400" />

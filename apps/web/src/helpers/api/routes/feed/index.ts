@@ -85,7 +85,6 @@ const addNewFeed = async ({
         Accept: "application/json",
       },
       body: JSON.stringify(newPost),
-      credentials: "include",
     },
   });
 };
@@ -96,7 +95,6 @@ const deleteFeed = async (fid: number): Promise<IApiResponse<null>> => {
     path: `/api/event/feed/${fid}`,
     requestInit: {
       method: "DELETE",
-      credentials: "include",
     },
   });
 };
