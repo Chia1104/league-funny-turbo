@@ -10,18 +10,21 @@ import {
 } from "@wanin/shared/utils/zod-schema";
 import { useToasts } from "@geist-ui/core";
 import { useRouter } from "next/router";
-import AddLink from "./AddLink";
 import { addPlaylist } from "@/helpers/api/routes/playlist";
 
 const NewVideo = () => {
   const [disable, setDisable] = useState(true);
   const titleRef = useRef<InputRef>(null);
   const selectBordRef = useRef<SelectBordRef>(null);
+  const [gameType, setGameType] = useState<string | null>(null);
+  const [category, setCategory] = useState<number | null>(null);
   const tagRef = useRef<TagRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
-  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    await addVideo();
   };
 
   const [inputList, setInputList] = useState<
@@ -51,7 +54,7 @@ const NewVideo = () => {
       });
       return;
     }
-    const res = await addPlaylist(newVideo);
+    const res = await addPlaylist({ newVideo });
     if (res.statusCode !== 200) {
       setToast({
         text: res.message || "新增影片失敗",
@@ -64,7 +67,7 @@ const NewVideo = () => {
       type: "success",
     });
     if (res.data)
-      await router.push(`/b/${res.data.gameType}/f/${res.data.fid}`);
+      await router.push(`/b/${res?.data?.gameType}/f/${res?.data?.fid}`);
   };
 
   const handleChange = () => {
@@ -75,7 +78,6 @@ const NewVideo = () => {
       catalogue: selectBordRef.current?.getSelectedCategory(),
       tags: tagRef.current?.getTags(),
     };
-    console.log(newVideo);
     if (!newVideoSchema.safeParse(newVideo).success) {
       console.log(newVideoSchema.safeParse(newVideo));
       setDisable(true);
@@ -119,13 +121,14 @@ const NewVideo = () => {
         errorClassName="my-1"
         error="標題太長或太短了"
       />
-      <div className="my-4 p-4 flex flex-col justify-between bg-gray-400 rounded-lg shadow-lg dark:bg-dark">
+      <div className="my-4 p-4 flex flex-col bg-gray-400 rounded-lg shadow-lg dark:bg-dark">
         {inputList.map((item, i) => (
-          <div key={i} className="flex items-center mb-3 w-full">
+          <div
+            key={i}
+            className="flex items-center justify-between mb-3 w-full">
             <div className="mr-3 text-base text-white">{`${i + 1}.`}</div>
-            <div>
+            <div className="w-[530px]">
               <Input
-                // ref={linkRef}
                 className="px-2 py-1 text-base"
                 placeholder="影片網址"
                 schema={video_urlSchema}
@@ -134,7 +137,6 @@ const NewVideo = () => {
                 onChange={(e) => handleChangeLink(e, i)}
               />
               <Input
-                // ref={commentRef}
                 className="px-2 py-1 text-base"
                 placeholder="個人短評 (輸入你對影片的簡短感想)"
                 schema={commentSchema}
@@ -164,8 +166,11 @@ const NewVideo = () => {
           <span>增加選項</span>
         </button>
       </div>
-
-      <SelectBord ref={selectBordRef} />
+      <SelectBord
+        ref={selectBordRef}
+        onBordChange={(value) => setGameType(value)}
+        onCategoryChange={(value) => setCategory(value)}
+      />
       <div className="relative z-20">
         <Tag ref={tagRef} />
       </div>
@@ -173,8 +178,7 @@ const NewVideo = () => {
         <Button
           text="新增影片"
           type="submit"
-          disabled={disable}
-          onClick={addVideo}
+          disabled={disable || !gameType || !category || !inputList}
         />
       </div>
     </form>

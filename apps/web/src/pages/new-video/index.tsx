@@ -1,24 +1,5 @@
 import { Head, NewVideo } from "@/components";
 import { Page } from "@wanin/ui";
-import { type GetServerSideProps } from "next";
-import { getServerAuthSession } from "@/utils/get-server-auth-session";
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getServerAuthSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/b",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
 
 const NewVideoPage = () => {
   return (
