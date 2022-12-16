@@ -14,7 +14,7 @@ env:
   TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
   TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-  API_URL: ${{ secrets.API_URL }}
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
   S3_UPLOAD_KEY: ${{ secrets.S3_UPLOAD_KEY }}
   S3_UPLOAD_SECRET: ${{ secrets.S3_UPLOAD_SECRET }}
   S3_UPLOAD_BUCKET: ${{ secrets.S3_UPLOAD_BUCKET }}
@@ -33,7 +33,7 @@ jobs:
       FACEBOOK_SECRET: ${{ secrets.FACEBOOK_SECRET }}
       TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
       TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
-      API_URL: ${{ secrets.API_URL }}
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
       S3_UPLOAD_KEY: ${{ secrets.S3_UPLOAD_KEY }}
@@ -121,7 +121,7 @@ jobs:
           S3_UPLOAD_SECRET: ${{ env.S3_UPLOAD_SECRET }}
           S3_UPLOAD_BUCKET: ${{ env.S3_UPLOAD_BUCKET }}
           S3_UPLOAD_REGION: ${{ env.S3_UPLOAD_REGION }}
-          API_URL: ${{ env.API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ env.NEXT_PUBLIC_API_URL }}
           CYPRESS_RECORD_KEY: ${{ env.CYPRESS_RECORD_KEY }}
         with:
           start: pnpm start --filter web...
