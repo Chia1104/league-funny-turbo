@@ -13,7 +13,7 @@ env:
   FACEBOOK_SECRET: ${{ secrets.FACEBOOK_SECRET }}
   TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
   TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
-  API_URL: ${{ secrets.API_URL }}
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
   PNPM_VERSION: 6.32.2
   NODE_VERSION: 18.*
 
@@ -28,7 +28,7 @@ jobs:
       FACEBOOK_SECRET: ${{ secrets.FACEBOOK_SECRET }}
       TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
       TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
-      API_URL: ${{ secrets.API_URL }}
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
       TURBO_REMOTE_ONLY: true
@@ -108,7 +108,7 @@ jobs:
           FACEBOOK_SECRET: ${{ env.FACEBOOK_SECRET }}
           TWITCH_CLIENT_ID: ${{ env.TWITCH_CLIENT_ID }}
           TWITCH_CLIENT_SECRET: ${{ env.TWITCH_CLIENT_SECRET }}
-          API_URL: ${{ env.API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ env.NEXT_PUBLIC_API_URL }}
         with:
           start: pnpm start --filter exp-web...
           wait-on: "http://localhost:3001"
