@@ -21,3 +21,4 @@ export { default as ChatIcon } from "./ChatIcon";
 export { default as GoldenIcon } from "./GoldenIcon";
 export { default as CloseIcon } from "./CloseIcon";
 export { default as HamburgerIcon } from "./HamburgerIcon";
+export { default as CameraIcon } from "./CameraIcon";

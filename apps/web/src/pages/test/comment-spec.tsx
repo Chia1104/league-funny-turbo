@@ -6,7 +6,7 @@ const TestPage: NextPage = () => {
   return (
     <Page className="w-main">
       <h1>Comment box</h1>
-      <NewComment />
+      <NewComment className="max-w-[640px] min-h-[150px] max-h-[150px]" />
     </Page>
   );
 };
