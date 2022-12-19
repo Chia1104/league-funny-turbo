@@ -192,10 +192,6 @@ const WrappedNewPost = () => {
             type: ActionType.SET_CONTENT,
             payload: { content: value },
           });
-          console.log(
-            value?.match(imgTagRegex)?.[0]?.match(imgTagSrcRegex)?.[1] ??
-              "No image src match"
-          );
         }}
       />
       <div className="relative z-20">
