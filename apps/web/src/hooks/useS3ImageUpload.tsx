@@ -230,7 +230,6 @@ const useS3ImageUpload = (
     try {
       setIsUploading(true);
       if (!canvas) return;
-      console.log(canvas);
       const result = await resizeImageMutation.mutateAsync({
         useNativeFile: false,
         image: canvas.toDataURL(),
