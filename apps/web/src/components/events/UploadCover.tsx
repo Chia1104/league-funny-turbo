@@ -59,7 +59,7 @@ const UploadCover = forwardRef<UploadCoverRef>((props, ref) => {
           {!isUploadSuccess && !isUploading && <p>圖片上傳 (1200 * 630)</p>}
           {isUploading && <Loading type="success" />}
         </div>
-        <FileInput className="opacity-0 h-full w-full absolute top-0 left-0" />
+        <FileInput className="opacity-0 h-full w-full absolute top-0 left-0 hover:cursor-pointer" />
       </div>
     </div>
   );
