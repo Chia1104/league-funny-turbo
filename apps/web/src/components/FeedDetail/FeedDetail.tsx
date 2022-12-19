@@ -21,12 +21,7 @@ const FeedDetail: FC<Props> = (props) => {
     <div className="w-full w-bg-secondary rounded-lg p-7 flex flex-col overflow-hidden">
       <h2 className="mb-7 text-3xl font-bold">{data.f_desc}</h2>
       <div className="mb-5 flex items-center">
-        <Avatar
-          username={data.f_author_name}
-          userId={data.f_uid}
-          ratio={45}
-          url={`https://img.league-funny.com/user_cover/${data.f_uid}.jpg`}
-        />
+        <Avatar username={data.f_author_name} userId={data.f_uid} ratio={45} />
         <Link href={`/user/${data.f_uid}`} className="ml-3 text-base">
           {data.f_author_name}
         </Link>

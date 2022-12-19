@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import { MAX_FILE_SIZE } from "@wanin/shared/utils";
 import { getTokenRaw } from "@/server/auth/services";
+import { type IApiResponse } from "@/utils/fetcher.util";
+import { ApiResponseStatus } from "@wanin/shared/types";
+import { errorConfig } from "@/shared/config/network.config";
 
 function runMiddleware(
   req: NextApiRequest & { [key: string]: any },
@@ -30,11 +33,15 @@ export const config = {
 
 export default async function handler(
   req: NextApiRequest & { [key: string]: any },
-  res: NextApiResponse
+  res: NextApiResponse<IApiResponse<{ resizedImage: string; imageUrl: string }>>
 ) {
   const raw = await getTokenRaw(req);
   if (!raw) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({
+      statusCode: 401,
+      status: ApiResponseStatus.ERROR,
+      message: errorConfig[401],
+    });
   }
   const uuid = () => uuidv4();
 
@@ -62,7 +69,11 @@ export default async function handler(
         );
         const file = req.file;
         if (!file.mimetype.match(/jpg|jpeg|png|gif|webp/)) {
-          return res.status(400).json({ message: "Invalid file type" });
+          return res.status(400).json({
+            statusCode: 400,
+            status: ApiResponseStatus.ERROR,
+            message: "Invalid file type",
+          });
         }
         const _fileName = file.originalname.split(".")[0];
         const ext = file.mimetype.split("/")[1];
@@ -97,22 +108,38 @@ export default async function handler(
         });
         if (s3.$metadata.httpStatusCode !== 200) {
           return res.status(s3.$metadata.httpStatusCode || 403).json({
+            statusCode: s3.$metadata.httpStatusCode || 403,
+            status: ApiResponseStatus.ERROR,
             message: "Error uploading image",
           });
         }
         if (originalS3.$metadata.httpStatusCode !== 200) {
           return res.status(originalS3.$metadata.httpStatusCode || 403).json({
+            statusCode: originalS3.$metadata.httpStatusCode || 403,
+            status: ApiResponseStatus.ERROR,
             message: "Error uploading image",
           });
         }
         return res.status(200).json({
-          resizedImage: `data:image/${format};base64,${resizedImage}`,
-          imageUrl: `https://img.league-funny.com/${key}`,
+          statusCode: 200,
+          status: ApiResponseStatus.SUCCESS,
+          data: {
+            resizedImage: `data:image/${format};base64,${resizedImage}`,
+            imageUrl: `https://img.league-funny.com/${key}`,
+          },
         });
       } catch (error) {
-        return res.status(400).json({ message: "Bad Request" });
+        return res.status(400).json({
+          statusCode: 400,
+          status: ApiResponseStatus.ERROR,
+          message: errorConfig[400],
+        });
       }
     default:
-      return res.status(405).json({ message: "Method not allowed" });
+      return res.status(405).json({
+        statusCode: 405,
+        status: ApiResponseStatus.ERROR,
+        message: errorConfig[405],
+      });
   }
 }

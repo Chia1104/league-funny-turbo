@@ -17,7 +17,7 @@ const Avatar: FC<Props> = (props) => {
     <span className="relative">
       <Image
         onClick={onClick}
-        src={url || "/error/error-memoji.png"}
+        src={url || `https://img.league-funny.com/user_cover/${userId}.jpg`}
         width={ratio}
         height={ratio}
         className="rounded-full"
