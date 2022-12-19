@@ -54,7 +54,7 @@ const nextConfig = {
     ];
   },
   compiler: {
-    removeConsole: false,
+    removeConsole: env.NODE_ENV === "production",
   },
   images: {
     domains: [
