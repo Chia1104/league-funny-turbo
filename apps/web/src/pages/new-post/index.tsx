@@ -1,4 +1,5 @@
-import { Head, NewPost } from "@/components";
+import { Head } from "@/components";
+import { NewPost } from "@/components/events";
 import { Page } from "@wanin/ui";
 
 const NewPostPage = () => {
