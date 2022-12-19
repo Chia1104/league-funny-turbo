@@ -41,4 +41,6 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/new-post", "/login", "/mailbox/:path*"] };
+export const config = {
+  matcher: ["/new-post", "/login", "/mailbox/:path*", "/test/:path*"],
+};
