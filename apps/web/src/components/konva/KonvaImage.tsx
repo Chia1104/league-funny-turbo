@@ -1,5 +1,5 @@
 import { Stage, Layer, Image } from "react-konva";
-import { forwardRef } from "react";
+import { type ForwardedRef } from "react";
 import Konva from "konva";
 
 interface KonvaImageProps {
@@ -8,19 +8,22 @@ interface KonvaImageProps {
   src: any;
 }
 
-const KonvaImage = forwardRef<Konva.Stage, KonvaImageProps>(
-  ({ width, height, src }, ref) => {
-    return (
-      <Stage width={width} height={height} ref={ref}>
-        <Layer>
-          <Image image={src} draggable />
-        </Layer>
-      </Stage>
-    );
-  }
-);
+const KonvaImage = ({
+  ref,
+  props,
+}: {
+  ref: ForwardedRef<Konva.Stage>;
+  props: KonvaImageProps;
+}) => {
+  const { width, height, src } = props;
+  return (
+    <Stage width={width} height={height} ref={ref}>
+      <Layer>
+        <Image image={src} draggable />
+      </Layer>
+    </Stage>
+  );
+};
 
-KonvaImage.displayName = "KonvaImage";
-
-export type { KonvaImageProps };
+export { type KonvaImageProps };
 export default KonvaImage;

@@ -190,6 +190,7 @@ const useS3ImageUpload = (
 
     const handleCanvasResize = () => {
       const canvas = canvasRef.current;
+      console.log("canvas", canvas);
       if (!canvas) return;
       const ctx = canvas.getContext("2d");
       if (!ctx) return;

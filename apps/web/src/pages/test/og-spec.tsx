@@ -4,10 +4,25 @@ import { getBaseUrl } from "@/utils/get-base-url";
 import { useRef } from "react";
 import { type GetServerSideProps, type NextPage } from "next";
 import { encodeString } from "@wanin/shared/utils";
-// import useImage from "use-image";
-// import Konva from "konva";
+import useImage from "use-image";
+import Konva from "konva";
 import { Head } from "@/components";
-// import { KonvaImage } from "@/components/konva";
+import dynamic from "next/dynamic";
+import { forwardRef } from "react";
+import { type KonvaImageProps } from "@/components/konva/KonvaImage";
+
+const DynamicKonvaImage = dynamic(
+  () => import("@/components/konva/KonvaImage"),
+  {
+    ssr: false,
+  }
+);
+const ForwardRefKonvaImage = forwardRef<Konva.Stage, KonvaImageProps>(
+  (props, ref) => {
+    return <DynamicKonvaImage ref={ref} props={props} />;
+  }
+);
+ForwardRefKonvaImage.displayName = "ForwardRefKonvaImage";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { title } = query;
@@ -24,11 +39,11 @@ interface TestPageProps {
 
 const TestPage: NextPage<TestPageProps> = ({ title }) => {
   const imgRef = useRef<HTMLImageElement>(null);
-  // const konvaRef = useRef<Konva.Stage>(null);
+  const konvaRef = useRef<Konva.Stage>(null);
   const htmlCanvasRef = useRef<HTMLCanvasElement>(null);
-  // const [image] = useImage(
-  //   `${getBaseUrl()}/api/services/og?title=${title || "Test"}`
-  // );
+  const [image] = useImage(
+    `${getBaseUrl()}/api/services/og?title=${title || "Test"}`
+  );
   const { CanvasPreview } = useS3ImageUpload({
     resize: {
       width: 1200,
@@ -48,26 +63,32 @@ const TestPage: NextPage<TestPageProps> = ({ title }) => {
           title || "Test"
         }`}
       />
-      <h1>Test Page</h1>
+      <h2>OG Image</h2>
       <img
-        className="hidden"
+        id="og-image"
         ref={imgRef}
         src={`${getBaseUrl({ isServer: true })}/api/services/og?title=${
           title || "Test"
         }`}
         alt="og image"
       />
-      {/*<h2>Konva Canvas</h2>*/}
-      {/*<KonvaImage width={1200} height={630} src={image} ref={konvaRef} />*/}
-      {/*<Button*/}
-      {/*  text={"Upload Konva Canvas"}*/}
-      {/*  onClick={() =>*/}
-      {/*    konvaRef.current ? handleCanvasUpload(konvaRef.current) : null*/}
-      {/*  }*/}
-      {/*/>*/}
-      <h2>HTML Canvas</h2>
-      <CanvasPreview ref={htmlCanvasRef} />
+      <h2>Konva Canvas</h2>
+      <ForwardRefKonvaImage
+        width={1200}
+        height={630}
+        src={image}
+        ref={konvaRef}
+      />
       <Button
+        text={"Upload Konva Canvas"}
+        onClick={() =>
+          konvaRef.current ? handleCanvasUpload(konvaRef.current) : null
+        }
+      />
+      <h2>HTML Canvas</h2>
+      <CanvasPreview ref={htmlCanvasRef} id="og-spec-canvas-preview" />
+      <Button
+        id="og-spec-upload-button"
         text={"Upload HTML Canvas"}
         onClick={() =>
           htmlCanvasRef.current
@@ -76,7 +97,7 @@ const TestPage: NextPage<TestPageProps> = ({ title }) => {
         }
       />
       {isSuccess && fileUrl && !isUploading && (
-        <img src={fileUrl} alt="og image preview" />
+        <img src={fileUrl} alt="og image preview" id="og-spec-image-preview" />
       )}
     </Page>
   );

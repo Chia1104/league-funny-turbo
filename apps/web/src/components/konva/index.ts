@@ -1,1 +1,1 @@
-export { default as KonvaImage } from "./KonvaImage";
+export { default as KonvaImage, type KonvaImageProps } from "./KonvaImage";
