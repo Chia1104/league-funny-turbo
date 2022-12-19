@@ -1,5 +1,5 @@
 import { getToken as nextAutnGetToken, type JWT } from "next-auth/jwt";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
+import { NEXTAUTH_SECRET, IS_PRODUCTION } from "@/shared/constants";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { NextRequest } from "next/server";
 import { NextApiRequest } from "next";
@@ -11,6 +11,7 @@ const getToken = async (
     req,
     secret: NEXTAUTH_SECRET,
     decode: authOptions?.jwt?.decode,
+    secureCookie: IS_PRODUCTION,
   });
 };
 
@@ -22,6 +23,7 @@ const getTokenRaw = async (
     secret: NEXTAUTH_SECRET,
     decode: authOptions?.jwt?.decode,
     raw: true,
+    secureCookie: IS_PRODUCTION,
   });
 };
 
