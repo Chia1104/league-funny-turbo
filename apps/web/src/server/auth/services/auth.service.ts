@@ -3,9 +3,13 @@ import { NEXTAUTH_SECRET, IS_PRODUCTION } from "@/shared/constants";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { NextRequest } from "next/server";
 import { NextApiRequest } from "next";
+import { IncomingMessage } from "http";
 
 const getToken = async (
-  req: NextRequest | NextApiRequest
+  req:
+    | NextRequest
+    | NextApiRequest
+    | (IncomingMessage & { cookies: Partial<{ [p: string]: string }> })
 ): Promise<JWT | null> => {
   return await nextAutnGetToken({
     req,
@@ -16,7 +20,10 @@ const getToken = async (
 };
 
 const getTokenRaw = async (
-  req: NextRequest | NextApiRequest
+  req:
+    | NextRequest
+    | NextApiRequest
+    | (IncomingMessage & { cookies: Partial<{ [p: string]: string }> })
 ): Promise<string> => {
   return await nextAutnGetToken({
     req,

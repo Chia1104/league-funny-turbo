@@ -86,7 +86,7 @@ export const authOptions: NextAuthOptions = {
     session({ session, token }) {
       if (token && session.user) {
         session.user = {
-          id: session.user.id,
+          id: token?.id?.toString() ?? session.user.id,
           admin_id: token.a as number,
           ban: token.b as number,
           name: token.name,
