@@ -18,10 +18,10 @@ const UploadCover = forwardRef<UploadCoverRef>((props, ref) => {
   } = useS3ImageUpload({
     fileNamePrefix: "_n",
     resize: {
-      width: resizeConfig["f_cover"].width,
-      height: resizeConfig["f_cover"].height,
+      width: resizeConfig["f_cover"]["width"],
+      height: resizeConfig["f_cover"]["height"],
     },
-    format: resizeConfig["f_cover"].format,
+    format: resizeConfig["f_cover"]["format"],
     onS3UploadError: (error) => {
       setToast({
         text: error,
