@@ -8,6 +8,7 @@ import CommentItem from "./CommentItem";
 import CommentSkeleton from "./CommentSkeleton";
 import { Virtuoso } from "react-virtuoso";
 import { ApiResponseStatus } from "@wanin/shared/types";
+import { useSession } from "next-auth/react";
 
 interface Props {
   fid: number;
@@ -16,6 +17,7 @@ interface Props {
 
 const CommentList: FC<Props> = (props) => {
   const { fid, count } = props;
+  const { data: session } = useSession();
 
   const fetcher = async ({ pageParam = 1 }): Promise<Comment[]> => {
     const result = await fetchCommentList({
@@ -46,6 +48,8 @@ const CommentList: FC<Props> = (props) => {
         return undefined;
       return pages.length + 1;
     },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const _comments = useMemo(() => {
@@ -69,7 +73,7 @@ const CommentList: FC<Props> = (props) => {
           itemContent={(index, item) => {
             return (
               <>
-                <CommentItem comment={item} />
+                <CommentItem comment={item} session={session} />
                 {index !== _comments.length - 1 && (
                   <hr className="dark:border-gray-700" />
                 )}
@@ -79,7 +83,6 @@ const CommentList: FC<Props> = (props) => {
         />
       )}
       {isLoading && <CommentSkeleton />}
-      {!hasMore && !isLoading && <p className="py-5">沒更多留言囉</p>}
     </div>
   );
 };

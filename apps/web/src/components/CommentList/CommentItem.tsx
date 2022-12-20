@@ -5,19 +5,21 @@ import type { Comment } from "@wanin/shared/types";
 import { Avatar } from "@/components";
 import Link from "next/link";
 import cx from "classnames";
+import { type Session } from "next-auth";
 
 interface Props {
   ref?: Ref<HTMLDivElement>;
   comment: Comment;
+  session?: Session | null;
 }
 
 const CommentItem: FC<Props> = forwardRef((props, ref) => {
-  const { comment } = props;
+  const { comment, session } = props;
   const [isShowReply, setIsShowReply] = useState(false);
 
   return (
     <div ref={ref} className="w-full flex flex-col gap-3 p-5">
-      <div className="w-full flex gap-3">
+      <div className="w-full flex gap-3 items-center">
         <Avatar
           url={`https://img.league-funny.com/user_cover/${
             comment?.c_uid || ""
@@ -29,6 +31,15 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
         <Link href={`/user/${comment?.c_uid}`} className="text-base">
           {comment?.c_author_name}
         </Link>
+        {(session?.user?.id === comment?.c_uid.toString() ||
+          session?.user?.admin_id === 1) && (
+          <button
+            className={cx(
+              "text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out"
+            )}>
+            刪除
+          </button>
+        )}
       </div>
       <div className="">{comment?.c_content}</div>
       {comment.reply.length !== 0 && (
@@ -47,7 +58,7 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
           {comment.reply.map((item, i) => (
             <>
               <div key={item.c_uid} className="w-full flex flex-col gap-3 p-5">
-                <div className="w-full flex gap-3">
+                <div className="w-full flex gap-3 items-center">
                   <Avatar
                     url={`https://img.league-funny.com/user_cover/${
                       item?.c_uid || ""
@@ -59,6 +70,15 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
                   <Link href={`/user/${comment?.c_uid}`} className="text-base">
                     {item?.c_author_name}
                   </Link>
+                  {(session?.user?.id === comment?.c_uid.toString() ||
+                    session?.user?.admin_id === 1) && (
+                    <button
+                      className={cx(
+                        "text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out"
+                      )}>
+                      刪除
+                    </button>
+                  )}
                 </div>
                 <div className="">{item?.c_content}</div>
               </div>

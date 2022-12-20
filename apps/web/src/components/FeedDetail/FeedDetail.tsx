@@ -2,8 +2,10 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ChatIcon, EyeIcon } from "@wanin/icons";
 import type { Feed } from "@wanin/shared/types";
-import { Avatar, CommentList } from "@/components";
-import { type FC } from "react";
+import { Avatar, CommentList, IsLogin } from "@/components";
+import { type FC, useState, useRef, useCallback } from "react";
+import { NewComment, type NewCommentRef } from "@/components/events";
+import { useSession } from "next-auth/react";
 
 const FeedWithHTML = dynamic(() => import("../FeedWithHTML"));
 const Youtube = dynamic(() => import("../Youtube"));
@@ -16,6 +18,14 @@ interface Props {
 
 const FeedDetail: FC<Props> = (props) => {
   const { data } = props;
+  const { data: session } = useSession();
+  const [commentValue, setCommentValue] = useState("");
+  const commentRef = useRef<NewCommentRef>(null);
+  const drawerCommentRef = useRef<NewCommentRef>(null);
+
+  const handleSubmit = () => {
+    console.log("submit", commentValue);
+  };
 
   return (
     <div className="w-full w-bg-secondary rounded-lg p-7 flex flex-col overflow-hidden">
@@ -66,7 +76,56 @@ const FeedDetail: FC<Props> = (props) => {
           <PlayList attachment={data.f_attachment} />
         )}
       </div>
-      <hr className="dark:border-gray-700" />
+      <hr className="dark:border-gray-700 mb-10" />
+      <IsLogin fallBack={<p>登入後即可留言</p>}>
+        <NewComment
+          ref={commentRef}
+          onImageUpload={(url) => {
+            setCommentValue((prevState) => prevState + `\n${url}\n`);
+          }}
+          useDrawer={{
+            title: data.f_desc,
+            subtitle: data.f_author_name,
+            content: (
+              <NewComment
+                ref={drawerCommentRef}
+                userId={session?.user?.id}
+                onImageUpload={(url) => {
+                  setCommentValue((prevState) => prevState + `\n${url}\n`);
+                }}
+                textareaProps={{
+                  className: "w-full min-h-[500px]",
+                  placeholder: "留言",
+                  value: commentValue,
+                  onChange: (e) => {
+                    setCommentValue(e.target.value);
+                  },
+                }}
+                formProps={{
+                  onSubmit: (e) => {
+                    e.preventDefault();
+                    handleSubmit();
+                  },
+                }}
+              />
+            ),
+          }}
+          userId={session?.user?.id}
+          textareaProps={{
+            placeholder: "留言",
+            value: commentValue,
+            onChange: (e) => {
+              setCommentValue(e.target.value);
+            },
+          }}
+          formProps={{
+            onSubmit: (e) => {
+              e.preventDefault();
+              handleSubmit();
+            },
+          }}
+        />
+      </IsLogin>
       <CommentList fid={data.fid} count={data.f_commentcount} />
     </div>
   );

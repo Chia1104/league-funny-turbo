@@ -88,6 +88,8 @@ const TokenCtx = () => {
         },
       });
     },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   return null;

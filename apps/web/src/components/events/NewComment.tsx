@@ -9,16 +9,18 @@ import {
   type FormHTMLAttributes,
   useState,
   useId,
+  type ReactNode,
 } from "react";
 import { useS3ImageUpload } from "@/hooks";
 import { type ZodType } from "zod";
 import cx from "classnames";
 import ActionBar from "./ActionBar";
-import { CameraIcon, SendIcon, SmileIcon } from "@wanin/icons";
+import { CameraIcon, SendIcon, SmileIcon, TimeLineIcon } from "@wanin/icons";
 import { resizeConfig } from "@/shared/config/image.config";
 import { useToasts } from "@geist-ui/core";
-import { useHover } from "usehooks-ts";
+import { useHover, useMediaQuery } from "usehooks-ts";
 import { Avatar } from "@/components";
+import { Drawer } from "@geist-ui/core";
 
 interface Props {
   isPrivate?: boolean;
@@ -29,12 +31,18 @@ interface Props {
     TextareaHTMLAttributes<HTMLTextAreaElement>,
     HTMLTextAreaElement
   >;
+  onImageUpload?: (url?: string) => void;
   formProps?: DetailedHTMLProps<
     FormHTMLAttributes<HTMLFormElement>,
     HTMLFormElement
   >;
   userId?: string;
   avatar?: string;
+  useDrawer?: {
+    title?: string;
+    subtitle?: string;
+    content?: ReactNode;
+  };
 }
 
 interface NewCommentRef {
@@ -52,6 +60,8 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     formProps,
     userId,
     avatar,
+    useDrawer,
+    onImageUpload,
     ...rest
   } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -60,7 +70,10 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
   const isHovering = useHover(formRef);
   const [isError, setIsError] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
   const id = useId();
+  const inputId = useId();
+  const formId = useId();
   const { setToast } = useToasts();
   const { FileInput, isUploading } = useS3ImageUpload({
     fileNamePrefix: "_n",
@@ -77,7 +90,8 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     },
     onS3UploadComplete: (imgUrl) => {
       // @ts-ignore
-      textareaRef.current.value += imgUrl;
+      textareaRef.current.value += `\n${imgUrl}\n`;
+      onImageUpload && onImageUpload(imgUrl);
       setToast({
         text: "上傳成功",
         type: "success",
@@ -113,8 +127,10 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
       return formRef.current as HTMLFormElement;
     },
   }));
+  const matches = useMediaQuery("(min-width: 768px)");
   return (
     <form
+      id={formId}
       ref={formRef}
       {...formProps}
       className={cx(
@@ -130,13 +146,32 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={cx(
-          "w-full min-h-[170px] border-[#CBD2D7] w-full rounded-lg w-border-primary transition ease-in-out focus:outline-none w-bg-primary p-2 overflow-scroll scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full",
+          "pb-[55px] w-full min-h-[170px] border-[#CBD2D7] w-full rounded-lg w-border-primary transition ease-in-out focus:outline-none w-bg-primary p-3 overflow-scroll scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full",
           isError &&
             "border-danger hover:cursor-not-allowed dark:border-danger dark:hover:cursor-not-allowed",
           isFocus && !isError && "border-primary dark:border-primary",
           textareaProps?.className && textareaProps.className
         )}
       />
+      {useDrawer && (
+        <>
+          <button
+            type="button"
+            onClick={() => setIsOpened(true)}
+            className="absolute top-2 right-2 rounded-full p-1 w-bg-secondary rotate-45 shadow-lg hover:shadow-xl dark:hover:text-primary">
+            <TimeLineIcon />
+          </button>
+          <Drawer
+            width="min(100%, 500px)"
+            placement={matches ? "right" : "bottom"}
+            visible={isOpened}
+            onClose={() => setIsOpened(false)}>
+            <Drawer.Title>{useDrawer.title}</Drawer.Title>
+            <Drawer.Subtitle>{useDrawer.subtitle}</Drawer.Subtitle>
+            <Drawer.Content>{useDrawer.content}</Drawer.Content>
+          </Drawer>
+        </>
+      )}
       <ActionBar
         isLoading={isUploading}
         className={cx(
@@ -145,10 +180,13 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
         )}>
         <button
           type="button"
-          onClick={() => inputRef.current?.click()}
-          className="hover:w-bg-primary rounded-full p-1">
+          className="hover:w-bg-primary rounded-full p-1 relative">
+          <label
+            htmlFor={inputId}
+            className="w-full h-full absolute top-o right-0 hover:cursor-pointer"
+          />
           <CameraIcon />
-          <FileInput className="hidden" ref={inputRef} />
+          <FileInput id={inputId} className="hidden" ref={inputRef} />
         </button>
         <button
           type="button"
@@ -178,3 +216,4 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
 
 NewComment.displayName = "NewComment";
 export default NewComment;
+export { type NewCommentRef };
