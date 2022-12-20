@@ -14,6 +14,9 @@ import { type ZodType } from "zod";
 import cx from "classnames";
 import ActionBar from "./ActionBar";
 import { CameraIcon } from "@wanin/icons";
+import { Button } from "@wanin/ui";
+import { resizeConfig } from "@/shared/config/image.config";
+import { Loading, useToasts } from "@geist-ui/core";
 
 interface Props
   extends DetailedHTMLProps<
@@ -38,6 +41,36 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
   const [isError, setIsError] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const id = useId();
+  const { setToast } = useToasts();
+  const {
+    FileInput,
+    fileUrl,
+    isS3UploadComplete,
+    isSuccess: isUploadSuccess,
+    isUploading,
+  } = useS3ImageUpload({
+    fileNamePrefix: "_n",
+    resize: {
+      width: resizeConfig["comment"]["width"],
+    },
+    convert: false,
+    bucketFolder: "imgur",
+    onS3UploadError: (error) => {
+      setToast({
+        text: error,
+        type: "warning",
+      });
+    },
+    onS3UploadComplete: (imgUrl) => {
+      // @ts-ignore
+      textareaRef.current.value += imgUrl;
+      setToast({
+        text: "上傳成功",
+        type: "success",
+      });
+    },
+    errorMessage: "上傳失敗",
+  });
   const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (schema) {
       const { value } = e.target;
@@ -81,10 +114,10 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
         {...rest}
       />
       <ActionBar>
-        <CameraIcon
-          className="hover:w-bg-primary rounded-full p-1"
-          size="medium"
-        />
+        <div className="relative hover:w-bg-primary rounded-full p-1">
+          <CameraIcon />
+          <FileInput className="opacity-0 h-full w-full absolute top-0 left-0 hover:cursor-pointer" />
+        </div>
         <CameraIcon
           className="hover:w-bg-primary rounded-full p-1"
           size="medium"
