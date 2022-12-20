@@ -1,5 +1,5 @@
 export interface SetSearchParamsOptions {
-  searchParams: Record<string, string>;
+  searchParams: Partial<Record<string, string>>;
 }
 
 const setSearchParams = (searchParamsOptions: SetSearchParamsOptions) => {
@@ -9,8 +9,9 @@ const setSearchParams = (searchParamsOptions: SetSearchParamsOptions) => {
   })
     .map(
       ([key, value]) =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+        value && `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     )
+    .filter(Boolean)
     .join("&");
 };
 
