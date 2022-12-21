@@ -10,6 +10,7 @@ import {
   useState,
   useId,
   type ReactNode,
+  type FC,
 } from "react";
 import { useS3ImageUpload } from "@/hooks";
 import { type ZodType } from "zod";
@@ -49,7 +50,27 @@ interface NewCommentRef {
   getValidity: () => boolean;
   getNativeTextArea: () => HTMLTextAreaElement;
   getNativeForm: () => HTMLFormElement;
+  isDrawerOpen: () => boolean;
 }
+
+const DrawerContent: FC<{
+  isOpened: boolean;
+  handleDrawer: () => void;
+  useDrawer: Props["useDrawer"];
+}> = ({ isOpened, handleDrawer, useDrawer }) => {
+  const matches = useMediaQuery("(min-width: 768px)");
+  return (
+    <Drawer
+      width="min(100%, 500px)"
+      placement={matches ? "right" : "bottom"}
+      visible={isOpened}
+      onClose={handleDrawer}>
+      <Drawer.Title>{useDrawer?.title}</Drawer.Title>
+      <Drawer.Subtitle>{useDrawer?.subtitle}</Drawer.Subtitle>
+      <Drawer.Content>{useDrawer?.content}</Drawer.Content>
+    </Drawer>
+  );
+};
 
 const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
   const {
@@ -62,7 +83,6 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     avatar,
     useDrawer,
     onImageUpload,
-    ...rest
   } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -126,8 +146,10 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     getNativeForm: () => {
       return formRef.current as HTMLFormElement;
     },
+    isDrawerOpen: () => {
+      return isOpened;
+    },
   }));
-  const matches = useMediaQuery("(min-width: 768px)");
   return (
     <form
       id={formId}
@@ -161,15 +183,15 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
             className="absolute top-2 right-2 rounded-full p-1 w-bg-secondary rotate-45 shadow-lg hover:shadow-xl dark:hover:text-primary">
             <TimeLineIcon />
           </button>
-          <Drawer
-            width="min(100%, 500px)"
-            placement={matches ? "right" : "bottom"}
-            visible={isOpened}
-            onClose={() => setIsOpened(false)}>
-            <Drawer.Title>{useDrawer.title}</Drawer.Title>
-            <Drawer.Subtitle>{useDrawer.subtitle}</Drawer.Subtitle>
-            <Drawer.Content>{useDrawer.content}</Drawer.Content>
-          </Drawer>
+          <DrawerContent
+            handleDrawer={() => setIsOpened(false)}
+            isOpened={isOpened}
+            useDrawer={{
+              title: useDrawer.title,
+              subtitle: useDrawer.subtitle,
+              content: useDrawer.content,
+            }}
+          />
         </>
       )}
       <ActionBar
@@ -196,7 +218,10 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
         <button
           disabled={isError}
           type="submit"
-          className="relative hover:w-bg-primary rounded-full p-1">
+          className={cx(
+            "relative hover:w-bg-primary rounded-full p-1",
+            isError && "cursor-not-allowed"
+          )}>
           <SendIcon />
         </button>
       </ActionBar>

@@ -3,9 +3,17 @@ import Link from "next/link";
 import { ChatIcon, EyeIcon } from "@wanin/icons";
 import type { Feed } from "@wanin/shared/types";
 import { Avatar, CommentList, IsLogin } from "@/components";
-import { type FC, useState, useRef, useCallback } from "react";
+import {
+  type FC,
+  useState,
+  useRef,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import { NewComment, type NewCommentRef } from "@/components/events";
 import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
+import { z } from "zod";
 
 const FeedWithHTML = dynamic(() => import("../FeedWithHTML"));
 const Youtube = dynamic(() => import("../Youtube"));
@@ -16,16 +24,101 @@ interface Props {
   data: Feed;
 }
 
-const FeedDetail: FC<Props> = (props) => {
-  const { data } = props;
-  const { data: session } = useSession();
+const DrawerContent: FC<{
+  session: Session | null;
+  onImageUpload: (url?: string) => void;
+  onTextareaChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onFormSubmit: (e: FormEvent) => void;
+  commentValue: string;
+}> = ({
+  session,
+  onImageUpload,
+  onTextareaChange,
+  onFormSubmit,
+  commentValue,
+}) => {
+  const drawerCommentRef = useRef<NewCommentRef>(null);
+  return (
+    <NewComment
+      schema={z.string().min(1, "Comment is required")}
+      ref={drawerCommentRef}
+      userId={session?.user?.id}
+      onImageUpload={onImageUpload}
+      textareaProps={{
+        className: "w-full min-h-[500px]",
+        placeholder: "留言",
+        value: commentValue,
+        onChange: onTextareaChange,
+      }}
+      formProps={{
+        onSubmit: onFormSubmit,
+      }}
+    />
+  );
+};
+
+const Comment: FC<Props & { session: Session | null }> = ({
+  data,
+  session,
+}) => {
   const [commentValue, setCommentValue] = useState("");
   const commentRef = useRef<NewCommentRef>(null);
-  const drawerCommentRef = useRef<NewCommentRef>(null);
 
   const handleSubmit = () => {
     console.log("submit", commentValue);
   };
+  return (
+    <NewComment
+      schema={z.string().min(1, "Comment is required")}
+      ref={commentRef}
+      onImageUpload={(url) => {
+        setCommentValue((prevState) => prevState + `\n${url}\n`);
+      }}
+      useDrawer={{
+        title: data.f_desc,
+        subtitle: data.f_author_name,
+        content: (
+          <DrawerContent
+            session={session}
+            onImageUpload={(url) =>
+              setCommentValue((prevState) => prevState + `\n${url}\n`)
+            }
+            onTextareaChange={(e) => setCommentValue(e.target.value)}
+            onFormSubmit={(e) => {
+              e.preventDefault();
+              if (commentRef.current && !commentRef.current.isDrawerOpen()) {
+                return;
+              }
+              handleSubmit();
+            }}
+            commentValue={commentValue}
+          />
+        ),
+      }}
+      userId={session?.user?.id}
+      textareaProps={{
+        placeholder: "留言",
+        value: commentValue,
+        onChange: (e) => {
+          setCommentValue(e.target.value);
+        },
+      }}
+      formProps={{
+        onSubmit: (e) => {
+          e.preventDefault();
+          if (commentRef.current && commentRef.current.isDrawerOpen()) {
+            return;
+          }
+          handleSubmit();
+        },
+      }}
+    />
+  );
+};
+
+const FeedDetail: FC<Props> = (props) => {
+  const { data } = props;
+  const { data: session } = useSession();
 
   return (
     <div className="w-full w-bg-secondary rounded-lg p-7 flex flex-col overflow-hidden">
@@ -78,53 +171,7 @@ const FeedDetail: FC<Props> = (props) => {
       </div>
       <hr className="dark:border-gray-700 mb-10" />
       <IsLogin fallBack={<p>登入後即可留言</p>}>
-        <NewComment
-          ref={commentRef}
-          onImageUpload={(url) => {
-            setCommentValue((prevState) => prevState + `\n${url}\n`);
-          }}
-          useDrawer={{
-            title: data.f_desc,
-            subtitle: data.f_author_name,
-            content: (
-              <NewComment
-                ref={drawerCommentRef}
-                userId={session?.user?.id}
-                onImageUpload={(url) => {
-                  setCommentValue((prevState) => prevState + `\n${url}\n`);
-                }}
-                textareaProps={{
-                  className: "w-full min-h-[500px]",
-                  placeholder: "留言",
-                  value: commentValue,
-                  onChange: (e) => {
-                    setCommentValue(e.target.value);
-                  },
-                }}
-                formProps={{
-                  onSubmit: (e) => {
-                    e.preventDefault();
-                    handleSubmit();
-                  },
-                }}
-              />
-            ),
-          }}
-          userId={session?.user?.id}
-          textareaProps={{
-            placeholder: "留言",
-            value: commentValue,
-            onChange: (e) => {
-              setCommentValue(e.target.value);
-            },
-          }}
-          formProps={{
-            onSubmit: (e) => {
-              e.preventDefault();
-              handleSubmit();
-            },
-          }}
-        />
+        <Comment data={data} session={session} />
       </IsLogin>
       <CommentList fid={data.fid} count={data.f_commentcount} />
     </div>
