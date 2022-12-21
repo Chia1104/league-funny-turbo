@@ -14,6 +14,9 @@ import { NewComment, type NewCommentRef } from "@/components/events";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import { z } from "zod";
+import { addNewComment } from "@/helpers/api/routes/feed";
+import { useToasts } from "@geist-ui/core";
+import { useRouter } from "next/router";
 
 const FeedWithHTML = dynamic(() => import("../FeedWithHTML"));
 const Youtube = dynamic(() => import("../Youtube"));
@@ -24,11 +27,13 @@ interface Props {
   data: Feed;
 }
 
+const messageSchema = z.string().min(5, "至少留言 5 個字哦");
+
 const DrawerContent: FC<{
   session: Session | null;
   onImageUpload: (url?: string) => void;
   onTextareaChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  onFormSubmit: (e: FormEvent) => void;
+  onFormSubmit: (e: FormEvent<HTMLFormElement>) => void;
   commentValue: string;
 }> = ({
   session,
@@ -40,7 +45,7 @@ const DrawerContent: FC<{
   const drawerCommentRef = useRef<NewCommentRef>(null);
   return (
     <NewComment
-      schema={z.string().min(1, "Comment is required")}
+      schema={messageSchema}
       ref={drawerCommentRef}
       userId={session?.user?.id}
       onImageUpload={onImageUpload}
@@ -62,19 +67,50 @@ const Comment: FC<Props & { session: Session | null }> = ({
   session,
 }) => {
   const [commentValue, setCommentValue] = useState("");
+  const [isOpened, setIsOpened] = useState(false);
   const commentRef = useRef<NewCommentRef>(null);
+  const { setToast } = useToasts();
+  const router = useRouter();
 
-  const handleSubmit = () => {
-    console.log("submit", commentValue);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!messageSchema.safeParse(commentValue).success) {
+      setToast({
+        text: "至少留言 5 個字哦",
+        type: "warning",
+      });
+      return;
+    }
+    const result = await addNewComment({
+      fid: data.fid,
+      message: commentValue,
+    });
+    if (result.status !== "success") {
+      setToast({
+        text: result.message,
+        type: "warning",
+      });
+      return;
+    }
+    setCommentValue("");
+    setIsOpened(false);
+    commentRef.current?.getNativeForm()?.reset();
+    setToast({
+      text: "留言成功",
+      type: "success",
+    });
+    router.reload();
   };
   return (
     <NewComment
-      schema={z.string().min(1, "Comment is required")}
+      schema={messageSchema}
       ref={commentRef}
       onImageUpload={(url) => {
         setCommentValue((prevState) => prevState + `\n${url}\n`);
       }}
       useDrawer={{
+        isOpen: isOpened,
+        handleDrawer: () => setIsOpened((prevState) => !prevState),
         title: data.f_desc,
         subtitle: data.f_author_name,
         content: (
@@ -85,11 +121,8 @@ const Comment: FC<Props & { session: Session | null }> = ({
             }
             onTextareaChange={(e) => setCommentValue(e.target.value)}
             onFormSubmit={(e) => {
-              e.preventDefault();
-              if (commentRef.current && !commentRef.current.isDrawerOpen()) {
-                return;
-              }
-              handleSubmit();
+              if (!isOpened) return;
+              handleSubmit(e);
             }}
             commentValue={commentValue}
           />
@@ -105,11 +138,8 @@ const Comment: FC<Props & { session: Session | null }> = ({
       }}
       formProps={{
         onSubmit: (e) => {
-          e.preventDefault();
-          if (commentRef.current && commentRef.current.isDrawerOpen()) {
-            return;
-          }
-          handleSubmit();
+          if (isOpened) return;
+          handleSubmit(e);
         },
       }}
     />

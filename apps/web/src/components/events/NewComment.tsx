@@ -40,6 +40,8 @@ interface Props {
   userId?: string;
   avatar?: string;
   useDrawer?: {
+    isOpen: boolean;
+    handleDrawer: () => void;
     title?: string;
     subtitle?: string;
     content?: ReactNode;
@@ -50,21 +52,18 @@ interface NewCommentRef {
   getValidity: () => boolean;
   getNativeTextArea: () => HTMLTextAreaElement;
   getNativeForm: () => HTMLFormElement;
-  isDrawerOpen: () => boolean;
 }
 
 const DrawerContent: FC<{
-  isOpened: boolean;
-  handleDrawer: () => void;
   useDrawer: Props["useDrawer"];
-}> = ({ isOpened, handleDrawer, useDrawer }) => {
+}> = ({ useDrawer }) => {
   const matches = useMediaQuery("(min-width: 768px)");
   return (
     <Drawer
       width="min(100%, 500px)"
       placement={matches ? "right" : "bottom"}
-      visible={isOpened}
-      onClose={handleDrawer}>
+      visible={useDrawer?.isOpen}
+      onClose={useDrawer?.handleDrawer}>
       <Drawer.Title>{useDrawer?.title}</Drawer.Title>
       <Drawer.Subtitle>{useDrawer?.subtitle}</Drawer.Subtitle>
       <Drawer.Content>{useDrawer?.content}</Drawer.Content>
@@ -90,7 +89,6 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
   const isHovering = useHover(formRef);
   const [isError, setIsError] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
-  const [isOpened, setIsOpened] = useState(false);
   const id = useId();
   const inputId = useId();
   const formId = useId();
@@ -146,9 +144,6 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     getNativeForm: () => {
       return formRef.current as HTMLFormElement;
     },
-    isDrawerOpen: () => {
-      return isOpened;
-    },
   }));
   return (
     <form
@@ -179,14 +174,14 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
         <>
           <button
             type="button"
-            onClick={() => setIsOpened(true)}
+            onClick={useDrawer.handleDrawer}
             className="absolute top-2 right-2 rounded-full p-1 w-bg-secondary rotate-45 shadow-lg hover:shadow-xl dark:hover:text-primary">
             <TimeLineIcon />
           </button>
           <DrawerContent
-            handleDrawer={() => setIsOpened(false)}
-            isOpened={isOpened}
             useDrawer={{
+              isOpen: useDrawer.isOpen,
+              handleDrawer: useDrawer.handleDrawer,
               title: useDrawer.title,
               subtitle: useDrawer.subtitle,
               content: useDrawer.content,

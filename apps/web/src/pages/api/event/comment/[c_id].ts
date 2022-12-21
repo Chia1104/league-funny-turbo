@@ -21,9 +21,9 @@ export default async function handler(
   switch (req.method) {
     case "DELETE":
       try {
-        const { fid } = req.query;
+        const { c_id } = req.query;
         const result = await fetcher({
-          path: `/api/feed/${fid}`,
+          path: `/api/comment/${c_id}`,
           requestInit: {
             method: "DELETE",
             headers: {

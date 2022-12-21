@@ -47,7 +47,8 @@ const fetchCommentList = async ({
   page?: number;
 }): Promise<IApiResponse<Pagenate<Comment[]>>> => {
   return await fetcher<Pagenate<Comment[]>>({
-    path: "/api/comment",
+    endpoint: getBaseUrl(),
+    path: "/api/event/comment",
     params: {
       fid: fid.toString(),
       page: page?.toString() || "1",
@@ -99,10 +100,38 @@ const deleteFeed = async (fid: number): Promise<IApiResponse<null>> => {
   });
 };
 
+const addNewComment = async ({
+  fid,
+  message,
+  parent,
+}: {
+  fid: number;
+  message: string;
+  parent?: number;
+}): Promise<IApiResponse<Comment>> => {
+  return await fetcher<Comment>({
+    endpoint: getBaseUrl(),
+    path: "/api/event/comment",
+    requestInit: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        fid,
+        message,
+        parent,
+      }),
+    },
+  });
+};
+
 export {
   fetchFeedList,
   fetchCommentList,
   fetchFeedDetail,
   addNewFeed,
   deleteFeed,
+  addNewComment,
 };
