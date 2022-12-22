@@ -33,3 +33,4 @@ export { default as MailboxCenter } from "./MailboxCenter";
 export { default as MailReceive } from "./MailReceive";
 export { default as Provider } from "./Provider";
 export * from "./Provider";
+export { default as CommentBox } from "./CommentBox";

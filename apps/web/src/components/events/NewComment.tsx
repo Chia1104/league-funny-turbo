@@ -46,6 +46,7 @@ interface Props {
     subtitle?: string;
     content?: ReactNode;
   };
+  useMinified?: boolean;
 }
 
 interface NewCommentRef {
@@ -82,6 +83,7 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     avatar,
     useDrawer,
     onImageUpload,
+    useMinified,
   } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -126,8 +128,10 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     textareaProps?.onChange && textareaProps.onChange(e);
   };
   const handleBlur = (e: FocusEvent<HTMLTextAreaElement>) => {
-    setIsFocus(false);
-    textareaProps?.onBlur && textareaProps.onBlur(e);
+    setTimeout(() => {
+      setIsFocus(false);
+      textareaProps?.onBlur && textareaProps.onBlur(e);
+    }, 100);
   };
   const handleFocus = (e: FocusEvent<HTMLTextAreaElement>) => {
     setIsFocus(true);
@@ -163,21 +167,25 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={cx(
-          "pb-[55px] w-full min-h-[170px] border-[#CBD2D7] w-full rounded-lg w-border-primary transition ease-in-out focus:outline-none w-bg-primary p-3 overflow-scroll scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full",
+          "w-full border-[#CBD2D7] w-full rounded-lg w-border-primary transition-all ease-in-out focus:outline-none w-bg-primary p-3 overflow-scroll scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full",
           isError &&
             "border-danger hover:cursor-not-allowed dark:border-danger dark:hover:cursor-not-allowed",
           isFocus && !isError && "border-primary dark:border-primary",
-          textareaProps?.className && textareaProps.className
+          textareaProps?.className && textareaProps.className,
+          useMinified ? "h-[63px]" : "min-h-[170px] pb-[55px]",
+          isFocus && useMinified && "h-[170px]"
         )}
       />
       {useDrawer && (
         <>
-          <button
-            type="button"
-            onClick={useDrawer.handleDrawer}
-            className="absolute top-2 right-2 rounded-full p-1 w-bg-secondary rotate-45 shadow-lg hover:shadow-xl dark:hover:text-primary">
-            <TimeLineIcon />
-          </button>
+          {!useMinified && (
+            <button
+              type="button"
+              onClick={useDrawer.handleDrawer}
+              className="absolute top-2 right-2 rounded-full p-1 w-bg-secondary rotate-45 shadow-lg hover:shadow-xl dark:hover:text-primary">
+              <TimeLineIcon />
+            </button>
+          )}
           <DrawerContent
             useDrawer={{
               isOpen: useDrawer.isOpen,
@@ -192,12 +200,23 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
       <ActionBar
         isLoading={isUploading}
         className={cx(
-          "absolute bottom-0 right-0 mr-5 mb-5 transition-all ease-in-out duration-300",
+          "absolute bottom-0 right-0 mr-5 mb-5 transition-all ease-in-out duration-300 group",
           isHovering ? "opacity-1" : "opacity-[0.4]"
         )}>
+        {useDrawer && (
+          <button
+            type="button"
+            onClick={useDrawer.handleDrawer}
+            className="rounded-full p-1 rotate-45 hover:text-primary">
+            <TimeLineIcon />
+          </button>
+        )}
         <button
           type="button"
-          className="hover:w-bg-primary rounded-full p-1 relative">
+          className={cx(
+            "hover:w-bg-primary rounded-full p-1 relative"
+            // useMinified && "hidden group-hover:block"
+          )}>
           <label
             htmlFor={inputId}
             className="w-full h-full absolute top-o right-0 hover:cursor-pointer"
@@ -207,7 +226,10 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
         </button>
         <button
           type="button"
-          className="relative hover:w-bg-primary rounded-full p-1">
+          className={cx(
+            "relative hover:w-bg-primary rounded-full p-1"
+            // useMinified && "hidden group-hover:block"
+          )}>
           <SmileIcon />
         </button>
         <button
@@ -220,7 +242,7 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
           <SendIcon />
         </button>
       </ActionBar>
-      {(avatar || userId) && (
+      {(avatar || userId) && !useMinified && (
         <div className="absolute bottom-0 left-0 ml-5 mb-5">
           <Avatar
             ratio={30}

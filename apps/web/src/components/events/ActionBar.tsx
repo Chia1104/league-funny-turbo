@@ -12,7 +12,7 @@ const ActionBar: FC<Props> = (props) => {
   return (
     <div
       className={cx(
-        "flex items-center justify-center gap-2 w-bg-secondary shadow-lg rounded-full p-1 px-2 min-w-[100px] min-h-[40px]",
+        "flex items-center justify-center gap-2 w-bg-secondary shadow-lg rounded-full px-2 min-w-[100px] min-h-[30px]",
         className
       )}
       {...rest}>

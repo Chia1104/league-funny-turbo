@@ -1,61 +1,32 @@
-"use client";
-
-import { type FC, useMemo } from "react";
-import type { Comment } from "@wanin/shared/types";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchCommentList } from "@/helpers/api/routes/feed";
+import { type FC } from "react";
 import CommentItem from "./CommentItem";
 import CommentSkeleton from "./CommentSkeleton";
 import { Virtuoso } from "react-virtuoso";
-import { ApiResponseStatus } from "@wanin/shared/types";
-import { useSession } from "next-auth/react";
+import { Comment } from "@wanin/shared/types";
+import { Session } from "next-auth";
 
 interface Props {
-  fid: number;
+  comment: Comment[];
   count?: number;
+  endReached: () => void;
+  isLoading: boolean;
+  isSuccess: boolean;
+  session: Session | null;
+  fid: number;
+  onReply?: (comment: Comment) => void;
 }
 
 const CommentList: FC<Props> = (props) => {
-  const { fid, count } = props;
-  const { data: session } = useSession();
-
-  const fetcher = async ({ pageParam = 1 }): Promise<Comment[]> => {
-    const result = await fetchCommentList({
-      fid,
-      page: pageParam,
-    });
-    if (
-      result.statusCode !== 200 ||
-      !result?.data?.data ||
-      result.status !== ApiResponseStatus.SUCCESS
-    )
-      throw new Error("error");
-    return result.data.data;
-  };
-
   const {
-    data: comments,
-    error: isError,
-    fetchNextPage,
-    hasNextPage: hasMore,
-    isFetching: isLoading,
+    comment,
+    count,
+    endReached,
+    isLoading,
     isSuccess,
-  } = useInfiniteQuery<Comment[]>({
-    queryKey: ["comment", fid],
-    queryFn: fetcher,
-    getNextPageParam: (lastPage, pages) => {
-      if (lastPage.length === 0 || !lastPage || lastPage.length < 20)
-        return undefined;
-      return pages.length + 1;
-    },
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
-
-  const _comments = useMemo(() => {
-    if (!comments) return [];
-    return comments.pages.flat();
-  }, [comments]);
+    session,
+    fid,
+    onReply,
+  } = props;
 
   return (
     <div className="flex flex-col space-y-2 mt-10">
@@ -64,17 +35,22 @@ const CommentList: FC<Props> = (props) => {
       </p>
       {isSuccess && (
         <Virtuoso
-          totalCount={_comments.length}
-          data={_comments}
+          totalCount={comment.length}
+          data={comment}
           overscan={100}
-          endReached={() => fetchNextPage()}
+          endReached={endReached}
           style={{ height: "100%" }}
           useWindowScroll
           itemContent={(index, item) => {
             return (
               <>
-                <CommentItem comment={item} session={session} />
-                {index !== _comments.length - 1 && (
+                <CommentItem
+                  comment={item}
+                  session={session}
+                  fid={fid}
+                  onReply={onReply}
+                />
+                {index !== comment.length - 1 && (
                   <hr className="dark:border-gray-700" />
                 )}
               </>
