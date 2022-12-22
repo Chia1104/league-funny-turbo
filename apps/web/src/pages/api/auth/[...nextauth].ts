@@ -20,6 +20,7 @@ import {
   TWITCH_CLIENT_SECRET,
   TWITCH_CLIENT_ID,
   TOKEN_EXPIRE,
+  IS_PRODUCTION,
 } from "@/shared/constants";
 
 const laravelCache = new NodeCache();
@@ -27,6 +28,7 @@ const CACHE_TTL = 1000; // 1 second
 
 export const authOptions: NextAuthOptions = {
   secret: NEXTAUTH_SECRET,
+  useSecureCookies: IS_PRODUCTION,
   providers: [
     FacebookProvider({
       clientId: FACEBOOK_ID as string,

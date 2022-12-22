@@ -24,7 +24,7 @@ interface IFetcherOptions {
    * @description
    * The search params of the API (query string)
    */
-  params?: Record<string, string>;
+  params?: Partial<Record<string, string>>;
   path?: string;
 
   /**
@@ -74,7 +74,7 @@ const fetcher = async <T = unknown>(
   }
   const searchParams = setSearchParams({
     searchParams: {
-      ...params,
+      ...(params ?? {}),
     },
   });
   try {
