@@ -1,5 +1,5 @@
 import { NewVideoDTO } from "@wanin/shared/types";
-import { fetcher, IApiResponse } from "@/utils/fetcher.util";
+import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
 import { getBaseUrl } from "@/utils/get-base-url";
 
 const addPlaylist = async ({

@@ -1,4 +1,5 @@
-import { Head, NewVideo } from "@/components";
+import { Head } from "@/components";
+import { NewVideo } from "@/components/events";
 import { Page } from "@wanin/ui";
 
 const NewVideoPage = () => {

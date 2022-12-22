@@ -1,9 +1,9 @@
-import { getTokenRaw } from "@/server/auth/services";
-import { errorConfig } from "@/shared/config/network.config";
-import { fetcher, IApiResponse } from "@/utils/fetcher.util";
-import { NewVideoDTO, ApiResponseStatus } from "@wanin/shared/types";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { newVideoSchema } from "@wanin/shared/utils/zod-schema";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NewVideoDTO, ApiResponseStatus } from "@wanin/shared/types";
+import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
+import { errorConfig } from "@/shared/config/network.config";
+import { getTokenRaw } from "@/server/auth/services";
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,7 +31,6 @@ export default async function handler(
           gameType,
           catalogue,
         });
-
         if (!validate.success) {
           return res.status(400).json({
             statusCode: 400,

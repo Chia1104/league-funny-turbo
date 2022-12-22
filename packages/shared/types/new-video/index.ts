@@ -1,6 +1,7 @@
 import { TagDTO } from "../tag";
 
 export interface VideoUrlsDTO {
+  id?: number | null;
   video_url: string;
   comment: string;
 }

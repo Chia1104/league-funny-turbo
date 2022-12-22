@@ -12,7 +12,7 @@ const videoUrlsSchema = z.object({
 
 const newVideoSchema = z.object({
   title: titleSchema,
-  videoUrls: z.array(videoUrlsSchema),
+  videoUrls: z.array(videoUrlsSchema).min(1).max(10),
   tags: z.array(tagSchema).max(10).optional(),
   gameType: z.string(),
   catalogue: z.number().min(1),
