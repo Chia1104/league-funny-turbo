@@ -99,10 +99,49 @@ const deleteFeed = async (fid: number): Promise<IApiResponse<null>> => {
   });
 };
 
+const addNewComment = async ({
+  fid,
+  message,
+  parent,
+}: {
+  fid: number;
+  message: string;
+  parent?: number;
+}): Promise<IApiResponse<Comment>> => {
+  return await fetcher<Comment>({
+    endpoint: getBaseUrl(),
+    path: "/api/event/comment",
+    requestInit: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        fid,
+        message,
+        parent,
+      }),
+    },
+  });
+};
+
+const deleteComment = async (cid: number): Promise<IApiResponse<null>> => {
+  return await fetcher<null>({
+    endpoint: getBaseUrl(),
+    path: `/api/event/comment/${cid}`,
+    requestInit: {
+      method: "DELETE",
+    },
+  });
+};
+
 export {
   fetchFeedList,
   fetchCommentList,
   fetchFeedDetail,
   addNewFeed,
   deleteFeed,
+  addNewComment,
+  deleteComment,
 };

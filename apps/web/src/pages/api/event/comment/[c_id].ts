@@ -21,9 +21,9 @@ export default async function handler(
   switch (req.method) {
     case "DELETE":
       try {
-        const { fid } = req.query;
+        const { c_id } = req.query;
         const result = await fetcher({
-          path: `/api/feed/${fid}`,
+          path: `/api/comment/${c_id}`,
           requestInit: {
             method: "DELETE",
             headers: {
@@ -31,14 +31,9 @@ export default async function handler(
             },
           },
         });
-        if (result.statusCode === 204) {
-          return res.status(204);
-        }
         return res.status(result.statusCode).json({
           statusCode: result.statusCode,
           status: result.status,
-          message: result?.message,
-          data: result?.data,
         });
       } catch (error) {
         return res.status(400).json({

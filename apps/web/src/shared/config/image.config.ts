@@ -5,6 +5,9 @@ const resizeConfig = {
     quality: 100,
     format: "png",
   },
+  comment: {
+    width: 150,
+  },
   froala: {
     width: 640,
   },

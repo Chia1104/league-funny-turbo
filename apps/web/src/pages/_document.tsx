@@ -23,6 +23,7 @@ class LeagueFunny extends Document {
         <body className="w-bg-primary scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-primary scrollbar-thumb-rounded-full">
           <Main />
           <NextScript />
+          <div id="__portal" />
         </body>
       </Html>
     );

@@ -43,7 +43,9 @@ const IsLogin: FC<Props> = (props) => {
   }
 
   if (useAdmin) {
-    return <>{session?.user.admin_id ? children : adminFallBack ?? fallBack}</>;
+    return (
+      <>{session?.user.admin_id === 1 ? children : adminFallBack ?? fallBack}</>
+    );
   }
 
   return <>{session ? children : fallBack}</>;
