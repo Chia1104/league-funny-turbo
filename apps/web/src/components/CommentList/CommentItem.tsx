@@ -20,7 +20,6 @@ interface Props {
 const CommentItem: FC<Props> = forwardRef((props, ref) => {
   const { comment, session, fid, onReply } = props;
   const [isShowReply, setIsShowReply] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
   const { setToast } = useToasts();
 
   const handleDelete = async (cid: number) => {

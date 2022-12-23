@@ -17,7 +17,6 @@ import { type ZodType } from "zod";
 import cx from "classnames";
 import ActionBar from "./ActionBar";
 import { CameraIcon, SendIcon, SmileIcon, TimeLineIcon } from "@wanin/icons";
-import { resizeConfig } from "@/shared/config/image.config";
 import { useToasts } from "@geist-ui/core";
 import { useHover, useMediaQuery } from "usehooks-ts";
 import { Avatar } from "@/components";
