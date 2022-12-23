@@ -8,8 +8,6 @@ export const config = {
 export default function handler(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-
-    // ?title=<title>
     const hasTitle = searchParams.has("title");
     const title = hasTitle
       ? searchParams.get("title")?.slice(0, 100)
@@ -30,33 +28,18 @@ export default function handler(req: NextRequest) {
             flexDirection: "column",
             flexWrap: "nowrap",
           }}>
-          {/*<div*/}
-          {/*  style={{*/}
-          {/*    display: "flex",*/}
-          {/*    alignItems: "center",*/}
-          {/*    justifyContent: "center",*/}
-          {/*    justifyItems: "center",*/}
-          {/*  }}>*/}
-          {/*  <img*/}
-          {/*    alt="Vercel"*/}
-          {/*    height={200}*/}
-          {/*    src="data:image/svg+xml,%3Csvg width='116' height='100' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M57.5 0L115 100H0L57.5 0z' /%3E%3C/svg%3E"*/}
-          {/*    style={{ margin: "0 30px" }}*/}
-          {/*    width={232}*/}
-          {/*  />*/}
-          {/*</div>*/}
           <div
             style={{
-              fontSize: 60,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              color: "white",
-              marginTop: 30,
-              padding: "0 120px",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              justifyItems: "center",
             }}>
-            {title}
+            <img
+              tw="w-full object-contain"
+              alt="og"
+              src="https://img.league-funny.com/imgur/c56c6338-0c34-4b45-b84f-a746629427e5_nog.png"
+            />
           </div>
         </div>
       ),
