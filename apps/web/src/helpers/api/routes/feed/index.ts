@@ -47,7 +47,6 @@ const fetchCommentList = async ({
   page?: number;
 }): Promise<IApiResponse<Pagenate<Comment[]>>> => {
   return await fetcher<Pagenate<Comment[]>>({
-    endpoint: getBaseUrl(),
     path: "/api/comment",
     params: {
       fid: fid.toString(),
