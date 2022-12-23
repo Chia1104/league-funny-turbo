@@ -6,6 +6,8 @@ import cx from "classnames";
 import { type Session } from "next-auth";
 import { Popover, Button } from "@geist-ui/core";
 import style from "./style.module.css";
+import { deleteComment } from "@/helpers/api/routes/feed";
+import { useToasts } from "@geist-ui/core";
 
 interface Props {
   ref?: Ref<HTMLDivElement>;
@@ -19,8 +21,25 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
   const { comment, session, fid, onReply } = props;
   const [isShowReply, setIsShowReply] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const { setToast } = useToasts();
 
-  const CheckDelete = () => {
+  const handleDelete = async (cid: number) => {
+    const result = await deleteComment(cid);
+    if (result.status === "success") {
+      setToast({
+        text: "刪除成功",
+        type: "success",
+      });
+      await onReply?.(comment);
+      return;
+    }
+    setToast({
+      text: "刪除失敗",
+      type: "warning",
+    });
+  };
+
+  const CheckDelete = ({ cid }: { cid: number }) => {
     return (
       <div className="flex justify-center items-center px-3">
         <div className="text-center">
@@ -31,15 +50,10 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
               ghost
               auto
               scale={0.7}
-              onClick={() => setIsDelete(true)}>
+              onClick={() => handleDelete(cid)}>
               確定
             </Button>
-            <Button
-              type="secondary"
-              ghost
-              auto
-              scale={0.7}
-              onClick={() => setIsDelete(false)}>
+            <Button type="secondary" ghost auto scale={0.7}>
               取消
             </Button>
           </div>
@@ -64,8 +78,8 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
         </Link>
         {(session?.user?.id === comment?.c_uid.toString() ||
           session?.user?.admin_id === 1) &&
-          !isDelete && (
-            <Popover content={CheckDelete}>
+          comment.c_displayorder >= 0 && (
+            <Popover content={<CheckDelete cid={comment.c_id} />}>
               <button
                 className={cx(
                   "text-sm text-gray-500 self-end hover:bg-red-400 hover:text-white p-2 rounded-lg transition ease-in-out"
@@ -74,13 +88,8 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
               </button>
             </Popover>
           )}
-        {isDelete && <p className="text-red-300">(這則留言以被刪除)</p>}
       </div>
-      <div
-        className={cx(
-          isDelete && "line-through text-red-300",
-          comment.c_displayorder < 0 && "text-red-300"
-        )}>
+      <div className={cx(comment.c_displayorder < 0 && "text-red-300")}>
         <div
           className={style.frView}
           dangerouslySetInnerHTML={{
@@ -94,14 +103,16 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
             有 {comment.reply.length} 則回覆
           </p>
         )}
-        <button
-          onClick={() => setIsShowReply(!isShowReply)}
-          className={cx(
-            "text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out",
-            isShowReply && "w-bg-primary"
-          )}>
-          <p>回覆</p>
-        </button>
+        {session && (
+          <button
+            onClick={() => setIsShowReply(!isShowReply)}
+            className={cx(
+              "text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out",
+              isShowReply && "w-bg-primary"
+            )}>
+            <p>回覆</p>
+          </button>
+        )}
       </span>
       {isShowReply && (
         <CommentBox
@@ -110,6 +121,7 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
           session={session}
           onSend={onReply}
           replyTo={comment.c_id}
+          placeholder={`回覆 ${comment.c_author_name}`}
         />
       )}
       <div className="w-bg-primary rounded-lg">
@@ -125,25 +137,30 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
                   ratio={25}
                   username={item?.c_author_name}
                 />
-                <Link href={`/user/${comment?.c_uid}`} className="text-base">
+                <Link href={`/user/${item?.c_uid}`} className="text-base">
                   {item?.c_author_name}
                 </Link>
-                {(session?.user?.id === comment?.c_uid.toString() ||
-                  session?.user?.admin_id === 1) && (
-                  <button
-                    className={cx(
-                      "text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out"
-                    )}>
-                    刪除
-                  </button>
-                )}
+                {(session?.user?.id === item?.c_uid.toString() ||
+                  session?.user?.admin_id === 1) &&
+                  item.c_displayorder >= 0 && (
+                    <Popover content={<CheckDelete cid={item.c_id} />}>
+                      <button
+                        className={cx(
+                          "text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out"
+                        )}>
+                        刪除
+                      </button>
+                    </Popover>
+                  )}
               </div>
-              <div
-                className={style.frView}
-                dangerouslySetInnerHTML={{
-                  __html: item.c_content,
-                }}
-              />
+              <div className={cx(item.c_displayorder < 0 && "text-red-300")}>
+                <div
+                  className={style.frView}
+                  dangerouslySetInnerHTML={{
+                    __html: item.c_content,
+                  }}
+                />
+              </div>
             </div>
             {comment.reply.length !== i + 1 && (
               <hr className="dark:border-gray-700" />

@@ -97,9 +97,6 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
   const { setToast } = useToasts();
   const { FileInput, isUploading } = useS3ImageUpload({
     fileNamePrefix: "_n",
-    resize: {
-      width: resizeConfig["comment"]["width"],
-    },
     convert: false,
     bucketFolder: "imgur",
     onS3UploadError: (error) => {

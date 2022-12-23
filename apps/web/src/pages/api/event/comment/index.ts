@@ -9,16 +9,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IApiResponse>
 ) {
-  const raw = await getTokenRaw(req);
-
-  if (!raw) {
-    return res.status(401).json({
-      statusCode: 401,
-      status: ApiResponseStatus.ERROR,
-      message: errorConfig[401],
-    });
-  }
-
   switch (req.method) {
     case "GET":
       try {
@@ -44,24 +34,10 @@ export default async function handler(
             message: result.message,
           });
         }
-        const filtered = result.data?.data?.map((item) => {
-          const { c_displayorder, c_content, ...rest } = item;
-          if (c_displayorder < 0) {
-            return {
-              ...rest,
-              c_displayorder,
-              c_content: "這則留言已被刪除",
-            };
-          }
-          return item;
-        });
         return res.status(200).json({
           statusCode: 200,
           status: ApiResponseStatus.SUCCESS,
-          data: {
-            ...result.data,
-            data: filtered,
-          },
+          data: result.data,
         });
       } catch (error) {
         return res.status(500).json({
@@ -72,6 +48,15 @@ export default async function handler(
       }
     case "POST":
       try {
+        const raw = await getTokenRaw(req);
+
+        if (!raw) {
+          return res.status(401).json({
+            statusCode: 401,
+            status: ApiResponseStatus.ERROR,
+            message: errorConfig[401],
+          });
+        }
         const { fid, message, parent } = req.body;
         const result = await fetcher<Comment>({
           path: "/api/comment",

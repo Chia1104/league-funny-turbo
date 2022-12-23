@@ -127,6 +127,16 @@ const addNewComment = async ({
   });
 };
 
+const deleteComment = async (cid: number): Promise<IApiResponse<null>> => {
+  return await fetcher<null>({
+    endpoint: getBaseUrl(),
+    path: `/api/event/comment/${cid}`,
+    requestInit: {
+      method: "DELETE",
+    },
+  });
+};
+
 export {
   fetchFeedList,
   fetchCommentList,
@@ -134,4 +144,5 @@ export {
   addNewFeed,
   deleteFeed,
   addNewComment,
+  deleteComment,
 };

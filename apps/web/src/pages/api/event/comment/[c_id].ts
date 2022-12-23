@@ -31,14 +31,9 @@ export default async function handler(
             },
           },
         });
-        if (result.statusCode === 204) {
-          return res.status(204);
-        }
         return res.status(result.statusCode).json({
           statusCode: result.statusCode,
           status: result.status,
-          message: result?.message,
-          data: result?.data,
         });
       } catch (error) {
         return res.status(400).json({

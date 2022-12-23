@@ -26,6 +26,7 @@ interface Props {
   replyTo?: number;
   onSend?: (comment: CommentType) => void;
   noDrawer?: boolean;
+  placeholder?: string;
 }
 
 interface CommentBoxRef {
@@ -41,12 +42,14 @@ const DrawerContent: FC<{
   onTextareaChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onFormSubmit: (e: FormEvent<HTMLFormElement>) => void;
   commentValue: string;
+  placeholder?: string;
 }> = ({
   session,
   onImageUpload,
   onTextareaChange,
   onFormSubmit,
   commentValue,
+  placeholder,
 }) => {
   const drawerCommentRef = useRef<NewCommentRef>(null);
   return (
@@ -57,7 +60,7 @@ const DrawerContent: FC<{
       onImageUpload={onImageUpload}
       textareaProps={{
         className: "w-full h-[500px]",
-        placeholder: "留言",
+        placeholder: placeholder ?? "留言",
         value: commentValue,
         onChange: onTextareaChange,
       }}
@@ -70,7 +73,16 @@ const DrawerContent: FC<{
 
 const Comment = forwardRef<CommentBoxRef, Props>(
   (
-    { noDrawer, fid, feedTitle, feedSubtitle, session, replyTo, onSend },
+    {
+      noDrawer,
+      fid,
+      feedTitle,
+      feedSubtitle,
+      session,
+      replyTo,
+      onSend,
+      placeholder = "留言",
+    },
     ref
   ) => {
     const [commentValue, setCommentValue] = useState("");
@@ -109,7 +121,7 @@ const Comment = forwardRef<CommentBoxRef, Props>(
       setIsOpened(false);
       commentRef.current?.getNativeForm()?.reset();
       setToast({
-        text: "留言成功",
+        text: `${placeholder}成功`,
         type: "success",
       });
       onSend && onSend(result.data as CommentType);
@@ -141,6 +153,7 @@ const Comment = forwardRef<CommentBoxRef, Props>(
                       handleSubmit(e);
                     }}
                     commentValue={commentValue}
+                    placeholder={placeholder}
                   />
                 ),
               }
@@ -148,7 +161,7 @@ const Comment = forwardRef<CommentBoxRef, Props>(
         }
         userId={session?.user?.id}
         textareaProps={{
-          placeholder: "留言",
+          placeholder: placeholder ?? "留言",
           value: commentValue,
           onChange: (e) => {
             setCommentValue(e.target.value);
@@ -173,13 +186,7 @@ const CommentBox = forwardRef<CommentBoxRef, Props>(({ ...rest }, ref) => {
     getValues: () => commentRef.current?.getValues() ?? "",
   }));
   return (
-    <IsLogin
-      fallBack={<p className="ml-10">登入後即可留言</p>}
-      debug={{
-        useAuth: {
-          isAuth: true,
-        },
-      }}>
+    <IsLogin fallBack={<p className="ml-10">登入後即可留言</p>}>
       <Comment {...rest} ref={commentRef} />
     </IsLogin>
   );
