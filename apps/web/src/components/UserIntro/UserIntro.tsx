@@ -1,9 +1,11 @@
-import { useState, type FC } from "react";
+import { useState, type FC, useRef } from "react";
 import { ButtonGroup, Button, Select } from "@geist-ui/core";
 import { useRouter } from "next/router";
 import EditDataModal from "./EditDataModal";
 import { Avatar } from "@/components";
 import SendPrivateMsgModal from "./SendPrivateMsgModal";
+import UploadUserBG, { UploadUserBGRef } from "./UploadUserBG";
+import UploadUserImg from "./UploadUserImg";
 
 interface Props {
   querykey: string;
@@ -14,6 +16,8 @@ const UserIntro: FC<Props> = (props) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSelf, setIsSelf] = useState<boolean>(true);
+  const UploadUserBGRef = useRef<UploadUserBGRef>(null);
+  const UploadUserImgRef = useRef(null);
 
   const onSelectChange = (e: string | string[]) => {
     router.push(e as string);
@@ -35,27 +39,11 @@ const UserIntro: FC<Props> = (props) => {
     <>
       <div className="user-intro">
         <div className="w-full h-[300px] bg-[url('/about/about_top.jpg')] bg-top bg-no-repeat bg-fixed bg-auto absolute top-0 left-0 mt-16 md:h-[340px] desktop:bg-contain">
-          <div className="flex flex-row-reverse relative w-full text-right pt-4 pr-8 md:pt-7 md:pr-16">
-            <button className="btn-styleA bg-light hover:bg-gray-100 dark:bg-dark dark:hover:bg-black">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                />
-              </svg>
-              <span className="text-sm ml-2">更換背景</span>
-            </button>
-          </div>
+          <UploadUserBG ref={UploadUserBGRef} />
           <div className="flex flex-col items-center relative">
             <div className="relative">
-              <div className="rounded-full bg-white border-2 border-white">
+              <UploadUserImg ref={UploadUserImgRef} querykey={querykey} />
+              {/* <div className="rounded-full bg-white border-2 border-white">
                 <Avatar
                   url={`https://img.league-funny.com/user_cover/${
                     querykey || ""
@@ -65,7 +53,7 @@ const UserIntro: FC<Props> = (props) => {
                   username={""}
                 />
               </div>
-              <div className="absolute right-0 bottom-1.5 w-8 h-8 rounded-full flex items-center justify-center bg-gray-500 cursor-pointer">
+              <button className="absolute right-0 bottom-1.5 w-8 h-8 rounded-full flex items-center justify-center bg-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -78,7 +66,7 @@ const UserIntro: FC<Props> = (props) => {
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
+              </button> */}
             </div>
             <div className="flex items-start mt-3">
               <h5 className="text-3xl font-medium text-white drop-shadow-[0.1rem_0.05em_0.1em_rgba(66,66,66,0.47)]">
