@@ -4,23 +4,24 @@
 
 #### URL: /b
 
-| SSR    | SSG |
-|--------|-----|
-| 583 ms | NaN |
-| 505 ms | NaN |
-| 500 ms | NaN |
-| 418 ms | NaN |
-| 445 ms | NaN |
+| SSR                 | SSG   |
+|---------------------|-------|
+| 583 ms              | 41 ms |
+| 505 ms              | -     |
+| 500 ms              | -     |
+| 418 ms              | -     |
+| 445 ms              | -     |
+| 2.91 s (Cold start) | -     |
 
 #### URL: /b/lol
 
-| SSR    | SSG |
-|--------|-----|
-| 537 ms | NaN |
-| 631 ms | NaN |
-| 517 ms | NaN |
-| 442 ms | NaN |
-| 484 ms | NaN |
+| SSR                 | SSG |
+|---------------------|-----|
+| 537 ms              | NaN |
+| 631 ms              | NaN |
+| 517 ms              | NaN |
+| 442 ms              | NaN |
+| 484 ms              | NaN |
 
 #### URL: /b/lol/f/236214 (Playlist)
 
@@ -30,7 +31,7 @@
 | 377 ms | NaN |
 | 1.25 s | NaN |
 | 334 ms | NaN |
-| 323 s  | NaN |
+| 323 ms | NaN |
 
 #### URL: /b/lol/f/236221 (HTML)
 
