@@ -1,8 +1,10 @@
 ## Runtime: NodeJS
 
-### Serverless Region: Hong Kong
+Serverless Region: Hong Kong
 
 #### URL: /b
+
+ISR(SSG): 60 Seconds
 
 | SSR                 | SSG   |
 |---------------------|-------|
@@ -15,13 +17,32 @@
 
 #### URL: /b/lol
 
-| SSR                 | SSG |
-|---------------------|-----|
-| 537 ms              | NaN |
-| 631 ms              | NaN |
-| 517 ms              | NaN |
-| 442 ms              | NaN |
-| 484 ms              | NaN |
+ISR(SSG): 60 Seconds
+
+Build time(SSG): 27137 ms (27.137 seconds)
+
+Fallback: false
+
+| SSR                 | SSG   |
+|---------------------|-------|
+| 537 ms              | 45 ms |
+| 631 ms              | -     |
+| 517 ms              | -     |
+| 442 ms              | -     |
+| 484 ms              | -     |
+| 2.96 s (Cold start) | -     |
+
+```bash
+[17:46:43.342] web:build: ├ ● /b/[b_type]/ssg (ISR: 60 Seconds) (27137 ms)  495 B           250 kB
+[17:46:43.342] web:build: ├   ├ /b/gaming/ssg (1174 ms)
+[17:46:43.342] web:build: ├   ├ /b/lol/ssg (1053 ms)
+[17:46:43.342] web:build: ├   ├ /b/pokemongo/ssg (1011 ms)
+[17:46:43.342] web:build: ├   ├ /b/POE/ssg (985 ms)
+[17:46:43.342] web:build: ├   ├ /b/overwatch/ssg (954 ms)
+[17:46:43.342] web:build: ├   ├ /b/PUBG/ssg (949 ms)
+[17:46:43.342] web:build: ├   ├ /b/steam/ssg (946 ms)
+[17:46:43.343] web:build: ├   └ [+38 more paths] (avg 528 ms)
+```
 
 #### URL: /b/lol/f/236214 (Playlist)
 
