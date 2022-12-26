@@ -50,7 +50,7 @@ const List: FC<ListProps> = ({ bord }) => {
               <Link
                 shallow
                 scroll
-                href={`/b/${detail.b_type}`}
+                href={`/b/${detail.b_type}/ssg`}
                 className={cx(
                   "ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition duration-300 ease-in-out",
                   detail.b_type.toLowerCase() ===
