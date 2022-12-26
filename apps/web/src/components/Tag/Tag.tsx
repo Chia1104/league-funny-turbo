@@ -8,6 +8,7 @@ import {
   forwardRef,
   useImperativeHandle,
   useRef,
+  useLayoutEffect,
 } from "react";
 import TagItem from "./TagItem";
 import SearchTag from "./SearchTag";
@@ -26,6 +27,10 @@ enum ActionType {
 interface Action {
   type: ActionType;
   payload?: TagType;
+}
+
+interface Props {
+  initTags?: TagDTO[];
 }
 
 const initialState: State = {
@@ -85,11 +90,26 @@ interface TagRef {
   getTags: () => TagDTO[];
 }
 
-const TagListCtx = forwardRef<TagRef>((_, ref) => {
+const TagListCtx = forwardRef<TagRef, Props>((props, ref) => {
+  const { initTags } = props;
   const { state, dispatch } = useContext(TagContext);
   useImperativeHandle(ref, () => ({
     getTags: () => state.tags,
   }));
+  useLayoutEffect(() => {
+    if (initTags) {
+      initTags.forEach((tag) => {
+        dispatch({
+          type: ActionType.SET_TAGS,
+          payload: {
+            id: parseInt(tag.pid ?? "") ?? null,
+            name: tag.p_name,
+            slug: tag.p_fbname,
+          },
+        });
+      });
+    }
+  }, [initTags]);
   return (
     <>
       {state.tags.map((tag) => {
@@ -139,7 +159,8 @@ const SearchTagCtx = () => {
   return state.tags.length < 10 ? <SearchTag /> : null;
 };
 
-const Tag = forwardRef<TagRef>((_, ref) => {
+const Tag = forwardRef<TagRef, Props>((props, ref) => {
+  const { initTags } = props;
   const tagRef = useRef<TagRef>(null);
   useImperativeHandle(ref, () => ({
     getTags: () => tagRef.current?.getTags() || [],
@@ -147,7 +168,7 @@ const Tag = forwardRef<TagRef>((_, ref) => {
   return (
     <TagProvider>
       <div className="w-full w-bg-secondary flex flex-wrap items-center p-2 rounded-lg border my-5 gap-3 w-border-primary">
-        <TagListCtx ref={tagRef} />
+        <TagListCtx ref={tagRef} initTags={initTags} />
         <SearchTagCtx />
       </div>
     </TagProvider>
