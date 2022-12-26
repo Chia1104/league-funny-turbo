@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import { IS_PRODUCTION } from "@/shared/constants";
+import { type Session } from "next-auth";
 
 interface Props {
   fallBack?: ReactNode;
@@ -15,6 +16,8 @@ interface Props {
   };
   useAdmin?: boolean;
   adminFallBack?: ReactNode;
+  loadingFallBack?: ReactNode;
+  customRule?: (session: Session | null) => boolean;
 }
 
 const IsLogin: FC<Props> = (props) => {
@@ -24,8 +27,10 @@ const IsLogin: FC<Props> = (props) => {
     useAdmin = false,
     adminFallBack = null,
     debug,
+    loadingFallBack = null,
+    customRule,
   } = props;
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   if (!IS_PRODUCTION && debug) {
     if (debug.useAuth) {
@@ -42,13 +47,28 @@ const IsLogin: FC<Props> = (props) => {
     }
   }
 
+  if (customRule) {
+    if (customRule(session)) {
+      return <>{children}</>;
+    }
+    return <>{fallBack}</>;
+  }
+
   if (useAdmin) {
     return (
-      <>{session?.user.admin_id === 1 ? children : adminFallBack ?? fallBack}</>
+      <>
+        {session?.user?.admin_id === 1 ? children : adminFallBack ?? fallBack}
+      </>
     );
   }
 
-  return <>{session ? children : fallBack}</>;
+  if (status === "loading") {
+    return <>{loadingFallBack}</>;
+  }
+  if (status === "unauthenticated") {
+    return <>{fallBack}</>;
+  }
+  return <>{children}</>;
 };
 
 export default IsLogin;

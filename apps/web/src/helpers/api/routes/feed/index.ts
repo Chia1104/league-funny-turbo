@@ -89,16 +89,6 @@ const addNewFeed = async ({
   });
 };
 
-const deleteFeed = async (fid: number): Promise<IApiResponse<null>> => {
-  return await fetcher<null>({
-    endpoint: getBaseUrl(),
-    path: `/api/event/feed/${fid}`,
-    requestInit: {
-      method: "DELETE",
-    },
-  });
-};
-
 const addNewComment = async ({
   fid,
   message,
@@ -136,6 +126,55 @@ const deleteComment = async (cid: number): Promise<IApiResponse<null>> => {
   });
 };
 
+const updateFeed = async ({
+  raw,
+  fid,
+  feedDTO,
+}: {
+  raw: string;
+  fid: number;
+  feedDTO: Partial<NewPostDTO>;
+}): Promise<
+  IApiResponse<{
+    fid: number;
+    gameType: string;
+  }>
+> => {
+  return await fetcher<{
+    fid: number;
+    gameType: string;
+  }>({
+    path: `/api/feed/${fid}`,
+    requestInit: {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${raw}`,
+      },
+      body: JSON.stringify(feedDTO),
+    },
+  });
+};
+
+const deleteFeed = async ({
+  raw,
+  fid,
+}: {
+  raw: string;
+  fid: number;
+}): Promise<IApiResponse<null>> => {
+  return await fetcher<null>({
+    path: `/api/feed/${fid}`,
+    requestInit: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${raw}`,
+      },
+    },
+  });
+};
+
 export {
   fetchFeedList,
   fetchCommentList,
@@ -144,4 +183,5 @@ export {
   deleteFeed,
   addNewComment,
   deleteComment,
+  updateFeed,
 };

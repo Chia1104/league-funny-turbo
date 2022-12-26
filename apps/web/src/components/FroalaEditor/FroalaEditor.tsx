@@ -26,6 +26,7 @@ const FroalaEditorComponent = dynamic(
 
 interface EditorProps {
   onContentChange?: (content: string) => void;
+  model?: string;
 }
 
 interface EditorRef {
@@ -33,7 +34,7 @@ interface EditorRef {
 }
 
 const FroalaEditor = forwardRef<EditorRef, EditorProps>((props, ref) => {
-  const { onContentChange } = props;
+  const { onContentChange, model: fm } = props;
   const { theme } = useDarkMode();
   const [model, setModel] = useState("");
 
@@ -74,6 +75,7 @@ const FroalaEditor = forwardRef<EditorRef, EditorProps>((props, ref) => {
         ],
         height: 500,
       }}
+      model={fm}
       onModelChange={(value: string) => {
         setModel(value);
         onContentChange && onContentChange(value);
