@@ -1,6 +1,7 @@
 import { type FC, Ref, forwardRef, useState } from "react";
 import type { Comment } from "@wanin/shared/types";
-import { Avatar, CommentBox } from "@/components";
+import { Avatar } from "@/components";
+import CommentBox from "../CommentBox";
 import Link from "next/link";
 import cx from "classnames";
 import { type Session } from "next-auth";
@@ -20,9 +21,11 @@ interface Props {
 const CommentItem: FC<Props> = forwardRef((props, ref) => {
   const { comment, session, fid, onReply } = props;
   const [isShowReply, setIsShowReply] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { setToast } = useToasts();
 
   const handleDelete = async (cid: number) => {
+    setIsLoading(true);
     const result = await deleteComment(cid);
     if (result.status === "success") {
       setToast({
@@ -30,12 +33,14 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
         type: "success",
       });
       await onReply?.(comment);
+      setIsLoading(false);
       return;
     }
     setToast({
       text: "刪除失敗",
       type: "warning",
     });
+    setIsLoading(false);
   };
 
   const CheckDelete = ({ cid }: { cid: number }) => {
@@ -45,6 +50,7 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
           <p>確定要刪除這則留言嗎？</p>
           <div className="flex justify-center items-center mt-4 gap-5">
             <Button
+              loading={isLoading}
               type="error"
               ghost
               auto
@@ -52,7 +58,7 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
               onClick={() => handleDelete(cid)}>
               確定
             </Button>
-            <Button type="secondary" ghost auto scale={0.7}>
+            <Button loading={isLoading} type="secondary" ghost auto scale={0.7}>
               取消
             </Button>
           </div>

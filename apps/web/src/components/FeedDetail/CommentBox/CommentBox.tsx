@@ -27,6 +27,7 @@ interface Props {
   onSend?: (comment: CommentType) => void;
   noDrawer?: boolean;
   placeholder?: string;
+  isLoading?: boolean;
 }
 
 interface CommentBoxRef {
@@ -43,6 +44,7 @@ const DrawerContent: FC<{
   onFormSubmit: (e: FormEvent<HTMLFormElement>) => void;
   commentValue: string;
   placeholder?: string;
+  isLoading?: boolean;
 }> = ({
   session,
   onImageUpload,
@@ -50,10 +52,12 @@ const DrawerContent: FC<{
   onFormSubmit,
   commentValue,
   placeholder,
+  isLoading,
 }) => {
   const drawerCommentRef = useRef<NewCommentRef>(null);
   return (
     <NewComment
+      isLoading={isLoading}
       schema={messageSchema}
       ref={drawerCommentRef}
       userId={session?.user?.id}
@@ -87,6 +91,7 @@ const Comment = forwardRef<CommentBoxRef, Props>(
   ) => {
     const [commentValue, setCommentValue] = useState("");
     const [isOpened, setIsOpened] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const commentRef = useRef<NewCommentRef>(null);
     const { setToast } = useToasts();
 
@@ -97,12 +102,14 @@ const Comment = forwardRef<CommentBoxRef, Props>(
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      setIsLoading(true);
       const validation = messageSchema.safeParse(commentValue);
       if (!validation.success) {
         setToast({
           text: validation.error.issues[0].message,
           type: "warning",
         });
+        setIsLoading(false);
         return;
       }
       const result = await addNewComment({
@@ -115,6 +122,7 @@ const Comment = forwardRef<CommentBoxRef, Props>(
           text: result.message,
           type: "warning",
         });
+        setIsLoading(false);
         return;
       }
       setCommentValue("");
@@ -125,9 +133,11 @@ const Comment = forwardRef<CommentBoxRef, Props>(
         type: "success",
       });
       onSend && onSend(result.data as CommentType);
+      setIsLoading(false);
     };
     return (
       <NewComment
+        isLoading={isLoading}
         useMinified
         schema={messageSchema}
         ref={commentRef}
@@ -143,6 +153,7 @@ const Comment = forwardRef<CommentBoxRef, Props>(
                 subtitle: feedSubtitle,
                 content: (
                   <DrawerContent
+                    isLoading={isLoading}
                     session={session}
                     onImageUpload={(url) =>
                       setCommentValue((prevState) => prevState + `\n${url}\n`)
