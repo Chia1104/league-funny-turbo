@@ -5,13 +5,11 @@ import {
   useContext,
   useReducer,
 } from "react";
-import type { JWT } from "next-auth/jwt";
 import { useQuery } from "@tanstack/react-query";
 import { getToken } from "@/helpers/api/routes/auth";
 
 interface State {
   status: Status;
-  token?: JWT | null;
   raw?: string | null;
 }
 
@@ -29,14 +27,12 @@ interface Action {
   type: ActionType;
   payload: {
     status: Status;
-    token: JWT | null;
     raw: string | null;
   };
 }
 
 const initialState: State = {
   status: Status.IDLE,
-  token: null,
   raw: null,
 };
 
@@ -53,7 +49,6 @@ const reducer = (state: State, action: Action) => {
     case ActionType.SET_TOKEN:
       return {
         status: action.payload.status,
-        token: action.payload.token,
         raw: action.payload.raw,
       };
     default:
@@ -73,7 +68,6 @@ const TokenCtx = () => {
             data.statusCode === 200
               ? Status.AUTHENTICATED
               : Status.UNAUTHENTICATED,
-          token: data?.data?.token ?? null,
           raw: data?.data?.raw ?? null,
         },
       });
@@ -83,7 +77,6 @@ const TokenCtx = () => {
         type: ActionType.SET_TOKEN,
         payload: {
           status: Status.UNAUTHENTICATED,
-          token: null,
           raw: null,
         },
       });
