@@ -48,8 +48,7 @@ const LCatSSG: NextPage<FeedProps> = (props) => {
   const isMounted = useIsMounted();
 
   if (status !== "success" || initFeed.data?.length === 0) {
-    console.log("error");
-    return <Error statusCode={404} />;
+    throw <Error statusCode={404} />;
   }
 
   return (
