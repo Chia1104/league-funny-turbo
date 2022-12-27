@@ -18,53 +18,7 @@ import { useRouter } from "next/router";
 import { addPlaylist } from "@/helpers/api/routes/playlist";
 import { VideoUrlsDTO, NewVideoDTO } from "@wanin/shared/types";
 import PlayListItem from "./PlayListItem";
-
-export enum ACTIONS {
-  ADD_VIDEO = "ADD_VIDEO",
-  DELETE_VIDEO = "DELETE_VIDEO",
-  EDIT_VIDEO_URL = "EDIT_VIDEO_URL",
-  EDIT_COMMENT = "EDIT_COMMENT",
-}
-
-const playlistInitialState = [{ id: 1, video_url: "", comment: "" }];
-
-const playListReducer = (state: VideoUrlsDTO[], action) => {
-  switch (action.type) {
-    case ACTIONS.ADD_VIDEO:
-      return [
-        ...state,
-        {
-          id: action.payload.id + 1,
-          video_url: action.payload.video_url,
-          comment: action.payload.comment,
-        },
-      ];
-    case ACTIONS.DELETE_VIDEO:
-      return state.filter((item) => item.id !== action.payload.id);
-    case ACTIONS.EDIT_VIDEO_URL:
-      return state.map((item) => {
-        if (item.id === action.payload.id) {
-          return {
-            ...item,
-            video_url: action.payload.video_url,
-          };
-        }
-        return item;
-      });
-    case ACTIONS.EDIT_COMMENT:
-      return state.map((item) => {
-        if (item.id === action.payload.id) {
-          return {
-            ...item,
-            comment: action.payload.comment,
-          };
-        }
-        return item;
-      });
-    default:
-      return state;
-  }
-};
+import VideoUrls, { VideoUrlsRef } from "./VideoUrls";
 
 enum ActionType {
   SET_TITLE = "SET_TITLE",
@@ -123,19 +77,15 @@ const NewVideo = () => {
 
 const WrappedNewVideo = () => {
   const { state, dispatch } = useContext(NewVideoContext);
-  const [playListState, playListDispatch] = useReducer(
-    playListReducer,
-    playlistInitialState
-  );
-  const [count, setCount] = useState(1);
   const tagRef = useRef<TagRef>(null);
+  const videoUrlsRef = useRef<VideoUrlsRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
 
   const validation = useCallback(() => {
     const newVideo = {
       title: state.title,
-      videoUrls: playListState,
+      videoUrls: videoUrlsRef.current?.getVideoUrls(),
       tags: tagRef.current?.getTags(),
       gameType: state.gameType,
       catalogue: state.catalogue,
@@ -144,6 +94,7 @@ const WrappedNewVideo = () => {
       newVideoSchema
         .pick({
           title: true,
+          videoUrls: true,
           gameType: true,
           catalogue: true,
         })
@@ -152,55 +103,59 @@ const WrappedNewVideo = () => {
     } catch (e) {
       return false;
     }
-  }, [playListState, state]);
+  }, [state]);
   const isValidate = useMemo(() => validation(), [validation]);
 
   const addVideo = async () => {
-    const newList = playListState.map((item) => {
-      delete item.id;
-      return item;
-    });
-    const newVideo = {
-      title: state.title,
-      videoUrls: newList,
-      gameType: state.gameType,
-      catalogue: state.catalogue,
-      tags: tagRef.current?.getTags(),
-    };
-    if (!newVideoSchema.safeParse(newVideo).success) {
+    if (!videoUrlsRef.current?.getVideoUrls()) return;
+    const newList = videoUrlsRef.current
+      ?.getVideoUrls()
+      .filter((item) => item.video_url !== "")
+      .map((item) => {
+        delete item.id;
+        return item;
+      });
+    if (!newList[0].video_url) {
       setToast({
-        text: "請確認資料是否正確",
+        text: "至少要有一支影片",
         type: "warning",
       });
-      return;
-    }
-    const res = await addPlaylist({ newVideo });
-    if (res.statusCode !== 200) {
+    } else {
+      const newVideo = {
+        title: state.title,
+        videoUrls: newList,
+        gameType: state.gameType,
+        catalogue: state.catalogue,
+        tags: tagRef.current?.getTags(),
+      };
+      if (!newVideoSchema.safeParse(newVideo).success) {
+        setToast({
+          text: "請確認資料是否正確",
+          type: "warning",
+        });
+        return;
+      }
+
+      const res = await addPlaylist({ newVideo });
+      if (res.statusCode !== 200) {
+        setToast({
+          text: res.message || "新增影片失敗",
+          type: "warning",
+        });
+        return;
+      }
       setToast({
-        text: res.message || "新增影片失敗",
-        type: "warning",
+        text: "新增影片成功",
+        type: "success",
       });
-      return;
+      if (res.data)
+        await router.push(`/b/${res?.data?.gameType}/f/${res?.data?.fid}`);
     }
-    setToast({
-      text: "新增影片成功",
-      type: "success",
-    });
-    if (res.data)
-      await router.push(`/b/${res?.data?.gameType}/f/${res?.data?.fid}`);
   };
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     await addVideo();
-  };
-
-  const addItem = () => {
-    playListDispatch({
-      type: ACTIONS.ADD_VIDEO,
-      payload: { id: count, video_url: "", comment: "" },
-    });
-    setCount((prev) => prev + 1);
   };
 
   return (
@@ -220,37 +175,7 @@ const WrappedNewVideo = () => {
             });
           }}
         />
-        <div className="my-3 p-4 flex flex-col bg-gray-400 rounded-lg shadow-lg dark:bg-dark">
-          {playListState.map((videoUrls: any, index: number) => {
-            return (
-              <div className="flex items-center mb-3" key={videoUrls.id}>
-                <div className="mr-3 text-base text-white">{index + 1}.</div>
-                <PlayListItem
-                  videoUrls={videoUrls}
-                  dispatch={playListDispatch}
-                />
-              </div>
-            );
-          })}
-          <div
-            className="flex justify-center mt-4 rounded-lg bg-white hover:bg-gray-100 cursor-pointer py-1 w-full dark:bg-dark dark:hover:bg-black w-border-primary"
-            onClick={addItem}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6v12m6-6H6"
-              />
-            </svg>
-            <span>增加選項</span>
-          </div>
-        </div>
+        <VideoUrls ref={videoUrlsRef} />
         <SelectBord
           onBordChange={(value) => {
             dispatch({
