@@ -1,14 +1,4 @@
-import {
-  useState,
-  useReducer,
-  useContext,
-  type Dispatch,
-  createContext,
-  ReactNode,
-  forwardRef,
-  useImperativeHandle,
-  useEffect,
-} from "react";
+import { useState, useReducer, forwardRef, useImperativeHandle } from "react";
 import { VideoUrlsDTO } from "@wanin/shared/types";
 import VideoUrlItem from "./VideoUrlItem";
 import { useToasts } from "@geist-ui/core";
@@ -117,10 +107,6 @@ const VideoUrlsCtx = forwardRef<VideoUrlsRef>((_, ref) => {
       });
     }
   };
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   return (
     <>

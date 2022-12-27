@@ -2,7 +2,6 @@ import { Tag, type TagRef } from "@/components";
 import {
   type ChangeEvent,
   useRef,
-  useState,
   useReducer,
   createContext,
   type Dispatch,
@@ -16,8 +15,7 @@ import { titleSchema, newVideoSchema } from "@wanin/shared/utils/zod-schema";
 import { useToasts } from "@geist-ui/core";
 import { useRouter } from "next/router";
 import { addPlaylist } from "@/helpers/api/routes/playlist";
-import { VideoUrlsDTO, NewVideoDTO } from "@wanin/shared/types";
-import PlayListItem from "./PlayListItem";
+import { NewVideoDTO } from "@wanin/shared/types";
 import VideoUrls, { VideoUrlsRef } from "./VideoUrls";
 
 enum ActionType {

@@ -5,9 +5,15 @@ export interface VideoUrlsDTO {
   video_url: string | undefined;
   comment: string | undefined;
 }
+
+interface VideoUrls {
+  video_url: string | undefined;
+  comment: string | undefined;
+}
+
 export interface NewVideoDTO {
   title: string;
-  videoUrls: VideoUrlsDTO[];
+  videoUrls: VideoUrls[];
   tags: TagDTO[];
   gameType: string;
   catalogue: number;
