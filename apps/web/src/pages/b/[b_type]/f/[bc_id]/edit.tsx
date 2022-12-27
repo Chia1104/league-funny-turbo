@@ -25,7 +25,6 @@ export const getServerSideProps: (
 > = async (ctx) => {
   const raw = await getTokenRaw(ctx["req"]);
   const session = await getServerAuthSession(ctx);
-  const feed = await fetchFeedDetail(ctx.params?.bc_id as string);
 
   if (!session) {
     return {
@@ -35,6 +34,8 @@ export const getServerSideProps: (
       },
     };
   }
+
+  const feed = await fetchFeedDetail(ctx.params?.bc_id as string);
 
   if (
     parseInt(session.user.id) === feed.data?.f_uid ||
