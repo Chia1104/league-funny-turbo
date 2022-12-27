@@ -30,11 +30,11 @@
     "./utils/zod-schema": "./dist/utils/zod-schema/index.js"
   },
   "devDependencies": {
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.11.17",
     "@wanin/eslint-config-base": "workspace:0.0.0",
+    "dayjs": "^1.11.7",
     "tsconfig": "workspace:0.0.0",
     "tsup": "^6.5.0",
-    "zod": "^3.19.1",
-    "dayjs": "^1.11.6"
+    "zod": "^3.20.2"
   }
 }

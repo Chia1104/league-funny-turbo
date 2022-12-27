@@ -128,6 +128,7 @@ const useS3ImageUpload = (
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
       setIsUploading(true);
       onChange && onChange(e);
       const file = e.target?.files?.[0];

@@ -26,6 +26,7 @@ const Modal: FC<ModalProps> = (props) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          transition={{ duration: 0.5, type: "spring" }}
           onClick={activityModal}
           initial={"closed"}
           animate={isOpen ? "open" : "closed"}
@@ -33,6 +34,7 @@ const Modal: FC<ModalProps> = (props) => {
           variants={ov}
           className="modal">
           <motion.div
+            transition={{ duration: 0.5, type: "spring" }}
             initial={"closed"}
             onClick={(e) => e.stopPropagation()}
             animate={isOpen ? "open" : "closed"}

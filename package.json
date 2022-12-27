@@ -23,19 +23,19 @@
     "e2e:edge": "turbo run e2e:edge"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "@typescript-eslint/parser": "^5.44.0",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
     "@wanin/eslint-config-base": "workspace:0.0.0",
-    "cypress": "^11.2.0",
-    "eslint": "^8.28.0",
+    "cypress": "^12.2.0",
+    "eslint": "^8.30.0",
     "husky": "^8.0.2",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.8.0",
-    "prettier-plugin-tailwindcss": "^0.1.13",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "prettier-plugin-tailwindcss": "^0.2.1",
     "shell-quote": "^1.7.4",
     "turbo": "1.6.3",
-    "typescript": "^4.9.3",
-    "vitest": "^0.25.3"
+    "typescript": "^4.9.4",
+    "vitest": "^0.26.2"
   },
   "engines": {
     "node": ">=16.0.0"

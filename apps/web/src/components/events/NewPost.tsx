@@ -8,6 +8,7 @@ import {
   useContext,
   useCallback,
   useMemo,
+  useState,
 } from "react";
 import { FroalaEditor } from "@/components";
 import SelectBord from "./SelectBord";
@@ -85,6 +86,7 @@ const WrappedNewPost = () => {
   const uploadCoverRef = useRef<UploadCoverRef>(null);
   const { setToast } = useToasts();
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const validation = useCallback(() => {
     const newPost = {
@@ -117,6 +119,7 @@ const WrappedNewPost = () => {
   };
 
   const addPost = async () => {
+    setIsSubmitting(true);
     const newPost = {
       title: state.title,
       content: state.content,
@@ -133,6 +136,7 @@ const WrappedNewPost = () => {
         text: "請確認資料是否正確",
         type: "warning",
       });
+      setIsSubmitting(false);
       return;
     }
     const res = await addNewFeed({ newPost });
@@ -141,12 +145,14 @@ const WrappedNewPost = () => {
         text: res?.message || "新增文章失敗",
         type: "warning",
       });
+      setIsSubmitting(false);
       return;
     }
     setToast({
       text: "新增文章成功",
       type: "success",
     });
+    setIsSubmitting(false);
     await router.push(`/b/${res?.data?.gameType}/f/${res?.data?.fid}`);
   };
 
@@ -198,7 +204,11 @@ const WrappedNewPost = () => {
         <Tag ref={tagRef} />
       </div>
       <div className="z-10 relative w-full flex justify-center">
-        <Button text="新增文章" type="submit" disabled={!isValidate} />
+        <Button
+          text="新增文章"
+          type="submit"
+          disabled={!isValidate || isSubmitting}
+        />
       </div>
     </form>
   );

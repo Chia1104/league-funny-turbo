@@ -89,12 +89,88 @@ const addNewFeed = async ({
   });
 };
 
-const deleteFeed = async (fid: number): Promise<IApiResponse<null>> => {
+const addNewComment = async ({
+  fid,
+  message,
+  parent,
+}: {
+  fid: number;
+  message: string;
+  parent?: number;
+}): Promise<IApiResponse<Comment>> => {
+  return await fetcher<Comment>({
+    endpoint: getBaseUrl(),
+    path: "/api/event/comment",
+    requestInit: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        fid,
+        message,
+        parent,
+      }),
+    },
+  });
+};
+
+const deleteComment = async (cid: number): Promise<IApiResponse<null>> => {
   return await fetcher<null>({
     endpoint: getBaseUrl(),
-    path: `/api/event/feed/${fid}`,
+    path: `/api/event/comment/${cid}`,
     requestInit: {
       method: "DELETE",
+    },
+  });
+};
+
+const updateFeed = async ({
+  raw,
+  fid,
+  feedDTO,
+}: {
+  raw: string;
+  fid: number;
+  feedDTO: Partial<NewPostDTO>;
+}): Promise<
+  IApiResponse<{
+    fid: number;
+    gameType: string;
+  }>
+> => {
+  return await fetcher<{
+    fid: number;
+    gameType: string;
+  }>({
+    path: `/api/feed/${fid}`,
+    requestInit: {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${raw}`,
+      },
+      body: JSON.stringify(feedDTO),
+    },
+  });
+};
+
+const deleteFeed = async ({
+  raw,
+  fid,
+}: {
+  raw: string;
+  fid: number;
+}): Promise<IApiResponse<null>> => {
+  return await fetcher<null>({
+    path: `/api/feed/${fid}`,
+    requestInit: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${raw}`,
+      },
     },
   });
 };
@@ -105,4 +181,7 @@ export {
   fetchFeedDetail,
   addNewFeed,
   deleteFeed,
+  addNewComment,
+  deleteComment,
+  updateFeed,
 };

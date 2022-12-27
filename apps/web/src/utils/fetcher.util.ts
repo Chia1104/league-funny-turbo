@@ -92,6 +92,12 @@ const fetcher = async <T = unknown>(
       }
     );
     setTimeout(() => abortController.abort(), networkConfig["timeout"]);
+    if (res.status === 204) {
+      return {
+        statusCode: 204,
+        status: ApiResponseStatus.SUCCESS,
+      } satisfies Pick<IApiResponse, "statusCode" | "status">;
+    }
     const _data = (await res.json()) as IApiResponse<T>;
     if (!res.ok && _data?.status !== ApiResponseStatus.SUCCESS) {
       return {

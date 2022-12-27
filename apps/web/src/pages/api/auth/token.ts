@@ -1,20 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { type JWT } from "next-auth/jwt";
 import { IApiResponse } from "@/utils/fetcher.util";
 import { errorConfig } from "@/shared/config/network.config";
 import { ApiResponseStatus } from "@wanin/shared/types";
-import { getToken, getTokenRaw } from "@/server/auth/services";
+import { getTokenRaw } from "@/server/auth/services";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<IApiResponse<{ raw: string; token: JWT }>>
+  res: NextApiResponse<IApiResponse<{ raw: string }>>
 ) {
   switch (req.method) {
     case "POST":
       try {
-        const token = await getToken(req);
         const raw = await getTokenRaw(req);
-        if (!token || !raw) {
+        if (!raw) {
           return res.status(401).json({
             statusCode: 401,
             status: ApiResponseStatus.ERROR,
@@ -24,7 +22,7 @@ export default async function handler(
         return res.status(200).json({
           statusCode: 200,
           status: ApiResponseStatus.SUCCESS,
-          data: { token, raw },
+          data: { raw },
         });
       } catch (error) {
         return res.status(500).json({
