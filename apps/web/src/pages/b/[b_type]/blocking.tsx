@@ -32,6 +32,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   });
 
+  if (status !== "success" || initFeed?.data?.length === 0) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       status,
