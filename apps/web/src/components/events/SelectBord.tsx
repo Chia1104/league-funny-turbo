@@ -12,6 +12,8 @@ interface SelectBordRef {
 interface SelectBordProps {
   onBordChange?: (bord: string) => void;
   onCategoryChange?: (category: number) => void;
+  initGameType?: string;
+  initCategory?: number;
 }
 
 const fetcher = async (): Promise<PostCategory[]> => {
@@ -22,7 +24,7 @@ const fetcher = async (): Promise<PostCategory[]> => {
 };
 
 const SelectBord = forwardRef<SelectBordRef, SelectBordProps>((props, ref) => {
-  const { onBordChange, onCategoryChange } = props;
+  const { onBordChange, onCategoryChange, initGameType, initCategory } = props;
   const {
     data: bord,
     isSuccess,
@@ -88,6 +90,7 @@ const SelectBord = forwardRef<SelectBordRef, SelectBordProps>((props, ref) => {
   return (
     <div className="flex flex-col sm:flex-row gap-5 mb-5 w-full items-center justify-center">
       <Select
+        initialValue={initGameType}
         placeholder="選擇版面"
         type="default"
         onChange={handleSelectBord}
@@ -103,6 +106,7 @@ const SelectBord = forwardRef<SelectBordRef, SelectBordProps>((props, ref) => {
         {isLoading && <Select.Option>loading</Select.Option>}
       </Select>
       <Select
+        initialValue={initCategory?.toString()}
         width="100%"
         placeholder="選擇分類"
         type="default"

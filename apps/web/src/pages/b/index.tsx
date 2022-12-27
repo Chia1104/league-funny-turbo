@@ -1,51 +1,38 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { Page } from "@wanin/ui";
-import {
-  type Feed,
-  type Pagenate,
-  ApiResponseStatus,
-} from "@wanin/shared/types";
+import { type Feed, type Pagenate } from "@wanin/shared/types";
 import { FeedList, Head } from "@/components";
 import { fetchFeedList } from "@/helpers/api/routes/feed";
+import ssgConfig from "@/shared/config/ssg.config";
 
 interface FeedProps {
-  status: number;
   initFeed: Pagenate<Feed[]>;
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const {
-    data: initFeed,
-    status,
-    statusCode,
-  } = await fetchFeedList({
+export const getStaticProps: GetStaticProps = async () => {
+  const { data: initFeed } = await fetchFeedList({
     page: 1,
   });
-  if (status !== ApiResponseStatus.SUCCESS || statusCode !== 200) {
-    return {
-      notFound: true,
-    };
-  }
 
   return {
     props: {
-      status,
       initFeed: initFeed as Pagenate<Feed[]>,
     },
+    revalidate: ssgConfig["/b"]["revalidate"],
   };
 };
 
-const Home: NextPage<FeedProps> = (props) => {
+const HomePage: NextPage<FeedProps> = (props) => {
   const { initFeed } = props;
 
   return (
     <Page className="w-main w-full">
       <Head />
       <article className="mt-28 w-full">
-        <FeedList initFeed={initFeed.data} queryKey="home_feed_list" />
+        <FeedList initFeed={initFeed.data} queryKey="home_ssg_feed_list" />
       </article>
     </Page>
   );
 };
 
-export default Home;
+export default HomePage;

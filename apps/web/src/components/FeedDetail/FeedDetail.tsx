@@ -2,14 +2,17 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ChatIcon, EyeIcon } from "@wanin/icons";
 import type { Feed } from "@wanin/shared/types";
-import { Avatar } from "@/components";
+import { Avatar, IsLogin } from "@/components";
 import CommentList from "./CommentList";
 import CommentBox from "./CommentBox";
-import { type FC, useMemo } from "react";
+import { type FC, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { ApiResponseStatus, type Comment } from "@wanin/shared/types";
-import { fetchCommentList } from "@/helpers/api/routes/feed";
+import { fetchCommentList, deleteFeed } from "@/helpers/api/routes/feed";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { Popover, Button, useToasts } from "@geist-ui/core";
+import { useToken } from "@/hooks";
 
 const FeedWithHTML = dynamic(() => import("../FeedWithHTML"));
 const Youtube = dynamic(() => import("../Youtube"));
@@ -18,11 +21,63 @@ const PlayList = dynamic(() => import("../PlayList"));
 
 interface Props {
   data: Feed;
+  raw?: string;
 }
 
 const FeedDetail: FC<Props> = (props) => {
-  const { data } = props;
+  const { data, raw } = props;
   const { data: session } = useSession();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const router = useRouter();
+  const { setToast } = useToasts();
+  const { raw: tokenRaw } = useToken();
+
+  const handleDelete = async (fid: number) => {
+    setIsDeleting(true);
+    const result = await deleteFeed({ raw: raw ?? tokenRaw ?? "", fid });
+    if (result.status === ApiResponseStatus.SUCCESS) {
+      setToast({
+        text: "刪除成功",
+        type: "success",
+      });
+      await router.push("/");
+      return;
+    }
+    setToast({
+      text: "刪除失敗",
+      type: "warning",
+    });
+    setIsDeleting(false);
+  };
+
+  const CheckDelete = ({ fid }: { fid: number }) => {
+    return (
+      <div className="flex justify-center items-center px-3">
+        <div className="text-center">
+          <p>確定要刪除這篇文章嗎？</p>
+          <div className="flex justify-center items-center mt-4 gap-5">
+            <Button
+              loading={isDeleting}
+              type="error"
+              ghost
+              auto
+              scale={0.7}
+              onClick={() => handleDelete(fid)}>
+              確定
+            </Button>
+            <Button
+              loading={isDeleting}
+              type="secondary"
+              ghost
+              auto
+              scale={0.7}>
+              取消
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const fetcher = async ({ pageParam = 1 }): Promise<Comment[]> => {
     const result = await fetchCommentList({
@@ -64,7 +119,28 @@ const FeedDetail: FC<Props> = (props) => {
   return (
     <>
       <div className="w-full w-bg-secondary rounded-t-lg p-7 flex flex-col overflow-hidden">
-        <h2 className="mb-7 text-3xl font-bold">{data.f_desc}</h2>
+        <h2 className="mb-3 text-3xl font-bold">{data.f_desc}</h2>
+        <IsLogin
+          customRule={(session) => {
+            if (!session) return false;
+            if (session.user.admin_id > 0) return true;
+            return session.user.id === data.f_uid.toString();
+          }}>
+          <span className="flex gap-3 mb-7">
+            <Link
+              href={`/b/${data.f_game_type}/f/${data.fid}/edit`}
+              className="text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out">
+              編輯
+            </Link>
+            <Popover content={<CheckDelete fid={data.fid} />}>
+              <button
+                type={"button"}
+                className="text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out">
+                刪除
+              </button>
+            </Popover>
+          </span>
+        </IsLogin>
         <div className="mb-5 flex items-center">
           <Avatar
             username={data.f_author_name}
