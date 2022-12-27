@@ -7,6 +7,9 @@ import { useDarkMode, useIsMounted } from "@/hooks";
 import { GeistProvider as GP } from "@geist-ui/core";
 import { DefaultSeo } from "next-seo";
 import { TokenProvider } from "@/components";
+import { Provider as RProvider } from "react-redux";
+import store from "@/store";
+import { Provider as UIProvider } from "@wanin/ui";
 
 interface Props {
   session: Session;
@@ -30,9 +33,13 @@ const Provider: FC<Props> = (props) => {
       <DefaultSeo />
       <ThemeProvider enableSystem={true} attribute="class">
         <GeistProvider>
-          <QueryClientProvider client={queryClient}>
-            <TokenProvider>{children}</TokenProvider>
-          </QueryClientProvider>
+          <UIProvider>
+            <QueryClientProvider client={queryClient}>
+              <TokenProvider>
+                <RProvider store={store}>{children}</RProvider>
+              </TokenProvider>
+            </QueryClientProvider>
+          </UIProvider>
         </GeistProvider>
       </ThemeProvider>
     </SessionProvider>

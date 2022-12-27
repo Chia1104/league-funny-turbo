@@ -14,6 +14,8 @@ interface Props {
   session: Session | null;
   fid: number;
   onReply?: (comment: Comment) => void;
+  useWindowScroll?: boolean;
+  customScrollParent?: HTMLElement;
 }
 
 const CommentList: FC<Props> = (props) => {
@@ -26,6 +28,8 @@ const CommentList: FC<Props> = (props) => {
     session,
     fid,
     onReply,
+    useWindowScroll = true,
+    customScrollParent,
   } = props;
 
   return (
@@ -40,7 +44,8 @@ const CommentList: FC<Props> = (props) => {
           overscan={100}
           endReached={endReached}
           style={{ height: "100%" }}
-          useWindowScroll
+          useWindowScroll={useWindowScroll}
+          customScrollParent={!useWindowScroll ? customScrollParent : undefined}
           itemContent={(index, item) => {
             return (
               <>
