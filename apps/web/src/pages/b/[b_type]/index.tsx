@@ -1,44 +1,51 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import {
-  type Feed,
-  type Pagenate,
-  ApiResponseStatus,
-} from "@wanin/shared/types";
+import { type Feed, type Pagenate } from "@wanin/shared/types";
 import { FeedList, Head } from "@/components";
 import { Page } from "@wanin/ui";
 import { fetchFeedList } from "@/helpers/api/routes/feed";
+import { bTypePaths } from "@/server/ssg";
 import { useIsMounted } from "usehooks-ts";
+import { ApiResponseStatus } from "@wanin/shared/types";
+import ssgConfig from "@/shared/config/ssg.config";
 
 interface FeedProps {
-  status: number;
   initFeed: Pagenate<Feed[]>;
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const {
-    data: initFeed,
-    status,
-    statusCode,
-  } = await fetchFeedList({
+export const getStaticPaths: () => Promise<{
+  paths: { params: { b_type: string } }[];
+  fallback: string;
+}> = async () => {
+  const paths = await bTypePaths();
+  return {
+    paths,
+    fallback: ssgConfig["/b/[b_type]"]["fallback"],
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { data: initFeed, status } = await fetchFeedList({
     searchParams: {
       boardType: params?.b_type as string,
     },
   });
-  if (status !== ApiResponseStatus.SUCCESS || statusCode !== 200)
+
+  if (status !== ApiResponseStatus.SUCCESS || initFeed?.data?.length === 0) {
     return {
       notFound: true,
     };
+  }
 
   return {
     props: {
-      status,
       initFeed: initFeed as Pagenate<Feed[]>,
     },
+    revalidate: ssgConfig["/b/[b_type]"]["revalidate"],
   };
 };
 
-const LCat: NextPage<FeedProps> = (props) => {
+const BPage: NextPage<FeedProps> = (props) => {
   const router = useRouter();
   const { b_type } = router.query;
   const { initFeed } = props;
@@ -70,4 +77,4 @@ const LCat: NextPage<FeedProps> = (props) => {
   );
 };
 
-export default LCat;
+export default BPage;
