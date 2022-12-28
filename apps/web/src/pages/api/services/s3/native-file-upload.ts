@@ -116,7 +116,7 @@ export default async function handler(
         const originalImage = Buffer.from(buffer, "base64");
         const _uuid = uuid();
         const key = `${bucketFolder}/${
-          useUUID === "true" && _uuid
+          useUUID === "true" ? _uuid : ""
         }${fileNamePrefix}${fileName || _fileName}.${
           convert === "true" ? format : ext
         }`;

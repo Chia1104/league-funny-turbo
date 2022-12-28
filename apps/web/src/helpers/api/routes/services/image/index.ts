@@ -45,7 +45,7 @@ const uploadImageToS3 = async ({
         convert: convert?.toString() || "",
         quality: quality?.toString() || "",
         fileNamePrefix,
-        useUUID: useUUID ? "true" : undefined,
+        useUUID: useUUID ? "true" : "false",
         maxWidth: maxWidth?.toString() || "",
         ignoreGif: ignoreGif ? "true" : undefined,
       },
