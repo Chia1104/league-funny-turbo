@@ -1,15 +1,16 @@
 import type { GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { type Feed, type Pagenate } from "@wanin/shared/types";
+import { type Feed, type Pagenate, type Board } from "@wanin/shared/types";
 import { FeedList, Head } from "@/components";
 import { Page } from "@wanin/ui";
-import { fetchFeedList } from "@/helpers/api/routes/feed";
+import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
 import { bTypePaths } from "@/server/ssg";
 import { useIsMounted } from "usehooks-ts";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import ssgConfig from "@/shared/config/ssg.config";
 
 interface FeedProps {
+  boardDetail: Board;
   initFeed: Pagenate<Feed[]>;
 }
 
@@ -37,10 +38,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
+  const { data: boardDetail, status: boardStatus } = await fetchFeedBoardDetail(
+    {
+      b_type: params?.b_type as string,
+    }
+  );
+
+  if (boardStatus !== ApiResponseStatus.SUCCESS) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
-      initFeed: initFeed as Pagenate<Feed[]>,
-    },
+      initFeed: initFeed,
+      boardDetail: boardDetail,
+    } satisfies Partial<FeedProps>,
     revalidate: ssgConfig["/b/[b_type]"]["revalidate"],
   };
 };
@@ -48,15 +62,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 const BPage: NextPage<FeedProps> = (props) => {
   const router = useRouter();
   const { b_type } = router.query;
-  const { initFeed } = props;
+  const { initFeed, boardDetail } = props;
   const isMounted = useIsMounted();
 
   return (
     <Page className="w-main w-full justify-start">
       <Head />
-      <article className="mt-28 w-full">
+      <article className="mt-28 w-full w-bg-secondary rounded-lg shadow-lg">
         {!isMounted() ? (
           <FeedList
+            boardDetail={boardDetail}
+            useBoardDetail
             initFeed={initFeed.data}
             searchParams={{
               boardType: b_type as string,
@@ -70,6 +86,7 @@ const BPage: NextPage<FeedProps> = (props) => {
             }}
             initPage={1}
             queryKey={`${b_type}_feed_list`}
+            enableClientFetchBoardDetail
           />
         )}
       </article>

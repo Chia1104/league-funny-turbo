@@ -1,11 +1,13 @@
 import { type FC, useMemo } from "react";
-import type { Feed } from "@wanin/shared/types";
+import type { Feed, Board } from "@wanin/shared/types";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
 import FeedSkeleton from "./FeedSkeleton";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchFeedList } from "@/helpers/api/routes/feed";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
 import { Virtuoso } from "react-virtuoso";
+import { useRouter } from "next/router";
+import BoardDetail from "@/components/FeedList/BoardDetail";
 
 interface Props {
   queryKey?: string;
@@ -13,6 +15,9 @@ interface Props {
   searchParams?: Record<string, string>;
   experimental?: boolean;
   initPage?: number;
+  boardDetail?: Board;
+  useBoardDetail?: boolean;
+  enableClientFetchBoardDetail?: boolean;
 }
 
 const FeedList: FC<Props> = (props) => {
@@ -22,9 +27,13 @@ const FeedList: FC<Props> = (props) => {
     initFeed,
     initPage = 2,
     searchParams,
+    boardDetail,
+    useBoardDetail,
+    enableClientFetchBoardDetail = false,
   } = props;
+  const router = useRouter();
 
-  const fetcher = async ({ pageParam = initPage }): Promise<Feed[]> => {
+  const feedFetcher = async ({ pageParam = initPage }): Promise<Feed[]> => {
     const result = await fetchFeedList({
       page: pageParam,
       searchParams,
@@ -38,6 +47,19 @@ const FeedList: FC<Props> = (props) => {
     return result.data.data;
   };
 
+  const boardFetcher = async (): Promise<Board> => {
+    const result = await fetchFeedBoardDetail({
+      b_type: router.query.b_type as string,
+    });
+    if (
+      result.statusCode !== 200 ||
+      !result?.data ||
+      result.status !== ApiResponseStatus.SUCCESS
+    )
+      throw new Error("error");
+    return result.data;
+  };
+
   const {
     data: feeds,
     error: isError,
@@ -48,7 +70,7 @@ const FeedList: FC<Props> = (props) => {
     isInitialLoading,
   } = useInfiniteQuery<Feed[]>({
     queryKey: [queryKey],
-    queryFn: fetcher,
+    queryFn: feedFetcher,
     initialData: initFeed && {
       pages: [initFeed],
       pageParams: [initPage - 1],
@@ -64,13 +86,43 @@ const FeedList: FC<Props> = (props) => {
     refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 
+  const {
+    data: board,
+    isLoading: isBoardLoading,
+    isSuccess: isBoardSuccess,
+  } = useQuery<Board>({
+    queryKey: ["board", router.query.b_type],
+    queryFn: boardFetcher,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    enabled: enableClientFetchBoardDetail,
+  });
+
   const _feeds = useMemo(() => {
     if (!feeds) return [];
     return feeds.pages.flat();
   }, [feeds]);
 
   return (
-    <div className="w-full w-bg-secondary rounded-lg shadow-lg">
+    <>
+      {useBoardDetail && boardDetail && !enableClientFetchBoardDetail && (
+        <>
+          <BoardDetail boardDetail={boardDetail} />
+          <div
+            className="sticky top-[63px] z-30 w-bg-secondary min-h-[58px] border-b dark:border-gray-700"
+            id="__board_sort__"
+          />
+        </>
+      )}
+      {enableClientFetchBoardDetail && isBoardSuccess && board && (
+        <>
+          <BoardDetail boardDetail={board} />
+          <div
+            className="sticky top-[63px] z-30 w-bg-secondary min-h-[58px] border-b dark:border-gray-700"
+            id="__board_sort__"
+          />
+        </>
+      )}
       <>
         {isSuccess && (
           <Virtuoso
@@ -110,7 +162,7 @@ const FeedList: FC<Props> = (props) => {
           </div>
         )}
       </>
-    </div>
+    </>
   );
 };
 

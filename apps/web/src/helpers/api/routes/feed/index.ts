@@ -1,4 +1,4 @@
-import type { Pagenate, Feed, Comment } from "@wanin/shared/types";
+import type { Pagenate, Feed, Comment, Board } from "@wanin/shared/types";
 import { fetcher, type IApiResponse } from "@/utils/fetcher.util";
 import { NewPostDTO } from "@wanin/shared/types";
 import { getBaseUrl } from "@/utils/get-base-url";
@@ -175,6 +175,23 @@ const deleteFeed = async ({
   });
 };
 
+const fetchFeedBoardDetail = async ({
+  b_type,
+}: {
+  b_type: string;
+}): Promise<IApiResponse<Board>> => {
+  return await fetcher<Board>({
+    path: `/api/board/${b_type}`,
+    requestInit: {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    },
+  });
+};
+
 export {
   fetchFeedList,
   fetchCommentList,
@@ -184,4 +201,5 @@ export {
   addNewComment,
   deleteComment,
   updateFeed,
+  fetchFeedBoardDetail,
 };
