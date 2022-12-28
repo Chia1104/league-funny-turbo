@@ -1,7 +1,9 @@
-import React, { memo } from "react";
+import React from "react";
 import type { FC, ReactNode } from "react";
 import { AnimatePresence, motion, MotionProps } from "framer-motion";
 import { useLockedBody } from "usehooks-ts";
+import { createPortal } from "react-dom";
+import { usePortal } from "../hooks";
 
 interface ModalProps extends MotionProps {
   isOpen: boolean;
@@ -21,8 +23,10 @@ const Modal: FC<ModalProps> = (props) => {
     closed: { opacity: 0, y: -100 },
   };
   useLockedBody(isOpen);
+  const portal = usePortal("modal");
+  if (!portal) return null;
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -46,8 +50,9 @@ const Modal: FC<ModalProps> = (props) => {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    portal
   );
 };
 
-export default memo(Modal, (prev, next) => prev.isOpen === next.isOpen);
+export default Modal;

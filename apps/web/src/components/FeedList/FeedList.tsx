@@ -43,8 +43,9 @@ const FeedList: FC<Props> = (props) => {
     error: isError,
     fetchNextPage,
     hasNextPage: hasMore,
-    isFetching: isLoading,
+    isFetchingNextPage,
     isSuccess,
+    isInitialLoading,
   } = useInfiniteQuery<Feed[]>({
     queryKey: [queryKey],
     queryFn: fetcher,
@@ -57,7 +58,10 @@ const FeedList: FC<Props> = (props) => {
         return undefined;
       return pages.length + 1;
     },
-    staleTime: 500000, // 5 minutes
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 
   const _feeds = useMemo(() => {
@@ -92,7 +96,7 @@ const FeedList: FC<Props> = (props) => {
             }}
           />
         )}
-        {isLoading && <FeedSkeleton />}
+        {(isFetchingNextPage || isInitialLoading) && <FeedSkeleton />}
         {isError && (
           <div className="w-full h-20 flex justify-center items-center">
             <h3 className="text-warning">
@@ -100,7 +104,7 @@ const FeedList: FC<Props> = (props) => {
             </h3>
           </div>
         )}
-        {!hasMore && !isLoading && (
+        {!hasMore && !isFetchingNextPage && !isInitialLoading && (
           <div className="w-full h-20 flex justify-center items-center">
             <h3 className="text-gray-400">沒更多文章囉</h3>
           </div>

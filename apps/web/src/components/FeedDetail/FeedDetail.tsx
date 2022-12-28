@@ -5,7 +5,7 @@ import type { Feed } from "@wanin/shared/types";
 import { Avatar, IsLogin } from "@/components";
 import CommentList from "./CommentList";
 import CommentBox from "./CommentBox";
-import { type FC, useMemo, useState } from "react";
+import { type FC, useMemo, useRef, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { ApiResponseStatus, type Comment } from "@wanin/shared/types";
 import { fetchCommentList, deleteFeed } from "@/helpers/api/routes/feed";
@@ -22,15 +22,25 @@ const PlayList = dynamic(() => import("../PlayList"));
 interface Props {
   data: Feed;
   raw?: string;
+  useWindowScroll?: boolean;
 }
 
 const FeedDetail: FC<Props> = (props) => {
-  const { data, raw } = props;
+  const { data, raw, useWindowScroll } = props;
   const { data: session } = useSession();
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
   const { setToast } = useToasts();
   const { raw: tokenRaw } = useToken();
+  const parentRef = useRef<HTMLDivElement>(null);
+  const [parent, setParent] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setParent(parentRef.current);
+    return () => {
+      setParent(null);
+    };
+  }, []);
 
   const handleDelete = async (fid: number) => {
     setIsDeleting(true);
@@ -96,9 +106,10 @@ const FeedDetail: FC<Props> = (props) => {
   const {
     data: comments,
     fetchNextPage,
-    isFetching: isLoading,
+    isFetchingNextPage,
     isSuccess,
     refetch,
+    isInitialLoading,
   } = useInfiniteQuery<Comment[]>({
     queryKey: ["comment", data.fid],
     queryFn: fetcher,
@@ -109,6 +120,7 @@ const FeedDetail: FC<Props> = (props) => {
     },
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    refetchInterval: 1000 * 60,
   });
 
   const _comments = useMemo(() => {
@@ -118,7 +130,9 @@ const FeedDetail: FC<Props> = (props) => {
 
   return (
     <>
-      <div className="w-full w-bg-secondary rounded-t-lg p-7 flex flex-col overflow-hidden">
+      <div
+        className="w-full w-bg-secondary rounded-t-lg p-7 flex flex-col overflow-x-hidden"
+        ref={parentRef}>
         <h2 className="mb-3 text-3xl font-bold">{data.f_desc}</h2>
         <IsLogin
           customRule={(session) => {
@@ -198,9 +212,11 @@ const FeedDetail: FC<Props> = (props) => {
           session={session}
           isSuccess={isSuccess}
           endReached={fetchNextPage}
-          isLoading={isLoading}
+          isLoading={isFetchingNextPage || isInitialLoading}
           fid={data.fid}
           onReply={() => refetch()}
+          useWindowScroll={useWindowScroll}
+          customScrollParent={parent as HTMLElement}
         />
       </div>
       <div className="sticky rounded-b-lg bottom-0 right-0 left-0 w-bg-secondary min-h-[60px] flex items-center p-1">
