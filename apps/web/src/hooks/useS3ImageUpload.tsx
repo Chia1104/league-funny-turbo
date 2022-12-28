@@ -31,6 +31,8 @@ interface UseS3ImageUploadOptions {
     imgRef?: RefObject<HTMLImageElement>;
     // Only supported in nodejs, default is 80
     quality?: number;
+    maxWidth?: number;
+    ignoreGif?: boolean;
   };
   // Default is webp
   format?: "webp" | "jpeg" | "jpg" | "png" | "gif";
@@ -39,6 +41,7 @@ interface UseS3ImageUploadOptions {
   fileName?: string;
   bucketFolder?: string;
   fileNamePrefix?: string;
+  useUUID?: boolean;
 }
 
 interface UseS3ImageUploadResult {
@@ -83,6 +86,7 @@ const useS3ImageUpload = (
     bucketFolder,
     convert = true,
     fileNamePrefix,
+    useUUID,
   } = options;
   const [file, setFile] = useState<File | null | string>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
@@ -115,6 +119,9 @@ const useS3ImageUpload = (
         convert,
         quality: resize?.quality,
         fileNamePrefix,
+        useUUID,
+        maxWidth: resize?.maxWidth,
+        ignoreGif: resize?.ignoreGif,
       });
     },
   });

@@ -101,6 +101,11 @@ const NewComment = forwardRef<NewCommentRef, Props>((props, ref) => {
     fileNamePrefix: "_n",
     convert: false,
     bucketFolder: "imgur",
+    resize: {
+      width: 640,
+      maxWidth: 640,
+      ignoreGif: true,
+    },
     onS3UploadError: (error) => {
       setToast({
         text: error,

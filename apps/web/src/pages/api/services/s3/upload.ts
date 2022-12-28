@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { resizeImage, ResizeOptions } from "@/server/image/services";
 import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
-import { getTokenRaw } from "@/server/auth/services";
+import { getToken } from "@/server/auth/services";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import { errorConfig } from "@/shared/config/network.config";
 import { IApiResponse } from "@/utils/fetcher.util";
@@ -12,8 +12,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IApiResponse<{ resizedImage: string; imageUrl: string }>>
 ) {
-  const raw = await getTokenRaw(req);
-  if (!raw) {
+  const token = await getToken(req);
+  if (!token) {
     return res.status(401).json({
       statusCode: 401,
       status: ApiResponseStatus.ERROR,
@@ -36,10 +36,12 @@ export default async function handler(
           bucketFolder = "imgur",
           quality,
           fileNamePrefix = "",
+          useUUID = true,
         }: ResizeOptions & {
           fileName?: string;
           bucketFolder?: string;
           fileNamePrefix?: string;
+          useUUID?: boolean;
         } = req.body;
         const matches = (image as string).match(regex) as RegExpMatchArray;
         const data = matches[2];
@@ -55,7 +57,9 @@ export default async function handler(
           resizedImage.replace(/^data:image\/\w+;base64,/, ""),
           "base64"
         );
-        const key = `${bucketFolder}/${uuid()}${fileNamePrefix}${fileName}.${format}`;
+        const key = `${bucketFolder}/${
+          useUUID && uuid()
+        }${fileNamePrefix}${fileName}.${format}`;
         const s3 = await putObject({
           Key: key,
           Body: buffer,
