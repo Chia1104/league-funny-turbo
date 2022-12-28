@@ -106,7 +106,7 @@ const FeedDetail: FC<Props> = (props) => {
   const {
     data: comments,
     fetchNextPage,
-    isFetching: isLoading,
+    isFetchingNextPage,
     isSuccess,
     refetch,
   } = useInfiniteQuery<Comment[]>({
@@ -119,6 +119,7 @@ const FeedDetail: FC<Props> = (props) => {
     },
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    refetchInterval: 1000 * 60,
   });
 
   const _comments = useMemo(() => {
@@ -210,7 +211,7 @@ const FeedDetail: FC<Props> = (props) => {
           session={session}
           isSuccess={isSuccess}
           endReached={fetchNextPage}
-          isLoading={isLoading}
+          isLoading={isFetchingNextPage}
           fid={data.fid}
           onReply={() => refetch()}
           useWindowScroll={useWindowScroll}
