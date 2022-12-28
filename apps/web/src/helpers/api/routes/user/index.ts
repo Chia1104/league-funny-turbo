@@ -2,9 +2,9 @@ import { useToken } from "@/hooks";
 import { IApiResponse, fetcher } from "@/utils/fetcher.util";
 import { getBaseUrl } from "@/utils/get-base-url";
 
-const UploadHeadShot = async (image_url): Promise<IApiResponse> => {
+const UploadHeadShot = async (image_url: FormData): Promise<IApiResponse> => {
   return await fetcher({
-    path: "http://localhost:8000/api/upload-head-shot",
+    path: "/api/upload-head-shot",
     requestInit: {
       method: "POST",
       headers: {

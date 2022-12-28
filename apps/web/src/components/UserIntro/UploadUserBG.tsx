@@ -1,16 +1,22 @@
 import { useS3ImageUpload } from "@/hooks";
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Loading, useToasts } from "@geist-ui/core";
 import { Image } from "@/components";
 import { useSession } from "next-auth/react";
 
+interface Props {
+  querykey: string;
+}
 interface UploadUserBGRef {
   fileUrl: string | null;
 }
 
-const UploadUserBG = forwardRef<UploadUserBGRef>((props, ref) => {
+const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
+  const { querykey } = props;
   const { data: session } = useSession();
   const { setToast } = useToasts();
+  const [date, setDate] = useState(0);
+
   const {
     FileInput,
     fileUrl,
@@ -34,13 +40,23 @@ const UploadUserBG = forwardRef<UploadUserBGRef>((props, ref) => {
         type: "success",
       });
     },
+    fileName: session?.user.id,
     errorMessage: "上傳失敗",
     convert: false,
+    bucketFolder: "timeline_cover",
+    useUUID: false,
   });
 
   useImperativeHandle(ref, () => ({
     fileUrl,
   }));
+
+  // 新增後綴，讓圖片可正常抓取
+  useEffect(() => {
+    console.log(fileUrl);
+    const date = new Date().getTime();
+    setDate(date);
+  }, [fileUrl]);
 
   return (
     <>
@@ -55,7 +71,7 @@ const UploadUserBG = forwardRef<UploadUserBGRef>((props, ref) => {
       ) : (
         // <div className="w-full h-[300px] absolute bg-dark md:h-[340px]"></div>
         <Image
-          src={session?.user.image ?? ""}
+          src={``}
           alt="banner"
           width={2000}
           height={2000}
