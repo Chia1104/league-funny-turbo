@@ -109,6 +109,7 @@ const FeedDetail: FC<Props> = (props) => {
     isFetchingNextPage,
     isSuccess,
     refetch,
+    isInitialLoading,
   } = useInfiniteQuery<Comment[]>({
     queryKey: ["comment", data.fid],
     queryFn: fetcher,
@@ -211,7 +212,7 @@ const FeedDetail: FC<Props> = (props) => {
           session={session}
           isSuccess={isSuccess}
           endReached={fetchNextPage}
-          isLoading={isFetchingNextPage}
+          isLoading={isFetchingNextPage || isInitialLoading}
           fid={data.fid}
           onReply={() => refetch()}
           useWindowScroll={useWindowScroll}

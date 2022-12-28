@@ -45,6 +45,7 @@ const FeedList: FC<Props> = (props) => {
     hasNextPage: hasMore,
     isFetchingNextPage,
     isSuccess,
+    isInitialLoading,
   } = useInfiniteQuery<Feed[]>({
     queryKey: [queryKey],
     queryFn: fetcher,
@@ -95,7 +96,7 @@ const FeedList: FC<Props> = (props) => {
             }}
           />
         )}
-        {isFetchingNextPage && <FeedSkeleton />}
+        {(isFetchingNextPage || isInitialLoading) && <FeedSkeleton />}
         {isError && (
           <div className="w-full h-20 flex justify-center items-center">
             <h3 className="text-warning">
@@ -103,7 +104,7 @@ const FeedList: FC<Props> = (props) => {
             </h3>
           </div>
         )}
-        {!hasMore && !isFetchingNextPage && (
+        {!hasMore && !isFetchingNextPage && !isInitialLoading && (
           <div className="w-full h-20 flex justify-center items-center">
             <h3 className="text-gray-400">沒更多文章囉</h3>
           </div>

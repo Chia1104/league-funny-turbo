@@ -9,9 +9,9 @@ const feedModalSlice = createSlice({
   reducers: feedModalReducer,
 });
 
-const { handleModal } = feedModalSlice.actions;
+const { handleModal, openModal, closeModal } = feedModalSlice.actions;
 
 const feedModalSelector = (state: AppState) => state.feedModal;
 
-export { feedModalSelector, handleModal };
+export { feedModalSelector, handleModal, openModal, closeModal };
 export default feedModalSlice.reducer;
