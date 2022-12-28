@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
-import { NEXTAUTH_SECRET } from "@/shared/constants";
 import { resizeImage, getMetadata } from "@/server/image/services";
 import { putObject } from "@/server/s3/services";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import { MAX_FILE_SIZE } from "@wanin/shared/utils";
 import { resizeConfig } from "@/shared/config/image.config";
+import { ApiResponseStatus } from "@wanin/shared/types";
+import { errorConfig } from "@/shared/config/network.config";
+import { getToken } from "@/server/auth/services";
 
 function runMiddleware(
   req: NextApiRequest & { [key: string]: any },
@@ -34,13 +35,13 @@ export default async function handler(
   req: NextApiRequest & { [key: string]: any },
   res: NextApiResponse
 ) {
-  const token = await getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    raw: true,
-  });
+  const token = await getToken(req);
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({
+      statusCode: 401,
+      status: ApiResponseStatus.ERROR,
+      message: errorConfig[401],
+    });
   }
   const uuid = () => uuidv4();
   const resizeWidth = resizeConfig["froala"].width;
@@ -67,9 +68,11 @@ export default async function handler(
         const resizedImage = await resizeImage({
           resize: (metadata.width ?? resizeWidth) > resizeWidth,
           width:
-            (metadata.width ?? resizeWidth) > resizeWidth
-              ? resizeWidth
-              : metadata.width,
+            file.mimetype !== "image/gif"
+              ? (metadata.width ?? resizeWidth) > resizeWidth
+                ? resizeWidth
+                : metadata.width
+              : undefined,
           image: buffer,
           convert: file.mimetype.match(/jpg|jpeg|png|webp/),
         });

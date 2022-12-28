@@ -15,6 +15,9 @@ const uploadImageToS3 = async ({
   bucketFolder,
   quality,
   fileNamePrefix,
+  useUUID,
+  maxWidth,
+  ignoreGif,
 }: ResizeOptions & {
   useNativeFile?: boolean;
   file?: File;
@@ -22,6 +25,9 @@ const uploadImageToS3 = async ({
   image?: string;
   bucketFolder?: string;
   fileNamePrefix?: string;
+  useUUID?: boolean;
+  maxWidth?: number;
+  ignoreGif?: boolean;
 }): Promise<IApiResponse<{ resizedImage?: string; imageUrl?: string }>> => {
   if (useNativeFile) {
     const data = new FormData();
@@ -39,6 +45,9 @@ const uploadImageToS3 = async ({
         convert: convert?.toString() || "",
         quality: quality?.toString() || "",
         fileNamePrefix,
+        useUUID: useUUID ? "true" : undefined,
+        maxWidth: maxWidth?.toString() || "",
+        ignoreGif: ignoreGif ? "true" : undefined,
       },
       requestInit: {
         method: "POST",
@@ -69,6 +78,7 @@ const uploadImageToS3 = async ({
         quality,
         fileName,
         fileNamePrefix,
+        useUUID,
       }),
     },
   });
