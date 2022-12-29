@@ -8,7 +8,7 @@ const fetchFeedList = async ({
   searchParams,
 }: {
   page?: number;
-  searchParams?: Record<string, string>;
+  searchParams?: Partial<Record<string, string>>;
 }): Promise<IApiResponse<Pagenate<Feed[]>>> => {
   return await fetcher<Pagenate<Feed[]>>({
     path: "/api/feed",

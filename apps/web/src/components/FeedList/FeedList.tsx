@@ -12,7 +12,7 @@ import BoardDetail from "@/components/FeedList/BoardDetail";
 interface Props {
   queryKey?: string;
   initFeed?: Feed[];
-  searchParams?: Record<string, string>;
+  searchParams?: Partial<Record<string, string>>;
   experimental?: boolean;
   initPage?: number;
   boardDetail?: Board;
@@ -106,62 +106,57 @@ const FeedList: FC<Props> = (props) => {
   return (
     <>
       {useBoardDetail && boardDetail && !enableClientFetchBoardDetail && (
-        <>
-          <BoardDetail boardDetail={boardDetail} />
-          <div
-            className="sticky top-[63px] z-30 w-bg-secondary min-h-[58px] border-b dark:border-gray-700"
-            id="__board_sort__"
-          />
-        </>
+        <BoardDetail boardDetail={boardDetail} isLoading={isBoardLoading} />
       )}
       {enableClientFetchBoardDetail && isBoardSuccess && board && (
-        <>
-          <BoardDetail boardDetail={board} />
-          <div
-            className="sticky top-[63px] z-30 w-bg-secondary min-h-[58px] border-b dark:border-gray-700"
-            id="__board_sort__"
-          />
-        </>
+        <BoardDetail boardDetail={board} isLoading={isBoardLoading} />
       )}
-      <>
-        {isSuccess && (
-          <Virtuoso
-            totalCount={_feeds.length}
-            data={_feeds}
-            overscan={{
-              main: 1000,
-              reverse: 700,
-            }}
-            endReached={() => fetchNextPage()}
-            style={{ height: "100%" }}
-            useWindowScroll
-            initialItemCount={19}
-            itemContent={(index, item) => {
-              return (
-                <>
-                  <FeedItem feed={item} />
-                  {index !== _feeds.length - 1 && (
-                    <hr className="dark:border-gray-700" />
-                  )}
-                </>
-              );
-            }}
-          />
-        )}
-        {(isFetchingNextPage || isInitialLoading) && <FeedSkeleton />}
-        {isError && (
-          <div className="w-full h-20 flex justify-center items-center">
-            <h3 className="text-warning">
-              Something went wrong, please try again later.
-            </h3>
-          </div>
-        )}
-        {!hasMore && !isFetchingNextPage && !isInitialLoading && (
-          <div className="w-full h-20 flex justify-center items-center">
-            <h3 className="text-gray-400">沒更多文章囉</h3>
-          </div>
-        )}
-      </>
+      {isBoardLoading && enableClientFetchBoardDetail && (
+        <div className="flex flex-col border-b dark:border-gray-700 min-h-[100px] relative rounded-t-lg overflow-hidden">
+          <span className="animate-pulse w-bg-secondary aspect-w-8 aspect-h-4 xl:aspect-h-2 w-full overflow-hidden" />
+        </div>
+      )}
+      {isSuccess && (
+        <Virtuoso
+          totalCount={_feeds.length}
+          data={_feeds}
+          overscan={{
+            main: 1000,
+            reverse: 700,
+          }}
+          endReached={() => fetchNextPage()}
+          style={{
+            height: `${
+              !hasMore && !isFetchingNextPage && !isInitialLoading ? 0 : "100%"
+            }`,
+          }}
+          useWindowScroll
+          initialItemCount={19}
+          itemContent={(index, item) => {
+            return (
+              <>
+                <FeedItem feed={item} />
+                {index !== _feeds.length - 1 && (
+                  <hr className="dark:border-gray-700" />
+                )}
+              </>
+            );
+          }}
+        />
+      )}
+      {(isFetchingNextPage || isInitialLoading) && <FeedSkeleton />}
+      {isError && (
+        <div className="w-full h-20 flex justify-center items-center">
+          <h3 className="text-warning">
+            Something went wrong, please try again later.
+          </h3>
+        </div>
+      )}
+      {!hasMore && !isFetchingNextPage && !isInitialLoading && (
+        <div className="w-full h-20 flex justify-center items-center">
+          <h3 className="text-gray-400">沒更多文章囉</h3>
+        </div>
+      )}
     </>
   );
 };
