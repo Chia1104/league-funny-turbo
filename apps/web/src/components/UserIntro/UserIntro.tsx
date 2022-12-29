@@ -5,6 +5,7 @@ import EditDataModal from "./EditDataModal";
 import SendPrivateMsgModal from "./SendPrivateMsgModal";
 import UploadUserBG, { UploadUserBGRef } from "./UploadUserBG";
 import UploadUserImg from "./UploadUserImg";
+import IsLogin from "../IsLogin";
 
 interface Props {
   querykey: string;
@@ -13,26 +14,22 @@ interface Props {
 const UserIntro: FC<Props> = (props) => {
   const { querykey } = props;
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isSelf, setIsSelf] = useState<boolean>(true);
+  const [isEditDataModalOpen, setIsEditDataModalOpen] =
+    useState<boolean>(false);
+  const [isSendMsgModalOpen, setIsSendMsgModalOpen] = useState<boolean>(false);
   const UploadUserBGRef = useRef<UploadUserBGRef>(null);
-  const UploadUserImgRef = useRef(null);
 
   const onSelectChange = (e: string | string[]) => {
     router.push(e as string);
   };
 
-  const handleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const handleEditDataModal = () => {
+    setIsEditDataModalOpen(!isEditDataModalOpen);
   };
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  // };
-
-  // const handleSubmit = () => {
-  //   setIsModalOpen(false);
-  // };
+  const handleSendMsgModal = () => {
+    setIsSendMsgModalOpen(!isSendMsgModalOpen);
+  };
 
   return (
     <>
@@ -126,10 +123,36 @@ const UserIntro: FC<Props> = (props) => {
                 <button className="text-sm rounded leading-8 mr-1 px-3 py-1 text-white bg-brandblue hover:bg-[#2291ff] dark:bg-black dark:text-[#888] dark:hover:text-white">
                   連結QPP背包
                 </button>
-                {isSelf ? (
+                <IsLogin
+                  customRule={(session) => {
+                    if (session?.user.id === router.query.uid) {
+                      return true;
+                    }
+                    return false;
+                  }}
+                  fallBack={
+                    <button
+                      className="flex items-center rounded leading-8 px-4 btn-styleB"
+                      onClick={handleSendMsgModal}>
+                      <svg
+                        className="text-white w-6 h-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                        />
+                      </svg>
+                      <span className="ml-2">私訊他</span>
+                    </button>
+                  }>
                   <button
                     className="text-sm flex items-center rounded leading-8 px-3 py-1 text-white bg-brandblue hover:bg-[#2291ff] dark:bg-black dark:text-[#888] dark:hover:text-white"
-                    onClick={handleModal}>
+                    onClick={handleEditDataModal}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -148,34 +171,21 @@ const UserIntro: FC<Props> = (props) => {
                     </span>
                     <span className="ml-2 md:hidden">編輯</span>
                   </button>
-                ) : (
-                  <button
-                    className="flex items-center rounded leading-8 px-4 btn-styleB"
-                    onClick={handleModal}>
-                    <svg
-                      className="text-white w-6 h-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                      />
-                    </svg>
-                    <span className="ml-2">私訊他</span>
-                  </button>
-                )}
+                </IsLogin>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="absolute left-0">
-        <EditDataModal isOpen={isModalOpen} activityModal={handleModal} />
-        {/* <SendPrivateMsgModal isOpen={isModalOpen} activityModal={handleModal} /> */}
+        <EditDataModal
+          isOpen={isEditDataModalOpen}
+          activityModal={handleEditDataModal}
+        />
+        <SendPrivateMsgModal
+          isOpen={isSendMsgModalOpen}
+          activityModal={handleSendMsgModal}
+        />
       </div>
     </>
   );

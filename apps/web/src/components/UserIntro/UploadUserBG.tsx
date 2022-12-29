@@ -13,13 +13,13 @@ interface UploadUserBGRef {
 }
 
 const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
+  const { querykey } = props;
   const { data: session } = useSession();
   const { setToast } = useToasts();
-  const [date, setDate] = useState(0);
+  const [imageUrl, setImageUrl] = useState("");
 
   const {
     FileInput,
-    fileUrl,
     isS3UploadComplete,
     isSuccess: isUploadSuccess,
     isUploading,
@@ -34,7 +34,8 @@ const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
         type: "warning",
       });
     },
-    onS3UploadComplete: () => {
+    onS3UploadComplete: (url) => {
+      setImageUrl(`${url}?date=${new Date().getTime()}`);
       setToast({
         text: "上傳成功",
         type: "success",
@@ -48,20 +49,14 @@ const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
   });
 
   useImperativeHandle(ref, () => ({
-    fileUrl,
+    fileUrl: imageUrl,
   }));
-
-  // 新增後綴，讓圖片可正常抓取
-  useEffect(() => {
-    const date = new Date().getTime();
-    setDate(date);
-  }, [fileUrl]);
 
   return (
     <>
       {isS3UploadComplete && isUploadSuccess ? (
         <Image
-          src={`${fileUrl}?date=${date}` as string}
+          src={imageUrl}
           alt="banner"
           width={2000}
           height={2000}
@@ -69,7 +64,7 @@ const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
         />
       ) : (
         <Image
-          src={`https://img.league-funny.com/timeline_cover/${session?.user.id}.jpg?date=${date}`}
+          src={`https://img.league-funny.com/timeline_cover/${querykey}.jpg?date=${new Date().getTime()}`}
           alt="banner"
           width={2000}
           height={2000}

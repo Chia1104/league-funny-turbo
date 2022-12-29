@@ -1,8 +1,9 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { validateHeadShot } from "@wanin/shared/utils";
 import { Loading, useToasts } from "@geist-ui/core";
 import { UploadHeadShot } from "@/helpers/api/routes/user";
 import Image from "next/image";
+import { useToken } from "@/hooks";
 interface Props {
   querykey: string;
 }
@@ -12,8 +13,8 @@ const UploadUserImg: FC<Props> = (props) => {
   const [userImage, setUserImage] = useState<string>("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadComplete, setUploadComplete] = useState<boolean>(false);
-  const [date, setDate] = useState(0);
   const { setToast } = useToasts();
+  const token = useToken();
 
   async function onImageChange(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -33,7 +34,7 @@ const UploadUserImg: FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
 
-    const result = await UploadHeadShot(formData);
+    const result = await UploadHeadShot(formData, token?.raw ?? "");
     if (result.statusCode !== 200) {
       setToast({
         text: result.message || "上傳圖片失敗",
@@ -45,15 +46,9 @@ const UploadUserImg: FC<Props> = (props) => {
 
     setUploadComplete(true);
     setIsUploading(false);
-    setUserImage(result?.data as string);
+    setUserImage(`${result?.data}?date=${new Date().getTime()}`);
     return;
   }
-
-  // 新增後綴，讓圖片可正常抓取
-  useEffect(() => {
-    const date = new Date().getTime();
-    setDate(date);
-  }, [uploadComplete, userImage]);
 
   return (
     <>
@@ -64,7 +59,7 @@ const UploadUserImg: FC<Props> = (props) => {
               className="rounded-full"
               width={110}
               height={110}
-              src={`${userImage}?date=${date}` as string}
+              src={userImage}
               alt={"userImage"}
             />
           ) : (
@@ -72,7 +67,7 @@ const UploadUserImg: FC<Props> = (props) => {
               className="rounded-full"
               width={110}
               height={110}
-              src={`https://img.league-funny.com/user_cover_test/${querykey}.jpg?date=${date}`}
+              src={`https://img.league-funny.com/user_cover_test/${querykey}.jpg?date=${new Date().getTime()}`}
               alt={"userImage"}
             />
           )
