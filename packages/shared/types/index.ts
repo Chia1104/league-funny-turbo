@@ -12,3 +12,4 @@ export * from "./tag";
 export * from "./s3-client-token";
 export * from "./message";
 export * from "./new-post";
+export * from "./board";
