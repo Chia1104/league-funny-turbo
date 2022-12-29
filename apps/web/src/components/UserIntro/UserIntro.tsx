@@ -2,7 +2,6 @@ import { useState, type FC, useRef } from "react";
 import { ButtonGroup, Button, Select } from "@geist-ui/core";
 import { useRouter } from "next/router";
 import EditDataModal from "./EditDataModal";
-import { Avatar } from "@/components";
 import SendPrivateMsgModal from "./SendPrivateMsgModal";
 import UploadUserBG, { UploadUserBGRef } from "./UploadUserBG";
 import UploadUserImg from "./UploadUserImg";

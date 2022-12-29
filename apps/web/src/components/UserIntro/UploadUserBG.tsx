@@ -3,6 +3,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Loading, useToasts } from "@geist-ui/core";
 import { Image } from "@/components";
 import { useSession } from "next-auth/react";
+import { resizeConfig } from "@/shared/config/image.config";
 
 interface Props {
   querykey: string;
@@ -12,7 +13,6 @@ interface UploadUserBGRef {
 }
 
 const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
-  const { querykey } = props;
   const { data: session } = useSession();
   const { setToast } = useToasts();
   const [date, setDate] = useState(0);
@@ -25,8 +25,8 @@ const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
     isUploading,
   } = useS3ImageUpload({
     resize: {
-      width: 1900,
-      height: 331,
+      width: resizeConfig["timeline_cover"]["width"],
+      height: resizeConfig["timeline_cover"]["height"],
     },
     onS3UploadError: (error) => {
       setToast({
@@ -42,9 +42,9 @@ const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
     },
     fileName: session?.user.id,
     errorMessage: "上傳失敗",
-    convert: false,
     bucketFolder: "timeline_cover",
     useUUID: false,
+    format: resizeConfig["timeline_cover"]["format"],
   });
 
   useImperativeHandle(ref, () => ({
@@ -53,7 +53,6 @@ const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
 
   // 新增後綴，讓圖片可正常抓取
   useEffect(() => {
-    console.log(fileUrl);
     const date = new Date().getTime();
     setDate(date);
   }, [fileUrl]);
@@ -62,16 +61,15 @@ const UploadUserBG = forwardRef<UploadUserBGRef, Props>((props, ref) => {
     <>
       {isS3UploadComplete && isUploadSuccess ? (
         <Image
-          src={fileUrl as string}
+          src={`${fileUrl}?date=${date}` as string}
           alt="banner"
           width={2000}
           height={2000}
           className="object-cover w-full h-[300px] absolute md:h-[340px] desktop:bg-contain"
         />
       ) : (
-        // <div className="w-full h-[300px] absolute bg-dark md:h-[340px]"></div>
         <Image
-          src={``}
+          src={`https://img.league-funny.com/timeline_cover/${session?.user.id}.jpg?date=${date}`}
           alt="banner"
           width={2000}
           height={2000}

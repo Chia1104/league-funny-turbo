@@ -11,6 +11,11 @@ const resizeConfig = {
   froala: {
     width: 640,
   },
+  timeline_cover: {
+    width: 1900,
+    height: 331,
+    format: "jpg",
+  },
 } as const;
 
 export { resizeConfig };
