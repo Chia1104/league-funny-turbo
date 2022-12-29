@@ -1,18 +1,23 @@
 import { type FC, useMemo } from "react";
-import type { Feed } from "@wanin/shared/types";
+import type { Feed, Board } from "@wanin/shared/types";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
 import FeedSkeleton from "./FeedSkeleton";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchFeedList } from "@/helpers/api/routes/feed";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
 import { Virtuoso } from "react-virtuoso";
+import { useRouter } from "next/router";
+import BoardDetail from "@/components/FeedList/BoardDetail";
 
 interface Props {
   queryKey?: string;
   initFeed?: Feed[];
-  searchParams?: Record<string, string>;
+  searchParams?: Partial<Record<string, string>>;
   experimental?: boolean;
   initPage?: number;
+  boardDetail?: Board;
+  useBoardDetail?: boolean;
+  enableClientFetchBoardDetail?: boolean;
 }
 
 const FeedList: FC<Props> = (props) => {
@@ -22,9 +27,13 @@ const FeedList: FC<Props> = (props) => {
     initFeed,
     initPage = 2,
     searchParams,
+    boardDetail,
+    useBoardDetail,
+    enableClientFetchBoardDetail = false,
   } = props;
+  const router = useRouter();
 
-  const fetcher = async ({ pageParam = initPage }): Promise<Feed[]> => {
+  const feedFetcher = async ({ pageParam = initPage }): Promise<Feed[]> => {
     const result = await fetchFeedList({
       page: pageParam,
       searchParams,
@@ -38,6 +47,19 @@ const FeedList: FC<Props> = (props) => {
     return result.data.data;
   };
 
+  const boardFetcher = async (): Promise<Board> => {
+    const result = await fetchFeedBoardDetail({
+      b_type: router.query.b_type as string,
+    });
+    if (
+      result.statusCode !== 200 ||
+      !result?.data ||
+      result.status !== ApiResponseStatus.SUCCESS
+    )
+      throw new Error("error");
+    return result.data;
+  };
+
   const {
     data: feeds,
     error: isError,
@@ -48,7 +70,7 @@ const FeedList: FC<Props> = (props) => {
     isInitialLoading,
   } = useInfiniteQuery<Feed[]>({
     queryKey: [queryKey],
-    queryFn: fetcher,
+    queryFn: feedFetcher,
     initialData: initFeed && {
       pages: [initFeed],
       pageParams: [initPage - 1],
@@ -64,53 +86,78 @@ const FeedList: FC<Props> = (props) => {
     refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 
+  const {
+    data: board,
+    isLoading: isBoardLoading,
+    isSuccess: isBoardSuccess,
+  } = useQuery<Board>({
+    queryKey: ["board", router.query.b_type],
+    queryFn: boardFetcher,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    enabled: enableClientFetchBoardDetail,
+  });
+
   const _feeds = useMemo(() => {
     if (!feeds) return [];
     return feeds.pages.flat();
   }, [feeds]);
 
   return (
-    <div className="w-full w-bg-secondary rounded-lg shadow-lg">
-      <>
-        {isSuccess && (
-          <Virtuoso
-            totalCount={_feeds.length}
-            data={_feeds}
-            overscan={{
-              main: 1000,
-              reverse: 700,
-            }}
-            endReached={() => fetchNextPage()}
-            style={{ height: "100%" }}
-            useWindowScroll
-            initialItemCount={19}
-            itemContent={(index, item) => {
-              return (
-                <>
-                  <FeedItem feed={item} />
-                  {index !== _feeds.length - 1 && (
-                    <hr className="dark:border-gray-700" />
-                  )}
-                </>
-              );
-            }}
-          />
-        )}
-        {(isFetchingNextPage || isInitialLoading) && <FeedSkeleton />}
-        {isError && (
-          <div className="w-full h-20 flex justify-center items-center">
-            <h3 className="text-warning">
-              Something went wrong, please try again later.
-            </h3>
-          </div>
-        )}
-        {!hasMore && !isFetchingNextPage && !isInitialLoading && (
-          <div className="w-full h-20 flex justify-center items-center">
-            <h3 className="text-gray-400">沒更多文章囉</h3>
-          </div>
-        )}
-      </>
-    </div>
+    <>
+      {useBoardDetail && boardDetail && !enableClientFetchBoardDetail && (
+        <BoardDetail boardDetail={boardDetail} isLoading={isBoardLoading} />
+      )}
+      {enableClientFetchBoardDetail && isBoardSuccess && board && (
+        <BoardDetail boardDetail={board} isLoading={isBoardLoading} />
+      )}
+      {isBoardLoading && enableClientFetchBoardDetail && (
+        <div className="flex flex-col border-b dark:border-gray-700 min-h-[100px] relative rounded-t-lg overflow-hidden">
+          <span className="animate-pulse w-bg-secondary aspect-w-8 aspect-h-4 xl:aspect-h-2 w-full overflow-hidden" />
+        </div>
+      )}
+      {isSuccess && (
+        <Virtuoso
+          totalCount={_feeds.length}
+          data={_feeds}
+          overscan={{
+            main: 1000,
+            reverse: 700,
+          }}
+          endReached={() => fetchNextPage()}
+          style={{
+            height: `${
+              !hasMore && !isFetchingNextPage && !isInitialLoading ? 0 : "100%"
+            }`,
+          }}
+          useWindowScroll
+          initialItemCount={19}
+          itemContent={(index, item) => {
+            return (
+              <>
+                <FeedItem feed={item} />
+                {index !== _feeds.length - 1 && (
+                  <hr className="dark:border-gray-700" />
+                )}
+              </>
+            );
+          }}
+        />
+      )}
+      {(isFetchingNextPage || isInitialLoading) && <FeedSkeleton />}
+      {isError && (
+        <div className="w-full h-20 flex justify-center items-center">
+          <h3 className="text-warning">
+            Something went wrong, please try again later.
+          </h3>
+        </div>
+      )}
+      {!hasMore && !isFetchingNextPage && !isInitialLoading && (
+        <div className="w-full h-20 flex justify-center items-center">
+          <h3 className="text-gray-400">沒更多文章囉</h3>
+        </div>
+      )}
+    </>
   );
 };
 

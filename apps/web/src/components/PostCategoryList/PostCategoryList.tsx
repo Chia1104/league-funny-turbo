@@ -54,7 +54,7 @@ const List: FC<ListProps> = ({ bord }) => {
                 className={cx(
                   "ml-4 flex hover:bg-gray-100 dark:hover:bg-black p-2 rounded-lg transition duration-300 ease-in-out",
                   detail.b_type.toLowerCase() ===
-                    router.asPath.split("/")[2]?.toLowerCase() &&
+                    ((router.query?.b_type as string) ?? "")?.toLowerCase() &&
                     "bg-gray-100 dark:bg-black"
                 )}>
                 {detail.b_zh_name}
