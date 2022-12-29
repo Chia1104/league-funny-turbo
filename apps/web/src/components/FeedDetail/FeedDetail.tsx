@@ -50,7 +50,7 @@ const FeedDetail: FC<Props> = (props) => {
         text: "刪除成功",
         type: "success",
       });
-      await router.push("/");
+      await router.push(`/b/${data.f_game_type}`);
       return;
     }
     setToast({

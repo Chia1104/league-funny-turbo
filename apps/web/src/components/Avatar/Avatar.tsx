@@ -8,14 +8,16 @@ interface Props {
   url?: string;
   ratio: number;
   onClick?: () => void;
+  blur?: boolean;
 }
 
 const Avatar: FC<Props> = (props) => {
-  const { username, userId, url, ratio, onClick } = props;
+  const { username, userId, url, ratio, onClick, blur } = props;
 
   return (
     <span className="relative">
       <Image
+        blur={blur}
         onClick={onClick}
         src={url || `https://img.league-funny.com/user_cover/${userId}.jpg`}
         width={ratio}

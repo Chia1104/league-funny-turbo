@@ -28,7 +28,7 @@ const HomePage: NextPage<FeedProps> = (props) => {
   return (
     <Page className="w-main w-full">
       <Head />
-      <article className="mt-28 w-full">
+      <article className="mt-28 w-full w-bg-secondary rounded-lg shadow-lg">
         <FeedList initFeed={initFeed.data} queryKey="home_ssg_feed_list" />
       </article>
     </Page>
