@@ -76,10 +76,10 @@ const videoUrlsSchema = z.object({
   video_url: z
     .string()
     .min(1, { message: "請輸入正確的網址" })
-    .regex(new RegExp(ytShortRegex))
-    .or(z.string().regex(new RegExp(ytRegex)))
-    .or(z.string().regex(new RegExp(twitchShortRegex)))
-    .or(z.string().regex(new RegExp(twitchRegex))),
+    .or(z.string().regex(ytShortRegex).optional())
+    .or(z.string().regex(ytRegex).optional())
+    .or(z.string().regex(twitchShortRegex).optional())
+    .or(z.string().regex(twitchRegex).optional()),
   comment: z.string().optional(),
 });
 
