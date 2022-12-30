@@ -11,11 +11,12 @@ const twitchRegex =
 
 const video_urlSchema = z
   .string()
+  .regex(ytShortRegex)
   .optional()
-  .or(z.string().regex(ytShortRegex).optional())
   .or(z.string().regex(ytRegex).optional())
   .or(z.string().regex(twitchShortRegex).optional())
-  .or(z.string().regex(twitchRegex).optional());
+  .or(z.string().regex(twitchRegex).optional())
+  .or(z.string().length(0));
 const commentSchema = z.string().optional();
 
 const videoUrlsSchema = z.object({

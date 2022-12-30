@@ -17,14 +17,6 @@ import { useRouter } from "next/router";
 import { addPlaylist } from "@/helpers/api/routes/playlist";
 import { NewVideoDTO } from "@wanin/shared/types";
 import VideoUrls, { VideoUrlsRef } from "./VideoUrls";
-import { z } from "zod";
-
-const ytShortRegex = /(http|https):\/\/youtu\.be\/([a-z|A-Z|_|\-|0-9|\/]+)/i;
-const ytRegex =
-  /\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i;
-const twitchShortRegex = /https:\/\/clips.twitch.tv\/([a-z|A-Z|_|\-|0-9|\/]+)/i;
-const twitchRegex =
-  /https:\/\/www\.twitch\.tv\/([a-z|A-Z|_|\-|0-9|\/]+)\/clip\/([a-z|A-Z|_|\-|0-9|\/]+)/i;
 
 enum ActionType {
   SET_TITLE = "SET_TITLE",
@@ -71,17 +63,6 @@ const reducer = (state: Partial<NewVideoDTO>, action: Action) => {
       return state;
   }
 };
-
-const videoUrlsSchema = z.object({
-  video_url: z
-    .string()
-    .min(1, { message: "請輸入正確的網址" })
-    .or(z.string().regex(ytShortRegex).optional())
-    .or(z.string().regex(ytRegex).optional())
-    .or(z.string().regex(twitchShortRegex).optional())
-    .or(z.string().regex(twitchRegex).optional()),
-  comment: z.string().optional(),
-});
 
 const NewVideo = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -131,7 +112,7 @@ const WrappedNewVideo = () => {
         delete item.id;
         return item;
       });
-    if (!newList || !videoUrlsSchema.safeParse(newList[0]).success) {
+    if (!newList?.length) {
       setToast({
         text: "至少要有一支影片",
         type: "warning",
