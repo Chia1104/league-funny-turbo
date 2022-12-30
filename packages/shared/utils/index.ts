@@ -5,3 +5,4 @@ export * from "./set-search-params";
 export { default as asyncComponent } from "./async-component";
 export { default as slugFormat } from "./slug-format";
 export * from "./s3-upload-validate";
+export * from "./upload-head-shot-validate";

@@ -1,9 +1,11 @@
-import { useState, type FC } from "react";
+import { useState, type FC, useRef } from "react";
 import { ButtonGroup, Button, Select } from "@geist-ui/core";
 import { useRouter } from "next/router";
 import EditDataModal from "./EditDataModal";
-import { Avatar } from "@/components";
 import SendPrivateMsgModal from "./SendPrivateMsgModal";
+import UploadUserBG, { UploadUserBGRef } from "./UploadUserBG";
+import UploadUserImg from "./UploadUserImg";
+import IsLogin from "../IsLogin";
 
 interface Props {
   querykey: string;
@@ -12,73 +14,31 @@ interface Props {
 const UserIntro: FC<Props> = (props) => {
   const { querykey } = props;
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isSelf, setIsSelf] = useState<boolean>(true);
+  const [isEditDataModalOpen, setIsEditDataModalOpen] =
+    useState<boolean>(false);
+  const [isSendMsgModalOpen, setIsSendMsgModalOpen] = useState<boolean>(false);
+  const UploadUserBGRef = useRef<UploadUserBGRef>(null);
 
   const onSelectChange = (e: string | string[]) => {
     router.push(e as string);
   };
 
-  const handleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const handleEditDataModal = () => {
+    setIsEditDataModalOpen(!isEditDataModalOpen);
   };
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  // };
-
-  // const handleSubmit = () => {
-  //   setIsModalOpen(false);
-  // };
+  const handleSendMsgModal = () => {
+    setIsSendMsgModalOpen(!isSendMsgModalOpen);
+  };
 
   return (
     <>
       <div className="user-intro">
-        <div className="w-full h-[300px] bg-[url('/about/about_top.jpg')] bg-top bg-no-repeat bg-fixed bg-auto absolute top-0 left-0 mt-16 md:h-[340px] desktop:bg-contain">
-          <div className="flex flex-row-reverse relative w-full text-right pt-4 pr-8 md:pt-7 md:pr-16">
-            <button className="btn-styleA bg-light hover:bg-gray-100 dark:bg-dark dark:hover:bg-black">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                />
-              </svg>
-              <span className="text-sm ml-2">更換背景</span>
-            </button>
-          </div>
+        <div className="w-full h-[300px] bg-top bg-no-repeat bg-fixed bg-auto absolute top-0 left-0 mt-16 md:h-[340px] desktop:bg-contain">
+          <UploadUserBG ref={UploadUserBGRef} querykey={querykey} />
           <div className="flex flex-col items-center relative">
             <div className="relative">
-              <div className="rounded-full bg-white border-2 border-white">
-                <Avatar
-                  url={`https://img.league-funny.com/user_cover/${
-                    querykey || ""
-                  }.jpg`}
-                  userId={querykey}
-                  ratio={100}
-                  username={""}
-                />
-              </div>
-              <div className="absolute right-0 bottom-1.5 w-8 h-8 rounded-full flex items-center justify-center bg-gray-500 cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6 text-white">
-                  <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
+              <UploadUserImg querykey={querykey} />
             </div>
             <div className="flex items-start mt-3">
               <h5 className="text-3xl font-medium text-white drop-shadow-[0.1rem_0.05em_0.1em_rgba(66,66,66,0.47)]">
@@ -161,12 +121,38 @@ const UserIntro: FC<Props> = (props) => {
               </ButtonGroup>
               <div className="flex">
                 <button className="text-sm rounded leading-8 mr-1 px-3 py-1 text-white bg-brandblue hover:bg-[#2291ff] dark:bg-black dark:text-[#888] dark:hover:text-white">
-                  連結錢包
+                  連結QPP背包
                 </button>
-                {isSelf ? (
+                <IsLogin
+                  customRule={(session) => {
+                    if (session?.user.id === router.query.uid) {
+                      return true;
+                    }
+                    return false;
+                  }}
+                  fallBack={
+                    <button
+                      className="flex items-center rounded leading-8 px-4 btn-styleB"
+                      onClick={handleSendMsgModal}>
+                      <svg
+                        className="text-white w-6 h-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                        />
+                      </svg>
+                      <span className="ml-2">私訊他</span>
+                    </button>
+                  }>
                   <button
                     className="text-sm flex items-center rounded leading-8 px-3 py-1 text-white bg-brandblue hover:bg-[#2291ff] dark:bg-black dark:text-[#888] dark:hover:text-white"
-                    onClick={handleModal}>
+                    onClick={handleEditDataModal}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -185,34 +171,21 @@ const UserIntro: FC<Props> = (props) => {
                     </span>
                     <span className="ml-2 md:hidden">編輯</span>
                   </button>
-                ) : (
-                  <button
-                    className="flex items-center rounded leading-8 px-4 btn-styleB"
-                    onClick={handleModal}>
-                    <svg
-                      className="text-white w-6 h-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                      />
-                    </svg>
-                    <span className="ml-2">私訊他</span>
-                  </button>
-                )}
+                </IsLogin>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="absolute left-0">
-        <EditDataModal isOpen={isModalOpen} activityModal={handleModal} />
-        {/* <SendPrivateMsgModal isOpen={isModalOpen} activityModal={handleModal} /> */}
+        <EditDataModal
+          isOpen={isEditDataModalOpen}
+          activityModal={handleEditDataModal}
+        />
+        <SendPrivateMsgModal
+          isOpen={isSendMsgModalOpen}
+          activityModal={handleSendMsgModal}
+        />
       </div>
     </>
   );

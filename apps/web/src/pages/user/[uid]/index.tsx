@@ -10,7 +10,7 @@ interface FeedProps {
 const UserDetailPage: NextPage<FeedProps> = () => {
   return (
     <article>
-      <UserComment querykey="1" />
+      <UserComment querykey="302029" />
     </article>
   );
 };
