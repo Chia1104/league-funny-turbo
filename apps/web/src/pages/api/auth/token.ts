@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { IApiResponse } from "@/utils/fetcher.util";
 import { errorConfig } from "@/shared/config/network.config";
 import { ApiResponseStatus } from "@wanin/shared/types";
-import { getTokenRaw } from "@/server/auth/services";
+import { getTokenRaw, getToken } from "@/server/auth/services";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +12,8 @@ export default async function handler(
     case "POST":
       try {
         const raw = await getTokenRaw(req);
-        if (!raw) {
+        const token = await getToken(req);
+        if (!token) {
           return res.status(401).json({
             statusCode: 401,
             status: ApiResponseStatus.ERROR,
