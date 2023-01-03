@@ -30,6 +30,12 @@ RUN yarn global add pnpm && \
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 
+ARG \
+  NEXT_PUBLIC_API_URL
+
+ENV \
+  NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 RUN yarn turbo run build --filter=web...
 
 FROM node:18-alpine AS runner

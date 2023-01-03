@@ -63,12 +63,16 @@ const BoardDetail: FC<Props> = ({ boardDetail, isLoading }) => {
           value={router.query.sort as string}
           placeholder="排序"
           onChange={(value) => {
-            router.push({
-              query: {
-                ...router.query,
-                sort: value,
+            router.push(
+              {
+                query: {
+                  ...router.query,
+                  sort: value,
+                },
               },
-            });
+              undefined,
+              { shallow: true }
+            );
           }}>
           {sortTabs.map((tab) => (
             <Select.Option key={tab.id} value={tab.value}>
@@ -80,12 +84,16 @@ const BoardDetail: FC<Props> = ({ boardDetail, isLoading }) => {
       <div className="flex items-center justify-start pl-5 min-h-[58px] w-full hidden md:block">
         <Tabs
           onChange={(value) => {
-            router.push({
-              query: {
-                ...router.query,
-                sort: value,
+            router.push(
+              {
+                query: {
+                  ...router.query,
+                  sort: value,
+                },
               },
-            });
+              undefined,
+              { shallow: true }
+            );
           }}
           initialValue={(router.query.sort as string) ?? "hot"}
           hideDivider
