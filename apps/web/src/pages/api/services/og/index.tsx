@@ -20,8 +20,8 @@ export default function handler(req: NextRequest) {
     return new ImageResponse(
       (
         <div
+          tw="bg-slate-900"
           style={{
-            backgroundColor: "black",
             backgroundSize: "150px 150px",
             height: "100%",
             width: "100%",
@@ -40,13 +40,11 @@ export default function handler(req: NextRequest) {
               justifyItems: "center",
             }}>
             {hasImage && (
-              <img
-                tw="w-full object-contain"
-                alt="og"
-                src="https://img.league-funny.com/imgur/c56c6338-0c34-4b45-b84f-a746629427e5_nog.png"
-              />
+              <img tw="w-full object-contain" alt="og" src={imgSrc as string} />
             )}
-            {!hasImage && <h1>{title}</h1>}
+            {!hasImage && (
+              <h1 tw="text-[60px] text-white font-bold">{title}</h1>
+            )}
           </div>
         </div>
       ),
