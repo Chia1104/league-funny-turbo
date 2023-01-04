@@ -13,9 +13,9 @@ const VideoUrlItem = ({
 }) => {
   return (
     <div className="flex items-center flex-1">
-      <div className="w-full">
+      <div className="w-full my-1">
         <Input
-          className="px-2 py-1 text-base"
+          className="px-2 py-1 mb-1 text-sm"
           placeholder="網址 (輸入youtube、facebook、twitch clip)"
           schema={video_urlSchema}
           errorClassName="my-1"
@@ -33,7 +33,7 @@ const VideoUrlItem = ({
           }}
         />
         <Input
-          className="px-2 py-1 text-base"
+          className="px-2 py-1 text-sm"
           placeholder="個人短評 (輸入你對影片的簡短感想)"
           schema={commentSchema}
           errorClassName="my-1"

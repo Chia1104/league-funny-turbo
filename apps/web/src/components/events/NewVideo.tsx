@@ -16,7 +16,7 @@ import { useToasts } from "@geist-ui/core";
 import { useRouter } from "next/router";
 import { addPlaylist } from "@/helpers/api/routes/playlist";
 import { NewVideoDTO } from "@wanin/shared/types";
-import VideoUrls, { VideoUrlsRef } from "./VideoUrls";
+import VideoUrls, { VideoUrlsRef } from "./VideoUrls/VideoUrls";
 
 enum ActionType {
   SET_TITLE = "SET_TITLE",
@@ -134,7 +134,7 @@ const WrappedNewVideo = () => {
       }
 
       const res = await addPlaylist({ newVideo });
-      if (res.statusCode !== 200) {
+      if (!res.data || res.statusCode !== 200) {
         setToast({
           text: res.message || "新增影片失敗",
           type: "warning",
@@ -145,8 +145,7 @@ const WrappedNewVideo = () => {
         text: "新增影片成功",
         type: "success",
       });
-      if (res.data)
-        await router.push(`/b/${res?.data?.gameType}/f/${res?.data?.fid}`);
+      await router.push(`/b/${res?.data?.gameType}/f/${res?.data?.fid}`);
     }
   };
 

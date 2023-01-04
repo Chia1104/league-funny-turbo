@@ -5,3 +5,4 @@ export { default as NewVideo } from "./NewVideo";
 export { default as NewComment } from "./NewComment";
 export * from "./NewComment";
 export { default as UpdatePost } from "./UpdatePost";
+export { default as VideoUrls } from "./VideoUrls";
