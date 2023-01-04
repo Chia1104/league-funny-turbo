@@ -9,15 +9,19 @@ export default function handler(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const hasTitle = searchParams.has("title");
+    const hasImage = searchParams.has("imgSrc");
     const title = hasTitle
       ? searchParams.get("title")?.slice(0, 100)
       : "My default title";
+    const imgSrc = hasImage
+      ? searchParams.get("imgSrc")
+      : "https://img.league-funny.com/imgur/c56c6338-0c34-4b45-b84f-a746629427e5_nog.png";
 
     return new ImageResponse(
       (
         <div
+          tw="bg-slate-900"
           style={{
-            backgroundColor: "black",
             backgroundSize: "150px 150px",
             height: "100%",
             width: "100%",
@@ -35,11 +39,12 @@ export default function handler(req: NextRequest) {
               justifyContent: "center",
               justifyItems: "center",
             }}>
-            <img
-              tw="w-full object-contain"
-              alt="og"
-              src="https://img.league-funny.com/imgur/c56c6338-0c34-4b45-b84f-a746629427e5_nog.png"
-            />
+            {hasImage && (
+              <img tw="w-full object-contain" alt="og" src={imgSrc as string} />
+            )}
+            {!hasImage && (
+              <h1 tw="text-[60px] text-white font-bold">{title}</h1>
+            )}
           </div>
         </div>
       ),

@@ -95,6 +95,7 @@ const FeedList: FC<Props> = (props) => {
     queryFn: boardFetcher,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    initialData: !enableClientFetchBoardDetail ? boardDetail : undefined,
     enabled: enableClientFetchBoardDetail,
   });
 
@@ -106,7 +107,7 @@ const FeedList: FC<Props> = (props) => {
   return (
     <>
       {useBoardDetail && boardDetail && !enableClientFetchBoardDetail && (
-        <BoardDetail boardDetail={boardDetail} isLoading={isBoardLoading} />
+        <BoardDetail boardDetail={boardDetail} />
       )}
       {enableClientFetchBoardDetail && isBoardSuccess && board && (
         <BoardDetail boardDetail={board} isLoading={isBoardLoading} />

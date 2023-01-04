@@ -41,6 +41,11 @@ And using [pnpm](https://pnpm.io/) as the package manager.
 > ```bash
 > pnpm install
 > ```
+> More details in each app's README.md
+>
+> - [web](apps/web/README.md)
+>
+> - [exp-web](apps/exp-web/README.md)
 
 ### Scripts
 
@@ -81,7 +86,7 @@ FACEBOOK_ID=<FACEBOOK_ID>
 FACEBOOK_SECRET=<FACEBOOK_SECRET>
 TWITCH_CLIENT_ID=<TWITCH_CLIENT_ID>
 TWITCH_CLIENT_SECRET=<TWITCH_CLIENT_SECRET>
-API_URL=<localhost:8000>
+NEXT_PUBLIC_API_URL=<localhost:8000>
 S3_UPLOAD_KEY=<S3_UPLOAD_KEY>
 S3_UPLOAD_SECRET=<S3_UPLOAD_SECRET>
 S3_UPLOAD_BUCKET=<S3_UPLOAD_BUCKET>

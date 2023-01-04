@@ -6,6 +6,6 @@ const ssgConfig = {
     revalidate: 60,
     fallback: "blocking",
   },
-};
+} as const;
 
 export default ssgConfig;

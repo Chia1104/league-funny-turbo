@@ -9,7 +9,7 @@ export const VERCEL_URL = process.env.VERCEL_URL;
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-export const HOST = process.env.NEXT_PUBLIC_HOST || "localhost";
+export const HOST = process.env.NEXT_PUBLIC_HOST;
 export const PORT = process.env.PORT || 3000;
 
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "secret";

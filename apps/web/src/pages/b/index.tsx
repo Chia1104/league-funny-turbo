@@ -10,9 +10,19 @@ interface FeedProps {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data: initFeed } = await fetchFeedList({
+  const {
+    data: initFeed,
+    status,
+    statusCode,
+  } = await fetchFeedList({
     page: 1,
   });
+
+  if (status !== "success" || statusCode !== 200) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
