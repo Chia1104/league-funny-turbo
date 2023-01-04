@@ -7,6 +7,8 @@ import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { rootStateSelector } from "@/store/reducers/root-state";
+import { useIsMounted } from "usehooks-ts";
+import { useSSR } from "@/hooks";
 
 interface FeedProps {
   boardDetail: Board;
@@ -47,18 +49,23 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const BPage: NextPage<FeedProps> = (props) => {
   const router = useRouter();
-  const { b_type, sort, catalogue } = router.query;
+  const { b_type, sort = "hot", catalogue } = router.query;
   const { initFeed, boardDetail } = props;
   const rootState = useAppSelector(rootStateSelector);
+  const isMounted = useIsMounted();
+  const { isServer } = useSSR();
 
   return (
     <Page className="w-main w-full justify-start">
       <Head />
       <article className="mt-28 w-full w-bg-secondary rounded-lg shadow-lg">
-        {!rootState.app.isMounted ? (
+        {!isMounted() ? (
           <FeedList
-            boardDetail={boardDetail}
-            useBoardDetail
+            useBoardDetail={{
+              visible: true,
+              boardDetail,
+              enableClientFetchBoardDetail: false,
+            }}
             initFeed={initFeed.data}
             searchParams={{
               boardType: b_type as string,
@@ -76,7 +83,10 @@ const BPage: NextPage<FeedProps> = (props) => {
             }}
             initPage={1}
             queryKey={`${b_type}_feed_list_${sort}_${catalogue}`}
-            enableClientFetchBoardDetail
+            useBoardDetail={{
+              visible: true,
+              enableClientFetchBoardDetail: isMounted(),
+            }}
           />
         )}
       </article>

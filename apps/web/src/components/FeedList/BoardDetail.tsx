@@ -5,8 +5,9 @@ import { Tabs, Select } from "@geist-ui/core";
 import { useRouter } from "next/router";
 
 interface Props {
-  boardDetail: Board;
-  isLoading?: boolean;
+  boardDetail?: Board;
+  isBoardLoading?: boolean;
+  isFeedLoading?: boolean;
 }
 
 const formatImageUrl = (url: string) => {
@@ -53,7 +54,11 @@ const sortTabs = [
   },
 ];
 
-const BoardDetail: FC<Props> = ({ boardDetail, isLoading }) => {
+const BoardDetail: FC<Props> = ({
+  boardDetail,
+  isBoardLoading,
+  isFeedLoading,
+}) => {
   const router = useRouter();
 
   const BoardSort = () => (
@@ -103,7 +108,7 @@ const BoardDetail: FC<Props> = ({ boardDetail, isLoading }) => {
               <Tabs.Item
                 label={tab.label}
                 value={tab.value}
-                disabled={isLoading}
+                disabled={isFeedLoading}
               />
             </div>
           ))}
@@ -115,14 +120,14 @@ const BoardDetail: FC<Props> = ({ boardDetail, isLoading }) => {
   return (
     <>
       <div className="flex flex-col border-b dark:border-gray-700 min-h-[100px] relative rounded-t-lg overflow-hidden">
-        {isLoading ? (
+        {isBoardLoading ? (
           <span className="animate-pulse w-bg-secondary aspect-w-8 aspect-h-4 xl:aspect-h-2 w-full overflow-hidden" />
         ) : (
           <span className="aspect-w-8 aspect-h-4 xl:aspect-h-2 w-full overflow-hidden">
             <Image
               blur
-              src={formatImageUrl(boardDetail.b_cover)}
-              alt={boardDetail.b_en_name}
+              src={formatImageUrl(boardDetail?.b_cover ?? "")}
+              alt={boardDetail?.b_en_name ?? ""}
               fill
               className="object-cover group-hover:scale-[1.05] duration-300 transition ease-in-out"
             />
@@ -131,7 +136,7 @@ const BoardDetail: FC<Props> = ({ boardDetail, isLoading }) => {
         <div className="absolute top-0 left-0 right-0 aspect-w-8 aspect-h-4 xl:aspect-h-2 w-full z-20 bg-gradient-to-t from-black to-transparent" />
         <span className="absolute bottom-5 left-10 z-30">
           <h2 className="text-3xl font-bold text-white">
-            {boardDetail.b_zh_name}
+            {boardDetail?.b_zh_name}
           </h2>
         </span>
       </div>

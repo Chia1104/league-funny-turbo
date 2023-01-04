@@ -15,9 +15,11 @@ interface Props {
   searchParams?: Partial<Record<string, string>>;
   experimental?: boolean;
   initPage?: number;
-  boardDetail?: Board;
-  useBoardDetail?: boolean;
-  enableClientFetchBoardDetail?: boolean;
+  useBoardDetail?: {
+    visible?: boolean;
+    boardDetail?: Board;
+    enableClientFetchBoardDetail?: boolean;
+  };
 }
 
 const FeedList: FC<Props> = (props) => {
@@ -27,9 +29,7 @@ const FeedList: FC<Props> = (props) => {
     initFeed,
     initPage = 2,
     searchParams,
-    boardDetail,
     useBoardDetail,
-    enableClientFetchBoardDetail = false,
   } = props;
   const router = useRouter();
 
@@ -68,6 +68,7 @@ const FeedList: FC<Props> = (props) => {
     isFetchingNextPage,
     isSuccess,
     isInitialLoading,
+    isFetching: isFeedLoading,
   } = useInfiniteQuery<Feed[]>({
     queryKey: [queryKey],
     queryFn: feedFetcher,
@@ -86,17 +87,14 @@ const FeedList: FC<Props> = (props) => {
     refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 
-  const {
-    data: board,
-    isLoading: isBoardLoading,
-    isSuccess: isBoardSuccess,
-  } = useQuery<Board>({
+  const { data: board, isInitialLoading: isBoardLoading } = useQuery<Board>({
     queryKey: ["board", router.query.b_type],
     queryFn: boardFetcher,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    initialData: !enableClientFetchBoardDetail ? boardDetail : undefined,
-    enabled: enableClientFetchBoardDetail,
+    initialData: useBoardDetail?.boardDetail,
+    enabled: !!useBoardDetail?.enableClientFetchBoardDetail,
+    staleTime: 1000 * 60 * 5,
   });
 
   const _feeds = useMemo(() => {
@@ -106,16 +104,22 @@ const FeedList: FC<Props> = (props) => {
 
   return (
     <>
-      {useBoardDetail && boardDetail && !enableClientFetchBoardDetail && (
-        <BoardDetail boardDetail={boardDetail} />
-      )}
-      {enableClientFetchBoardDetail && isBoardSuccess && board && (
-        <BoardDetail boardDetail={board} isLoading={isBoardLoading} />
-      )}
-      {isBoardLoading && enableClientFetchBoardDetail && (
-        <div className="flex flex-col border-b dark:border-gray-700 min-h-[100px] relative rounded-t-lg overflow-hidden">
-          <span className="animate-pulse w-bg-secondary aspect-w-8 aspect-h-4 xl:aspect-h-2 w-full overflow-hidden" />
-        </div>
+      {useBoardDetail?.visible && (
+        <>
+          {!useBoardDetail?.enableClientFetchBoardDetail ? (
+            <BoardDetail
+              boardDetail={useBoardDetail?.boardDetail}
+              isFeedLoading={isFeedLoading}
+              isBoardLoading={isBoardLoading}
+            />
+          ) : (
+            <BoardDetail
+              boardDetail={board}
+              isFeedLoading={isFeedLoading}
+              isBoardLoading={isBoardLoading}
+            />
+          )}
+        </>
       )}
       {isSuccess && (
         <Virtuoso
