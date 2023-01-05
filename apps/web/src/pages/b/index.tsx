@@ -21,6 +21,7 @@ export const getStaticProps: GetStaticProps = async () => {
   if (status !== "success" || statusCode !== 200) {
     return {
       notFound: true,
+      revalidate: ssgConfig["/b"]["revalidate"],
     };
   }
 
