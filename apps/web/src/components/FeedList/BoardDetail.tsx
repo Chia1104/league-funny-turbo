@@ -125,7 +125,6 @@ const BoardDetail: FC<Props> = ({
         ) : (
           <span className="aspect-w-8 aspect-h-4 xl:aspect-h-2 w-full overflow-hidden">
             <Image
-              blur
               src={formatImageUrl(boardDetail?.b_cover ?? "")}
               alt={boardDetail?.b_en_name ?? ""}
               fill

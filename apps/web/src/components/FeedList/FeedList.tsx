@@ -1,4 +1,4 @@
-import { type FC, useMemo } from "react";
+import { type FC, type Key, useMemo } from "react";
 import type { Feed, Board } from "@wanin/shared/types";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
@@ -19,7 +19,9 @@ interface Props {
     visible?: boolean;
     boardDetail?: Board;
     enableClientFetchBoardDetail?: boolean;
+    key?: Key;
   };
+  enableClientFetchFeedList?: boolean;
 }
 
 const FeedList: FC<Props> = (props) => {
@@ -30,6 +32,7 @@ const FeedList: FC<Props> = (props) => {
     initPage = 2,
     searchParams,
     useBoardDetail,
+    enableClientFetchFeedList,
   } = props;
   const router = useRouter();
 
@@ -85,6 +88,7 @@ const FeedList: FC<Props> = (props) => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchInterval: 1000 * 60 * 5, // 5 minutes
+    enabled: enableClientFetchFeedList,
   });
 
   const { data: board, isInitialLoading: isBoardLoading } = useQuery<Board>({
@@ -108,12 +112,14 @@ const FeedList: FC<Props> = (props) => {
         <>
           {!useBoardDetail?.enableClientFetchBoardDetail ? (
             <BoardDetail
+              key={useBoardDetail?.key}
               boardDetail={useBoardDetail?.boardDetail}
               isFeedLoading={isFeedLoading}
               isBoardLoading={isBoardLoading}
             />
           ) : (
             <BoardDetail
+              key={useBoardDetail?.key}
               boardDetail={board}
               isFeedLoading={isFeedLoading}
               isBoardLoading={isBoardLoading}

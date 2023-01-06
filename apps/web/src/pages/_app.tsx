@@ -16,7 +16,7 @@ function Web({
       <Provider session={session}>
         <Layout>
           <AnimatePresence mode="wait">
-            <Component {...pageProps} key={router.route} />
+            <Component {...pageProps} />
           </AnimatePresence>
         </Layout>
       </Provider>

@@ -5,10 +5,8 @@ import { FeedList, Head } from "@/components";
 import { Page } from "@wanin/ui";
 import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
 import { ApiResponseStatus } from "@wanin/shared/types";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { rootStateSelector } from "@/store/reducers/root-state";
 import { useIsMounted } from "usehooks-ts";
-import { useSSR } from "@/hooks";
+import { useState, useEffect } from "react";
 
 interface FeedProps {
   boardDetail: Board;
@@ -51,9 +49,15 @@ const BPage: NextPage<FeedProps> = (props) => {
   const router = useRouter();
   const { b_type, sort = "hot", catalogue } = router.query;
   const { initFeed, boardDetail } = props;
-  const rootState = useAppSelector(rootStateSelector);
   const isMounted = useIsMounted();
-  const { isServer } = useSSR();
+  const [enableClientFetchBoard, setEnableClientFetchBoard] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    if (!b_type || b_type === "undefined") setEnableClientFetchBoard(false);
+    if (isMounted()) setEnableClientFetchBoard(true);
+    return () => setEnableClientFetchBoard(false);
+  }, [b_type]);
 
   return (
     <Page className="w-main w-full justify-start">
@@ -65,6 +69,7 @@ const BPage: NextPage<FeedProps> = (props) => {
               visible: true,
               boardDetail,
               enableClientFetchBoardDetail: false,
+              key: b_type as string,
             }}
             initFeed={initFeed.data}
             searchParams={{
@@ -85,8 +90,11 @@ const BPage: NextPage<FeedProps> = (props) => {
             queryKey={`${b_type}_feed_list_${sort}_${catalogue}`}
             useBoardDetail={{
               visible: true,
-              enableClientFetchBoardDetail: isMounted(),
+              boardDetail: enableClientFetchBoard ? undefined : boardDetail,
+              enableClientFetchBoardDetail: enableClientFetchBoard,
+              key: b_type as string,
             }}
+            enableClientFetchFeedList={!b_type ? false : undefined}
           />
         )}
       </article>
