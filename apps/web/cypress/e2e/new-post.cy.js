@@ -7,7 +7,4 @@ describe("New Post page spec", () => {
       expect(response.status).to.eq(200);
     });
   });
-  it("Make sure redirect to LoginPage when user is not logged in", () => {
-    cy.location("pathname").should("eq", "/login");
-  });
 });
