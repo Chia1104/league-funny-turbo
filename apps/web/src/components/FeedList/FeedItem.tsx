@@ -26,7 +26,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
               <GoldenIcon size="base" className="text-warning" />
             )}
             <Avatar
-              username={feed?.f_author_name}
+              username={feed?.f_author_name || "user"}
               userId={feed?.f_uid}
               ratio={25}
             />
@@ -53,7 +53,7 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
               <Image
                 blur
                 src={feed?.f_cover || "/error/error-memoji.png"}
-                alt={feed?.f_desc as string}
+                alt={feed?.f_desc || "feed_cover"}
                 className="object-cover rounded group-hover:scale-[1.05] duration-300 transition ease-in-out"
                 loading="lazy"
                 fill
