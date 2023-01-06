@@ -65,6 +65,14 @@ export default async function handler(
           maxWidth,
           ignoreGif = "false",
         } = req.query;
+        console.log("fileName", fileName, "token", token.id);
+        if (fileName !== token?.id?.toString()) {
+          return res.status(401).json({
+            statusCode: 401,
+            status: ApiResponseStatus.ERROR,
+            message: errorConfig[401],
+          });
+        }
         await runMiddleware(
           req,
           res,
@@ -114,10 +122,12 @@ export default async function handler(
         const s3Buffer = Buffer.from(resizedImage, "base64");
         const originalImage = Buffer.from(buffer, "base64");
         const _uuid = uuid();
-        const key = `imgur/${useUUID === "true" ? _uuid : ""}${fileNamePrefix}${
-          fileName || _fileName
-        }.${convert === "true" ? format : ext}`;
-        const originalKey = `imgur/${useUUID === "true" && _uuid}_o${
+        const key = `timeline_cover/${
+          useUUID === "true" ? _uuid : ""
+        }${fileNamePrefix}${fileName || _fileName}.${
+          convert === "true" ? format : ext
+        }`;
+        const originalKey = `timeline_cover/${useUUID === "true" && _uuid}_o${
           fileName || _fileName
         }.${ext}`;
         const s3 = await putObject({

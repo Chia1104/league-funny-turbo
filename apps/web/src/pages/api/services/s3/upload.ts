@@ -33,7 +33,6 @@ export default async function handler(
           resize = false,
           fileName = "",
           convert = true,
-          bucketFolder = "imgur",
           quality,
           fileNamePrefix = "",
           useUUID = true,
@@ -57,7 +56,7 @@ export default async function handler(
           resizedImage.replace(/^data:image\/\w+;base64,/, ""),
           "base64"
         );
-        const key = `${bucketFolder}/${
+        const key = `imgur/${
           useUUID && uuid()
         }${fileNamePrefix}${fileName}.${format}`;
         const s3 = await putObject({

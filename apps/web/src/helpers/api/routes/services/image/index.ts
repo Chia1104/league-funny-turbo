@@ -12,10 +12,10 @@ const uploadImageToS3 = async ({
   file,
   fileName,
   convert,
-  bucketFolder,
+  bucketFolder = "imgur",
   quality,
   fileNamePrefix,
-  useUUID,
+  useUUID = true,
   maxWidth,
   ignoreGif,
 }: ResizeOptions & {
@@ -29,12 +29,20 @@ const uploadImageToS3 = async ({
   maxWidth?: number;
   ignoreGif?: boolean;
 }): Promise<IApiResponse<{ resizedImage?: string; imageUrl?: string }>> => {
+  const uploadNativePath = {
+    imgur: "/api/services/s3/native-file-upload",
+    timeline_cover: "/api/services/s3/timeline-cover",
+  };
+  const uploadPath = {
+    imgur: "/api/services/s3/upload",
+  };
   if (useNativeFile) {
     const data = new FormData();
     data.append("file", file!);
     return await fetcher<{ resizedImage?: string; imageUrl?: string }>({
       endpoint: getBaseUrl(),
-      path: "/api/services/s3/native-file-upload",
+      // @ts-ignore
+      path: uploadNativePath[bucketFolder],
       params: {
         fileName,
         bucketFolder,
@@ -60,7 +68,8 @@ const uploadImageToS3 = async ({
   }
   return await fetcher<{ resizedImage?: string; imageUrl?: string }>({
     endpoint: getBaseUrl(),
-    path: "/api/services/s3/upload",
+    // @ts-ignore
+    path: uploadPath[bucketFolder],
     requestInit: {
       method: "POST",
       headers: {
