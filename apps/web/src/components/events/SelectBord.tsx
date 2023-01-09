@@ -63,11 +63,9 @@ const SelectBord = forwardRef<SelectBordRef, SelectBordProps>((props, ref) => {
   const handleSelectBord = (value: string | string[]) => {
     setSelectedCategory(0);
     setSelectedBord(
-      ((catalogue as { label: string; value: number; slug: string }[])?.find(
-        (item) => {
-          return item.value === Number(value);
-        }
-      )?.slug as string) || ""
+      (catalogue?.find((item) => {
+        return item.value === Number(value);
+      })?.slug as string) || ""
     );
     onBordChange?.(
       ((

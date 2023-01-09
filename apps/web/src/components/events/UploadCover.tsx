@@ -65,7 +65,9 @@ const UploadCover = forwardRef<UploadCoverRef, UploadCoverProps>(
             <img src={initialUrl} alt="preview" className="object-contain" />
           )}
           <div className="w-full h-full flex flex-col justify-center items-center">
-            {!isUploadSuccess && !isUploading && <p>圖片上傳 (1200 * 630)</p>}
+            {!isUploadSuccess && !isUploading && !initialUrl && (
+              <p>圖片上傳 (1200 * 630)</p>
+            )}
             {isUploading && <Loading type="success" />}
           </div>
           <FileInput className="opacity-0 h-full w-full absolute top-0 left-0 hover:cursor-pointer" />
