@@ -192,6 +192,28 @@ const fetchFeedBoardDetail = async ({
   });
 };
 
+const upDownFeed = async ({
+  raw,
+  fid,
+  type,
+}: {
+  raw: string;
+  fid: number;
+  type: "up" | "down";
+}): Promise<IApiResponse<{ count: number; coin: number }>> => {
+  const path =
+    type === "up" ? `/api/feed-like/${fid}` : `/api/feed-dislike/${fid}`;
+  return await fetcher<{ count: number; coin: number }>({
+    path: path,
+    requestInit: {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${raw}`,
+      },
+    },
+  });
+};
+
 export {
   fetchFeedList,
   fetchCommentList,
@@ -202,4 +224,5 @@ export {
   deleteComment,
   updateFeed,
   fetchFeedBoardDetail,
+  upDownFeed,
 };

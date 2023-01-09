@@ -3,8 +3,12 @@ import type { Feed, Board } from "@wanin/shared/types";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
 import FeedSkeleton from "./FeedSkeleton";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
+import { useInfiniteQuery, useQuery, useMutation } from "@tanstack/react-query";
+import {
+  fetchFeedList,
+  fetchFeedBoardDetail,
+  upDownFeed,
+} from "@/helpers/api/routes/feed";
 import { Virtuoso } from "react-virtuoso";
 import { useRouter } from "next/router";
 import BoardDetail from "@/components/FeedList/BoardDetail";
@@ -22,6 +26,9 @@ interface Props {
     key?: Key;
   };
   enableClientFetchFeedList?: boolean;
+  useUpDown?: {
+    raw: string;
+  };
 }
 
 const FeedList: FC<Props> = (props) => {
@@ -33,6 +40,7 @@ const FeedList: FC<Props> = (props) => {
     searchParams,
     useBoardDetail,
     enableClientFetchFeedList,
+    useUpDown,
   } = props;
   const router = useRouter();
 
@@ -53,6 +61,29 @@ const FeedList: FC<Props> = (props) => {
   const boardFetcher = async (): Promise<Board> => {
     const result = await fetchFeedBoardDetail({
       b_type: router.query.b_type as string,
+    });
+    if (
+      result.statusCode !== 200 ||
+      !result?.data ||
+      result.status !== ApiResponseStatus.SUCCESS
+    )
+      throw new Error("error");
+    return result.data;
+  };
+
+  const upDownFetcher = async ({
+    raw,
+    fid,
+    type,
+  }: {
+    raw: string;
+    fid: number;
+    type: "up" | "down";
+  }): Promise<{ count: number; coin: number }> => {
+    const result = await upDownFeed({
+      raw,
+      fid,
+      type,
     });
     if (
       result.statusCode !== 200 ||
@@ -99,6 +130,11 @@ const FeedList: FC<Props> = (props) => {
     initialData: useBoardDetail?.boardDetail,
     enabled: !!useBoardDetail?.enableClientFetchBoardDetail,
     staleTime: 1000 * 60 * 5,
+  });
+
+  const { mutate: upDownMutate } = useMutation({
+    mutationFn: upDownFetcher,
+    mutationKey: ["upDown", useUpDown?.raw],
   });
 
   const _feeds = useMemo(() => {
