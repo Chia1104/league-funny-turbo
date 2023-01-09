@@ -9,7 +9,6 @@ import {
   useCallback,
   useMemo,
   useState,
-  useLayoutEffect,
   type FC,
 } from "react";
 import { FroalaEditor } from "@/components";
@@ -80,8 +79,15 @@ const reducer = (state: Partial<NewPostDTO>, action: Action) => {
   }
 };
 
-const UpdatePost: FC<Props> = ({ ...rest }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const UpdatePost: FC<Props> = ({ initFeed, ...rest }) => {
+  const [state, dispatch] = useReducer(reducer, {
+    title: initFeed?.f_desc ?? "",
+    content: initFeed?.f_attachment ?? "",
+    cover: initFeed?.f_cover ?? "",
+    gameType: initFeed?.f_game_type ?? "",
+    catalogue: initFeed?.f_cat ?? 0,
+    tags: !!initFeed?.f_tags_info ? initFeed.f_tags_info : [],
+  } as Partial<NewPostDTO>);
   return (
     <UpdatePostContext.Provider value={{ state, dispatch }}>
       <WrappedUpdatePost {...rest} />
@@ -104,7 +110,7 @@ const WrappedUpdatePost: FC<Props> = ({ initFeed, raw, fid }) => {
 
   const updatePost = async () => {
     setIsSubmitting(true);
-    const { title, content, gameType, catalogue, tags } = state;
+    const { title, content, gameType, catalogue } = state;
     const { bc_id } = router.query;
     const newPost = {
       title,
@@ -115,7 +121,7 @@ const WrappedUpdatePost: FC<Props> = ({ initFeed, raw, fid }) => {
         "",
       gameType,
       catalogue,
-      tags,
+      tags: tagRef.current?.getTags() || [],
     };
     if (!newPostSchema.safeParse(newPost).success) {
       setToast({
@@ -170,35 +176,6 @@ const WrappedUpdatePost: FC<Props> = ({ initFeed, raw, fid }) => {
     }
   }, [state]);
   const isValidate = useMemo(() => validation(), [validation]);
-
-  useLayoutEffect(() => {
-    if (initFeed) {
-      dispatch({
-        type: ActionType.SET_TITLE,
-        payload: { title: initFeed.f_desc },
-      });
-      dispatch({
-        type: ActionType.SET_CONTENT,
-        payload: { content: initFeed.f_attachment },
-      });
-      dispatch({
-        type: ActionType.SET_COVER,
-        payload: { cover: initFeed.f_cover },
-      });
-      dispatch({
-        type: ActionType.SET_GAME_TYPE,
-        payload: { gameType: initFeed.f_game_type },
-      });
-      dispatch({
-        type: ActionType.SET_CATEGORY,
-        payload: { catalogue: initFeed.f_cat },
-      });
-      dispatch({
-        type: ActionType.SET_TAGS,
-        payload: { tags: initFeed.f_tags_info as TagDTO[] },
-      });
-    }
-  }, []);
 
   return (
     <form className="w-full max-w-[640px]" onSubmit={handleSubmit}>
