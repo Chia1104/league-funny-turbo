@@ -1,14 +1,10 @@
-import { type FC, type Key, useEffect, useMemo } from "react";
+import { type FC, type Key, useMemo } from "react";
 import type { Feed, Board } from "@wanin/shared/types";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
 import FeedSkeleton from "./FeedSkeleton";
-import { useInfiniteQuery, useQuery, useMutation } from "@tanstack/react-query";
-import {
-  fetchFeedList,
-  fetchFeedBoardDetail,
-  upDownFeed,
-} from "@/helpers/api/routes/feed";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
 import { Virtuoso } from "react-virtuoso";
 import { useRouter } from "next/router";
 import BoardDetail from "@/components/FeedList/BoardDetail";
