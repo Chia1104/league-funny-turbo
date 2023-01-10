@@ -4,17 +4,70 @@ import { Image, Avatar } from "@/components";
 import { GoldenIcon, ChatIcon, EyeIcon, UpIcon, DownIcon } from "@wanin/icons";
 import Link from "next/link";
 import cx from "classnames";
+import { useMutation } from "@tanstack/react-query";
+import { upDownFeed } from "@/helpers/api/routes/feed";
+import { ApiResponseStatus } from "@wanin/shared/types";
+import { useToasts, Spinner, Tooltip } from "@geist-ui/core";
 
 interface Props {
   ref?: Ref<HTMLDivElement>;
   feed: Feed;
   useUpDown?: {
-    total?: number;
+    raw: string;
   };
 }
 
+const upDownMutation = async ({
+  raw,
+  fid,
+  type,
+}: {
+  raw: string;
+  fid: number;
+  type: "up" | "down";
+}): Promise<{ count: number; coin: number }> => {
+  const result = await upDownFeed({
+    raw,
+    fid,
+    type,
+  });
+  if (
+    result.statusCode !== 200 ||
+    !result?.data ||
+    result.status !== ApiResponseStatus.SUCCESS
+  )
+    throw new Error("error");
+  return result.data;
+};
+
 const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
   const { feed, useUpDown } = props;
+  const { setToast } = useToasts();
+  const {
+    mutate: upDownMutate,
+    isLoading,
+    isIdle,
+    data,
+    isSuccess,
+  } = useMutation({
+    mutationFn: upDownMutation,
+    mutationKey: ["upDown", useUpDown?.raw, feed?.fid],
+    onSuccess: (data, variables) => {
+      setToast({
+        text:
+          variables.type === "up"
+            ? feed.up_down_text.b_up_text
+            : feed.up_down_text.b_down_text,
+        type: "success",
+      });
+    },
+    onError: () => {
+      setToast({
+        text: "Error",
+        type: "warning",
+      });
+    },
+  });
 
   return (
     <>
@@ -25,16 +78,73 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
         )}
         ref={ref}>
         {!!useUpDown ? (
-          <div className="flex flex-col w-[5%] min-h-[130px] justify-center items-center gap-10 border-r z-20">
-            <UpIcon />
-            <p className="text-xl">{useUpDown?.total ?? 0}</p>
-            <DownIcon />
+          <div className="flex flex-col w-[10%] md:w-[5%] min-h-[130px] justify-center items-center gap-10 border-r z-20">
+            <Tooltip
+              text={feed?.up_down_text?.b_up_text}
+              enterDelay={0}
+              leaveDelay={0}>
+              <button
+                className={cx(isLoading && "hover:cursor-no-drop")}
+                disabled={isLoading}
+                type="button"
+                onClick={() =>
+                  upDownMutate({
+                    raw: useUpDown?.raw,
+                    fid: feed.fid,
+                    type: "up",
+                  })
+                }>
+                <UpIcon />
+              </button>
+            </Tooltip>
+            <p className="text-xl">
+              {isIdle && feed?.up_down_count}
+              {isSuccess && data.count}
+              {isLoading && <Spinner />}
+            </p>
+            <Tooltip
+              enterDelay={0}
+              leaveDelay={0}
+              text={feed?.up_down_text?.b_down_text}
+              placement="bottom">
+              <button
+                disabled={isLoading}
+                className={cx(isLoading && "hover:cursor-no-drop")}
+                type="button"
+                onClick={() =>
+                  upDownMutate({
+                    raw: useUpDown?.raw,
+                    fid: feed.fid,
+                    type: "down",
+                  })
+                }>
+                <DownIcon />
+              </button>
+            </Tooltip>
           </div>
         ) : null}
+        {feed?.f_cover && (
+          <span className="w-[33%] flex items-center justify-center px-2">
+            <div className="aspect-w-1 aspect-h-1 md:aspect-w-16 md:aspect-h-9 w-full overflow-hidden rounded">
+              <Image
+                blur
+                src={feed?.f_cover || "/error/error-memoji.png"}
+                alt={feed?.f_desc || "feed_cover"}
+                className="object-cover rounded group-hover:scale-[1.05] duration-300 transition ease-in-out"
+                loading="lazy"
+                fill
+                sizes="(max-width: 768px) 100vw,
+               (max-width: 1200px) 50vw,
+               33vw"
+                quality={100}
+              />
+            </div>
+          </span>
+        )}
         <div
           className={cx(
-            "flex flex-col min-h-[130px]",
-            !!useUpDown ? "w-[62%]  px-5" : "w-[67%] pr-5"
+            "flex flex-col min-h-[130px] pl-3",
+            !!useUpDown ? "w-[62%]" : "w-[67%]"
           )}>
           <title className="line-clamp-2 text-xl font-bold">
             {feed?.f_desc}
@@ -65,24 +175,6 @@ const FeedItem: FC<Props> = forwardRef((props: Props, ref) => {
             </div>
           </div>
         </div>
-        <span className="w-[33%] flex items-center justify-center">
-          <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded">
-            {feed?.f_cover && (
-              <Image
-                blur
-                src={feed?.f_cover || "/error/error-memoji.png"}
-                alt={feed?.f_desc || "feed_cover"}
-                className="object-cover rounded group-hover:scale-[1.05] duration-300 transition ease-in-out"
-                loading="lazy"
-                fill
-                sizes="(max-width: 768px) 100vw,
-               (max-width: 1200px) 50vw,
-               33vw"
-                quality={100}
-              />
-            )}
-          </div>
-        </span>
         <Link
           className="absolute top-0 bottom-0 right-0 left-0 z-10"
           href={{

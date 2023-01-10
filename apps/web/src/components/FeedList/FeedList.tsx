@@ -1,4 +1,4 @@
-import { type FC, type Key, useMemo } from "react";
+import { type FC, type Key, useEffect, useMemo } from "react";
 import type { Feed, Board } from "@wanin/shared/types";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import FeedItem from "./FeedItem";
@@ -71,29 +71,6 @@ const FeedList: FC<Props> = (props) => {
     return result.data;
   };
 
-  const upDownFetcher = async ({
-    raw,
-    fid,
-    type,
-  }: {
-    raw: string;
-    fid: number;
-    type: "up" | "down";
-  }): Promise<{ count: number; coin: number }> => {
-    const result = await upDownFeed({
-      raw,
-      fid,
-      type,
-    });
-    if (
-      result.statusCode !== 200 ||
-      !result?.data ||
-      result.status !== ApiResponseStatus.SUCCESS
-    )
-      throw new Error("error");
-    return result.data;
-  };
-
   const {
     data: feeds,
     error: isError,
@@ -130,11 +107,6 @@ const FeedList: FC<Props> = (props) => {
     initialData: useBoardDetail?.boardDetail,
     enabled: !!useBoardDetail?.enableClientFetchBoardDetail,
     staleTime: 1000 * 60 * 5,
-  });
-
-  const { mutate: upDownMutate } = useMutation({
-    mutationFn: upDownFetcher,
-    mutationKey: ["upDown", useUpDown?.raw],
   });
 
   const _feeds = useMemo(() => {
@@ -182,7 +154,10 @@ const FeedList: FC<Props> = (props) => {
           itemContent={(index, item) => {
             return (
               <>
-                <FeedItem feed={item} />
+                <FeedItem
+                  feed={item}
+                  useUpDown={!!useUpDown ? { raw: useUpDown.raw } : undefined}
+                />
                 {index !== _feeds.length - 1 && (
                   <hr className="dark:border-gray-700" />
                 )}

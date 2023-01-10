@@ -29,4 +29,10 @@ export type Feed = {
   f_o_recommend: number;
   f_is_gold: number;
   f_promo_views: number;
+  up_down_count: number;
+  up_down_text: {
+    b_type: string;
+    b_up_text: string;
+    b_down_text: string;
+  };
 };

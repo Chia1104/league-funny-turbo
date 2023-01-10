@@ -7,6 +7,7 @@ import { fetchFeedList, fetchFeedBoardDetail } from "@/helpers/api/routes/feed";
 import { ApiResponseStatus } from "@wanin/shared/types";
 import { useIsMounted } from "usehooks-ts";
 import { useState, useEffect } from "react";
+import { useToken } from "@/hooks";
 
 interface FeedProps {
   boardDetail: Board;
@@ -52,6 +53,7 @@ const BPage: NextPage<FeedProps> = (props) => {
   const isMounted = useIsMounted();
   const [enableClientFetchBoard, setEnableClientFetchBoard] =
     useState<boolean>(false);
+  const { raw, status } = useToken();
 
   useEffect(() => {
     if (!b_type || b_type === "undefined") setEnableClientFetchBoard(false);
@@ -78,6 +80,9 @@ const BPage: NextPage<FeedProps> = (props) => {
               catalogue: catalogue as string,
             }}
             queryKey={`${b_type}_feed_list_${sort}_${catalogue}`}
+            useUpDown={
+              status === "authenticated" ? { raw: raw as string } : undefined
+            }
           />
         ) : (
           <FeedList
@@ -95,6 +100,9 @@ const BPage: NextPage<FeedProps> = (props) => {
               key: b_type as string,
             }}
             enableClientFetchFeedList={!b_type ? false : undefined}
+            useUpDown={
+              status === "authenticated" ? { raw: raw as string } : undefined
+            }
           />
         )}
       </article>
