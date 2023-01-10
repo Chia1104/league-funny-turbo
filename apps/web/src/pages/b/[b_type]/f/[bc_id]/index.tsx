@@ -5,6 +5,7 @@ import type { Feed } from "@wanin/shared/types";
 import { FeedDetail, Head } from "@/components";
 import { Page } from "@wanin/ui";
 import { ApiResponseStatus } from "@wanin/shared/types";
+import { useToken } from "@/hooks";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const {
@@ -32,11 +33,17 @@ interface FeedProps {
 
 const LPFeed: NextPage<FeedProps> = (props) => {
   const { initFeed } = props;
+  const { raw, status } = useToken();
   return (
     <Page className="w-main w-full justify-start">
       <Head />
       <article className="w-full flex flex-col pt-[110px]">
-        <FeedDetail data={initFeed} />
+        <FeedDetail
+          data={initFeed}
+          useUpDown={
+            status === "authenticated" ? { raw: raw as string } : undefined
+          }
+        />
       </article>
     </Page>
   );

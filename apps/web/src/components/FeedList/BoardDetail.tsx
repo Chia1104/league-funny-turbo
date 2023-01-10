@@ -76,7 +76,7 @@ const BoardDetail: FC<Props> = ({
                 },
               },
               undefined,
-              { shallow: true }
+              { shallow: true, scroll: true }
             );
           }}>
           {sortTabs.map((tab) => (
@@ -97,7 +97,7 @@ const BoardDetail: FC<Props> = ({
                 },
               },
               undefined,
-              { shallow: true }
+              { shallow: true, scroll: true }
             );
           }}
           initialValue={(router.query.sort as string) ?? "hot"}
