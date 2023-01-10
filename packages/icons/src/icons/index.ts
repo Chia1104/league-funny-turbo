@@ -24,3 +24,5 @@ export { default as HamburgerIcon } from "./HamburgerIcon";
 export { default as CameraIcon } from "./CameraIcon";
 export { default as SendIcon } from "./SendIcon";
 export { default as SmileIcon } from "./SmileIcon";
+export { default as UpIcon } from "./UpIcon";
+export { default as DownIcon } from "./DownIcon";

@@ -22,6 +22,9 @@ interface Props {
     key?: Key;
   };
   enableClientFetchFeedList?: boolean;
+  useUpDown?: {
+    raw: string;
+  };
 }
 
 const FeedList: FC<Props> = (props) => {
@@ -33,6 +36,7 @@ const FeedList: FC<Props> = (props) => {
     searchParams,
     useBoardDetail,
     enableClientFetchFeedList,
+    useUpDown,
   } = props;
   const router = useRouter();
 
@@ -146,7 +150,10 @@ const FeedList: FC<Props> = (props) => {
           itemContent={(index, item) => {
             return (
               <>
-                <FeedItem feed={item} />
+                <FeedItem
+                  feed={item}
+                  useUpDown={!!useUpDown ? { raw: useUpDown.raw } : undefined}
+                />
                 {index !== _feeds.length - 1 && (
                   <hr className="dark:border-gray-700" />
                 )}

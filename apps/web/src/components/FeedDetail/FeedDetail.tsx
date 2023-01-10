@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ChatIcon, EyeIcon } from "@wanin/icons";
+import { ChatIcon, DownIcon, EyeIcon, UpIcon } from "@wanin/icons";
 import type { Feed } from "@wanin/shared/types";
 import { Avatar, IsLogin } from "@/components";
 import CommentList from "./CommentList";
@@ -8,11 +8,17 @@ import CommentBox from "./CommentBox";
 import { type FC, useMemo, useRef, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { ApiResponseStatus, type Comment } from "@wanin/shared/types";
-import { fetchCommentList, deleteFeed } from "@/helpers/api/routes/feed";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  fetchCommentList,
+  deleteFeed,
+  upDownFeed,
+} from "@/helpers/api/routes/feed";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { Popover, Button, useToasts } from "@geist-ui/core";
+import { Popover, Button, useToasts, Spinner } from "@geist-ui/core";
 import { useToken } from "@/hooks";
+import { TagItem } from "@/components";
+import cx from "classnames";
 
 const FeedWithHTML = dynamic(() => import("../FeedWithHTML"));
 const Youtube = dynamic(() => import("../Youtube"));
@@ -23,10 +29,36 @@ interface Props {
   data: Feed;
   raw?: string;
   useWindowScroll?: boolean;
+  useUpDown?: {
+    raw: string;
+  };
 }
 
+const upDownMutation = async ({
+  raw,
+  fid,
+  type,
+}: {
+  raw: string;
+  fid: number;
+  type: "up" | "down";
+}): Promise<{ count: number; coin: number }> => {
+  const result = await upDownFeed({
+    raw,
+    fid,
+    type,
+  });
+  if (
+    result.statusCode !== 200 ||
+    !result?.data ||
+    result.status !== ApiResponseStatus.SUCCESS
+  )
+    throw new Error("error");
+  return result.data;
+};
+
 const FeedDetail: FC<Props> = (props) => {
-  const { data, raw, useWindowScroll } = props;
+  const { data, raw, useWindowScroll, useUpDown } = props;
   const { data: session } = useSession();
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
@@ -34,6 +66,31 @@ const FeedDetail: FC<Props> = (props) => {
   const { raw: tokenRaw } = useToken();
   const parentRef = useRef<HTMLDivElement>(null);
   const [parent, setParent] = useState<HTMLDivElement | null>(null);
+  const {
+    mutate: upDownMutate,
+    isLoading: upDownLoading,
+    isIdle: upDownIdle,
+    data: upDownData,
+    isSuccess: upDownSuccess,
+  } = useMutation({
+    mutationFn: upDownMutation,
+    mutationKey: ["upDown", useUpDown?.raw, data?.fid],
+    onSuccess: (tdata, variables) => {
+      setToast({
+        text:
+          variables.type === "up"
+            ? data.up_down_text.b_up_text
+            : data.up_down_text.b_down_text,
+        type: "success",
+      });
+    },
+    onError: () => {
+      setToast({
+        text: "Error",
+        type: "warning",
+      });
+    },
+  });
 
   useEffect(() => {
     setParent(parentRef.current);
@@ -140,7 +197,7 @@ const FeedDetail: FC<Props> = (props) => {
             if (session.user.admin_id > 0) return true;
             return session.user.id === data.f_uid.toString();
           }}>
-          <span className="flex gap-3 mb-7">
+          <span className="flex gap-3 md:mb-7">
             <Link
               href={`/b/${data.f_game_type}/f/${data.fid}/edit`}
               className="text-sm text-gray-500 self-end hover:w-bg-primary p-2 rounded-lg transition ease-in-out">
@@ -155,26 +212,82 @@ const FeedDetail: FC<Props> = (props) => {
             </Popover>
           </span>
         </IsLogin>
-        <div className="mb-5 flex items-center">
-          <Avatar
-            username={data.f_author_name}
-            userId={data.f_uid}
-            ratio={45}
-          />
-          <Link href={`/user/${data.f_uid}`} className="ml-3 text-base">
-            {data.f_author_name}
-          </Link>
-        </div>
-        <div className="w-full flex gap-3 mb-7">
-          <div className="flex gap-1 items-center">
-            <EyeIcon size="base" className="text-gray-500" />
-            <p className="text-base">{data.f_views}</p>
+        <div className="grid w-full items-center grid-cols-1 md:grid-cols-2 mb-5 md:mb-7">
+          <div className="flex flex-col">
+            <div className="mb-5 flex items-center">
+              <Avatar
+                username={data.f_author_name}
+                userId={data.f_uid}
+                ratio={45}
+              />
+              <Link href={`/user/${data.f_uid}`} className="ml-3 text-base">
+                {data.f_author_name}
+              </Link>
+            </div>
+            <div className="w-full flex gap-3">
+              <div className="flex gap-1 items-center">
+                <EyeIcon size="base" className="text-gray-500" />
+                <p className="text-base">{data.f_views}</p>
+              </div>
+              <a href="#commentlist" className="flex gap-1 items-center">
+                <ChatIcon size="base" className="text-gray-500" />
+                <p className="text-base">{data.f_commentcount}</p>
+              </a>
+            </div>
           </div>
-          <a href="#commentlist" className="flex gap-1 items-center">
-            <ChatIcon size="base" className="text-gray-500" />
-            <p className="text-base">{data.f_commentcount}</p>
-          </a>
+          {!!useUpDown ? (
+            <div className="flex flex-col justify-center items-center justify-self-center md:justify-self-end">
+              <p className="text-2xl mb-3">
+                {upDownIdle && data?.up_down_count}
+                {upDownSuccess && upDownData?.count}
+                {upDownLoading && <Spinner />}
+              </p>
+              <div className="flex gap-5">
+                <button
+                  className={cx(
+                    "p-2 rounded-lg w-bg-primary w-border-primary flex gap-2 items-center",
+                    upDownLoading && "hover:cursor-no-drop"
+                  )}
+                  disabled={upDownLoading}
+                  type="button"
+                  onClick={() =>
+                    upDownMutate({
+                      raw: useUpDown?.raw,
+                      fid: data.fid,
+                      type: "up",
+                    })
+                  }>
+                  <UpIcon />
+                  <p className="text-base">{data.up_down_text.b_up_text}</p>
+                </button>
+                <button
+                  disabled={upDownLoading}
+                  className={cx(
+                    "p-2 rounded-lg w-bg-primary w-border-primary flex gap-2 items-center",
+                    upDownLoading && "hover:cursor-no-drop"
+                  )}
+                  type="button"
+                  onClick={() =>
+                    upDownMutate({
+                      raw: useUpDown?.raw,
+                      fid: data.fid,
+                      type: "down",
+                    })
+                  }>
+                  <DownIcon />
+                  <p className="text-base">{data.up_down_text.b_down_text}</p>
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
+        {data?.f_tags_info && data?.f_tags_info?.length > 0 && (
+          <div className="w-full flex gap-3 mb-7 flex-wrap items-center">
+            {data?.f_tags_info.map((tag) => (
+              <TagItem label={tag.p_name} key={tag.pid} />
+            ))}
+          </div>
+        )}
         <hr className="dark:border-gray-700 mb-7" />
         <div className="mb-3">
           {data.f_type === "html" && (
