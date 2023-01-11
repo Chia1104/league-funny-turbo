@@ -4,7 +4,7 @@ RUN apk update && \
     libc6-compat
 
 WORKDIR /app
-RUN yarn global add turbo@1.6.3
+RUN yarn global add turbo@1.7.0
 COPY . .
 RUN turbo prune --scope=web --docker
 

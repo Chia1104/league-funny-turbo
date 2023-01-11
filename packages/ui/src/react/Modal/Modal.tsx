@@ -1,9 +1,9 @@
 import React from "react";
 import type { FC, ReactNode } from "react";
 import { AnimatePresence, motion, MotionProps } from "framer-motion";
-import { useLockedBody } from "usehooks-ts";
 import { createPortal } from "react-dom";
 import { usePortal } from "../hooks";
+import { useLockBodyScroll } from "react-use";
 
 interface ModalProps extends MotionProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ const Modal: FC<ModalProps> = (props) => {
     open: { opacity: 1, y: 0, delay: 3000 },
     closed: { opacity: 0, y: -100 },
   };
-  useLockedBody(isOpen);
+  useLockBodyScroll(isOpen);
   const portal = usePortal("modal");
   if (!portal) return null;
 
