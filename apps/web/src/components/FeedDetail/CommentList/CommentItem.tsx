@@ -1,4 +1,4 @@
-import { type FC, Ref, forwardRef, useState } from "react";
+import { type FC, Ref, forwardRef, useState, Fragment } from "react";
 import type { Comment } from "@wanin/shared/types";
 import { Avatar } from "@/components";
 import CommentBox from "../CommentBox";
@@ -131,8 +131,8 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
       )}
       <div className="w-bg-primary rounded-lg">
         {comment.reply.map((item, i) => (
-          <>
-            <div key={item.c_uid} className="w-full flex flex-col gap-3 p-5">
+          <Fragment key={item.c_uid}>
+            <div className="w-full flex flex-col gap-3 p-5">
               <div className="w-full flex gap-3 items-center">
                 <Avatar
                   url={`https://img.league-funny.com/user_cover/${
@@ -170,7 +170,7 @@ const CommentItem: FC<Props> = forwardRef((props, ref) => {
             {comment.reply.length !== i + 1 && (
               <hr className="dark:border-gray-700" />
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>
