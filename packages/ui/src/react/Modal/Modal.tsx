@@ -1,9 +1,8 @@
 import React from "react";
 import type { FC, ReactNode } from "react";
 import { AnimatePresence, motion, MotionProps } from "framer-motion";
-import { useLockedBody } from "usehooks-ts";
 import { createPortal } from "react-dom";
-import { usePortal } from "../hooks";
+import { usePortal, useLockedBody } from "../hooks";
 
 interface ModalProps extends MotionProps {
   isOpen: boolean;
