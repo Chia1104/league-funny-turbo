@@ -258,7 +258,7 @@ const FeedDetail: FC<Props> = (props) => {
                     })
                   }>
                   <UpIcon />
-                  <p className="text-base">{data.up_down_text.b_up_text}</p>
+                  <p className="text-base">{data?.up_down_text?.b_up_text}</p>
                 </button>
                 <button
                   disabled={upDownLoading}
@@ -275,7 +275,7 @@ const FeedDetail: FC<Props> = (props) => {
                     })
                   }>
                   <DownIcon />
-                  <p className="text-base">{data.up_down_text.b_down_text}</p>
+                  <p className="text-base">{data?.up_down_text?.b_down_text}</p>
                 </button>
               </div>
             </div>
