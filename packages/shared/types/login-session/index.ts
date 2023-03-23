@@ -1,12 +1,12 @@
 import { Email } from "../email";
 
 enum LoginProvider {
-  FB = "fb",
+  FB = "facebook",
   TWITCH = "twitch",
 }
 
 interface LoginSession {
-  loginBy: LoginProvider | "fb" | "twitch";
+  loginBy: LoginProvider | "facebook" | "twitch";
   id: string;
   email: Email;
   name: string;
