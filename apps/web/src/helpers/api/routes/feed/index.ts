@@ -9,8 +9,8 @@ const fetchFeedList = async ({
 }: {
   page?: number;
   searchParams?: Partial<Record<string, string>>;
-}): Promise<IApiResponse<Pagenate<Feed[]>>> => {
-  return await fetcher<Pagenate<Feed[]>>({
+}): Promise<IApiResponse<Feed[]>> => {
+  return await fetcher<Feed[]>({
     path: "/api/feed",
     params: {
       page: page.toString(),
@@ -45,8 +45,8 @@ const fetchCommentList = async ({
 }: {
   fid: number;
   page?: number;
-}): Promise<IApiResponse<Pagenate<Comment[]>>> => {
-  return await fetcher<Pagenate<Comment[]>>({
+}): Promise<IApiResponse<Comment[]>> => {
+  return await fetcher<Comment[]>({
     path: "/api/comment",
     params: {
       fid: fid.toString(),

@@ -7,7 +7,7 @@ import ssgConfig from "@/shared/config/ssg.config";
 import { useToken } from "@/hooks";
 
 interface FeedProps {
-  initFeed: Pagenate<Feed[]>;
+  initFeed: Feed[];
 }
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -28,7 +28,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      initFeed: initFeed as Pagenate<Feed[]>,
+      initFeed: initFeed as Feed[],
     },
     revalidate: ssgConfig["/b"]["revalidate"],
   };
@@ -43,7 +43,7 @@ const HomePage: NextPage<FeedProps> = (props) => {
       <Head />
       <article className="mt-28 w-full w-bg-secondary rounded-lg shadow-lg">
         <FeedList
-          initFeed={initFeed.data}
+          initFeed={initFeed}
           queryKey="home_ssg_feed_list"
           useUpDown={
             status === "authenticated" ? { raw: raw as string } : undefined

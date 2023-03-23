@@ -153,11 +153,11 @@ const FeedDetail: FC<Props> = (props) => {
     });
     if (
       result.statusCode !== 200 ||
-      !result?.data?.data ||
+      !result?.data ||
       result.status !== ApiResponseStatus.SUCCESS
     )
       throw new Error("error");
-    return result.data.data;
+    return result.data;
   };
 
   const {

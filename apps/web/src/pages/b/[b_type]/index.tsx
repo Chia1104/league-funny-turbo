@@ -11,7 +11,7 @@ import { useToken } from "@/hooks";
 
 interface FeedProps {
   boardDetail: Board;
-  initFeed: Pagenate<Feed[]>;
+  initFeed: Feed[];
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -73,7 +73,7 @@ const BPage: NextPage<FeedProps> = (props) => {
               enableClientFetchBoardDetail: false,
               key: b_type as string,
             }}
-            initFeed={initFeed.data}
+            initFeed={initFeed}
             searchParams={{
               boardType: b_type as string,
               sort: sort as string,
